@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card } from '@/components/ui/card';
 
@@ -216,15 +215,6 @@ const Panitia = () => {
         <h4 className="font-semibold text-emerald-700 mb-2">Konsumsi Malam Takbiran dan Penyembelihan Hewan Qurban</h4>
         <div className="text-sm text-emerald-600">
           <div><strong>Tempat:</strong> Ibu-Ibu warga Klampisan dan Remas - Area Gedung TPQ</div>
-        </div>
-      </div>
-
-      {/* Catatan */}
-      <div className="bg-red-50 p-4 rounded-lg border-l-4 border-red-500">
-        <h4 className="font-semibold text-red-700 mb-2">Catatan Penting</h4>
-        <div className="text-sm text-red-600 space-y-2">
-          <div>• Kerja bhakti persiapan tempat hewan kurban pada hari minggu, tanggal 01 Juni 2025 pukul 06.30 WIB - selesai.</div>
-          <div>• Sedoyo wargo kasuwun rawuh.</div>
         </div>
       </div>
 
