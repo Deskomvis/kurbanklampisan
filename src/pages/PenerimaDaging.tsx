@@ -127,6 +127,7 @@ const PenerimaDaging = () => {
                 <SelectContent>
                   <SelectItem value="01">RT 01</SelectItem>
                   <SelectItem value="02">RT 02</SelectItem>
+                  <SelectItem value="tambahan">Penerima Tambahan</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -166,6 +167,7 @@ const PenerimaDaging = () => {
                 <SelectItem value="all">Semua RT</SelectItem>
                 <SelectItem value="01">RT 01</SelectItem>
                 <SelectItem value="02">RT 02</SelectItem>
+                <SelectItem value="tambahan">Penerima Tambahan</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -195,12 +197,14 @@ const PenerimaDaging = () => {
       </Card>
 
       {/* Daftar Penerima per RT */}
-      {['01', '02'].map(rt => {
+      {['01', '02', 'tambahan'].map(rt => {
         const penerimaRt = groupedPenerima[rt] || [];
+        const rtTitle = rt === 'tambahan' ? 'Penerima Tambahan' : `RT ${rt} / 10 KLAMPISAN`;
+        
         return (
           <Card key={rt} className="p-4">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-green-700">RT {rt} / 10 KLAMPISAN</h3>
+              <h3 className="text-lg font-semibold text-green-700">{rtTitle}</h3>
               <span className="bg-green-600 text-white px-2 py-1 rounded text-sm">
                 {penerimaRt.length} penerima
               </span>
@@ -213,6 +217,7 @@ const PenerimaDaging = () => {
                     <TableHead className="text-white">NOMOR</TableHead>
                     <TableHead className="text-white">NAMA PENERIMA</TableHead>
                     <TableHead className="text-white">BLOK</TableHead>
+                    <TableHead className="text-white">STATUS</TableHead>
                     <TableHead className="text-white">AKSI</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -223,6 +228,15 @@ const PenerimaDaging = () => {
                         <TableCell>{penerimaItem.nomorPengambilan}</TableCell>
                         <TableCell>{penerimaItem.nama}</TableCell>
                         <TableCell>{penerimaItem.blok || '-'}</TableCell>
+                        <TableCell>
+                          <span className={`px-2 py-1 rounded text-sm ${
+                            penerimaItem.sudahMenerima 
+                              ? 'bg-green-100 text-green-800' 
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {penerimaItem.sudahMenerima ? 'Sudah menerima' : 'Belum menerima'}
+                          </span>
+                        </TableCell>
                         <TableCell>
                           <div className="flex gap-2">
                             <Button
@@ -245,8 +259,8 @@ const PenerimaDaging = () => {
                     ))
                   ) : (
                     <TableRow>
-                      <TableCell className="text-center text-gray-500" colSpan={4}>
-                        Tidak ada data penerima untuk RT ini
+                      <TableCell className="text-center text-gray-500" colSpan={5}>
+                        Tidak ada data penerima untuk {rt === 'tambahan' ? 'kategori ini' : 'RT ini'}
                       </TableCell>
                     </TableRow>
                   )}
@@ -258,7 +272,7 @@ const PenerimaDaging = () => {
       })}
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card className="p-4 bg-green-600 text-white text-center">
           <div className="text-2xl font-bold">{penerima.length}</div>
           <div className="text-green-100">Total Penerima</div>
@@ -270,6 +284,10 @@ const PenerimaDaging = () => {
         <Card className="p-4 bg-green-600 text-white text-center">
           <div className="text-2xl font-bold">{groupedPenerima['02']?.length || 0}</div>
           <div className="text-green-100">RT 02</div>
+        </Card>
+        <Card className="p-4 bg-green-600 text-white text-center">
+          <div className="text-2xl font-bold">{groupedPenerima['tambahan']?.length || 0}</div>
+          <div className="text-green-100">Penerima Tambahan</div>
         </Card>
       </div>
 
