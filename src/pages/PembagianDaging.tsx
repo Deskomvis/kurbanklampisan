@@ -10,7 +10,7 @@ import { filterPenerima, groupByRt } from '@/utils/filterUtils';
 import { useToast } from '@/hooks/use-toast';
 
 const PembagianDaging = () => {
-  const { penerima, toggleSudahMenerima, resetPembagian, markAllSudahMenerima } = usePenerima();
+  const { penerima, toggleSudahMenerima } = usePenerima();
   const { toast } = useToast();
   
   const [filters, setFilters] = useState({
@@ -28,22 +28,6 @@ const PembagianDaging = () => {
 
   const handleResetFilter = () => {
     setFilters({ rt: '', search: '' });
-  };
-
-  const handleResetPembagian = () => {
-    resetPembagian();
-    toast({
-      title: "Berhasil",
-      description: "Semua status pembagian direset",
-    });
-  };
-
-  const handleMarkAllSudahMenerima = () => {
-    markAllSudahMenerima();
-    toast({
-      title: "Berhasil",
-      description: "Semua penerima ditandai sudah menerima",
-    });
   };
 
   const filteredPenerima = filterPenerima(penerima, filters);
@@ -182,25 +166,6 @@ const PembagianDaging = () => {
           </Card>
         );
       })}
-
-      {/* Action Buttons */}
-      <div className="flex flex-wrap gap-2">
-        <Button 
-          className="bg-green-600 hover:bg-green-700"
-          onClick={handleMarkAllSudahMenerima}
-        >
-          ✅ Tandai Semua Sudah Menerima
-        </Button>
-        <Button 
-          variant="secondary"
-          onClick={handleResetPembagian}
-        >
-          🔄 Reset Semua Pembagian
-        </Button>
-        <Button variant="outline">
-          📄 Cetak Laporan Pembagian
-        </Button>
-      </div>
 
       {/* Tips */}
       <Card className="p-4 bg-blue-50">

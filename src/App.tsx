@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PenerimaProvider } from "./contexts/PenerimaContext";
 import { KelompokKurbanProvider } from "./contexts/KelompokKurbanContext";
+import { KeuanganProvider } from "./contexts/KeuanganContext";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Panitia from "./pages/Panitia";
@@ -21,27 +22,29 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <KelompokKurbanProvider>
-        <PenerimaProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Layout>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/panitia" element={<Panitia />} />
-                <Route path="/kelompok-kurban" element={<KelompokKurban />} />
-                <Route path="/keuangan" element={<Keuangan />} />
-                <Route path="/penerima-daging" element={<PenerimaDaging />} />
-                <Route path="/pembagian-daging" element={<PembagianDaging />} />
-                <Route path="/laporan" element={<Laporan />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Layout>
-          </BrowserRouter>
-        </PenerimaProvider>
-      </KelompokKurbanProvider>
+      <KeuanganProvider>
+        <KelompokKurbanProvider>
+          <PenerimaProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/panitia" element={<Panitia />} />
+                  <Route path="/kelompok-kurban" element={<KelompokKurban />} />
+                  <Route path="/keuangan" element={<Keuangan />} />
+                  <Route path="/penerima-daging" element={<PenerimaDaging />} />
+                  <Route path="/pembagian-daging" element={<PembagianDaging />} />
+                  <Route path="/laporan" element={<Laporan />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Layout>
+            </BrowserRouter>
+          </PenerimaProvider>
+        </KelompokKurbanProvider>
+      </KeuanganProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

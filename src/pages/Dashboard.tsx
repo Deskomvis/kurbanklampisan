@@ -3,13 +3,24 @@ import React from 'react';
 import Card from '../components/Card';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
+import { useKeuangan } from '@/contexts/KeuanganContext';
 
 const Dashboard = () => {
   const { penerima } = usePenerima();
   const { getTotalSapi, getTotalKambing } = useKelompokKurban();
+  const { getTotalPengeluaran } = useKeuangan();
   
   const sudahMenerima = penerima.filter(p => p.sudahMenerima).length;
   const progressPercentage = penerima.length > 0 ? Math.round((sudahMenerima / penerima.length) * 100) : 0;
+  
+  const formatRupiah = (amount: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
   
   return (
     <div className="space-y-6">
@@ -21,7 +32,7 @@ const Dashboard = () => {
         <Card title="Hewan Kambing" value={getTotalKambing().toString()} />
         <Card title="Penerima Daging" value={penerima.length.toString()} />
         <Card title="Sudah Menerima" value={sudahMenerima.toString()} />
-        <Card title="Total Biaya" value="Rp 0,00" />
+        <Card title="Total Pengeluaran" value={formatRupiah(getTotalPengeluaran())} />
         <Card title="Progress Pembagian" value={`${progressPercentage}%`} />
       </div>
 
