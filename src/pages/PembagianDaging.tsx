@@ -95,6 +95,7 @@ const PembagianDaging = () => {
                 <SelectItem value="all">Semua RT</SelectItem>
                 <SelectItem value="01">RT 01</SelectItem>
                 <SelectItem value="02">RT 02</SelectItem>
+                <SelectItem value="tambahan">Penerima Tambahan</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -124,13 +125,15 @@ const PembagianDaging = () => {
       </Card>
 
       {/* Daftar Pembagian per RT */}
-      {['01', '02'].map(rt => {
+      {['01', '02', 'tambahan'].map(rt => {
         const belumMenerimaRt = groupedBelumMenerima[rt] || [];
+        const rtTitle = rt === 'tambahan' ? 'PENERIMA TAMBAHAN' : `RT ${rt} / 10 KLAMPISAN`;
+        
         return (
           <Card key={rt} className="p-4">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-green-700">
-                RT {rt} / 10 KLAMPISAN - BELUM MENERIMA
+                {rtTitle} - BELUM MENERIMA
               </h3>
               <span className="bg-green-600 text-white px-2 py-1 rounded text-sm">
                 {belumMenerimaRt.length} penerima
@@ -161,7 +164,7 @@ const PembagianDaging = () => {
                             className="bg-green-600 hover:bg-green-700"
                             onClick={() => handleSudahMenerima(penerimaItem.id)}
                           >
-                            ✅ Sudah Menerima
+                            🥩 Bagikan Daging
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -169,7 +172,7 @@ const PembagianDaging = () => {
                   ) : (
                     <TableRow>
                       <TableCell className="text-center text-green-600" colSpan={4}>
-                        🎉 Semua penerima di RT ini sudah menerima daging!
+                        🎉 Semua penerima di {rt === 'tambahan' ? 'kategori ini' : 'RT ini'} sudah menerima daging!
                       </TableCell>
                     </TableRow>
                   )}
@@ -202,7 +205,7 @@ const PembagianDaging = () => {
       {/* Tips */}
       <Card className="p-4 bg-blue-50">
         <p className="text-sm text-blue-700">
-          💡 Tips: Klik tombol "✅ Sudah Menerima" setelah memberikan daging kepada penerima
+          💡 Tips: Klik tombol "🥩 Bagikan Daging" setelah memberikan daging kepada penerima
         </p>
       </Card>
     </div>
