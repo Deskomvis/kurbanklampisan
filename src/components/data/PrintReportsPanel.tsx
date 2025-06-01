@@ -120,18 +120,14 @@ export const PrintReportsPanel = () => {
               <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px;">
                 <thead>
                   <tr style="background: #16a34a; color: white;">
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">No</th>
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Nama Kelompok</th>
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Jumlah Sapi</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">No Kelompok</th>
                     <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Anggota</th>
                   </tr>
                 </thead>
                 <tbody>
                   ${kelompokSapi.map((kelompok, index) => `
                     <tr style="background: ${index % 2 === 0 ? '#f9fafb' : 'white'};">
-                      <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${kelompok.nama}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${kelompok.jumlahSapi}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${kelompok.nomor}</td>
                       <td style="border: 1px solid #ddd; padding: 8px;">${kelompok.anggota.join(', ')}</td>
                     </tr>
                   `).join('')}
@@ -144,15 +140,13 @@ export const PrintReportsPanel = () => {
                   <tr style="background: #16a34a; color: white;">
                     <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">No</th>
                     <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Nama Pemilik</th>
-                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Jumlah Kambing</th>
                   </tr>
                 </thead>
                 <tbody>
                   ${kurbanKambing.map((kambing, index) => `
                     <tr style="background: ${index % 2 === 0 ? '#f9fafb' : 'white'};">
-                      <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${kambing.nama}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${kambing.jumlahKambing}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${kambing.nomor}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${kambing.pemilik}</td>
                     </tr>
                   `).join('')}
                 </tbody>
