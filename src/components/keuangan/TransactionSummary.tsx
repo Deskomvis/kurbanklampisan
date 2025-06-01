@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Trash2, Edit, Eye } from 'lucide-react';
+import { Trash2, Edit, Eye, Upload } from 'lucide-react';
 import { Transaction } from './types';
 
 interface TransactionSummaryProps {
@@ -31,11 +32,60 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
   totalDanaMasjid,
   saldoAkhir
 }) => {
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editFormData, setEditFormData] = useState<{
+    tanggal: string;
+    keterangan: string;
+    jumlah: string;
+    buktiNota?: File | null;
+  }>({
+    tanggal: '',
+    keterangan: '',
+    jumlah: '',
+    buktiNota: null
+  });
+
   const handleViewReceipt = (transaction: Transaction) => {
     if (transaction.buktiNota) {
       const url = URL.createObjectURL(transaction.buktiNota);
       window.open(url, '_blank');
     }
+  };
+
+  const handleEditClick = (transaction: Transaction) => {
+    setEditingId(transaction.id);
+    setEditFormData({
+      tanggal: transaction.tanggal,
+      keterangan: transaction.keterangan,
+      jumlah: transaction.jumlah.toString(),
+      buktiNota: transaction.buktiNota || null
+    });
+  };
+
+  const handleSaveEdit = () => {
+    if (editingId) {
+      const updatedTransaction: Transaction = {
+        id: editingId,
+        tanggal: editFormData.tanggal,
+        keterangan: editFormData.keterangan,
+        jumlah: parseFloat(editFormData.jumlah),
+        type: transactions.find(t => t.id === editingId)?.type || 'pemasukan',
+        buktiNota: editFormData.buktiNota
+      };
+      onEdit(updatedTransaction);
+      setEditingId(null);
+      setEditFormData({ tanggal: '', keterangan: '', jumlah: '', buktiNota: null });
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setEditFormData({ tanggal: '', keterangan: '', jumlah: '', buktiNota: null });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setEditFormData(prev => ({ ...prev, buktiNota: file }));
   };
 
   return (
@@ -67,19 +117,84 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
             ) : (
               transactions.map((transaction) => (
                 <TableRow key={transaction.id}>
-                  <TableCell>{transaction.tanggal}</TableCell>
-                  <TableCell>{transaction.keterangan}</TableCell>
                   <TableCell>
-                    {transaction.type === 'pemasukan' ? formatRupiah(transaction.jumlah) : '-'}
+                    {editingId === transaction.id ? (
+                      <Input
+                        type="text"
+                        value={editFormData.tanggal}
+                        onChange={(e) => setEditFormData(prev => ({ ...prev, tanggal: e.target.value }))}
+                        className="w-full"
+                      />
+                    ) : (
+                      transaction.tanggal
+                    )}
                   </TableCell>
                   <TableCell>
-                    {transaction.type === 'pengeluaran' ? formatRupiah(transaction.jumlah) : '-'}
+                    {editingId === transaction.id ? (
+                      <Input
+                        type="text"
+                        value={editFormData.keterangan}
+                        onChange={(e) => setEditFormData(prev => ({ ...prev, keterangan: e.target.value }))}
+                        className="w-full"
+                      />
+                    ) : (
+                      transaction.keterangan
+                    )}
                   </TableCell>
                   <TableCell>
-                    {transaction.type === 'dana-masjid' ? formatRupiah(transaction.jumlah) : '-'}
+                    {transaction.type === 'pemasukan' ? (
+                      editingId === transaction.id ? (
+                        <Input
+                          type="number"
+                          value={editFormData.jumlah}
+                          onChange={(e) => setEditFormData(prev => ({ ...prev, jumlah: e.target.value }))}
+                          className="w-full"
+                        />
+                      ) : (
+                        formatRupiah(transaction.jumlah)
+                      )
+                    ) : '-'}
                   </TableCell>
                   <TableCell>
-                    {transaction.buktiNota ? (
+                    {transaction.type === 'pengeluaran' ? (
+                      editingId === transaction.id ? (
+                        <Input
+                          type="number"
+                          value={editFormData.jumlah}
+                          onChange={(e) => setEditFormData(prev => ({ ...prev, jumlah: e.target.value }))}
+                          className="w-full"
+                        />
+                      ) : (
+                        formatRupiah(transaction.jumlah)
+                      )
+                    ) : '-'}
+                  </TableCell>
+                  <TableCell>
+                    {transaction.type === 'dana-masjid' ? (
+                      editingId === transaction.id ? (
+                        <Input
+                          type="number"
+                          value={editFormData.jumlah}
+                          onChange={(e) => setEditFormData(prev => ({ ...prev, jumlah: e.target.value }))}
+                          className="w-full"
+                        />
+                      ) : (
+                        formatRupiah(transaction.jumlah)
+                      )
+                    ) : '-'}
+                  </TableCell>
+                  <TableCell>
+                    {editingId === transaction.id && transaction.type === 'pengeluaran' ? (
+                      <div className="flex items-center gap-2">
+                        <Input
+                          type="file"
+                          accept="image/*,.pdf"
+                          onChange={handleFileChange}
+                          className="w-32"
+                        />
+                        <Upload className="h-4 w-4 text-gray-500" />
+                      </div>
+                    ) : transaction.buktiNota ? (
                       <Button
                         size="sm"
                         variant="outline"
@@ -90,22 +205,41 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
                     ) : '-'}
                   </TableCell>
                   <TableCell>
-                    <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => onEdit(transaction)}
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => onDelete(transaction.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
+                    {editingId === transaction.id ? (
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          onClick={handleSaveEdit}
+                          className="bg-green-600 hover:bg-green-700"
+                        >
+                          💾
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={handleCancelEdit}
+                        >
+                          ❌
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleEditClick(transaction)}
+                        >
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => onDelete(transaction.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    )}
                   </TableCell>
                 </TableRow>
               ))
