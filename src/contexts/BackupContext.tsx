@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { AppData } from '@/utils/dataUtils';
@@ -97,14 +96,13 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
         const latestBackup = data[0];
         const backupData = latestBackup.data as unknown as AppData;
         
-        // Return the backup data for the contexts to load
         console.log('Auto-loading latest backup:', latestBackup.name);
         toast({
           title: "Info",
           description: `Memuat backup terbaru: "${latestBackup.name}"`,
         });
         
-        // Store the backup data in a way that other contexts can access it
+        // Store the backup data temporarily for the hook to process
         localStorage.setItem('autoLoadBackupData', JSON.stringify(backupData));
         localStorage.setItem('autoLoadBackupName', latestBackup.name);
         

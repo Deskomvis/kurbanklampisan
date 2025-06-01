@@ -10,6 +10,12 @@ interface AutoLoadWrapperProps {
 export const AutoLoadWrapper: React.FC<AutoLoadWrapperProps> = ({ children }) => {
   const { isAutoLoading, hasAutoLoaded } = useAutoLoadBackup();
 
+  useEffect(() => {
+    if (hasAutoLoaded) {
+      console.log('Auto-load completed, data should now be available in the app');
+    }
+  }, [hasAutoLoaded]);
+
   if (isAutoLoading && !hasAutoLoaded) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-green-50">
@@ -20,6 +26,9 @@ export const AutoLoadWrapper: React.FC<AutoLoadWrapperProps> = ({ children }) =>
           </h2>
           <p className="text-green-600">
             Sedang memuat backup terbaru dari server...
+          </p>
+          <p className="text-sm text-green-500 mt-2">
+            Data akan tersinkronisasi dari Supabase
           </p>
         </div>
       </div>
