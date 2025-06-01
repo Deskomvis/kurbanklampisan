@@ -26,10 +26,10 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <BackupProvider>
-        <AutoLoadWrapper>
-          <KeuanganProvider>
-            <KelompokKurbanProvider>
-              <PenerimaProvider>
+        <KeuanganProvider>
+          <KelompokKurbanProvider>
+            <PenerimaProvider>
+              <AutoLoadWrapper>
                 <Toaster />
                 <Sonner />
                 <BrowserRouter>
@@ -48,10 +48,10 @@ const App = () => (
                     </Routes>
                   </Layout>
                 </BrowserRouter>
-              </PenerimaProvider>
-            </KelompokKurbanProvider>
-          </KeuanganProvider>
-        </AutoLoadWrapper>
+              </AutoLoadWrapper>
+            </PenerimaProvider>
+          </KelompokKurbanProvider>
+        </KeuanganProvider>
       </BackupProvider>
     </TooltipProvider>
   </QueryClientProvider>
