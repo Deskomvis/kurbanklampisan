@@ -1,20 +1,11 @@
 
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { toast } from '@/components/ui/use-toast';
-import { Trash2, Edit } from 'lucide-react';
-
-interface Transaction {
-  id: number;
-  tanggal: string;
-  keterangan: string;
-  jumlah: number;
-  type: 'pemasukan' | 'pengeluaran' | 'utang';
-}
+import { SaldoAwalForm } from '@/components/keuangan/SaldoAwalForm';
+import { TransactionForm } from '@/components/keuangan/TransactionForm';
+import { TransactionSummary } from '@/components/keuangan/TransactionSummary';
+import { Transaction } from '@/components/keuangan/types';
 
 const Keuangan = () => {
   const [tanggalPemasukan, setTanggalPemasukan] = useState('01/06/2025');
@@ -24,10 +15,11 @@ const Keuangan = () => {
   const [tanggalPengeluaran, setTanggalPengeluaran] = useState('01/06/2025');
   const [keteranganPengeluaran, setKeteranganPengeluaran] = useState('');
   const [jumlahPengeluaran, setJumlahPengeluaran] = useState('0');
+  const [buktiNota, setBuktiNota] = useState<File | null>(null);
 
-  const [tanggalUtang, setTanggalUtang] = useState('01/06/2025');
-  const [keteranganUtang, setKeteranganUtang] = useState('');
-  const [jumlahUtang, setJumlahUtang] = useState('0');
+  const [tanggalDanaMasjid, setTanggalDanaMasjid] = useState('01/06/2025');
+  const [keteranganDanaMasjid, setKeteranganDanaMasjid] = useState('');
+  const [jumlahDanaMasjid, setJumlahDanaMasjid] = useState('0');
 
   const [saldoAwal, setSaldoAwal] = useState('0');
   const [keteranganSaldoAwal, setKeteranganSaldoAwal] = useState('');
@@ -79,12 +71,14 @@ const Keuangan = () => {
       tanggal: tanggalPengeluaran,
       keterangan: keteranganPengeluaran,
       jumlah: parseFloat(jumlahPengeluaran),
-      type: 'pengeluaran'
+      type: 'pengeluaran',
+      buktiNota: buktiNota
     };
 
     setTransactions([...transactions, newTransaction]);
     setKeteranganPengeluaran('');
     setJumlahPengeluaran('0');
+    setBuktiNota(null);
     
     toast({
       title: "Berhasil",
@@ -92,11 +86,11 @@ const Keuangan = () => {
     });
   };
 
-  const handleSimpanUtang = () => {
-    if (!keteranganUtang || jumlahUtang === '0') {
+  const handleSimpanDanaMasjid = () => {
+    if (!keteranganDanaMasjid || jumlahDanaMasjid === '0') {
       toast({
         title: "Error",
-        description: "Mohon lengkapi semua field utang",
+        description: "Mohon lengkapi semua field dana masjid",
         variant: "destructive",
       });
       return;
@@ -104,19 +98,19 @@ const Keuangan = () => {
 
     const newTransaction: Transaction = {
       id: Date.now(),
-      tanggal: tanggalUtang,
-      keterangan: keteranganUtang,
-      jumlah: parseFloat(jumlahUtang),
-      type: 'utang'
+      tanggal: tanggalDanaMasjid,
+      keterangan: keteranganDanaMasjid,
+      jumlah: parseFloat(jumlahDanaMasjid),
+      type: 'dana-masjid'
     };
 
     setTransactions([...transactions, newTransaction]);
-    setKeteranganUtang('');
-    setJumlahUtang('0');
+    setKeteranganDanaMasjid('');
+    setJumlahDanaMasjid('0');
     
     toast({
       title: "Berhasil",
-      description: "Utang Khas Masjid berhasil disimpan",
+      description: "Menggunakan Dana Masjid berhasil disimpan",
     });
   };
 
@@ -163,22 +157,24 @@ const Keuangan = () => {
       setTanggalPengeluaran(transaction.tanggal);
       setKeteranganPengeluaran(transaction.keterangan);
       setJumlahPengeluaran(transaction.jumlah.toString());
-    } else if (transaction.type === 'utang') {
-      setTanggalUtang(transaction.tanggal);
-      setKeteranganUtang(transaction.keterangan);
-      setJumlahUtang(transaction.jumlah.toString());
+      setBuktiNota(transaction.buktiNota || null);
+    } else if (transaction.type === 'dana-masjid') {
+      setTanggalDanaMasjid(transaction.tanggal);
+      setKeteranganDanaMasjid(transaction.keterangan);
+      setJumlahDanaMasjid(transaction.jumlah.toString());
     }
   };
 
-  const handleUpdate = (type: 'pemasukan' | 'pengeluaran' | 'utang') => {
+  const handleUpdate = (type: 'pemasukan' | 'pengeluaran' | 'dana-masjid') => {
     if (!editingId) return;
 
     const updatedTransaction: Transaction = {
       id: editingId,
-      tanggal: type === 'pemasukan' ? tanggalPemasukan : type === 'pengeluaran' ? tanggalPengeluaran : tanggalUtang,
-      keterangan: type === 'pemasukan' ? keteranganPemasukan : type === 'pengeluaran' ? keteranganPengeluaran : keteranganUtang,
-      jumlah: parseFloat(type === 'pemasukan' ? jumlahPemasukan : type === 'pengeluaran' ? jumlahPengeluaran : jumlahUtang),
-      type: type
+      tanggal: type === 'pemasukan' ? tanggalPemasukan : type === 'pengeluaran' ? tanggalPengeluaran : tanggalDanaMasjid,
+      keterangan: type === 'pemasukan' ? keteranganPemasukan : type === 'pengeluaran' ? keteranganPengeluaran : keteranganDanaMasjid,
+      jumlah: parseFloat(type === 'pemasukan' ? jumlahPemasukan : type === 'pengeluaran' ? jumlahPengeluaran : jumlahDanaMasjid),
+      type: type,
+      buktiNota: type === 'pengeluaran' ? buktiNota : undefined
     };
 
     setTransactions(transactions.map(t => t.id === editingId ? updatedTransaction : t));
@@ -191,9 +187,10 @@ const Keuangan = () => {
     } else if (type === 'pengeluaran') {
       setKeteranganPengeluaran('');
       setJumlahPengeluaran('0');
-    } else if (type === 'utang') {
-      setKeteranganUtang('');
-      setJumlahUtang('0');
+      setBuktiNota(null);
+    } else if (type === 'dana-masjid') {
+      setKeteranganDanaMasjid('');
+      setJumlahDanaMasjid('0');
     }
 
     toast({
@@ -211,11 +208,11 @@ const Keuangan = () => {
     .filter(t => t.type === 'pengeluaran')
     .reduce((sum, t) => sum + t.jumlah, 0);
 
-  const totalUtang = transactions
-    .filter(t => t.type === 'utang')
+  const totalDanaMasjid = transactions
+    .filter(t => t.type === 'dana-masjid')
     .reduce((sum, t) => sum + t.jumlah, 0);
 
-  const saldoAkhir = parseFloat(saldoAwal) + totalPemasukan + totalUtang - totalPengeluaran;
+  const saldoAkhir = parseFloat(saldoAwal) + totalPemasukan + totalDanaMasjid - totalPengeluaran;
 
   const formatRupiah = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
@@ -230,68 +227,16 @@ const Keuangan = () => {
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-green-700">Manajemen Keuangan</h2>
       
-      {/* Saldo Awal */}
-      {!isSaldoAwalSet ? (
-        <Card className="p-6 bg-blue-50 border-blue-200">
-          <h3 className="text-lg font-semibold text-blue-700 mb-4">
-            💰 Set Saldo Awal
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                SALDO AWAL (RP):
-              </label>
-              <Input
-                type="number"
-                value={saldoAwal}
-                onChange={(e) => setSaldoAwal(e.target.value)}
-                className="w-full"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                KETERANGAN:
-              </label>
-              <Input
-                type="text"
-                value={keteranganSaldoAwal}
-                onChange={(e) => setKeteranganSaldoAwal(e.target.value)}
-                placeholder="Keterangan saldo awal"
-                className="w-full"
-              />
-            </div>
-            <div className="flex items-end">
-              <Button 
-                onClick={handleSetSaldoAwal}
-                className="bg-blue-600 hover:bg-blue-700 w-full"
-              >
-                💾 Set Saldo Awal
-              </Button>
-            </div>
-          </div>
-        </Card>
-      ) : (
-        <Card className="p-6 bg-blue-50 border-blue-200">
-          <div className="flex justify-between items-center">
-            <div>
-              <h3 className="text-lg font-semibold text-blue-700 mb-2">
-                💰 Saldo Awal
-              </h3>
-              <div className="text-sm text-blue-700">
-                <strong>Saldo Awal:</strong> {formatRupiah(parseFloat(saldoAwal))} - {keteranganSaldoAwal}
-              </div>
-            </div>
-            <Button 
-              onClick={handleEditSaldoAwal}
-              variant="outline"
-              className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
-            >
-              <Edit className="h-4 w-4 mr-2" />
-              Edit Saldo Awal
-            </Button>
-          </div>
-        </Card>
-      )}
+      <SaldoAwalForm
+        saldoAwal={saldoAwal}
+        setSaldoAwal={setSaldoAwal}
+        keteranganSaldoAwal={keteranganSaldoAwal}
+        setKeteranganSaldoAwal={setKeteranganSaldoAwal}
+        isSaldoAwalSet={isSaldoAwalSet}
+        onSetSaldoAwal={handleSetSaldoAwal}
+        onEditSaldoAwal={handleEditSaldoAwal}
+        formatRupiah={formatRupiah}
+      />
 
       <Tabs defaultValue="input" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
@@ -301,305 +246,90 @@ const Keuangan = () => {
 
         <TabsContent value="input">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Tambah Pemasukan */}
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold text-green-700 mb-4 flex items-center gap-2">
-                💰 {editingId && transactions.find(t => t.id === editingId)?.type === 'pemasukan' ? 'Edit' : 'Tambah'} Pemasukan
-              </h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    TANGGAL:
-                  </label>
-                  <Input
-                    type="text"
-                    value={tanggalPemasukan}
-                    onChange={(e) => setTanggalPemasukan(e.target.value)}
-                    className="w-full"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    KETERANGAN:
-                  </label>
-                  <Input
-                    type="text"
-                    value={keteranganPemasukan}
-                    onChange={(e) => setKeteranganPemasukan(e.target.value)}
-                    placeholder="Sumber pemasukan"
-                    className="w-full"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    JUMLAH (RP):
-                  </label>
-                  <Input
-                    type="number"
-                    value={jumlahPemasukan}
-                    onChange={(e) => setJumlahPemasukan(e.target.value)}
-                    className="w-full"
-                  />
-                </div>
-                
-                <Button 
-                  onClick={editingId && transactions.find(t => t.id === editingId)?.type === 'pemasukan' 
-                    ? () => handleUpdate('pemasukan') 
-                    : handleSimpanPemasukan
-                  }
-                  className="bg-green-600 hover:bg-green-700 w-full"
-                >
-                  💾 {editingId && transactions.find(t => t.id === editingId)?.type === 'pemasukan' ? 'Update' : 'Simpan'} Pemasukan
-                </Button>
-                {editingId && transactions.find(t => t.id === editingId)?.type === 'pemasukan' && (
-                  <Button 
-                    onClick={() => {
-                      setEditingId(null);
-                      setKeteranganPemasukan('');
-                      setJumlahPemasukan('0');
-                    }}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    Batal Edit
-                  </Button>
-                )}
-              </div>
-            </Card>
+            <TransactionForm
+              type="pemasukan"
+              title="Pemasukan"
+              icon="💰"
+              tanggal={tanggalPemasukan}
+              setTanggal={setTanggalPemasukan}
+              keterangan={keteranganPemasukan}
+              setKeterangan={setKeteranganPemasukan}
+              jumlah={jumlahPemasukan}
+              setJumlah={setJumlahPemasukan}
+              placeholder="Sumber pemasukan"
+              onSave={handleSimpanPemasukan}
+              onUpdate={() => handleUpdate('pemasukan')}
+              onCancelEdit={() => {
+                setEditingId(null);
+                setKeteranganPemasukan('');
+                setJumlahPemasukan('0');
+              }}
+              editingId={editingId}
+              transactions={transactions}
+            />
 
-            {/* Tambah Pengeluaran */}
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold text-green-700 mb-4 flex items-center gap-2">
-                💸 {editingId && transactions.find(t => t.id === editingId)?.type === 'pengeluaran' ? 'Edit' : 'Tambah'} Pengeluaran
-              </h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    TANGGAL:
-                  </label>
-                  <Input
-                    type="text"
-                    value={tanggalPengeluaran}
-                    onChange={(e) => setTanggalPengeluaran(e.target.value)}
-                    className="w-full"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    KETERANGAN:
-                  </label>
-                  <Input
-                    type="text"
-                    value={keteranganPengeluaran}
-                    onChange={(e) => setKeteranganPengeluaran(e.target.value)}
-                    placeholder="Keperluan pengeluaran"
-                    className="w-full"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    JUMLAH (RP):
-                  </label>
-                  <Input
-                    type="number"
-                    value={jumlahPengeluaran}
-                    onChange={(e) => setJumlahPengeluaran(e.target.value)}
-                    className="w-full"
-                  />
-                </div>
-                
-                <Button 
-                  onClick={editingId && transactions.find(t => t.id === editingId)?.type === 'pengeluaran' 
-                    ? () => handleUpdate('pengeluaran') 
-                    : handleSimpanPengeluaran
-                  }
-                  className="bg-green-600 hover:bg-green-700 w-full"
-                >
-                  💾 {editingId && transactions.find(t => t.id === editingId)?.type === 'pengeluaran' ? 'Update' : 'Simpan'} Pengeluaran
-                </Button>
-                {editingId && transactions.find(t => t.id === editingId)?.type === 'pengeluaran' && (
-                  <Button 
-                    onClick={() => {
-                      setEditingId(null);
-                      setKeteranganPengeluaran('');
-                      setJumlahPengeluaran('0');
-                    }}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    Batal Edit
-                  </Button>
-                )}
-              </div>
-            </Card>
+            <TransactionForm
+              type="pengeluaran"
+              title="Pengeluaran"
+              icon="💸"
+              tanggal={tanggalPengeluaran}
+              setTanggal={setTanggalPengeluaran}
+              keterangan={keteranganPengeluaran}
+              setKeterangan={setKeteranganPengeluaran}
+              jumlah={jumlahPengeluaran}
+              setJumlah={setJumlahPengeluaran}
+              placeholder="Keperluan pengeluaran"
+              onSave={handleSimpanPengeluaran}
+              onUpdate={() => handleUpdate('pengeluaran')}
+              onCancelEdit={() => {
+                setEditingId(null);
+                setKeteranganPengeluaran('');
+                setJumlahPengeluaran('0');
+                setBuktiNota(null);
+              }}
+              editingId={editingId}
+              transactions={transactions}
+              buktiNota={buktiNota}
+              setBuktiNota={setBuktiNota}
+            />
 
-            {/* Tambah Utang Khas Masjid */}
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold text-green-700 mb-4 flex items-center gap-2">
-                🏛️ {editingId && transactions.find(t => t.id === editingId)?.type === 'utang' ? 'Edit' : 'Tambah'} Utang Khas Masjid
-              </h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    TANGGAL:
-                  </label>
-                  <Input
-                    type="text"
-                    value={tanggalUtang}
-                    onChange={(e) => setTanggalUtang(e.target.value)}
-                    className="w-full"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    KETERANGAN:
-                  </label>
-                  <Input
-                    type="text"
-                    value={keteranganUtang}
-                    onChange={(e) => setKeteranganUtang(e.target.value)}
-                    placeholder="Keterangan utang khas masjid"
-                    className="w-full"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    JUMLAH (RP):
-                  </label>
-                  <Input
-                    type="number"
-                    value={jumlahUtang}
-                    onChange={(e) => setJumlahUtang(e.target.value)}
-                    className="w-full"
-                  />
-                </div>
-                
-                <Button 
-                  onClick={editingId && transactions.find(t => t.id === editingId)?.type === 'utang' 
-                    ? () => handleUpdate('utang') 
-                    : handleSimpanUtang
-                  }
-                  className="bg-green-600 hover:bg-green-700 w-full"
-                >
-                  💾 {editingId && transactions.find(t => t.id === editingId)?.type === 'utang' ? 'Update' : 'Simpan'} Utang
-                </Button>
-                {editingId && transactions.find(t => t.id === editingId)?.type === 'utang' && (
-                  <Button 
-                    onClick={() => {
-                      setEditingId(null);
-                      setKeteranganUtang('');
-                      setJumlahUtang('0');
-                    }}
-                    variant="outline"
-                    className="w-full"
-                  >
-                    Batal Edit
-                  </Button>
-                )}
-              </div>
-            </Card>
+            <TransactionForm
+              type="dana-masjid"
+              title="Menggunakan Dana Masjid"
+              icon="🏛️"
+              tanggal={tanggalDanaMasjid}
+              setTanggal={setTanggalDanaMasjid}
+              keterangan={keteranganDanaMasjid}
+              setKeterangan={setKeteranganDanaMasjid}
+              jumlah={jumlahDanaMasjid}
+              setJumlah={setJumlahDanaMasjid}
+              placeholder="Keterangan menggunakan dana masjid"
+              onSave={handleSimpanDanaMasjid}
+              onUpdate={() => handleUpdate('dana-masjid')}
+              onCancelEdit={() => {
+                setEditingId(null);
+                setKeteranganDanaMasjid('');
+                setJumlahDanaMasjid('0');
+              }}
+              editingId={editingId}
+              transactions={transactions}
+            />
           </div>
         </TabsContent>
 
         <TabsContent value="history">
-          {/* Ringkasan Keuangan */}
-          <Card className="p-6">
-            <h3 className="text-lg font-semibold text-green-700 mb-4 flex items-center gap-2">
-              📊 Ringkasan Keuangan
-            </h3>
-            
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-green-600 hover:bg-green-600">
-                    <TableHead className="text-white">TANGGAL</TableHead>
-                    <TableHead className="text-white">KETERANGAN</TableHead>
-                    <TableHead className="text-white">PEMASUKAN</TableHead>
-                    <TableHead className="text-white">PENGELUARAN</TableHead>
-                    <TableHead className="text-white">UTANG KHAS</TableHead>
-                    <TableHead className="text-white">AKSI</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {transactions.length === 0 ? (
-                    <TableRow>
-                      <TableCell colSpan={6} className="text-center text-gray-500">
-                        Belum ada data transaksi
-                      </TableCell>
-                    </TableRow>
-                  ) : (
-                    transactions.map((transaction) => (
-                      <TableRow key={transaction.id}>
-                        <TableCell>{transaction.tanggal}</TableCell>
-                        <TableCell>{transaction.keterangan}</TableCell>
-                        <TableCell>
-                          {transaction.type === 'pemasukan' ? formatRupiah(transaction.jumlah) : '-'}
-                        </TableCell>
-                        <TableCell>
-                          {transaction.type === 'pengeluaran' ? formatRupiah(transaction.jumlah) : '-'}
-                        </TableCell>
-                        <TableCell>
-                          {transaction.type === 'utang' ? formatRupiah(transaction.jumlah) : '-'}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleEdit(transaction)}
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              onClick={() => handleDelete(transaction.id)}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-6">
-              {isSaldoAwalSet && (
-                <Card className="p-4 bg-blue-600 text-white text-center">
-                  <div className="text-xl font-bold">{formatRupiah(parseFloat(saldoAwal))}</div>
-                  <div className="text-blue-100">Saldo Awal</div>
-                </Card>
-              )}
-              <Card className="p-4 bg-green-600 text-white text-center">
-                <div className="text-xl font-bold">{formatRupiah(totalPemasukan)}</div>
-                <div className="text-green-100">Total Pemasukan</div>
-              </Card>
-              <Card className="p-4 bg-red-600 text-white text-center">
-                <div className="text-xl font-bold">{formatRupiah(totalPengeluaran)}</div>
-                <div className="text-red-100">Total Pengeluaran</div>
-              </Card>
-              <Card className="p-4 bg-orange-600 text-white text-center">
-                <div className="text-xl font-bold">{formatRupiah(totalUtang)}</div>
-                <div className="text-orange-100">Total Utang Khas</div>
-              </Card>
-              <Card className={`p-4 text-white text-center ${saldoAkhir >= 0 ? 'bg-green-600' : 'bg-red-600'}`}>
-                <div className="text-xl font-bold">{formatRupiah(saldoAkhir)}</div>
-                <div className={`${saldoAkhir >= 0 ? 'text-green-100' : 'text-red-100'}`}>Saldo Akhir</div>
-              </Card>
-            </div>
-          </Card>
+          <TransactionSummary
+            transactions={transactions}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            formatRupiah={formatRupiah}
+            saldoAwal={saldoAwal}
+            isSaldoAwalSet={isSaldoAwalSet}
+            totalPemasukan={totalPemasukan}
+            totalPengeluaran={totalPengeluaran}
+            totalDanaMasjid={totalDanaMasjid}
+            saldoAkhir={saldoAkhir}
+          />
         </TabsContent>
       </Tabs>
     </div>
