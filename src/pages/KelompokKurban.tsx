@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,33 +5,28 @@ import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
 import { Edit, Trash2, Save, X } from 'lucide-react';
-
-interface KelompokSapi {
-  id: string;
-  nomor: string;
-  anggota: string[];
-}
-
-interface KurbanKambing {
-  id: string;
-  nomor: number;
-  pemilik: string;
-}
+import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 
 const KelompokKurban = () => {
   const { toast } = useToast();
+  const {
+    kelompokSapi,
+    kurbanKambing,
+    addKelompokSapi,
+    updateKelompokSapi,
+    deleteKelompokSapi,
+    addKurbanKambing,
+    updateKurbanKambing,
+    deleteKurbanKambing
+  } = useKelompokKurban();
   
   // State untuk form kelompok sapi
-  const [kelompokSapi, setKelompokSapi] = useState('');
+  const [kelompokSapiForm, setKelompokSapiForm] = useState('');
   const [anggotaSapi, setAnggotaSapi] = useState('');
   const [daftarAnggotaSapi, setDaftarAnggotaSapi] = useState<string[]>([]);
   
   // State untuk form kurban kambing
   const [pemilikKambing, setPemilikKambing] = useState('');
-  
-  // State untuk data tersimpan
-  const [daftarKelompokSapi, setDaftarKelompokSapi] = useState<KelompokSapi[]>([]);
-  const [daftarKurbanKambing, setDaftarKurbanKambing] = useState<KurbanKambing[]>([]);
   
   // State untuk editing
   const [editingSapi, setEditingSapi] = useState<string | null>(null);
@@ -64,7 +58,7 @@ const KelompokKurban = () => {
 
   // Fungsi untuk menyimpan kelompok sapi
   const simpanKelompokSapi = () => {
-    if (kelompokSapi.trim() === '') {
+    if (kelompokSapiForm.trim() === '') {
       toast({
         title: "Error",
         description: "Nomor kelompok tidak boleh kosong",
@@ -83,7 +77,7 @@ const KelompokKurban = () => {
     }
 
     // Cek apakah nomor kelompok sudah ada
-    const sudahAda = daftarKelompokSapi.some(k => k.nomor === kelompokSapi.trim());
+    const sudahAda = kelompokSapi.some(k => k.nomor === kelompokSapiForm.trim());
     if (sudahAda) {
       toast({
         title: "Error",
@@ -93,16 +87,13 @@ const KelompokKurban = () => {
       return;
     }
 
-    const kelompokBaru: KelompokSapi = {
-      id: Date.now().toString(),
-      nomor: kelompokSapi.trim(),
+    addKelompokSapi({
+      nomor: kelompokSapiForm.trim(),
       anggota: [...daftarAnggotaSapi]
-    };
-
-    setDaftarKelompokSapi([...daftarKelompokSapi, kelompokBaru]);
+    });
     
     // Reset form
-    setKelompokSapi('');
+    setKelompokSapiForm('');
     setDaftarAnggotaSapi([]);
     
     toast({
@@ -122,14 +113,9 @@ const KelompokKurban = () => {
       return;
     }
 
-    const nomorUrut = daftarKurbanKambing.length + 1;
-    const kambingBaru: KurbanKambing = {
-      id: Date.now().toString(),
-      nomor: nomorUrut,
+    addKurbanKambing({
       pemilik: pemilikKambing.trim()
-    };
-
-    setDaftarKurbanKambing([...daftarKurbanKambing, kambingBaru]);
+    });
     setPemilikKambing('');
     
     toast({
@@ -139,7 +125,7 @@ const KelompokKurban = () => {
   };
 
   // Fungsi untuk mulai edit kelompok sapi
-  const mulaiEditSapi = (kelompok: KelompokSapi) => {
+  const mulaiEditSapi = (kelompok: any) => {
     setEditingSapi(kelompok.id);
     setEditNomorSapi(kelompok.nomor);
     setEditAnggotaSapi([...kelompok.anggota]);
@@ -157,7 +143,7 @@ const KelompokKurban = () => {
     }
 
     // Cek apakah nomor kelompok sudah ada (kecuali untuk kelompok yang sedang diedit)
-    const sudahAda = daftarKelompokSapi.some(k => k.nomor === editNomorSapi.trim() && k.id !== id);
+    const sudahAda = kelompokSapi.some(k => k.nomor === editNomorSapi.trim() && k.id !== id);
     if (sudahAda) {
       toast({
         title: "Error",
@@ -167,11 +153,11 @@ const KelompokKurban = () => {
       return;
     }
 
-    const updatedDaftar = daftarKelompokSapi.map(k => 
-      k.id === id ? { ...k, nomor: editNomorSapi.trim(), anggota: [...editAnggotaSapi] } : k
-    );
+    updateKelompokSapi(id, {
+      nomor: editNomorSapi.trim(),
+      anggota: [...editAnggotaSapi]
+    });
     
-    setDaftarKelompokSapi(updatedDaftar);
     setEditingSapi(null);
     
     toast({
@@ -181,7 +167,7 @@ const KelompokKurban = () => {
   };
 
   // Fungsi untuk mulai edit kurban kambing
-  const mulaiEditKambing = (kambing: KurbanKambing) => {
+  const mulaiEditKambing = (kambing: any) => {
     setEditingKambing(kambing.id);
     setEditPemilikKambing(kambing.pemilik);
   };
@@ -197,11 +183,10 @@ const KelompokKurban = () => {
       return;
     }
 
-    const updatedDaftar = daftarKurbanKambing.map(k => 
-      k.id === id ? { ...k, pemilik: editPemilikKambing.trim() } : k
-    );
+    updateKurbanKambing(id, {
+      pemilik: editPemilikKambing.trim()
+    });
     
-    setDaftarKurbanKambing(updatedDaftar);
     setEditingKambing(null);
     
     toast({
@@ -212,7 +197,7 @@ const KelompokKurban = () => {
 
   // Fungsi untuk hapus kelompok sapi
   const hapusKelompokSapi = (id: string) => {
-    setDaftarKelompokSapi(daftarKelompokSapi.filter(k => k.id !== id));
+    deleteKelompokSapi(id);
     toast({
       title: "Berhasil",
       description: "Kelompok sapi berhasil dihapus"
@@ -221,11 +206,7 @@ const KelompokKurban = () => {
 
   // Fungsi untuk hapus kurban kambing
   const hapusKurbanKambing = (id: string) => {
-    const newDaftar = daftarKurbanKambing.filter(k => k.id !== id);
-    // Update nomor urut setelah penghapusan
-    const updatedDaftar = newDaftar.map((k, index) => ({ ...k, nomor: index + 1 }));
-    setDaftarKurbanKambing(updatedDaftar);
-    
+    deleteKurbanKambing(id);
     toast({
       title: "Berhasil",
       description: "Kurban kambing berhasil dihapus"
@@ -251,13 +232,13 @@ const KelompokKurban = () => {
   };
 
   // Sort data berdasarkan nomor
-  const sortedKelompokSapi = [...daftarKelompokSapi].sort((a, b) => {
+  const sortedKelompokSapi = [...kelompokSapi].sort((a, b) => {
     const nomorA = parseInt(a.nomor) || 0;
     const nomorB = parseInt(b.nomor) || 0;
     return nomorA - nomorB;
   });
 
-  const sortedKurbanKambing = [...daftarKurbanKambing].sort((a, b) => a.nomor - b.nomor);
+  const sortedKurbanKambing = [...kurbanKambing].sort((a, b) => a.nomor - b.nomor);
 
   return (
     <div className="space-y-6">
@@ -277,8 +258,8 @@ const KelompokKurban = () => {
               </label>
               <Input
                 type="text"
-                value={kelompokSapi}
-                onChange={(e) => setKelompokSapi(e.target.value)}
+                value={kelompokSapiForm}
+                onChange={(e) => setKelompokSapiForm(e.target.value)}
                 placeholder="1"
                 className="w-full"
               />
@@ -302,7 +283,7 @@ const KelompokKurban = () => {
                 </Button>
               </div>
               
-              {/* Daftar anggota yang sudah ditambahkan */}
+              {/* Display added members */}
               {daftarAnggotaSapi.length > 0 && (
                 <div className="mt-3 space-y-2">
                   {daftarAnggotaSapi.map((anggota, index) => (
@@ -361,7 +342,7 @@ const KelompokKurban = () => {
         </Card>
       </div>
 
-      {/* Daftar Kelompok */}
+      {/* Display existing data tables */}
       <div className="space-y-4">
         {/* Daftar Kelompok Sapi */}
         <Card className="p-4">

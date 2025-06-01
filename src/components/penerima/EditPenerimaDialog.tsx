@@ -10,7 +10,7 @@ interface EditPenerimaDialogProps {
   penerima: Penerima | null;
   isOpen: boolean;
   onClose: () => void;
-  onSave: (id: string, data: Omit<Penerima, 'id' | 'sudahMenerima'>) => void;
+  onSave: (id: string, data: Omit<Penerima, 'id'>) => void;
 }
 
 export const EditPenerimaDialog: React.FC<EditPenerimaDialogProps> = ({
@@ -23,7 +23,8 @@ export const EditPenerimaDialog: React.FC<EditPenerimaDialogProps> = ({
     nomorPengambilan: '',
     nama: '',
     rt: '',
-    blok: ''
+    blok: '',
+    sudahMenerima: false
   });
 
   useEffect(() => {
@@ -32,7 +33,8 @@ export const EditPenerimaDialog: React.FC<EditPenerimaDialogProps> = ({
         nomorPengambilan: penerima.nomorPengambilan,
         nama: penerima.nama,
         rt: penerima.rt,
-        blok: penerima.blok
+        blok: penerima.blok,
+        sudahMenerima: penerima.sudahMenerima
       });
     }
   }, [penerima]);
@@ -99,6 +101,24 @@ export const EditPenerimaDialog: React.FC<EditPenerimaDialogProps> = ({
               onChange={(e) => setFormData({ ...formData, blok: e.target.value })}
               placeholder="Contoh: A, B, C"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              STATUS PENERIMAAN:
+            </label>
+            <Select 
+              value={formData.sudahMenerima ? "sudah" : "belum"} 
+              onValueChange={(value) => setFormData({ ...formData, sudahMenerima: value === "sudah" })}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="belum">Belum Menerima</SelectItem>
+                <SelectItem value="sudah">Sudah Menerima</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
         

@@ -13,7 +13,7 @@ export interface Penerima {
 interface PenerimaContextType {
   penerima: Penerima[];
   addPenerima: (penerima: Omit<Penerima, 'id' | 'sudahMenerima'>) => void;
-  updatePenerima: (id: string, penerima: Omit<Penerima, 'id' | 'sudahMenerima'>) => void;
+  updatePenerima: (id: string, penerima: Omit<Penerima, 'id'>) => void;
   deletePenerima: (id: string) => void;
   toggleSudahMenerima: (id: string) => void;
   resetPembagian: () => void;
@@ -42,7 +42,7 @@ export const PenerimaProvider: React.FC<PenerimaProviderProps> = ({ children }) 
     setPenerima(prev => [...prev, { ...newPenerima, id, sudahMenerima: false }]);
   };
 
-  const updatePenerima = (id: string, updatedPenerima: Omit<Penerima, 'id' | 'sudahMenerima'>) => {
+  const updatePenerima = (id: string, updatedPenerima: Omit<Penerima, 'id'>) => {
     setPenerima(prev => prev.map(p => 
       p.id === id ? { ...p, ...updatedPenerima } : p
     ));

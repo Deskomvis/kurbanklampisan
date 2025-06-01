@@ -2,8 +2,11 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 
 const Laporan = () => {
+  const { getTotalSapi, getTotalKambing } = useKelompokKurban();
+  
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-green-700">Laporan Pertanggungjawaban Kurban 2025</h2>
@@ -35,13 +38,13 @@ const Laporan = () => {
                   <thead>
                     <tr className="bg-gray-100">
                       <th className="border border-gray-300 p-2 text-left">Hewan Kurban Sapi</th>
-                      <th className="border border-gray-300 p-2 text-left">0 ekor</th>
+                      <th className="border border-gray-300 p-2 text-left">{getTotalSapi()} ekor</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td className="border border-gray-300 p-2">Hewan Kurban Kambing</td>
-                      <td className="border border-gray-300 p-2">0 ekor</td>
+                      <td className="border border-gray-300 p-2">{getTotalKambing()} ekor</td>
                     </tr>
                   </tbody>
                 </table>
