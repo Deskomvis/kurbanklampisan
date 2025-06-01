@@ -60,7 +60,7 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
       const formattedBackups: BackupItem[] = (data || []).map(backup => ({
         id: backup.id,
         name: backup.name,
-        data: backup.data as AppData,
+        data: backup.data as unknown as AppData,
         createdAt: backup.created_at
       }));
 
@@ -84,7 +84,7 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
         .from('backups')
         .insert({
           name,
-          data: data as any
+          data: data as unknown as any
         });
 
       if (error) {
