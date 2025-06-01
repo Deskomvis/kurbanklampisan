@@ -11,7 +11,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card title="Hewan Sapi" value="0" />
         <Card title="Hewan Kambing" value="0" />
-        <Card title="Penerima Daging" value="327" />
+        <Card title="Penerima Daging" value="0" />
         <Card title="Sudah Menerima" value="0" />
         <Card title="Total Biaya" value="Rp 0,00" />
         <Card title="Progress Pembagian" value="0%" />

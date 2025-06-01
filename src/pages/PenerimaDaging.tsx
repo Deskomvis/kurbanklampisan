@@ -1,12 +1,16 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
+import { Edit, Trash2 } from 'lucide-react';
 
 const PenerimaDaging = () => {
   const [namaPenerima, setNamaPenerima] = useState('');
   const [rtPenerima, setRtPenerima] = useState('');
+  const [nomorPengambilan, setNomorPengambilan] = useState('');
+  const [blokPenerima, setBlokPenerima] = useState('');
   const [filterRt, setFilterRt] = useState('');
   const [cariNama, setCariNama] = useState('');
 
@@ -20,7 +24,7 @@ const PenerimaDaging = () => {
         <div className="flex items-center gap-2 mb-2">
           <span className="text-green-700 font-medium">✅ Data Referensi Tahun 2024 Sudah Dimuat</span>
         </div>
-        <p className="text-sm text-gray-600 mb-3">Total: 0 penerima dari tahun 2024</p>
+        <p className="text-sm text-gray-600 mb-3">Total: 320 penerima dari tahun 2024</p>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           <div>
@@ -57,6 +61,19 @@ const PenerimaDaging = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
+              NOMOR PENGAMBILAN:
+            </label>
+            <Input
+              type="text"
+              value={nomorPengambilan}
+              onChange={(e) => setNomorPengambilan(e.target.value)}
+              placeholder="Nomor urut pengambilan"
+              className="w-full"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               NAMA PENERIMA:
             </label>
             <Input
@@ -81,6 +98,19 @@ const PenerimaDaging = () => {
                 <SelectItem value="02">RT 02</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              BLOK:
+            </label>
+            <Input
+              type="text"
+              value={blokPenerima}
+              onChange={(e) => setBlokPenerima(e.target.value)}
+              placeholder="Contoh: A, B, C"
+              className="w-full"
+            />
           </div>
         </div>
         
@@ -143,7 +173,7 @@ const PenerimaDaging = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-green-600 text-white">
-                <th className="p-3 text-left">NO</th>
+                <th className="p-3 text-left">NOMOR</th>
                 <th className="p-3 text-left">NAMA PENERIMA</th>
                 <th className="p-3 text-left">AKSI</th>
               </tr>
@@ -170,7 +200,7 @@ const PenerimaDaging = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-green-600 text-white">
-                <th className="p-3 text-left">NO</th>
+                <th className="p-3 text-left">NOMOR</th>
                 <th className="p-3 text-left">NAMA PENERIMA</th>
                 <th className="p-3 text-left">AKSI</th>
               </tr>
