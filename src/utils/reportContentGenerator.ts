@@ -123,8 +123,12 @@ const generateKelompokSection = (kelompokSapi: KelompokSapi[], kurbanKambing: Ku
         <tbody>
           ${kelompokSapi.map((kelompok, index) => `
             <tr style="background: ${index % 2 === 0 ? '#f9fafb' : 'white'};">
-              <td style="border: 1px solid #ddd; padding: 8px;">${kelompok.nomor}</td>
-              <td style="border: 1px solid #ddd; padding: 8px;">${kelompok.anggota.join(', ')}</td>
+              <td style="border: 1px solid #ddd; padding: 8px; vertical-align: top;">${kelompok.nomor}</td>
+              <td style="border: 1px solid #ddd; padding: 8px;">
+                ${kelompok.anggota.map((anggota, anggotaIndex) => `
+                  <div style="margin-bottom: 2px;">${anggotaIndex + 1}. ${anggota}</div>
+                `).join('')}
+              </td>
             </tr>
           `).join('')}
         </tbody>
