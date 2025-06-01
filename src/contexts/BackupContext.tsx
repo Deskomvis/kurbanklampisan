@@ -63,7 +63,7 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
       const formattedBackups: BackupItem[] = (data || []).map(backup => ({
         id: backup.id,
         name: backup.name,
-        data: backup.data as AppData,
+        data: backup.data as unknown as AppData,
         createdAt: backup.created_at
       }));
 
@@ -95,7 +95,7 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
 
       if (data && data.length > 0) {
         const latestBackup = data[0];
-        const backupData = latestBackup.data as AppData;
+        const backupData = latestBackup.data as unknown as AppData;
         
         // Return the backup data for the contexts to load
         console.log('Auto-loading latest backup:', latestBackup.name);
