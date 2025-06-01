@@ -14,11 +14,13 @@ export interface BackupItem {
 interface BackupContextType {
   backups: BackupItem[];
   isLoading: boolean;
+  isAutoLoading: boolean;
   saveBackup: (name: string, data: AppData) => Promise<void>;
   loadBackup: (id: string) => BackupItem | undefined;
   deleteBackup: (id: string) => Promise<void>;
   getBackupsList: () => BackupItem[];
   refreshBackups: () => Promise<void>;
+  autoLoadLatestBackup: () => Promise<boolean>;
 }
 
 const BackupContext = createContext<BackupContextType | undefined>(undefined);
@@ -38,6 +40,7 @@ interface BackupProviderProps {
 export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
   const [backups, setBackups] = useState<BackupItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isAutoLoading, setIsAutoLoading] = useState(false);
   const { toast } = useToast();
 
   // Fetch backups from Supabase on component mount
@@ -60,7 +63,7 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
       const formattedBackups: BackupItem[] = (data || []).map(backup => ({
         id: backup.id,
         name: backup.name,
-        data: backup.data as unknown as AppData,
+        data: backup.data as AppData,
         createdAt: backup.created_at
       }));
 
@@ -74,6 +77,46 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const autoLoadLatestBackup = async (): Promise<boolean> => {
+    setIsAutoLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('backups')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (error) {
+        throw error;
+      }
+
+      if (data && data.length > 0) {
+        const latestBackup = data[0];
+        const backupData = latestBackup.data as AppData;
+        
+        // Return the backup data for the contexts to load
+        console.log('Auto-loading latest backup:', latestBackup.name);
+        toast({
+          title: "Info",
+          description: `Memuat backup terbaru: "${latestBackup.name}"`,
+        });
+        
+        // Store the backup data in a way that other contexts can access it
+        localStorage.setItem('autoLoadBackupData', JSON.stringify(backupData));
+        localStorage.setItem('autoLoadBackupName', latestBackup.name);
+        
+        return true;
+      }
+      
+      return false;
+    } catch (error) {
+      console.error('Error auto-loading latest backup:', error);
+      return false;
+    } finally {
+      setIsAutoLoading(false);
     }
   };
 
@@ -155,11 +198,13 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
     <BackupContext.Provider value={{
       backups,
       isLoading,
+      isAutoLoading,
       saveBackup,
       loadBackup,
       deleteBackup,
       getBackupsList,
-      refreshBackups
+      refreshBackups,
+      autoLoadLatestBackup
     }}>
       {children}
     </BackupContext.Provider>
