@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -9,7 +8,8 @@ import {
   Share2, 
   FileText,
   Menu,
-  X
+  X,
+  Database
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -29,6 +29,7 @@ const Layout = ({ children }: LayoutProps) => {
     { path: '/penerima-daging', label: 'Penerima Daging', icon: UserCheck },
     { path: '/pembagian-daging', label: 'Pembagian Daging', icon: Share2 },
     { path: '/laporan', label: 'Laporan', icon: FileText },
+    { path: '/data-management', label: 'Data', icon: Database },
   ];
 
   const toggleMobileMenu = () => {
