@@ -38,34 +38,46 @@ const PembagianDaging = () => {
   const progressPercentage = penerima.length > 0 ? Math.round((sudahMenerima.length / penerima.length) * 100) : 0;
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-green-700">Pembagian Daging Kurban 2025</h2>
-      <p className="text-sm text-gray-600">Sistem Pembagian dan Tracking Penerimaan Daging</p>
+    <div className="space-y-4 md:space-y-6">
+      <div className="space-y-1 md:space-y-2">
+        <h2 className="text-xl md:text-2xl font-bold text-green-700">Pembagian Daging Kurban</h2>
+        <p className="text-sm text-gray-600">Sistem Pembagian dan Tracking Penerimaan Daging - 2025</p>
+      </div>
       
       {/* Status Pembagian */}
-      <Card className="p-4 bg-green-50 border-l-4 border-green-500">
-        <h3 className="text-lg font-semibold text-green-700 mb-3 flex items-center gap-2">
+      <Card className="p-4 md:p-6 bg-green-50 border-l-4 border-green-500">
+        <h3 className="text-base md:text-lg font-semibold text-green-700 mb-3 flex items-center gap-2">
           📊 Status Pembagian Daging
         </h3>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-          <div className="bg-green-100 p-3 rounded">
-            <div className="text-2xl font-bold text-green-700">{sudahMenerima.length}</div>
-            <div className="text-sm text-gray-600">Sudah Menerima</div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 text-center">
+          <div className="bg-green-100 p-3 md:p-4 rounded-lg">
+            <div className="text-xl md:text-2xl font-bold text-green-700">{sudahMenerima.length}</div>
+            <div className="text-xs md:text-sm text-gray-600">Sudah Menerima</div>
           </div>
-          <div className="bg-yellow-100 p-3 rounded">
-            <div className="text-2xl font-bold text-yellow-700">{penerima.length - sudahMenerima.length}</div>
-            <div className="text-sm text-gray-600">Belum Menerima</div>
+          <div className="bg-yellow-100 p-3 md:p-4 rounded-lg">
+            <div className="text-xl md:text-2xl font-bold text-yellow-700">{penerima.length - sudahMenerima.length}</div>
+            <div className="text-xs md:text-sm text-gray-600">Belum Menerima</div>
           </div>
-          <div className="bg-blue-100 p-3 rounded">
-            <div className="text-2xl font-bold text-blue-700">{progressPercentage}%</div>
-            <div className="text-sm text-gray-600">Progress</div>
+          <div className="bg-blue-100 p-3 md:p-4 rounded-lg">
+            <div className="text-xl md:text-2xl font-bold text-blue-700">{progressPercentage}%</div>
+            <div className="text-xs md:text-sm text-gray-600">Progress</div>
+          </div>
+        </div>
+        
+        {/* Progress Bar */}
+        <div className="mt-4">
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div 
+              className="bg-green-600 h-2 rounded-full transition-all duration-300" 
+              style={{ width: `${progressPercentage}%` }}
+            ></div>
           </div>
         </div>
       </Card>
 
       {/* Filter dan Pencarian */}
-      <Card className="p-6">
+      <Card className="p-4 md:p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -98,11 +110,11 @@ const PembagianDaging = () => {
           </div>
         </div>
         
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={handleResetFilter}>
+        <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
+          <Button variant="outline" onClick={handleResetFilter} size="sm">
             🔄 Reset Filter
           </Button>
-          <span className="text-sm text-gray-600 flex items-center">
+          <span className="text-sm text-gray-600">
             {belumMenerima.length} total belum menerima
           </span>
         </div>
@@ -114,12 +126,12 @@ const PembagianDaging = () => {
         const rtTitle = rt === 'tambahan' ? 'PENERIMA TAMBAHAN' : `RT ${rt} / 10 KLAMPISAN`;
         
         return (
-          <Card key={rt} className="p-4">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-green-700">
+          <Card key={rt} className="p-3 md:p-4">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4 gap-2">
+              <h3 className="text-base md:text-lg font-semibold text-green-700">
                 {rtTitle} - BELUM MENERIMA
               </h3>
-              <span className="bg-green-600 text-white px-2 py-1 rounded text-sm">
+              <span className="bg-green-600 text-white px-2 py-1 rounded text-xs md:text-sm self-start">
                 {belumMenerimaRt.length} penerima
               </span>
             </div>
@@ -128,34 +140,34 @@ const PembagianDaging = () => {
               <Table>
                 <TableHeader>
                   <TableRow className="bg-green-600">
-                    <TableHead className="text-white">NO</TableHead>
-                    <TableHead className="text-white">NAMA PENERIMA</TableHead>
-                    <TableHead className="text-white">BLOK</TableHead>
-                    <TableHead className="text-white">AKSI</TableHead>
+                    <TableHead className="text-white text-xs md:text-sm">NO</TableHead>
+                    <TableHead className="text-white text-xs md:text-sm">NAMA PENERIMA</TableHead>
+                    <TableHead className="text-white text-xs md:text-sm">BLOK</TableHead>
+                    <TableHead className="text-white text-xs md:text-sm">AKSI</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {belumMenerimaRt.length > 0 ? (
                     belumMenerimaRt.map((penerimaItem) => (
                       <TableRow key={penerimaItem.id}>
-                        <TableCell>{penerimaItem.nomorPengambilan}</TableCell>
-                        <TableCell>{penerimaItem.nama}</TableCell>
-                        <TableCell>{penerimaItem.blok || '-'}</TableCell>
+                        <TableCell className="text-xs md:text-sm">{penerimaItem.nomorPengambilan}</TableCell>
+                        <TableCell className="text-xs md:text-sm">{penerimaItem.nama}</TableCell>
+                        <TableCell className="text-xs md:text-sm">{penerimaItem.blok || '-'}</TableCell>
                         <TableCell>
                           <Button
                             variant="default"
                             size="sm"
-                            className="bg-green-600 hover:bg-green-700"
+                            className="bg-green-600 hover:bg-green-700 text-xs"
                             onClick={() => handleSudahMenerima(penerimaItem.id)}
                           >
-                            🥩 Bagikan Daging
+                            🥩 Bagikan
                           </Button>
                         </TableCell>
                       </TableRow>
                     ))
                   ) : (
                     <TableRow>
-                      <TableCell className="text-center text-green-600" colSpan={4}>
+                      <TableCell className="text-center text-green-600 text-xs md:text-sm" colSpan={4}>
                         🎉 Semua penerima di {rt === 'tambahan' ? 'kategori ini' : 'RT ini'} sudah menerima daging!
                       </TableCell>
                     </TableRow>
@@ -168,9 +180,9 @@ const PembagianDaging = () => {
       })}
 
       {/* Tips */}
-      <Card className="p-4 bg-blue-50">
-        <p className="text-sm text-blue-700">
-          💡 Tips: Klik tombol "🥩 Bagikan Daging" setelah memberikan daging kepada penerima
+      <Card className="p-3 md:p-4 bg-blue-50">
+        <p className="text-xs md:text-sm text-blue-700">
+          💡 Tips: Klik tombol "🥩 Bagikan" setelah memberikan daging kepada penerima
         </p>
       </Card>
     </div>

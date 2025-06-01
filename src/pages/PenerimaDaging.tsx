@@ -73,9 +73,11 @@ const PenerimaDaging = () => {
   const groupedPenerima = groupByRt(filteredPenerima);
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-green-700">Daftar Penerima Daging Kurban 2025</h2>
-      <p className="text-sm text-gray-600">RT 01 & RT 02 / RW 10 Klampisan</p>
+    <div className="space-y-4 md:space-y-6">
+      <div className="space-y-1 md:space-y-2">
+        <h2 className="text-xl md:text-2xl font-bold text-green-700">Daftar Penerima Daging</h2>
+        <p className="text-sm text-gray-600">RT 01 & RT 02 / RW 10 Klampisan - Kurban 2025</p>
+      </div>
 
       <PenerimaForm
         formData={formData}
