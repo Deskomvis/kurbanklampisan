@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -102,7 +101,7 @@ const PenerimaDaging = () => {
                 <SelectValue placeholder="Semua RT" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Semua RT</SelectItem>
+                <SelectItem value="all">Semua RT</SelectItem>
                 <SelectItem value="01">RT 01</SelectItem>
                 <SelectItem value="02">RT 02</SelectItem>
               </SelectContent>
