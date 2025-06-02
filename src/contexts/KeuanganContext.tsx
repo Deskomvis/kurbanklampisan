@@ -23,6 +23,7 @@ interface KeuanganContextType {
   getTotalPemasukan: () => number;
   getTotalDanaMasjid: () => number;
   getSaldoAkhir: () => number;
+  loadTransactions: (loadedTransactions: Transaction[]) => void;
 }
 
 const KeuanganContext = createContext<KeuanganContextType | undefined>(undefined);
@@ -44,8 +45,12 @@ export const KeuanganProvider: React.FC<KeuanganProviderProps> = ({ children }) 
   const [saldoAwal, setSaldoAwalState] = useState<string>('');
   const [isSaldoAwalSet, setIsSaldoAwalSet] = useState<boolean>(false);
 
+  const generateUniqueId = () => {
+    return Date.now() + Math.floor(Math.random() * 1000);
+  };
+
   const addTransaction = (newTransaction: Omit<Transaction, 'id'>) => {
-    const id = Date.now();
+    const id = generateUniqueId();
     setTransactions(prev => [...prev, { ...newTransaction, id }]);
   };
 
@@ -57,6 +62,16 @@ export const KeuanganProvider: React.FC<KeuanganProviderProps> = ({ children }) 
 
   const deleteTransaction = (id: number) => {
     setTransactions(prev => prev.filter(t => t.id !== id));
+  };
+
+  const loadTransactions = (loadedTransactions: Transaction[]) => {
+    // Ensure all loaded transactions have unique IDs and standardized types
+    const processedTransactions = loadedTransactions.map(t => ({
+      ...t,
+      id: generateUniqueId(),
+      type: t.type === 'danaMasjid' ? 'dana-masjid' as const : t.type
+    }));
+    setTransactions(processedTransactions);
   };
 
   const setSaldoAwal = (saldo: string) => {
@@ -107,7 +122,8 @@ export const KeuanganProvider: React.FC<KeuanganProviderProps> = ({ children }) 
       getTotalPengeluaran,
       getTotalPemasukan,
       getTotalDanaMasjid,
-      getSaldoAkhir
+      getSaldoAkhir,
+      loadTransactions
     }}>
       {children}
     </KeuanganContext.Provider>

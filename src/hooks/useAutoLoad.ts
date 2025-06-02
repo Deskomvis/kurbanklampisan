@@ -10,7 +10,7 @@ export const useAutoLoad = () => {
   const [hasLoaded, setHasLoaded] = useState(false);
   const { penerima, addPenerima, deletePenerima } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing, deleteKelompokSapi, deleteKurbanKambing } = useKelompokKurban();
-  const { transactions, addTransaction, deleteTransaction, setSaldoAwal } = useKeuangan();
+  const { transactions, setSaldoAwal, loadTransactions } = useKeuangan();
   const { getBackupsList } = useBackup();
   const { toast } = useToast();
 
@@ -32,14 +32,18 @@ export const useAutoLoad = () => {
         penerima.forEach(p => deletePenerima(p.id));
         kelompokSapi.forEach(k => deleteKelompokSapi(k.id));
         kurbanKambing.forEach(k => deleteKurbanKambing(k.id));
-        transactions.forEach(t => deleteTransaction(t.id));
 
         // Load backup data
         latestBackup.data.penerima.forEach((p: any) => addPenerima(p));
         latestBackup.data.kelompokSapi.forEach((k: any) => addKelompokSapi(k));
         latestBackup.data.kurbanKambing.forEach((k: any) => addKurbanKambing(k));
-        latestBackup.data.transactions.forEach((t: any) => addTransaction(t));
-        setSaldoAwal(latestBackup.data.saldoAwal);
+        
+        // Use the new loadTransactions method instead of adding individually
+        if (latestBackup.data.transactions && latestBackup.data.transactions.length > 0) {
+          loadTransactions(latestBackup.data.transactions);
+        }
+        
+        setSaldoAwal(latestBackup.data.saldoAwal || '');
 
         toast({
           title: "Data Dimuat",

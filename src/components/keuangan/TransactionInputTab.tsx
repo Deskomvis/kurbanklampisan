@@ -7,7 +7,7 @@ interface TransactionInputTabProps {
   formData: {
     pemasukan: { tanggal: string; keterangan: string; jumlah: string };
     pengeluaran: { tanggal: string; keterangan: string; jumlah: string; buktiNota: File | null };
-    danaMasjid: { tanggal: string; keterangan: string; jumlah: string };
+    'dana-masjid': { tanggal: string; keterangan: string; jumlah: string };
   };
   updateForm: (type: 'pemasukan' | 'pengeluaran' | 'dana-masjid', field: string, value: any) => void;
   validateAndSave: (type: 'pemasukan' | 'pengeluaran' | 'dana-masjid', data: any) => void;
@@ -78,15 +78,15 @@ export const TransactionInputTab: React.FC<TransactionInputTabProps> = ({
         type="dana-masjid"
         title="Menggunakan Dana Masjid"
         icon="🏛️"
-        tanggal={formData.danaMasjid.tanggal}
+        tanggal={formData['dana-masjid'].tanggal}
         setTanggal={(value) => updateForm('dana-masjid', 'tanggal', value)}
-        keterangan={formData.danaMasjid.keterangan}
+        keterangan={formData['dana-masjid'].keterangan}
         setKeterangan={(value) => updateForm('dana-masjid', 'keterangan', value)}
-        jumlah={formData.danaMasjid.jumlah}
+        jumlah={formData['dana-masjid'].jumlah}
         setJumlah={(value) => updateForm('dana-masjid', 'jumlah', value)}
         placeholder="Keterangan menggunakan dana masjid"
-        onSave={() => validateAndSave('dana-masjid', formData.danaMasjid)}
-        onUpdate={() => handleUpdate('dana-masjid', formData.danaMasjid)}
+        onSave={() => validateAndSave('dana-masjid', formData['dana-masjid'])}
+        onUpdate={() => handleUpdate('dana-masjid', formData['dana-masjid'])}
         onCancelEdit={() => {
           setEditingId(null);
           resetForm('dana-masjid');

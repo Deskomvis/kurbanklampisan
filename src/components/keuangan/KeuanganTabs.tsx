@@ -9,7 +9,7 @@ interface KeuanganTabsProps {
   formData: {
     pemasukan: { tanggal: string; keterangan: string; jumlah: string };
     pengeluaran: { tanggal: string; keterangan: string; jumlah: string; buktiNota: File | null };
-    danaMasjid: { tanggal: string; keterangan: string; jumlah: string };
+    'dana-masjid': { tanggal: string; keterangan: string; jumlah: string };
   };
   updateForm: (type: 'pemasukan' | 'pengeluaran' | 'dana-masjid', field: string, value: any) => void;
   validateAndSave: (type: 'pemasukan' | 'pengeluaran' | 'dana-masjid', data: any) => void;

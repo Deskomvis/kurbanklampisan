@@ -7,7 +7,7 @@ export const useKeuanganHandlers = () => {
   const [formData, setFormData] = useState({
     pemasukan: { tanggal: '01/06/2025', keterangan: '', jumlah: '0' },
     pengeluaran: { tanggal: '01/06/2025', keterangan: '', jumlah: '0', buktiNota: null as File | null },
-    danaMasjid: { tanggal: '01/06/2025', keterangan: '', jumlah: '0' }
+    'dana-masjid': { tanggal: '01/06/2025', keterangan: '', jumlah: '0' }
   });
 
   const {
@@ -32,7 +32,7 @@ export const useKeuanganHandlers = () => {
     } else if (type === 'dana-masjid') {
       setFormData(prev => ({
         ...prev,
-        danaMasjid: resetState
+        'dana-masjid': resetState
       }));
     } else {
       setFormData(prev => ({
@@ -47,6 +47,7 @@ export const useKeuanganHandlers = () => {
     field: string,
     value: any
   ) => {
+    console.log('Updating form:', { type, field, value });
     setFormData(prev => ({
       ...prev,
       [type]: { ...prev[type], [field]: value }
@@ -57,6 +58,8 @@ export const useKeuanganHandlers = () => {
     type: 'pemasukan' | 'pengeluaran' | 'dana-masjid',
     data: any
   ) => {
+    console.log('Validating and saving:', { type, data });
+    
     if (!data.keterangan || data.keterangan.trim() === '') {
       alert(`Mohon masukkan keterangan untuk ${type}`);
       return;
@@ -75,18 +78,24 @@ export const useKeuanganHandlers = () => {
       buktiNota: type === 'pengeluaran' ? data.buktiNota : undefined
     };
 
+    console.log('Adding transaction:', newTransaction);
     addTransaction(newTransaction);
     resetForm(type);
     alert(`Data ${type} berhasil disimpan!`);
   };
 
   const handleEdit = (transaction: any) => {
+    console.log('Editing transaction:', transaction);
     setEditingId(transaction.id);
-    updateForm(transaction.type, 'tanggal', transaction.tanggal);
-    updateForm(transaction.type, 'keterangan', transaction.keterangan);
-    updateForm(transaction.type, 'jumlah', transaction.jumlah.toString());
     
-    if (transaction.type === 'pengeluaran' && transaction.buktiNota) {
+    // Use the transaction's actual type
+    const transactionType = transaction.type;
+    
+    updateForm(transactionType, 'tanggal', transaction.tanggal);
+    updateForm(transactionType, 'keterangan', transaction.keterangan);
+    updateForm(transactionType, 'jumlah', transaction.jumlah.toString());
+    
+    if (transactionType === 'pengeluaran' && transaction.buktiNota) {
       updateForm('pengeluaran', 'buktiNota', transaction.buktiNota);
     }
   };
@@ -96,6 +105,8 @@ export const useKeuanganHandlers = () => {
     data: any
   ) => {
     if (!editingId) return;
+
+    console.log('Updating transaction:', { editingId, type, data });
 
     if (!data.keterangan || data.keterangan.trim() === '') {
       alert(`Mohon masukkan keterangan untuk ${type}`);
