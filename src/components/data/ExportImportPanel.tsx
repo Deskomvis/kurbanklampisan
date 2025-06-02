@@ -7,6 +7,7 @@ import { Download, Upload } from 'lucide-react';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
+import { useBackup } from '@/contexts/BackupContext';
 import { exportData, downloadJSON, validateImportData, AppData } from '@/utils/dataUtils';
 import { useToast } from '@/hooks/use-toast';
 
@@ -17,6 +18,7 @@ export const ExportImportPanel: React.FC = () => {
   const { penerima, addPenerima, deletePenerima } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing, deleteKelompokSapi, deleteKurbanKambing } = useKelompokKurban();
   const { transactions, saldoAwal, isSaldoAwalSet, addTransaction, deleteTransaction, setSaldoAwal } = useKeuangan();
+  const { saveBackup } = useBackup();
 
   const handleExport = () => {
     try {
@@ -70,9 +72,13 @@ export const ExportImportPanel: React.FC = () => {
       data.transactions.forEach((t: any) => addTransaction(t));
       setSaldoAwal(data.saldoAwal);
 
+      // Auto-save imported data to Supabase
+      const timestamp = new Date().toLocaleString('id-ID');
+      await saveBackup(`Import JSON - ${timestamp}`, data);
+
       toast({
         title: "Berhasil",
-        description: "Data berhasil diimpor",
+        description: "Data berhasil diimpor dan disimpan ke server",
       });
     } catch (error) {
       toast({
@@ -113,7 +119,7 @@ export const ExportImportPanel: React.FC = () => {
         <div className="space-y-2">
           <h4 className="text-sm font-medium text-gray-700">Import Data</h4>
           <p className="text-xs text-gray-600">
-            Muat data dari file JSON (akan menimpa data saat ini)
+            Muat data dari file JSON (otomatis tersimpan ke server)
           </p>
           <input
             ref={fileInputRef}
@@ -131,6 +137,16 @@ export const ExportImportPanel: React.FC = () => {
             <Upload className="w-4 h-4 mr-2" />
             Import JSON
           </Button>
+        </div>
+      </div>
+
+      {/* Auto-save Information */}
+      <div className="mt-6 bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+        <h4 className="text-sm font-semibold text-green-700 mb-2">🔄 Auto-Save Aktif</h4>
+        <div className="space-y-1 text-xs text-green-700">
+          <p>• Semua perubahan data otomatis disimpan ke server setiap 2 detik</p>
+          <p>• Data terbaru otomatis dimuat saat aplikasi dibuka</p>
+          <p>• Import JSON akan otomatis tersimpan ke server</p>
         </div>
       </div>
     </Card>

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Save, RotateCcw, Trash2, RefreshCw, Loader2 } from 'lucide-react';
+import { Save, RotateCcw, Trash2, RefreshCw, Loader2, Clock } from 'lucide-react';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
@@ -107,6 +107,7 @@ export const BackupPanel: React.FC = () => {
   };
 
   const backups = getBackupsList();
+  const isAutoSave = (name: string) => name.includes('Auto Save') || name.includes('Import JSON');
 
   return (
     <Card className="p-4 md:p-6">
@@ -129,7 +130,7 @@ export const BackupPanel: React.FC = () => {
         </Button>
       </div>
       
-      {/* Save Backup */}
+      {/* Save Manual Backup */}
       <div className="space-y-4 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
           <div className="md:col-span-2">
@@ -137,7 +138,7 @@ export const BackupPanel: React.FC = () => {
               type="text"
               value={backupName}
               onChange={(e) => setBackupName(e.target.value)}
-              placeholder="Nama backup (contoh: Data Awal Kurban)"
+              placeholder="Nama backup manual (contoh: Data Awal Kurban)"
               className="w-full"
               disabled={isLoading}
             />
@@ -153,7 +154,7 @@ export const BackupPanel: React.FC = () => {
             ) : (
               <Save className="w-4 h-4 mr-2" />
             )}
-            Save to Server
+            Save Manual
           </Button>
         </div>
       </div>
@@ -176,6 +177,7 @@ export const BackupPanel: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="text-xs">Tipe</TableHead>
                   <TableHead className="text-xs">Nama</TableHead>
                   <TableHead className="text-xs">Tanggal</TableHead>
                   <TableHead className="text-xs">Aksi</TableHead>
@@ -184,6 +186,16 @@ export const BackupPanel: React.FC = () => {
               <TableBody>
                 {backups.map((backup) => (
                   <TableRow key={backup.id}>
+                    <TableCell className="text-xs">
+                      {isAutoSave(backup.name) ? (
+                        <span className="flex items-center gap-1 text-blue-600">
+                          <Clock className="w-3 h-3" />
+                          Auto
+                        </span>
+                      ) : (
+                        <span className="text-gray-600">Manual</span>
+                      )}
+                    </TableCell>
                     <TableCell className="text-xs font-medium">
                       {backup.name}
                     </TableCell>
@@ -231,12 +243,13 @@ export const BackupPanel: React.FC = () => {
 
       {/* Information Panel */}
       <div className="mt-6 bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
-        <h4 className="text-sm font-semibold text-green-700 mb-2">✅ Backup Tersimpan di Server</h4>
+        <h4 className="text-sm font-semibold text-green-700 mb-2">✅ Auto-Save & Load Aktif</h4>
         <div className="space-y-1 text-xs text-green-700">
-          <p>• Backup sekarang tersimpan di Supabase dan dapat diakses dari browser mana pun</p>
-          <p>• Data backup tersinkronisasi secara real-time</p>
-          <p>• Klik "Refresh" untuk memuat backup terbaru dari server</p>
-          <p>• Backup dapat dibagikan antar perangkat dengan akses yang sama</p>
+          <p>• Backup otomatis tersimpan setiap 2 detik setelah ada perubahan data</p>
+          <p>• Data terbaru otomatis dimuat saat aplikasi dibuka</p>
+          <p>• Import JSON otomatis tersimpan ke server</p>
+          <p>• Backup manual dapat dibuat kapan saja dengan nama khusus</p>
+          <p>• Klik "Load" untuk memuat backup tertentu ke semua menu</p>
         </div>
       </div>
     </Card>
