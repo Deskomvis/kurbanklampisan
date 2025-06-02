@@ -66,11 +66,19 @@ export const KeuanganProvider: React.FC<KeuanganProviderProps> = ({ children }) 
 
   const loadTransactions = (loadedTransactions: Transaction[]) => {
     // Ensure all loaded transactions have unique IDs and standardized types
-    const processedTransactions = loadedTransactions.map(t => ({
-      ...t,
-      id: generateUniqueId(),
-      type: t.type === 'danaMasjid' ? 'dana-masjid' as const : t.type
-    }));
+    const processedTransactions = loadedTransactions.map(t => {
+      // Normalize type field - handle both 'danaMasjid' and 'dana-masjid' formats
+      let normalizedType = t.type;
+      if (normalizedType === 'danaMasjid' as any) {
+        normalizedType = 'dana-masjid' as const;
+      }
+      
+      return {
+        ...t,
+        id: generateUniqueId(),
+        type: normalizedType
+      };
+    });
     setTransactions(processedTransactions);
   };
 
