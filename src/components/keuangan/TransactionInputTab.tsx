@@ -76,7 +76,7 @@ export const TransactionInputTab: React.FC<TransactionInputTabProps> = ({
 
       <TransactionForm
         type="dana-masjid"
-        title="Menggunakan Dana Masjid"
+        title="Pinjam Dana Masjid"
         icon="🏛️"
         tanggal={formData['dana-masjid'].tanggal}
         setTanggal={(value) => updateForm('dana-masjid', 'tanggal', value)}
@@ -84,7 +84,7 @@ export const TransactionInputTab: React.FC<TransactionInputTabProps> = ({
         setKeterangan={(value) => updateForm('dana-masjid', 'keterangan', value)}
         jumlah={formData['dana-masjid'].jumlah}
         setJumlah={(value) => updateForm('dana-masjid', 'jumlah', value)}
-        placeholder="Keterangan menggunakan dana masjid"
+        placeholder="Keterangan pinjam dana masjid"
         onSave={() => validateAndSave('dana-masjid', formData['dana-masjid'])}
         onUpdate={() => handleUpdate('dana-masjid', formData['dana-masjid'])}
         onCancelEdit={() => {

@@ -114,7 +114,8 @@ export const KeuanganProvider: React.FC<KeuanganProviderProps> = ({ children }) 
 
   const getSaldoAkhir = () => {
     const saldoAwalNum = parseFloat(saldoAwal) || 0;
-    return saldoAwalNum + getTotalPemasukan() - getTotalPengeluaran() - getTotalDanaMasjid();
+    // Dana masjid now adds to balance instead of subtracting
+    return saldoAwalNum + getTotalPemasukan() + getTotalDanaMasjid() - getTotalPengeluaran();
   };
 
   return (

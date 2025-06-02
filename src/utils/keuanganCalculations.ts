@@ -30,5 +30,6 @@ export const calculateSaldoAkhir = (
   totalPengeluaran: number,
   totalDanaMasjid: number
 ): number => {
-  return saldoAwal + totalPemasukan - totalPengeluaran - totalDanaMasjid;
+  // Dana masjid now adds to balance instead of subtracting
+  return saldoAwal + totalPemasukan + totalDanaMasjid - totalPengeluaran;
 };
