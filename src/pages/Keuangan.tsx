@@ -4,60 +4,132 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SaldoAwalForm } from '@/components/keuangan/SaldoAwalForm';
 import { TransactionForm } from '@/components/keuangan/TransactionForm';
 import { TransactionSummary } from '@/components/keuangan/TransactionSummary';
-import { Transaction } from '@/components/keuangan/types';
-import { useKeuanganState } from '@/hooks/useKeuanganState';
-import { useKeuanganHandlers } from '@/hooks/useKeuanganHandlers';
-import { calculateTotals, calculateSaldoAkhir, formatRupiah } from '@/utils/keuanganCalculations';
+import { useKeuangan } from '@/contexts/KeuanganContext';
+import { formatRupiah } from '@/utils/keuanganCalculations';
 
 const Keuangan = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
-
-  const {
-    pemasukan,
-    pengeluaran,
-    danaMasjid,
-    saldoAwal,
-    isSaldoAwalSet,
-    setPemasukan,
-    setPengeluaran,
-    setDanaMasjid,
-    setSaldoAwal,
-    setIsSaldoAwalSet,
-    resetForm,
-    updateForm
-  } = useKeuanganState();
-
-  const {
-    validateAndSave,
-    handleEdit,
-    handleUpdate,
-    handleDelete,
-    handleSetSaldoAwal,
-    handleEditSaldoAwal
-  } = useKeuanganHandlers({
-    transactions,
-    setTransactions,
-    setEditingId,
-    resetForm,
-    updateForm,
-    setIsSaldoAwalSet
+  const [formData, setFormData] = useState({
+    pemasukan: { tanggal: '01/06/2025', keterangan: '', jumlah: '0' },
+    pengeluaran: { tanggal: '01/06/2025', keterangan: '', jumlah: '0', buktiNota: null as File | null },
+    danaMasjid: { tanggal: '01/06/2025', keterangan: '', jumlah: '0' }
   });
 
-  const { totalPemasukan, totalPengeluaran, totalDanaMasjid } = calculateTotals(transactions);
-  const saldoAkhirValue = calculateSaldoAkhir(saldoAwal.jumlah, totalPemasukan, totalPengeluaran, totalDanaMasjid);
+  const {
+    transactions,
+    saldoAwal,
+    isSaldoAwalSet,
+    addTransaction,
+    updateTransaction,
+    deleteTransaction,
+    setSaldoAwal,
+    getTotalPengeluaran,
+    getTotalPemasukan,
+    getTotalDanaMasjid,
+    getSaldoAkhir
+  } = useKeuangan();
+
+  const resetForm = (type: 'pemasukan' | 'pengeluaran' | 'dana-masjid') => {
+    const resetState = {
+      tanggal: '01/06/2025',
+      keterangan: '',
+      jumlah: '0'
+    };
+
+    setFormData(prev => ({
+      ...prev,
+      [type]: type === 'pengeluaran' 
+        ? { ...resetState, buktiNota: null }
+        : resetState
+    }));
+  };
+
+  const updateForm = (
+    type: 'pemasukan' | 'pengeluaran' | 'dana-masjid',
+    field: string,
+    value: any
+  ) => {
+    setFormData(prev => ({
+      ...prev,
+      [type]: { ...prev[type], [field]: value }
+    }));
+  };
+
+  const validateAndSave = (
+    type: 'pemasukan' | 'pengeluaran' | 'dana-masjid',
+    data: any
+  ) => {
+    if (!data.keterangan || data.jumlah === '0') {
+      alert(`Mohon lengkapi semua field ${type}`);
+      return;
+    }
+
+    const newTransaction = {
+      tanggal: data.tanggal,
+      keterangan: data.keterangan,
+      jumlah: parseFloat(data.jumlah),
+      type: type,
+      buktiNota: type === 'pengeluaran' ? data.buktiNota : undefined
+    };
+
+    addTransaction(newTransaction);
+    resetForm(type);
+  };
+
+  const handleEdit = (transaction: any) => {
+    setEditingId(transaction.id);
+    updateForm(transaction.type, 'tanggal', transaction.tanggal);
+    updateForm(transaction.type, 'keterangan', transaction.keterangan);
+    updateForm(transaction.type, 'jumlah', transaction.jumlah.toString());
+    
+    if (transaction.type === 'pengeluaran' && transaction.buktiNota) {
+      updateForm('pengeluaran', 'buktiNota', transaction.buktiNota);
+    }
+  };
+
+  const handleUpdate = (
+    type: 'pemasukan' | 'pengeluaran' | 'dana-masjid',
+    data: any
+  ) => {
+    if (!editingId) return;
+
+    const updatedTransaction = {
+      tanggal: data.tanggal,
+      keterangan: data.keterangan,
+      jumlah: parseFloat(data.jumlah),
+      type: type,
+      buktiNota: type === 'pengeluaran' ? data.buktiNota : undefined
+    };
+
+    updateTransaction(editingId, updatedTransaction);
+    setEditingId(null);
+    resetForm(type);
+  };
+
+  const handleSetSaldoAwal = (saldo: string, keterangan: string) => {
+    if (!keterangan || saldo === '0') {
+      alert('Mohon lengkapi saldo awal dan keterangan');
+      return;
+    }
+    setSaldoAwal(saldo);
+  };
+
+  const handleEditSaldoAwal = () => {
+    // Reset saldo awal untuk di-edit ulang
+    setSaldoAwal('');
+  };
 
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-green-700">Manajemen Keuangan</h2>
       
       <SaldoAwalForm
-        saldoAwal={saldoAwal.jumlah}
-        setSaldoAwal={(value) => setSaldoAwal(prev => ({ ...prev, jumlah: value }))}
-        keteranganSaldoAwal={saldoAwal.keterangan}
-        setKeteranganSaldoAwal={(value) => setSaldoAwal(prev => ({ ...prev, keterangan: value }))}
+        saldoAwal={saldoAwal}
+        setSaldoAwal={(value) => setSaldoAwal(value)}
+        keteranganSaldoAwal=""
+        setKeteranganSaldoAwal={() => {}}
         isSaldoAwalSet={isSaldoAwalSet}
-        onSetSaldoAwal={() => handleSetSaldoAwal(saldoAwal)}
+        onSetSaldoAwal={() => handleSetSaldoAwal(saldoAwal, "Saldo Awal")}
         onEditSaldoAwal={handleEditSaldoAwal}
         formatRupiah={formatRupiah}
       />
@@ -74,15 +146,15 @@ const Keuangan = () => {
               type="pemasukan"
               title="Pemasukan"
               icon="💰"
-              tanggal={pemasukan.tanggal}
+              tanggal={formData.pemasukan.tanggal}
               setTanggal={(value) => updateForm('pemasukan', 'tanggal', value)}
-              keterangan={pemasukan.keterangan}
+              keterangan={formData.pemasukan.keterangan}
               setKeterangan={(value) => updateForm('pemasukan', 'keterangan', value)}
-              jumlah={pemasukan.jumlah}
+              jumlah={formData.pemasukan.jumlah}
               setJumlah={(value) => updateForm('pemasukan', 'jumlah', value)}
               placeholder="Sumber pemasukan"
-              onSave={() => validateAndSave('pemasukan', pemasukan)}
-              onUpdate={() => handleUpdate('pemasukan', editingId, pemasukan)}
+              onSave={() => validateAndSave('pemasukan', formData.pemasukan)}
+              onUpdate={() => handleUpdate('pemasukan', formData.pemasukan)}
               onCancelEdit={() => {
                 setEditingId(null);
                 resetForm('pemasukan');
@@ -95,22 +167,22 @@ const Keuangan = () => {
               type="pengeluaran"
               title="Pengeluaran"
               icon="💸"
-              tanggal={pengeluaran.tanggal}
+              tanggal={formData.pengeluaran.tanggal}
               setTanggal={(value) => updateForm('pengeluaran', 'tanggal', value)}
-              keterangan={pengeluaran.keterangan}
+              keterangan={formData.pengeluaran.keterangan}
               setKeterangan={(value) => updateForm('pengeluaran', 'keterangan', value)}
-              jumlah={pengeluaran.jumlah}
+              jumlah={formData.pengeluaran.jumlah}
               setJumlah={(value) => updateForm('pengeluaran', 'jumlah', value)}
               placeholder="Keperluan pengeluaran"
-              onSave={() => validateAndSave('pengeluaran', pengeluaran)}
-              onUpdate={() => handleUpdate('pengeluaran', editingId, pengeluaran)}
+              onSave={() => validateAndSave('pengeluaran', formData.pengeluaran)}
+              onUpdate={() => handleUpdate('pengeluaran', formData.pengeluaran)}
               onCancelEdit={() => {
                 setEditingId(null);
                 resetForm('pengeluaran');
               }}
               editingId={editingId}
               transactions={transactions}
-              buktiNota={pengeluaran.buktiNota}
+              buktiNota={formData.pengeluaran.buktiNota}
               setBuktiNota={(value) => updateForm('pengeluaran', 'buktiNota', value)}
             />
 
@@ -118,15 +190,15 @@ const Keuangan = () => {
               type="dana-masjid"
               title="Menggunakan Dana Masjid"
               icon="🏛️"
-              tanggal={danaMasjid.tanggal}
+              tanggal={formData.danaMasjid.tanggal}
               setTanggal={(value) => updateForm('dana-masjid', 'tanggal', value)}
-              keterangan={danaMasjid.keterangan}
+              keterangan={formData.danaMasjid.keterangan}
               setKeterangan={(value) => updateForm('dana-masjid', 'keterangan', value)}
-              jumlah={danaMasjid.jumlah}
+              jumlah={formData.danaMasjid.jumlah}
               setJumlah={(value) => updateForm('dana-masjid', 'jumlah', value)}
               placeholder="Keterangan menggunakan dana masjid"
-              onSave={() => validateAndSave('dana-masjid', danaMasjid)}
-              onUpdate={() => handleUpdate('dana-masjid', editingId, danaMasjid)}
+              onSave={() => validateAndSave('dana-masjid', formData.danaMasjid)}
+              onUpdate={() => handleUpdate('dana-masjid', formData.danaMasjid)}
               onCancelEdit={() => {
                 setEditingId(null);
                 resetForm('dana-masjid');
@@ -141,14 +213,14 @@ const Keuangan = () => {
           <TransactionSummary
             transactions={transactions}
             onEdit={handleEdit}
-            onDelete={handleDelete}
+            onDelete={deleteTransaction}
             formatRupiah={formatRupiah}
-            saldoAwal={saldoAwal.jumlah}
+            saldoAwal={saldoAwal}
             isSaldoAwalSet={isSaldoAwalSet}
-            totalPemasukan={totalPemasukan}
-            totalPengeluaran={totalPengeluaran}
-            totalDanaMasjid={totalDanaMasjid}
-            saldoAkhir={saldoAkhirValue}
+            totalPemasukan={getTotalPemasukan()}
+            totalPengeluaran={getTotalPengeluaran()}
+            totalDanaMasjid={getTotalDanaMasjid()}
+            saldoAkhir={getSaldoAkhir()}
           />
         </TabsContent>
       </Tabs>

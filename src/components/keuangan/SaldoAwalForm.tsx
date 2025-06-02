@@ -19,8 +19,6 @@ interface SaldoAwalFormProps {
 export const SaldoAwalForm: React.FC<SaldoAwalFormProps> = ({
   saldoAwal,
   setSaldoAwal,
-  keteranganSaldoAwal,
-  setKeteranganSaldoAwal,
   isSaldoAwalSet,
   onSetSaldoAwal,
   onEditSaldoAwal,
@@ -32,7 +30,7 @@ export const SaldoAwalForm: React.FC<SaldoAwalFormProps> = ({
         <h3 className="text-lg font-semibold text-blue-700 mb-4">
           💰 Set Saldo Awal
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               SALDO AWAL (RP):
@@ -41,18 +39,6 @@ export const SaldoAwalForm: React.FC<SaldoAwalFormProps> = ({
               type="number"
               value={saldoAwal}
               onChange={(e) => setSaldoAwal(e.target.value)}
-              className="w-full"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              KETERANGAN:
-            </label>
-            <Input
-              type="text"
-              value={keteranganSaldoAwal}
-              onChange={(e) => setKeteranganSaldoAwal(e.target.value)}
-              placeholder="Keterangan saldo awal"
               className="w-full"
             />
           </div>
@@ -77,7 +63,7 @@ export const SaldoAwalForm: React.FC<SaldoAwalFormProps> = ({
             💰 Saldo Awal
           </h3>
           <div className="text-sm text-blue-700">
-            <strong>Saldo Awal:</strong> {formatRupiah(parseFloat(saldoAwal))} - {keteranganSaldoAwal}
+            <strong>Saldo Awal:</strong> {formatRupiah(parseFloat(saldoAwal) || 0)}
           </div>
         </div>
         <Button 
