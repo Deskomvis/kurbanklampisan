@@ -47,8 +47,20 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
 
   const handleViewReceipt = (transaction: Transaction) => {
     if (transaction.buktiNota) {
+      // Create a URL for the file and open it
       const url = URL.createObjectURL(transaction.buktiNota);
-      window.open(url, '_blank');
+      const newWindow = window.open();
+      if (newWindow) {
+        newWindow.document.write(`
+          <html>
+            <head><title>Bukti Nota - ${transaction.keterangan}</title></head>
+            <body style="margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; background:#f0f0f0;">
+              <img src="${url}" style="max-width:100%; max-height:100%; object-fit:contain;" alt="Bukti Nota" />
+            </body>
+          </html>
+        `);
+        newWindow.document.close();
+      }
     }
   };
 
@@ -63,19 +75,34 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
   };
 
   const handleSaveEdit = () => {
-    if (editingId) {
-      const updatedTransaction: Transaction = {
-        id: editingId,
-        tanggal: editFormData.tanggal,
-        keterangan: editFormData.keterangan,
-        jumlah: parseFloat(editFormData.jumlah),
-        type: transactions.find(t => t.id === editingId)?.type || 'pemasukan',
-        buktiNota: editFormData.buktiNota
-      };
-      onEdit(updatedTransaction);
-      setEditingId(null);
-      setEditFormData({ tanggal: '', keterangan: '', jumlah: '', buktiNota: null });
+    if (!editingId) return;
+    
+    const originalTransaction = transactions.find(t => t.id === editingId);
+    if (!originalTransaction) return;
+
+    // Validate form data
+    if (!editFormData.keterangan.trim()) {
+      alert('Keterangan tidak boleh kosong');
+      return;
     }
+
+    if (!editFormData.jumlah || parseFloat(editFormData.jumlah) <= 0) {
+      alert('Jumlah harus lebih besar dari 0');
+      return;
+    }
+
+    const updatedTransaction: Transaction = {
+      id: editingId,
+      tanggal: editFormData.tanggal,
+      keterangan: editFormData.keterangan.trim(),
+      jumlah: parseFloat(editFormData.jumlah),
+      type: originalTransaction.type,
+      buktiNota: editFormData.buktiNota
+    };
+
+    onEdit(updatedTransaction);
+    setEditingId(null);
+    setEditFormData({ tanggal: '', keterangan: '', jumlah: '', buktiNota: null });
   };
 
   const handleCancelEdit = () => {
@@ -86,6 +113,12 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     setEditFormData(prev => ({ ...prev, buktiNota: file }));
+  };
+
+  const handleDeleteClick = (id: number) => {
+    if (window.confirm('Apakah Anda yakin ingin menghapus transaksi ini?')) {
+      onDelete(id);
+    }
   };
 
   return (
@@ -199,6 +232,7 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
                         size="sm"
                         variant="outline"
                         onClick={() => handleViewReceipt(transaction)}
+                        title="Lihat bukti nota"
                       >
                         <Eye className="h-4 w-4" />
                       </Button>
@@ -211,6 +245,7 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
                           size="sm"
                           onClick={handleSaveEdit}
                           className="bg-green-600 hover:bg-green-700"
+                          title="Simpan perubahan"
                         >
                           💾
                         </Button>
@@ -218,6 +253,7 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
                           size="sm"
                           variant="outline"
                           onClick={handleCancelEdit}
+                          title="Batal edit"
                         >
                           ❌
                         </Button>
@@ -228,13 +264,15 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
                           size="sm"
                           variant="outline"
                           onClick={() => handleEditClick(transaction)}
+                          title="Edit transaksi"
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
                         <Button
                           size="sm"
                           variant="destructive"
-                          onClick={() => onDelete(transaction.id)}
+                          onClick={() => handleDeleteClick(transaction.id)}
+                          title="Hapus transaksi"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
