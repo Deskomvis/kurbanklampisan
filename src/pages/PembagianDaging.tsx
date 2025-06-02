@@ -1,13 +1,13 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { filterPenerima, groupByRt } from '@/utils/filterUtils';
 import { useToast } from '@/hooks/use-toast';
+import { StatusPembagian } from '@/components/pembagian/StatusPembagian';
+import { PembagianFilters } from '@/components/pembagian/PembagianFilters';
 
 const PembagianDaging = () => {
   const { penerima, toggleSudahMenerima } = usePenerima();
@@ -44,81 +44,18 @@ const PembagianDaging = () => {
         <p className="text-sm text-gray-600">Sistem Pembagian dan Tracking Penerimaan Daging - 2025</p>
       </div>
       
-      {/* Status Pembagian */}
-      <Card className="p-4 md:p-6 bg-green-50 border-l-4 border-green-500">
-        <h3 className="text-base md:text-lg font-semibold text-green-700 mb-3 flex items-center gap-2">
-          📊 Status Pembagian Daging
-        </h3>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 text-center">
-          <div className="bg-green-100 p-3 md:p-4 rounded-lg">
-            <div className="text-xl md:text-2xl font-bold text-green-700">{sudahMenerima.length}</div>
-            <div className="text-xs md:text-sm text-gray-600">Sudah Menerima</div>
-          </div>
-          <div className="bg-yellow-100 p-3 md:p-4 rounded-lg">
-            <div className="text-xl md:text-2xl font-bold text-yellow-700">{penerima.length - sudahMenerima.length}</div>
-            <div className="text-xs md:text-sm text-gray-600">Belum Menerima</div>
-          </div>
-          <div className="bg-blue-100 p-3 md:p-4 rounded-lg">
-            <div className="text-xl md:text-2xl font-bold text-blue-700">{progressPercentage}%</div>
-            <div className="text-xs md:text-sm text-gray-600">Progress</div>
-          </div>
-        </div>
-        
-        {/* Progress Bar */}
-        <div className="mt-4">
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
-              className="bg-green-600 h-2 rounded-full transition-all duration-300" 
-              style={{ width: `${progressPercentage}%` }}
-            ></div>
-          </div>
-        </div>
-      </Card>
+      <StatusPembagian
+        sudahMenerima={sudahMenerima.length}
+        totalPenerima={penerima.length}
+        progressPercentage={progressPercentage}
+      />
 
-      {/* Filter dan Pencarian */}
-      <Card className="p-4 md:p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Filter berdasarkan RT:
-            </label>
-            <Select value={filters.rt} onValueChange={(value) => setFilters({ ...filters, rt: value })}>
-              <SelectTrigger>
-                <SelectValue placeholder="Semua RT" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Semua RT</SelectItem>
-                <SelectItem value="01">RT 01</SelectItem>
-                <SelectItem value="02">RT 02</SelectItem>
-                <SelectItem value="tambahan">Penerima Tambahan</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Cari (Nomor/Nama/Blok):
-            </label>
-            <Input
-              type="text"
-              value={filters.search}
-              onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-              placeholder="Ketik nomor, nama, atau blok..."
-              className="w-full"
-            />
-          </div>
-        </div>
-        
-        <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
-          <Button variant="outline" onClick={handleResetFilter} size="sm">
-            🔄 Reset Filter
-          </Button>
-          <span className="text-sm text-gray-600">
-            {belumMenerima.length} total belum menerima
-          </span>
-        </div>
-      </Card>
+      <PembagianFilters
+        filters={filters}
+        setFilters={setFilters}
+        onResetFilter={handleResetFilter}
+        belumMenerimaCount={belumMenerima.length}
+      />
 
       {/* Daftar Pembagian per RT */}
       {['01', '02', 'tambahan'].map(rt => {

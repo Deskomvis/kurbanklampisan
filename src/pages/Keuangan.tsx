@@ -1,239 +1,63 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { toast } from '@/components/ui/use-toast';
 import { SaldoAwalForm } from '@/components/keuangan/SaldoAwalForm';
 import { TransactionForm } from '@/components/keuangan/TransactionForm';
 import { TransactionSummary } from '@/components/keuangan/TransactionSummary';
 import { Transaction } from '@/components/keuangan/types';
+import { useKeuanganState } from '@/hooks/useKeuanganState';
+import { useKeuanganHandlers } from '@/hooks/useKeuanganHandlers';
+import { calculateTotals, calculateSaldoAkhir, formatRupiah } from '@/utils/keuanganCalculations';
 
 const Keuangan = () => {
-  const [tanggalPemasukan, setTanggalPemasukan] = useState('01/06/2025');
-  const [keteranganPemasukan, setKeteranganPemasukan] = useState('');
-  const [jumlahPemasukan, setJumlahPemasukan] = useState('0');
-  
-  const [tanggalPengeluaran, setTanggalPengeluaran] = useState('01/06/2025');
-  const [keteranganPengeluaran, setKeteranganPengeluaran] = useState('');
-  const [jumlahPengeluaran, setJumlahPengeluaran] = useState('0');
-  const [buktiNota, setBuktiNota] = useState<File | null>(null);
-
-  const [tanggalDanaMasjid, setTanggalDanaMasjid] = useState('01/06/2025');
-  const [keteranganDanaMasjid, setKeteranganDanaMasjid] = useState('');
-  const [jumlahDanaMasjid, setJumlahDanaMasjid] = useState('0');
-
-  const [saldoAwal, setSaldoAwal] = useState('0');
-  const [keteranganSaldoAwal, setKeteranganSaldoAwal] = useState('');
-  const [isSaldoAwalSet, setIsSaldoAwalSet] = useState(false);
-
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
 
-  const handleSimpanPemasukan = () => {
-    if (!keteranganPemasukan || jumlahPemasukan === '0') {
-      toast({
-        title: "Error",
-        description: "Mohon lengkapi semua field pemasukan",
-        variant: "destructive",
-      });
-      return;
-    }
+  const {
+    pemasukan,
+    pengeluaran,
+    danaMasjid,
+    saldoAwal,
+    isSaldoAwalSet,
+    setPemasukan,
+    setPengeluaran,
+    setDanaMasjid,
+    setSaldoAwal,
+    setIsSaldoAwalSet,
+    resetForm,
+    updateForm
+  } = useKeuanganState();
 
-    const newTransaction: Transaction = {
-      id: Date.now(),
-      tanggal: tanggalPemasukan,
-      keterangan: keteranganPemasukan,
-      jumlah: parseFloat(jumlahPemasukan),
-      type: 'pemasukan'
-    };
+  const {
+    validateAndSave,
+    handleEdit,
+    handleUpdate,
+    handleDelete,
+    handleSetSaldoAwal,
+    handleEditSaldoAwal
+  } = useKeuanganHandlers({
+    transactions,
+    setTransactions,
+    setEditingId,
+    resetForm,
+    updateForm,
+    setIsSaldoAwalSet
+  });
 
-    setTransactions([...transactions, newTransaction]);
-    setKeteranganPemasukan('');
-    setJumlahPemasukan('0');
-    
-    toast({
-      title: "Berhasil",
-      description: "Pemasukan berhasil disimpan",
-    });
-  };
-
-  const handleSimpanPengeluaran = () => {
-    if (!keteranganPengeluaran || jumlahPengeluaran === '0') {
-      toast({
-        title: "Error",
-        description: "Mohon lengkapi semua field pengeluaran",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const newTransaction: Transaction = {
-      id: Date.now(),
-      tanggal: tanggalPengeluaran,
-      keterangan: keteranganPengeluaran,
-      jumlah: parseFloat(jumlahPengeluaran),
-      type: 'pengeluaran',
-      buktiNota: buktiNota
-    };
-
-    setTransactions([...transactions, newTransaction]);
-    setKeteranganPengeluaran('');
-    setJumlahPengeluaran('0');
-    setBuktiNota(null);
-    
-    toast({
-      title: "Berhasil",
-      description: "Pengeluaran berhasil disimpan",
-    });
-  };
-
-  const handleSimpanDanaMasjid = () => {
-    if (!keteranganDanaMasjid || jumlahDanaMasjid === '0') {
-      toast({
-        title: "Error",
-        description: "Mohon lengkapi semua field dana masjid",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const newTransaction: Transaction = {
-      id: Date.now(),
-      tanggal: tanggalDanaMasjid,
-      keterangan: keteranganDanaMasjid,
-      jumlah: parseFloat(jumlahDanaMasjid),
-      type: 'dana-masjid'
-    };
-
-    setTransactions([...transactions, newTransaction]);
-    setKeteranganDanaMasjid('');
-    setJumlahDanaMasjid('0');
-    
-    toast({
-      title: "Berhasil",
-      description: "Menggunakan Dana Masjid berhasil disimpan",
-    });
-  };
-
-  const handleSetSaldoAwal = () => {
-    if (!keteranganSaldoAwal || saldoAwal === '0') {
-      toast({
-        title: "Error",
-        description: "Mohon lengkapi saldo awal dan keterangan",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSaldoAwalSet(true);
-    toast({
-      title: "Berhasil",
-      description: "Saldo awal berhasil ditetapkan",
-    });
-  };
-
-  const handleEditSaldoAwal = () => {
-    setIsSaldoAwalSet(false);
-    toast({
-      title: "Info",
-      description: "Saldo awal dapat diedit kembali",
-    });
-  };
-
-  const handleDelete = (id: number) => {
-    setTransactions(transactions.filter(t => t.id !== id));
-    toast({
-      title: "Berhasil",
-      description: "Transaksi berhasil dihapus",
-    });
-  };
-
-  const handleEdit = (transaction: Transaction) => {
-    setEditingId(transaction.id);
-    if (transaction.type === 'pemasukan') {
-      setTanggalPemasukan(transaction.tanggal);
-      setKeteranganPemasukan(transaction.keterangan);
-      setJumlahPemasukan(transaction.jumlah.toString());
-    } else if (transaction.type === 'pengeluaran') {
-      setTanggalPengeluaran(transaction.tanggal);
-      setKeteranganPengeluaran(transaction.keterangan);
-      setJumlahPengeluaran(transaction.jumlah.toString());
-      setBuktiNota(transaction.buktiNota || null);
-    } else if (transaction.type === 'dana-masjid') {
-      setTanggalDanaMasjid(transaction.tanggal);
-      setKeteranganDanaMasjid(transaction.keterangan);
-      setJumlahDanaMasjid(transaction.jumlah.toString());
-    }
-  };
-
-  const handleUpdate = (type: 'pemasukan' | 'pengeluaran' | 'dana-masjid') => {
-    if (!editingId) return;
-
-    const updatedTransaction: Transaction = {
-      id: editingId,
-      tanggal: type === 'pemasukan' ? tanggalPemasukan : type === 'pengeluaran' ? tanggalPengeluaran : tanggalDanaMasjid,
-      keterangan: type === 'pemasukan' ? keteranganPemasukan : type === 'pengeluaran' ? keteranganPengeluaran : keteranganDanaMasjid,
-      jumlah: parseFloat(type === 'pemasukan' ? jumlahPemasukan : type === 'pengeluaran' ? jumlahPengeluaran : jumlahDanaMasjid),
-      type: type,
-      buktiNota: type === 'pengeluaran' ? buktiNota : undefined
-    };
-
-    setTransactions(transactions.map(t => t.id === editingId ? updatedTransaction : t));
-    setEditingId(null);
-    
-    // Reset forms
-    if (type === 'pemasukan') {
-      setKeteranganPemasukan('');
-      setJumlahPemasukan('0');
-    } else if (type === 'pengeluaran') {
-      setKeteranganPengeluaran('');
-      setJumlahPengeluaran('0');
-      setBuktiNota(null);
-    } else if (type === 'dana-masjid') {
-      setKeteranganDanaMasjid('');
-      setJumlahDanaMasjid('0');
-    }
-
-    toast({
-      title: "Berhasil",
-      description: "Transaksi berhasil diupdate",
-    });
-  };
-
-  // Calculate totals
-  const totalPemasukan = transactions
-    .filter(t => t.type === 'pemasukan')
-    .reduce((sum, t) => sum + t.jumlah, 0);
-  
-  const totalPengeluaran = transactions
-    .filter(t => t.type === 'pengeluaran')
-    .reduce((sum, t) => sum + t.jumlah, 0);
-
-  const totalDanaMasjid = transactions
-    .filter(t => t.type === 'dana-masjid')
-    .reduce((sum, t) => sum + t.jumlah, 0);
-
-  const saldoAkhir = parseFloat(saldoAwal) + totalPemasukan + totalDanaMasjid - totalPengeluaran;
-
-  const formatRupiah = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
+  const { totalPemasukan, totalPengeluaran, totalDanaMasjid } = calculateTotals(transactions);
+  const saldoAkhirValue = calculateSaldoAkhir(saldoAwal.jumlah, totalPemasukan, totalPengeluaran, totalDanaMasjid);
 
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-green-700">Manajemen Keuangan</h2>
       
       <SaldoAwalForm
-        saldoAwal={saldoAwal}
-        setSaldoAwal={setSaldoAwal}
-        keteranganSaldoAwal={keteranganSaldoAwal}
-        setKeteranganSaldoAwal={setKeteranganSaldoAwal}
+        saldoAwal={saldoAwal.jumlah}
+        setSaldoAwal={(value) => setSaldoAwal(prev => ({ ...prev, jumlah: value }))}
+        keteranganSaldoAwal={saldoAwal.keterangan}
+        setKeteranganSaldoAwal={(value) => setSaldoAwal(prev => ({ ...prev, keterangan: value }))}
         isSaldoAwalSet={isSaldoAwalSet}
-        onSetSaldoAwal={handleSetSaldoAwal}
+        onSetSaldoAwal={() => handleSetSaldoAwal(saldoAwal)}
         onEditSaldoAwal={handleEditSaldoAwal}
         formatRupiah={formatRupiah}
       />
@@ -250,19 +74,18 @@ const Keuangan = () => {
               type="pemasukan"
               title="Pemasukan"
               icon="💰"
-              tanggal={tanggalPemasukan}
-              setTanggal={setTanggalPemasukan}
-              keterangan={keteranganPemasukan}
-              setKeterangan={setKeteranganPemasukan}
-              jumlah={jumlahPemasukan}
-              setJumlah={setJumlahPemasukan}
+              tanggal={pemasukan.tanggal}
+              setTanggal={(value) => updateForm('pemasukan', 'tanggal', value)}
+              keterangan={pemasukan.keterangan}
+              setKeterangan={(value) => updateForm('pemasukan', 'keterangan', value)}
+              jumlah={pemasukan.jumlah}
+              setJumlah={(value) => updateForm('pemasukan', 'jumlah', value)}
               placeholder="Sumber pemasukan"
-              onSave={handleSimpanPemasukan}
-              onUpdate={() => handleUpdate('pemasukan')}
+              onSave={() => validateAndSave('pemasukan', pemasukan)}
+              onUpdate={() => handleUpdate('pemasukan', editingId, pemasukan)}
               onCancelEdit={() => {
                 setEditingId(null);
-                setKeteranganPemasukan('');
-                setJumlahPemasukan('0');
+                resetForm('pemasukan');
               }}
               editingId={editingId}
               transactions={transactions}
@@ -272,44 +95,41 @@ const Keuangan = () => {
               type="pengeluaran"
               title="Pengeluaran"
               icon="💸"
-              tanggal={tanggalPengeluaran}
-              setTanggal={setTanggalPengeluaran}
-              keterangan={keteranganPengeluaran}
-              setKeterangan={setKeteranganPengeluaran}
-              jumlah={jumlahPengeluaran}
-              setJumlah={setJumlahPengeluaran}
+              tanggal={pengeluaran.tanggal}
+              setTanggal={(value) => updateForm('pengeluaran', 'tanggal', value)}
+              keterangan={pengeluaran.keterangan}
+              setKeterangan={(value) => updateForm('pengeluaran', 'keterangan', value)}
+              jumlah={pengeluaran.jumlah}
+              setJumlah={(value) => updateForm('pengeluaran', 'jumlah', value)}
               placeholder="Keperluan pengeluaran"
-              onSave={handleSimpanPengeluaran}
-              onUpdate={() => handleUpdate('pengeluaran')}
+              onSave={() => validateAndSave('pengeluaran', pengeluaran)}
+              onUpdate={() => handleUpdate('pengeluaran', editingId, pengeluaran)}
               onCancelEdit={() => {
                 setEditingId(null);
-                setKeteranganPengeluaran('');
-                setJumlahPengeluaran('0');
-                setBuktiNota(null);
+                resetForm('pengeluaran');
               }}
               editingId={editingId}
               transactions={transactions}
-              buktiNota={buktiNota}
-              setBuktiNota={setBuktiNota}
+              buktiNota={pengeluaran.buktiNota}
+              setBuktiNota={(value) => updateForm('pengeluaran', 'buktiNota', value)}
             />
 
             <TransactionForm
               type="dana-masjid"
               title="Menggunakan Dana Masjid"
               icon="🏛️"
-              tanggal={tanggalDanaMasjid}
-              setTanggal={setTanggalDanaMasjid}
-              keterangan={keteranganDanaMasjid}
-              setKeterangan={setKeteranganDanaMasjid}
-              jumlah={jumlahDanaMasjid}
-              setJumlah={setJumlahDanaMasjid}
+              tanggal={danaMasjid.tanggal}
+              setTanggal={(value) => updateForm('dana-masjid', 'tanggal', value)}
+              keterangan={danaMasjid.keterangan}
+              setKeterangan={(value) => updateForm('dana-masjid', 'keterangan', value)}
+              jumlah={danaMasjid.jumlah}
+              setJumlah={(value) => updateForm('dana-masjid', 'jumlah', value)}
               placeholder="Keterangan menggunakan dana masjid"
-              onSave={handleSimpanDanaMasjid}
-              onUpdate={() => handleUpdate('dana-masjid')}
+              onSave={() => validateAndSave('dana-masjid', danaMasjid)}
+              onUpdate={() => handleUpdate('dana-masjid', editingId, danaMasjid)}
               onCancelEdit={() => {
                 setEditingId(null);
-                setKeteranganDanaMasjid('');
-                setJumlahDanaMasjid('0');
+                resetForm('dana-masjid');
               }}
               editingId={editingId}
               transactions={transactions}
@@ -323,12 +143,12 @@ const Keuangan = () => {
             onEdit={handleEdit}
             onDelete={handleDelete}
             formatRupiah={formatRupiah}
-            saldoAwal={saldoAwal}
+            saldoAwal={saldoAwal.jumlah}
             isSaldoAwalSet={isSaldoAwalSet}
             totalPemasukan={totalPemasukan}
             totalPengeluaran={totalPengeluaran}
             totalDanaMasjid={totalDanaMasjid}
-            saldoAkhir={saldoAkhir}
+            saldoAkhir={saldoAkhirValue}
           />
         </TabsContent>
       </Tabs>
