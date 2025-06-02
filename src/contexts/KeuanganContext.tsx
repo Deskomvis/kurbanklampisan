@@ -18,6 +18,7 @@ interface KeuanganContextType {
   updateTransaction: (id: number, transaction: Omit<Transaction, 'id'>) => void;
   deleteTransaction: (id: number) => void;
   setSaldoAwal: (saldo: string) => void;
+  resetSaldoAwal: () => void;
   getTotalPengeluaran: () => number;
   getTotalPemasukan: () => number;
   getTotalDanaMasjid: () => number;
@@ -60,7 +61,14 @@ export const KeuanganProvider: React.FC<KeuanganProviderProps> = ({ children }) 
 
   const setSaldoAwal = (saldo: string) => {
     setSaldoAwalState(saldo);
-    setIsSaldoAwalSet(true);
+    if (saldo && saldo !== '0') {
+      setIsSaldoAwalSet(true);
+    }
+  };
+
+  const resetSaldoAwal = () => {
+    setSaldoAwalState('');
+    setIsSaldoAwalSet(false);
   };
 
   const getTotalPengeluaran = () => {
@@ -95,6 +103,7 @@ export const KeuanganProvider: React.FC<KeuanganProviderProps> = ({ children }) 
       updateTransaction,
       deleteTransaction,
       setSaldoAwal,
+      resetSaldoAwal,
       getTotalPengeluaran,
       getTotalPemasukan,
       getTotalDanaMasjid,

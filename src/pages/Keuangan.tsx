@@ -23,6 +23,7 @@ const Keuangan = () => {
     updateTransaction,
     deleteTransaction,
     setSaldoAwal,
+    resetSaldoAwal,
     getTotalPengeluaran,
     getTotalPemasukan,
     getTotalDanaMasjid,
@@ -36,12 +37,22 @@ const Keuangan = () => {
       jumlah: '0'
     };
 
-    setFormData(prev => ({
-      ...prev,
-      [type]: type === 'pengeluaran' 
-        ? { ...resetState, buktiNota: null }
-        : resetState
-    }));
+    if (type === 'pengeluaran') {
+      setFormData(prev => ({
+        ...prev,
+        pengeluaran: { ...resetState, buktiNota: null }
+      }));
+    } else if (type === 'dana-masjid') {
+      setFormData(prev => ({
+        ...prev,
+        danaMasjid: resetState
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        pemasukan: resetState
+      }));
+    }
   };
 
   const updateForm = (
@@ -59,14 +70,20 @@ const Keuangan = () => {
     type: 'pemasukan' | 'pengeluaran' | 'dana-masjid',
     data: any
   ) => {
-    if (!data.keterangan || data.jumlah === '0') {
-      alert(`Mohon lengkapi semua field ${type}`);
+    // Validation
+    if (!data.keterangan || data.keterangan.trim() === '') {
+      alert(`Mohon masukkan keterangan untuk ${type}`);
+      return;
+    }
+    
+    if (!data.jumlah || data.jumlah === '0' || parseFloat(data.jumlah) <= 0) {
+      alert(`Mohon masukkan jumlah yang valid untuk ${type}`);
       return;
     }
 
     const newTransaction = {
       tanggal: data.tanggal,
-      keterangan: data.keterangan,
+      keterangan: data.keterangan.trim(),
       jumlah: parseFloat(data.jumlah),
       type: type,
       buktiNota: type === 'pengeluaran' ? data.buktiNota : undefined
@@ -74,6 +91,9 @@ const Keuangan = () => {
 
     addTransaction(newTransaction);
     resetForm(type);
+    
+    // Show success message
+    alert(`Data ${type} berhasil disimpan!`);
   };
 
   const handleEdit = (transaction: any) => {
@@ -93,9 +113,20 @@ const Keuangan = () => {
   ) => {
     if (!editingId) return;
 
+    // Validation
+    if (!data.keterangan || data.keterangan.trim() === '') {
+      alert(`Mohon masukkan keterangan untuk ${type}`);
+      return;
+    }
+    
+    if (!data.jumlah || data.jumlah === '0' || parseFloat(data.jumlah) <= 0) {
+      alert(`Mohon masukkan jumlah yang valid untuk ${type}`);
+      return;
+    }
+
     const updatedTransaction = {
       tanggal: data.tanggal,
-      keterangan: data.keterangan,
+      keterangan: data.keterangan.trim(),
       jumlah: parseFloat(data.jumlah),
       type: type,
       buktiNota: type === 'pengeluaran' ? data.buktiNota : undefined
@@ -104,19 +135,22 @@ const Keuangan = () => {
     updateTransaction(editingId, updatedTransaction);
     setEditingId(null);
     resetForm(type);
+    
+    // Show success message
+    alert(`Data ${type} berhasil diperbarui!`);
   };
 
-  const handleSetSaldoAwal = (saldo: string, keterangan: string) => {
-    if (!keterangan || saldo === '0') {
-      alert('Mohon lengkapi saldo awal dan keterangan');
+  const handleSetSaldoAwal = () => {
+    if (!saldoAwal || saldoAwal === '0' || parseFloat(saldoAwal) <= 0) {
+      alert('Mohon masukkan saldo awal yang valid');
       return;
     }
-    setSaldoAwal(saldo);
+    // Saldo awal sudah di-set melalui setSaldoAwal di component
+    alert('Saldo awal berhasil disimpan!');
   };
 
   const handleEditSaldoAwal = () => {
-    // Reset saldo awal untuk di-edit ulang
-    setSaldoAwal('');
+    resetSaldoAwal();
   };
 
   return (
@@ -129,7 +163,7 @@ const Keuangan = () => {
         keteranganSaldoAwal=""
         setKeteranganSaldoAwal={() => {}}
         isSaldoAwalSet={isSaldoAwalSet}
-        onSetSaldoAwal={() => handleSetSaldoAwal(saldoAwal, "Saldo Awal")}
+        onSetSaldoAwal={handleSetSaldoAwal}
         onEditSaldoAwal={handleEditSaldoAwal}
         formatRupiah={formatRupiah}
       />

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -24,11 +24,30 @@ export const SaldoAwalForm: React.FC<SaldoAwalFormProps> = ({
   onEditSaldoAwal,
   formatRupiah
 }) => {
-  if (!isSaldoAwalSet) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempSaldo, setTempSaldo] = useState(saldoAwal);
+
+  const handleEdit = () => {
+    setTempSaldo(saldoAwal);
+    setIsEditing(true);
+  };
+
+  const handleSave = () => {
+    setSaldoAwal(tempSaldo);
+    setIsEditing(false);
+    onSetSaldoAwal();
+  };
+
+  const handleCancel = () => {
+    setTempSaldo(saldoAwal);
+    setIsEditing(false);
+  };
+
+  if (!isSaldoAwalSet || isEditing) {
     return (
       <Card className="p-6 bg-blue-50 border-blue-200">
         <h3 className="text-lg font-semibold text-blue-700 mb-4">
-          💰 Set Saldo Awal
+          💰 {isEditing ? 'Edit' : 'Set'} Saldo Awal
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -37,18 +56,29 @@ export const SaldoAwalForm: React.FC<SaldoAwalFormProps> = ({
             </label>
             <Input
               type="number"
-              value={saldoAwal}
-              onChange={(e) => setSaldoAwal(e.target.value)}
+              value={isEditing ? tempSaldo : saldoAwal}
+              onChange={(e) => isEditing ? setTempSaldo(e.target.value) : setSaldoAwal(e.target.value)}
               className="w-full"
+              placeholder="Masukkan saldo awal"
             />
           </div>
-          <div className="flex items-end">
+          <div className="flex items-end gap-2">
             <Button 
-              onClick={onSetSaldoAwal}
-              className="bg-blue-600 hover:bg-blue-700 w-full"
+              onClick={isEditing ? handleSave : onSetSaldoAwal}
+              className="bg-blue-600 hover:bg-blue-700 flex-1"
+              disabled={isEditing ? !tempSaldo || tempSaldo === '0' : !saldoAwal || saldoAwal === '0'}
             >
-              💾 Set Saldo Awal
+              💾 {isEditing ? 'Simpan' : 'Set'} Saldo Awal
             </Button>
+            {isEditing && (
+              <Button 
+                onClick={handleCancel}
+                variant="outline"
+                className="border-gray-300"
+              >
+                Batal
+              </Button>
+            )}
           </div>
         </div>
       </Card>
@@ -67,7 +97,7 @@ export const SaldoAwalForm: React.FC<SaldoAwalFormProps> = ({
           </div>
         </div>
         <Button 
-          onClick={onEditSaldoAwal}
+          onClick={handleEdit}
           variant="outline"
           className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
         >
