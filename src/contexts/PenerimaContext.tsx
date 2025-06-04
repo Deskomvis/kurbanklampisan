@@ -1,5 +1,6 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
+import { generateUniqueId } from '@/utils/idGenerator';
 
 export interface Penerima {
   id: string;
@@ -18,6 +19,7 @@ interface PenerimaContextType {
   toggleSudahMenerima: (id: string) => void;
   resetPembagian: () => void;
   markAllSudahMenerima: () => void;
+  setPenerimaList: (list: Penerima[]) => void;
 }
 
 const PenerimaContext = createContext<PenerimaContextType | undefined>(undefined);
@@ -37,34 +39,59 @@ interface PenerimaProviderProps {
 export const PenerimaProvider: React.FC<PenerimaProviderProps> = ({ children }) => {
   const [penerima, setPenerima] = useState<Penerima[]>([]);
 
-  const addPenerima = (newPenerima: Omit<Penerima, 'id' | 'sudahMenerima'>) => {
-    const id = Date.now().toString();
-    setPenerima(prev => [...prev, { ...newPenerima, id, sudahMenerima: false }]);
-  };
+  const addPenerima = useCallback((newPenerima: Omit<Penerima, 'id' | 'sudahMenerima'>) => {
+    const id = generateUniqueId();
+    const penerimaWithId = { ...newPenerima, id, sudahMenerima: false };
+    
+    setPenerima(prev => {
+      // Check if penerima already exists to prevent duplicates
+      const exists = prev.some(p => 
+        p.nomorPengambilan === newPenerima.nomorPengambilan && 
+        p.rt === newPenerima.rt &&
+        p.nama === newPenerima.nama
+      );
+      
+      if (exists) {
+        console.warn('Penerima with same details already exists');
+        return prev;
+      }
+      
+      return [...prev, penerimaWithId];
+    });
+  }, []);
 
-  const updatePenerima = (id: string, updatedPenerima: Omit<Penerima, 'id'>) => {
+  const updatePenerima = useCallback((id: string, updatedPenerima: Omit<Penerima, 'id'>) => {
     setPenerima(prev => prev.map(p => 
       p.id === id ? { ...p, ...updatedPenerima } : p
     ));
-  };
+  }, []);
 
-  const deletePenerima = (id: string) => {
+  const deletePenerima = useCallback((id: string) => {
     setPenerima(prev => prev.filter(p => p.id !== id));
-  };
+  }, []);
 
-  const toggleSudahMenerima = (id: string) => {
+  const toggleSudahMenerima = useCallback((id: string) => {
     setPenerima(prev => prev.map(p => 
       p.id === id ? { ...p, sudahMenerima: !p.sudahMenerima } : p
     ));
-  };
+  }, []);
 
-  const resetPembagian = () => {
+  const resetPembagian = useCallback(() => {
     setPenerima(prev => prev.map(p => ({ ...p, sudahMenerima: false })));
-  };
+  }, []);
 
-  const markAllSudahMenerima = () => {
+  const markAllSudahMenerima = useCallback(() => {
     setPenerima(prev => prev.map(p => ({ ...p, sudahMenerima: true })));
-  };
+  }, []);
+
+  const setPenerimaList = useCallback((list: Penerima[]) => {
+    // Ensure all items have valid IDs
+    const listWithIds = list.map(item => ({
+      ...item,
+      id: item.id || generateUniqueId()
+    }));
+    setPenerima(listWithIds);
+  }, []);
 
   return (
     <PenerimaContext.Provider value={{
@@ -74,7 +101,8 @@ export const PenerimaProvider: React.FC<PenerimaProviderProps> = ({ children }) 
       deletePenerima,
       toggleSudahMenerima,
       resetPembagian,
-      markAllSudahMenerima
+      markAllSudahMenerima,
+      setPenerimaList
     }}>
       {children}
     </PenerimaContext.Provider>

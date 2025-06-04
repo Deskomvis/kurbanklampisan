@@ -5,10 +5,11 @@ import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
 import { useBackup } from '@/contexts/BackupContext';
 import { useToast } from '@/hooks/use-toast';
+import { generateUniqueId } from '@/utils/idGenerator';
 
 export const useAutoLoad = () => {
   const [hasLoaded, setHasLoaded] = useState(false);
-  const { penerima, addPenerima, deletePenerima } = usePenerima();
+  const { setPenerimaList } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing, deleteKelompokSapi, deleteKurbanKambing } = useKelompokKurban();
   const { transactions, setSaldoAwal, loadTransactions } = useKeuangan();
   const { getBackupsList } = useBackup();
@@ -29,12 +30,19 @@ export const useAutoLoad = () => {
         const latestBackup = backups[0];
         
         // Clear existing data
-        penerima.forEach(p => deletePenerima(p.id));
         kelompokSapi.forEach(k => deleteKelompokSapi(k.id));
         kurbanKambing.forEach(k => deleteKurbanKambing(k.id));
 
-        // Load backup data
-        latestBackup.data.penerima.forEach((p: any) => addPenerima(p));
+        // Load penerima data with proper ID handling
+        if (latestBackup.data.penerima && latestBackup.data.penerima.length > 0) {
+          const penerimaWithIds = latestBackup.data.penerima.map((p: any) => ({
+            ...p,
+            id: p.id || generateUniqueId()
+          }));
+          setPenerimaList(penerimaWithIds);
+        }
+
+        // Load other data
         latestBackup.data.kelompokSapi.forEach((k: any) => addKelompokSapi(k));
         latestBackup.data.kurbanKambing.forEach((k: any) => addKurbanKambing(k));
         
@@ -61,7 +69,7 @@ export const useAutoLoad = () => {
     if (getBackupsList().length >= 0) {
       loadLatestBackup();
     }
-  }, [getBackupsList, hasLoaded]);
+  }, [getBackupsList, hasLoaded, setPenerimaList, kelompokSapi, kurbanKambing, deleteKelompokSapi, deleteKurbanKambing, addKelompokSapi, addKurbanKambing, loadTransactions, setSaldoAwal, toast]);
 
   return { hasLoaded };
 };
