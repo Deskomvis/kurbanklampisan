@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { filterPenerima, groupByRt } from '@/utils/filterUtils';
@@ -9,8 +8,12 @@ import { PenerimaTable } from '@/components/penerima/PenerimaTable';
 import { PenerimaSummary } from '@/components/penerima/PenerimaSummary';
 import { PenerimaActions } from '@/components/penerima/PenerimaActions';
 import { useToast } from '@/hooks/use-toast';
+import { useInitialData } from '@/hooks/useInitialData';
 
 const PenerimaDaging = () => {
+  // Load initial data from the images
+  useInitialData();
+  
   const { penerima, addPenerima, updatePenerima, deletePenerima } = usePenerima();
   const { toast } = useToast();
   
