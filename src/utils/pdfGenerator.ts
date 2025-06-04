@@ -9,24 +9,34 @@ export const generatePDF = async (content: string, filename: string): Promise<vo
   tempDiv.style.position = 'absolute';
   tempDiv.style.left = '-9999px';
   tempDiv.style.top = '0';
+  tempDiv.style.width = '210mm'; // F4 width
+  tempDiv.style.maxWidth = '210mm';
+  tempDiv.style.padding = '15mm';
+  tempDiv.style.boxSizing = 'border-box';
+  tempDiv.style.fontSize = '12px';
+  tempDiv.style.lineHeight = '1.4';
   document.body.appendChild(tempDiv);
 
   try {
     // Convert to canvas and then to PDF
     const canvas = await html2canvas(tempDiv, {
-      scale: 2,
+      scale: 1.5, // Reduced scale for better text rendering
       useCORS: true,
       allowTaint: true,
-      backgroundColor: '#ffffff'
+      backgroundColor: '#ffffff',
+      width: tempDiv.scrollWidth,
+      height: tempDiv.scrollHeight
     });
 
     document.body.removeChild(tempDiv);
 
     const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF('p', 'mm', 'a4');
     
-    const imgWidth = 210; // A4 width in mm
-    const pageHeight = 295; // A4 height in mm
+    // F4/Folio dimensions: 210 x 330 mm
+    const pdf = new jsPDF('p', 'mm', [210, 330]);
+    
+    const imgWidth = 210; // F4 width in mm
+    const pageHeight = 330; // F4 height in mm
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
     let heightLeft = imgHeight;
     let position = 0;
@@ -38,7 +48,7 @@ export const generatePDF = async (content: string, filename: string): Promise<vo
     // Add additional pages if needed
     while (heightLeft >= 0) {
       position = heightLeft - imgHeight;
-      pdf.addPage();
+      pdf.addPage([210, 330]); // F4 size
       pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
       heightLeft -= pageHeight;
     }
