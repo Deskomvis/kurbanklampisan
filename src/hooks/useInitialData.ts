@@ -21,7 +21,7 @@ export const useInitialData = () => {
       if (addedCount > 0) {
         toast({
           title: "Data Berhasil Dimuat",
-          description: `${addedCount} penerima daging telah ditambahkan ke sistem`,
+          description: `${addedCount} penerima daging RT 01 telah ditambahkan ke sistem`,
         });
       }
     }
