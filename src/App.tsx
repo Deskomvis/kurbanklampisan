@@ -8,7 +8,6 @@ import { PenerimaProvider } from "./contexts/PenerimaContext";
 import { KelompokKurbanProvider } from "./contexts/KelompokKurbanContext";
 import { KeuanganProvider } from "./contexts/KeuanganContext";
 import { BackupProvider } from "./contexts/BackupContext";
-import { AutoSaveLoadWrapper } from "./components/AutoSaveLoadWrapper";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Panitia from "./pages/Panitia";
@@ -29,26 +28,24 @@ const App = () => (
         <KeuanganProvider>
           <KelompokKurbanProvider>
             <PenerimaProvider>
-              <AutoSaveLoadWrapper>
-                <Toaster />
-                <Sonner />
-                <BrowserRouter>
-                  <Layout>
-                    <Routes>
-                      <Route path="/" element={<Dashboard />} />
-                      <Route path="/panitia" element={<Panitia />} />
-                      <Route path="/kelompok-kurban" element={<KelompokKurban />} />
-                      <Route path="/keuangan" element={<Keuangan />} />
-                      <Route path="/penerima-daging" element={<PenerimaDaging />} />
-                      <Route path="/pembagian-daging" element={<PembagianDaging />} />
-                      <Route path="/laporan" element={<Laporan />} />
-                      <Route path="/data-management" element={<DataManagement />} />
-                      {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </Layout>
-                </BrowserRouter>
-              </AutoSaveLoadWrapper>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Layout>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/panitia" element={<Panitia />} />
+                    <Route path="/kelompok-kurban" element={<KelompokKurban />} />
+                    <Route path="/keuangan" element={<Keuangan />} />
+                    <Route path="/penerima-daging" element={<PenerimaDaging />} />
+                    <Route path="/pembagian-daging" element={<PembagianDaging />} />
+                    <Route path="/laporan" element={<Laporan />} />
+                    <Route path="/data-management" element={<DataManagement />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Layout>
+              </BrowserRouter>
             </PenerimaProvider>
           </KelompokKurbanProvider>
         </KeuanganProvider>
