@@ -22,9 +22,9 @@ const DataManagement = () => {
         <div className="space-y-2 text-xs text-blue-700">
           <p><strong>Cetak Laporan:</strong> Generate PDF dengan layout profesional dari data yang dipilih</p>
           <p><strong>Export Data:</strong> Menyimpan semua data ke file JSON untuk backup eksternal</p>
-          <p><strong>Import Data:</strong> Memuat data dari file JSON (akan menimpa data saat ini)</p>
-          <p><strong>Save Backup:</strong> Menyimpan snapshot data saat ini ke history internal</p>
-          <p><strong>Load Backup:</strong> Memuat data dari history backup yang tersimpan</p>
+          <p><strong>Import Data:</strong> Memuat data dari file JSON dan menyimpan otomatis ke server</p>
+          <p><strong>Save Backup:</strong> Menyimpan snapshot data saat ini ke server dengan nama khusus</p>
+          <p><strong>Load Backup:</strong> Memuat data dari history backup yang tersimpan di server</p>
         </div>
       </div>
     </div>

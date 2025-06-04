@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Save, RotateCcw, Trash2, RefreshCw, Loader2, Clock } from 'lucide-react';
+import { Save, RotateCcw, Trash2, RefreshCw, Loader2 } from 'lucide-react';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
@@ -107,7 +107,7 @@ export const BackupPanel: React.FC = () => {
   };
 
   const backups = getBackupsList();
-  const isAutoSave = (name: string) => name.includes('Auto Save') || name.includes('Import JSON');
+  const isImportBackup = (name: string) => name.includes('Import JSON');
 
   return (
     <Card className="p-4 md:p-6">
@@ -187,11 +187,8 @@ export const BackupPanel: React.FC = () => {
                 {backups.map((backup) => (
                   <TableRow key={backup.id}>
                     <TableCell className="text-xs">
-                      {isAutoSave(backup.name) ? (
-                        <span className="flex items-center gap-1 text-blue-600">
-                          <Clock className="w-3 h-3" />
-                          Auto
-                        </span>
+                      {isImportBackup(backup.name) ? (
+                        <span className="text-orange-600">Import</span>
                       ) : (
                         <span className="text-gray-600">Manual</span>
                       )}
@@ -242,14 +239,13 @@ export const BackupPanel: React.FC = () => {
       </div>
 
       {/* Information Panel */}
-      <div className="mt-6 bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
-        <h4 className="text-sm font-semibold text-green-700 mb-2">✅ Auto-Save & Load Aktif</h4>
-        <div className="space-y-1 text-xs text-green-700">
-          <p>• Backup otomatis tersimpan setiap 2 detik setelah ada perubahan data</p>
-          <p>• Data terbaru otomatis dimuat saat aplikasi dibuka</p>
-          <p>• Import JSON otomatis tersimpan ke server</p>
+      <div className="mt-6 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+        <h4 className="text-sm font-semibold text-blue-700 mb-2">📋 Manual Backup & Import</h4>
+        <div className="space-y-1 text-xs text-blue-700">
           <p>• Backup manual dapat dibuat kapan saja dengan nama khusus</p>
+          <p>• Import JSON otomatis tersimpan ke server</p>
           <p>• Klik "Load" untuk memuat backup tertentu ke semua menu</p>
+          <p>• Data tersimpan permanen di server Supabase</p>
         </div>
       </div>
     </Card>

@@ -72,7 +72,7 @@ export const ExportImportPanel: React.FC = () => {
       data.transactions.forEach((t: any) => addTransaction(t));
       setSaldoAwal(data.saldoAwal);
 
-      // Auto-save imported data to Supabase
+      // Save imported data to Supabase
       const timestamp = new Date().toLocaleString('id-ID');
       await saveBackup(`Import JSON - ${timestamp}`, data);
 
@@ -140,13 +140,13 @@ export const ExportImportPanel: React.FC = () => {
         </div>
       </div>
 
-      {/* Auto-save Information */}
-      <div className="mt-6 bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
-        <h4 className="text-sm font-semibold text-green-700 mb-2">🔄 Auto-Save Aktif</h4>
-        <div className="space-y-1 text-xs text-green-700">
-          <p>• Semua perubahan data otomatis disimpan ke server setiap 2 detik</p>
-          <p>• Data terbaru otomatis dimuat saat aplikasi dibuka</p>
-          <p>• Import JSON akan otomatis tersimpan ke server</p>
+      {/* Information Panel */}
+      <div className="mt-6 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+        <h4 className="text-sm font-semibold text-blue-700 mb-2">📁 Manual Data Management</h4>
+        <div className="space-y-1 text-xs text-blue-700">
+          <p>• Export: Unduh data saat ini ke file JSON untuk backup eksternal</p>
+          <p>• Import: Muat data dari file JSON dan simpan otomatis ke server</p>
+          <p>• Gunakan backup manual untuk menyimpan milestone penting</p>
         </div>
       </div>
     </Card>
