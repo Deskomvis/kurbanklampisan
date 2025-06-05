@@ -1,6 +1,7 @@
 
 import { generateDashboardSection } from './reportSections/dashboardSection';
-import { generateKelompokSection } from './reportSections/kelompokSection';
+import { generateKelompokSapiSection } from './reportSections/kelompokSapiSection';
+import { generateKelompokKambingSection } from './reportSections/kelompokKambingSection';
 import { generatePenerimaSection } from './reportSections/penerimaSection';
 import { generatePembagianSection } from './reportSections/pembagianSection';
 import { generateKeuanganSection } from './reportSections/keuanganSection';
@@ -38,8 +39,11 @@ export const generateReportContent = (selectedReports: any[], data: ReportData):
       case 'dashboard':
         content += generateDashboardSection(getTotalSapi, getTotalKambing, penerima, sudahMenerima, progressPercentage);
         break;
-      case 'kelompok':
-        content += generateKelompokSection(kelompokSapi, kurbanKambing);
+      case 'kelompok-sapi':
+        content += generateKelompokSapiSection(kelompokSapi);
+        break;
+      case 'kelompok-kambing':
+        content += generateKelompokKambingSection(kurbanKambing);
         break;
       case 'penerima':
         content += generatePenerimaSection(penerima);

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
-import { FileText, Users, DollarSign, UserCheck, Share2 } from 'lucide-react';
+import { FileText, Users, DollarSign, UserCheck, Share2, Beef, Rabbit } from 'lucide-react';
 
 export interface ReportOption {
   id: string;
@@ -12,7 +12,8 @@ export interface ReportOption {
 
 export const defaultReportOptions: ReportOption[] = [
   { id: 'dashboard', label: 'Dashboard & Statistik', icon: FileText, checked: true },
-  { id: 'kelompok', label: 'Data Kelompok Kurban', icon: Users, checked: true },
+  { id: 'kelompok-sapi', label: 'Data Kelompok Sapi', icon: Beef, checked: true },
+  { id: 'kelompok-kambing', label: 'Data Kurban Kambing', icon: Rabbit, checked: true },
   { id: 'penerima', label: 'Daftar Penerima Daging', icon: UserCheck, checked: true },
   { id: 'pembagian', label: 'Status Pembagian Daging', icon: Share2, checked: true },
   { id: 'keuangan', label: 'Laporan Keuangan', icon: DollarSign, checked: true },
