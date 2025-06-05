@@ -20,8 +20,9 @@ interface KelompokKurbanContextType {
   updateKelompokSapi: (id: string, kelompok: Omit<KelompokSapi, 'id'>) => void;
   deleteKelompokSapi: (id: string) => void;
   addKurbanKambing: (kambing: Omit<KurbanKambing, 'id' | 'nomor'>) => void;
-  updateKurbanKambing: (id: string, kambing: Omit<KurbanKambing, 'id' | 'nomor'>) => void;
+  updateKurbanKambing: (id: string, kambing: Omit<KurbanKambing, 'id'>) => void;
   deleteKurbanKambing: (id: string) => void;
+  reorderKurbanKambing: (fromIndex: number, toIndex: number) => void;
   getTotalSapi: () => number;
   getTotalKambing: () => number;
 }
@@ -59,23 +60,41 @@ export const KelompokKurbanProvider: React.FC<KelompokKurbanProviderProps> = ({ 
     setKelompokSapi(prev => prev.filter(k => k.id !== id));
   };
 
-  const addKurbanKambing = (newKambing: Omit<KurbanKambing, 'id' | 'nomor'>) => {
-    const id = Date.now().toString();
-    const nomor = kurbanKambing.length + 1;
-    setKurbanKambing(prev => [...prev, { ...newKambing, id, nomor }]);
+  const reorderNumbers = (list: KurbanKambing[]) => {
+    return list.map((kambing, index) => ({ ...kambing, nomor: index + 1 }));
   };
 
-  const updateKurbanKambing = (id: string, updatedKambing: Omit<KurbanKambing, 'id' | 'nomor'>) => {
-    setKurbanKambing(prev => prev.map(k => 
-      k.id === id ? { ...k, ...updatedKambing } : k
-    ));
+  const addKurbanKambing = (newKambing: Omit<KurbanKambing, 'id' | 'nomor'>) => {
+    const id = Date.now().toString();
+    setKurbanKambing(prev => {
+      const newList = [...prev, { ...newKambing, id, nomor: prev.length + 1 }];
+      return reorderNumbers(newList);
+    });
+  };
+
+  const updateKurbanKambing = (id: string, updatedKambing: Omit<KurbanKambing, 'id'>) => {
+    setKurbanKambing(prev => {
+      const newList = prev.map(k => 
+        k.id === id ? { ...k, ...updatedKambing } : k
+      );
+      return reorderNumbers(newList.sort((a, b) => a.nomor - b.nomor));
+    });
   };
 
   const deleteKurbanKambing = (id: string) => {
-    const newKurbanKambing = kurbanKambing.filter(k => k.id !== id);
-    // Update nomor urut setelah penghapusan
-    const updatedKurbanKambing = newKurbanKambing.map((k, index) => ({ ...k, nomor: index + 1 }));
-    setKurbanKambing(updatedKurbanKambing);
+    setKurbanKambing(prev => {
+      const newList = prev.filter(k => k.id !== id);
+      return reorderNumbers(newList);
+    });
+  };
+
+  const reorderKurbanKambing = (fromIndex: number, toIndex: number) => {
+    setKurbanKambing(prev => {
+      const newList = [...prev];
+      const [movedItem] = newList.splice(fromIndex, 1);
+      newList.splice(toIndex, 0, movedItem);
+      return reorderNumbers(newList);
+    });
   };
 
   const getTotalSapi = () => kelompokSapi.length;
@@ -91,6 +110,7 @@ export const KelompokKurbanProvider: React.FC<KelompokKurbanProviderProps> = ({ 
       addKurbanKambing,
       updateKurbanKambing,
       deleteKurbanKambing,
+      reorderKurbanKambing,
       getTotalSapi,
       getTotalKambing
     }}>

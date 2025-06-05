@@ -5,19 +5,21 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/hooks/use-toast';
-import { Edit, Trash2, Save, X } from 'lucide-react';
+import { Edit, Trash2, Save, X, ChevronUp, ChevronDown } from 'lucide-react';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 
 const KurbanKambingTable = () => {
   const { toast } = useToast();
-  const { kurbanKambing, updateKurbanKambing, deleteKurbanKambing } = useKelompokKurban();
+  const { kurbanKambing, updateKurbanKambing, deleteKurbanKambing, reorderKurbanKambing } = useKelompokKurban();
   
   const [editingKambing, setEditingKambing] = useState<string | null>(null);
   const [editPemilikKambing, setEditPemilikKambing] = useState('');
+  const [editNomorKambing, setEditNomorKambing] = useState(1);
 
   const mulaiEditKambing = (kambing: any) => {
     setEditingKambing(kambing.id);
     setEditPemilikKambing(kambing.pemilik);
+    setEditNomorKambing(kambing.nomor);
   };
 
   const simpanEditKambing = (id: string) => {
@@ -30,8 +32,18 @@ const KurbanKambingTable = () => {
       return;
     }
 
+    if (editNomorKambing < 1 || editNomorKambing > kurbanKambing.length) {
+      toast({
+        title: "Error",
+        description: `Nomor urut harus antara 1 sampai ${kurbanKambing.length}`,
+        variant: "destructive"
+      });
+      return;
+    }
+
     updateKurbanKambing(id, {
-      pemilik: editPemilikKambing.trim()
+      pemilik: editPemilikKambing.trim(),
+      nomor: editNomorKambing
     });
     
     setEditingKambing(null);
@@ -48,6 +60,26 @@ const KurbanKambingTable = () => {
       title: "Berhasil",
       description: "Kurban kambing berhasil dihapus"
     });
+  };
+
+  const pindahKeAtas = (index: number) => {
+    if (index > 0) {
+      reorderKurbanKambing(index, index - 1);
+      toast({
+        title: "Berhasil",
+        description: "Urutan berhasil diubah"
+      });
+    }
+  };
+
+  const pindahKeBawah = (index: number) => {
+    if (index < sortedKurbanKambing.length - 1) {
+      reorderKurbanKambing(index, index + 1);
+      toast({
+        title: "Berhasil",
+        description: "Urutan berhasil diubah"
+      });
+    }
   };
 
   const sortedKurbanKambing = [...kurbanKambing].sort((a, b) => a.nomor - b.nomor);
@@ -68,9 +100,44 @@ const KurbanKambingTable = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sortedKurbanKambing.map((kambing) => (
+            {sortedKurbanKambing.map((kambing, index) => (
               <TableRow key={kambing.id}>
-                <TableCell>{kambing.nomor}</TableCell>
+                <TableCell>
+                  {editingKambing === kambing.id ? (
+                    <Input
+                      type="number"
+                      min="1"
+                      max={kurbanKambing.length}
+                      value={editNomorKambing}
+                      onChange={(e) => setEditNomorKambing(parseInt(e.target.value) || 1)}
+                      className="w-20"
+                    />
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <span>{kambing.nomor}</span>
+                      <div className="flex flex-col">
+                        <Button
+                          onClick={() => pindahKeAtas(index)}
+                          variant="outline"
+                          size="sm"
+                          className="h-6 w-6 p-0"
+                          disabled={index === 0}
+                        >
+                          <ChevronUp className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          onClick={() => pindahKeBawah(index)}
+                          variant="outline"
+                          size="sm"
+                          className="h-6 w-6 p-0"
+                          disabled={index === sortedKurbanKambing.length - 1}
+                        >
+                          <ChevronDown className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </TableCell>
                 <TableCell>
                   {editingKambing === kambing.id ? (
                     <Input
