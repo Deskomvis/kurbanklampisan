@@ -2,6 +2,14 @@
 import { KelompokSapi } from '@/contexts/KelompokKurbanContext';
 
 export const generateKelompokSapiSection = (kelompokSapi: KelompokSapi[]): string => {
+  // Sort kelompok sapi by nomor to ensure proper ordering
+  const sortedKelompokSapi = [...kelompokSapi].sort((a, b) => {
+    // Convert nomor to number for proper numerical sorting
+    const nomorA = parseInt(a.nomor) || 0;
+    const nomorB = parseInt(b.nomor) || 0;
+    return nomorA - nomorB;
+  });
+
   return `
     <div style="margin-bottom: 25px; page-break-inside: avoid;">
       <h2 style="color: #16a34a; border-left: 4px solid #16a34a; padding-left: 8px; margin-bottom: 15px; font-size: 14px;">🐄 Data Kelompok Sapi</h2>
@@ -14,7 +22,7 @@ export const generateKelompokSapiSection = (kelompokSapi: KelompokSapi[]): strin
           </tr>
         </thead>
         <tbody>
-          ${kelompokSapi.length > 0 ? kelompokSapi.map((kelompok, index) => `
+          ${sortedKelompokSapi.length > 0 ? sortedKelompokSapi.map((kelompok, index) => `
             <tr style="background: ${index % 2 === 0 ? '#f9fafb' : 'white'};">
               <td style="border: 1px solid #ddd; padding: 6px; vertical-align: top; font-weight: bold;">${kelompok.nomor}</td>
               <td style="border: 1px solid #ddd; padding: 6px;">
@@ -34,7 +42,7 @@ export const generateKelompokSapiSection = (kelompokSapi: KelompokSapi[]): strin
       </table>
       
       <div style="background: #f0f9ff; padding: 10px; border-radius: 4px; border-left: 3px solid #0ea5e9; font-size: 9px;">
-        <strong>📊 Ringkasan:</strong> Total ${kelompokSapi.length} kelompok sapi dengan total ${kelompokSapi.reduce((total, k) => total + k.anggota.length, 0)} anggota
+        <strong>📊 Ringkasan:</strong> Total ${sortedKelompokSapi.length} kelompok sapi dengan total ${sortedKelompokSapi.reduce((total, k) => total + k.anggota.length, 0)} anggota
       </div>
     </div>
   `;
