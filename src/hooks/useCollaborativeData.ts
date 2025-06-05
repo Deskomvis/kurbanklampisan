@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useBackup } from '@/contexts/BackupContext';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
@@ -8,12 +8,64 @@ import { useToast } from '@/hooks/use-toast';
 
 export const useCollaborativeData = () => {
   const [isInitialized, setIsInitialized] = useState(false);
-  const { getBackupsList, isLoading } = useBackup();
+  const [lastLoadedBackupId, setLastLoadedBackupId] = useState<string | null>(null);
+  const { getBackupsList, isLoading, refreshBackups } = useBackup();
   const { toast } = useToast();
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   
   const { penerima, addPenerima, deletePenerima } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing, deleteKelompokSapi, deleteKurbanKambing } = useKelompokKurban();
   const { transactions, addTransaction, deleteTransaction, setSaldoAwal } = useKeuangan();
+
+  const loadBackupData = async (backup: any, isInitial = false) => {
+    console.log('Loading backup data:', backup.name);
+    
+    // Clear existing data
+    penerima.forEach(p => deletePenerima(p.id));
+    kelompokSapi.forEach(k => deleteKelompokSapi(k.id));
+    kurbanKambing.forEach(k => deleteKurbanKambing(k.id));
+    transactions.forEach(t => deleteTransaction(t.id));
+
+    // Load latest data
+    backup.data.penerima.forEach((p: any) => addPenerima(p));
+    backup.data.kelompokSapi.forEach((k: any) => addKelompokSapi(k));
+    backup.data.kurbanKambing.forEach((k: any) => addKurbanKambing(k));
+    backup.data.transactions.forEach((t: any) => addTransaction(t));
+    setSaldoAwal(backup.data.saldoAwal);
+
+    setLastLoadedBackupId(backup.id);
+
+    if (isInitial) {
+      toast({
+        title: "Data Kolaboratif Dimuat",
+        description: `Memuat data terbaru: "${backup.name}"`,
+      });
+    } else {
+      toast({
+        title: "Data Terbaru Dimuat",
+        description: `Data kolaboratif diperbarui: "${backup.name}"`,
+      });
+    }
+  };
+
+  const checkForNewBackups = async () => {
+    try {
+      await refreshBackups();
+      const backups = getBackupsList();
+      
+      if (backups.length > 0) {
+        const latestBackup = backups[0];
+        
+        // Jika ada backup baru yang berbeda dari yang terakhir dimuat
+        if (lastLoadedBackupId && latestBackup.id !== lastLoadedBackupId) {
+          console.log('New backup detected, loading:', latestBackup.name);
+          await loadBackupData(latestBackup, false);
+        }
+      }
+    } catch (error) {
+      console.error('Error checking for new backups:', error);
+    }
+  };
 
   useEffect(() => {
     const loadLatestData = async () => {
@@ -25,26 +77,7 @@ export const useCollaborativeData = () => {
         if (backups.length > 0) {
           // Ambil backup terbaru (sudah diurutkan desc by created_at)
           const latestBackup = backups[0];
-          
-          console.log('Loading latest collaborative data:', latestBackup.name);
-          
-          // Clear existing data
-          penerima.forEach(p => deletePenerima(p.id));
-          kelompokSapi.forEach(k => deleteKelompokSapi(k.id));
-          kurbanKambing.forEach(k => deleteKurbanKambing(k.id));
-          transactions.forEach(t => deleteTransaction(t.id));
-
-          // Load latest data
-          latestBackup.data.penerima.forEach((p: any) => addPenerima(p));
-          latestBackup.data.kelompokSapi.forEach((k: any) => addKelompokSapi(k));
-          latestBackup.data.kurbanKambing.forEach((k: any) => addKurbanKambing(k));
-          latestBackup.data.transactions.forEach((t: any) => addTransaction(t));
-          setSaldoAwal(latestBackup.data.saldoAwal);
-
-          toast({
-            title: "Data Kolaboratif Dimuat",
-            description: `Memuat data terbaru: "${latestBackup.name}"`,
-          });
+          await loadBackupData(latestBackup, true);
         } else {
           console.log('No backup data found, starting with empty data');
           toast({
@@ -70,6 +103,29 @@ export const useCollaborativeData = () => {
       loadLatestData();
     }
   }, [isLoading, isInitialized]);
+
+  // Set up periodic checking for new backups
+  useEffect(() => {
+    if (isInitialized) {
+      // Check for new backups every 10 seconds
+      intervalRef.current = setInterval(checkForNewBackups, 10000);
+      
+      return () => {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
+      };
+    }
+  }, [isInitialized, lastLoadedBackupId]);
+
+  // Cleanup interval on unmount
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
 
   return { isInitialized };
 };
