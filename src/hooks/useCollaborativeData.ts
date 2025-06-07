@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from 'react';
 import { useBackup } from '@/contexts/BackupContext';
 import { usePenerima } from '@/contexts/PenerimaContext';
@@ -13,21 +12,21 @@ export const useCollaborativeData = () => {
   const { toast } = useToast();
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   
-  const { penerima, addPenerima, deletePenerima } = usePenerima();
+  const { setPenerimaList } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing, deleteKelompokSapi, deleteKurbanKambing } = useKelompokKurban();
   const { transactions, addTransaction, deleteTransaction, setSaldoAwal } = useKeuangan();
 
   const loadBackupData = async (backup: any, isInitial = false) => {
     console.log('Loading backup data:', backup.name);
+    console.log('Penerima data in backup:', backup.data.penerima);
     
     // Clear existing data
-    penerima.forEach(p => deletePenerima(p.id));
     kelompokSapi.forEach(k => deleteKelompokSapi(k.id));
     kurbanKambing.forEach(k => deleteKurbanKambing(k.id));
     transactions.forEach(t => deleteTransaction(t.id));
 
-    // Load latest data
-    backup.data.penerima.forEach((p: any) => addPenerima(p));
+    // Load latest data - use setPenerimaList to preserve status
+    setPenerimaList(backup.data.penerima || []);
     backup.data.kelompokSapi.forEach((k: any) => addKelompokSapi(k));
     backup.data.kurbanKambing.forEach((k: any) => addKurbanKambing(k));
     backup.data.transactions.forEach((t: any) => addTransaction(t));

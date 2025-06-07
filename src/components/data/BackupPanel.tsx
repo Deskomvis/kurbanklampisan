@@ -17,7 +17,7 @@ export const BackupPanel: React.FC = () => {
   const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>({});
   const { toast } = useToast();
   
-  const { penerima, addPenerima, deletePenerima } = usePenerima();
+  const { penerima, setPenerimaList } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing, deleteKelompokSapi, deleteKurbanKambing } = useKelompokKurban();
   const { transactions, saldoAwal, isSaldoAwalSet, addTransaction, deleteTransaction, setSaldoAwal } = useKeuangan();
   const { saveBackup, loadBackup, deleteBackup, getBackupsList, refreshBackups, isLoading } = useBackup();
@@ -42,6 +42,8 @@ export const BackupPanel: React.FC = () => {
         isSaldoAwalSet
       ));
       
+      console.log('Saving backup with penerima data:', data.penerima);
+      
       await saveBackup(backupName.trim(), data);
       setBackupName('');
     } catch (error) {
@@ -58,14 +60,15 @@ export const BackupPanel: React.FC = () => {
         throw new Error('Backup tidak ditemukan');
       }
 
+      console.log('Loading backup with penerima data:', backup.data.penerima);
+
       // Clear existing data
-      penerima.forEach(p => deletePenerima(p.id));
       kelompokSapi.forEach(k => deleteKelompokSapi(k.id));
       kurbanKambing.forEach(k => deleteKurbanKambing(k.id));
       transactions.forEach(t => deleteTransaction(t.id));
 
-      // Load backup data
-      backup.data.penerima.forEach((p: any) => addPenerima(p));
+      // Load backup data - use setPenerimaList to replace all penerima data including status
+      setPenerimaList(backup.data.penerima || []);
       backup.data.kelompokSapi.forEach((k: any) => addKelompokSapi(k));
       backup.data.kurbanKambing.forEach((k: any) => addKurbanKambing(k));
       backup.data.transactions.forEach((t: any) => addTransaction(t));
@@ -246,6 +249,7 @@ export const BackupPanel: React.FC = () => {
           <p>• Import JSON otomatis tersimpan ke server</p>
           <p>• Klik "Load" untuk memuat backup tertentu ke semua menu</p>
           <p>• Data tersimpan permanen di server Supabase</p>
+          <p>• <strong>Status pembagian daging otomatis tersimpan dan dimuat</strong></p>
         </div>
       </div>
     </Card>
