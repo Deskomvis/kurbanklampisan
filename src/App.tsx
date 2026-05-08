@@ -9,6 +9,7 @@ import { YearProvider, useYear } from "./contexts/YearContext";
 import { PenerimaProvider } from "./contexts/PenerimaContext";
 import { KelompokKurbanProvider } from "./contexts/KelompokKurbanContext";
 import { KeuanganProvider } from "./contexts/KeuanganContext";
+import { PanitiaProvider } from "./contexts/PanitiaContext";
 import { BackupProvider } from "./contexts/BackupContext";
 import { CollaborativeWrapper } from "./components/collaborative/CollaborativeWrapper";
 import Layout from "./components/Layout";
@@ -31,9 +32,11 @@ const YearAwareProviders = ({ children }: { children: ReactNode }) => {
     <KeuanganProvider key={`keuangan-${currentYear}`} year={currentYear}>
       <KelompokKurbanProvider key={`kelompok-${currentYear}`} year={currentYear}>
         <PenerimaProvider key={`penerima-${currentYear}`} year={currentYear}>
-          <CollaborativeWrapper>
-            {children}
-          </CollaborativeWrapper>
+          <PanitiaProvider key={`panitia-${currentYear}`} year={currentYear}>
+            <CollaborativeWrapper>
+              {children}
+            </CollaborativeWrapper>
+          </PanitiaProvider>
         </PenerimaProvider>
       </KelompokKurbanProvider>
     </KeuanganProvider>

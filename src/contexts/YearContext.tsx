@@ -13,6 +13,11 @@ const BASE_KEYS = {
   saldoSet: 'klampisan_kurban_saldo_set',
 };
 
+const PANITIA_KEYS = {
+  list: 'klampisan_kurban_panitia_list',
+  header: 'klampisan_kurban_panitia_header',
+};
+
 export const yearKey = (base: string, year: string) => `${base}_${year}`;
 
 // One-time migration: copy legacy (non-year) keys to year-scoped keys
@@ -109,6 +114,16 @@ export const YearProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.setItem(yearKey(BASE_KEYS.sapi, newYear), JSON.stringify([]));
     localStorage.setItem(yearKey(BASE_KEYS.kambing, newYear), JSON.stringify([]));
     localStorage.setItem(yearKey(BASE_KEYS.transactions, newYear), JSON.stringify([]));
+
+    // Copy panitia list & header from current year (user can edit for new year)
+    const oldPanitiaList = localStorage.getItem(`${PANITIA_KEYS.list}_${currentYear}`);
+    if (oldPanitiaList) {
+      localStorage.setItem(`${PANITIA_KEYS.list}_${newYear}`, oldPanitiaList);
+    }
+    const oldPanitiaHeader = localStorage.getItem(`${PANITIA_KEYS.header}_${currentYear}`);
+    if (oldPanitiaHeader) {
+      localStorage.setItem(`${PANITIA_KEYS.header}_${newYear}`, oldPanitiaHeader);
+    }
 
     const newYears = [...availableYears, newYear];
     setAvailableYears(newYears);
