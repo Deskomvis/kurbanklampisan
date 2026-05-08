@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Trash2, Edit, Eye, Upload } from 'lucide-react';
+import { Trash2, Edit, Eye, Upload, Wallet, TrendingUp, TrendingDown, Landmark, ArrowRightLeft } from 'lucide-react';
 import { Transaction } from './types';
 
 interface TransactionSummaryProps {
@@ -286,29 +286,77 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
         </Table>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mt-8 pt-6 border-t border-gray-100">
         {isSaldoAwalSet && (
-          <Card className="p-4 bg-blue-600 text-white text-center">
-            <div className="text-xl font-bold">{formatRupiah(parseFloat(saldoAwal))}</div>
-            <div className="text-blue-100">Saldo Awal</div>
-          </Card>
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 p-4 shadow-lg shadow-blue-100">
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="p-1.5 bg-white/20 rounded-lg">
+                  <Wallet className="w-3.5 h-3.5 text-white" />
+                </div>
+                <span className="text-[10px] font-black text-blue-100 uppercase tracking-widest">Saldo Awal</span>
+              </div>
+              <p className="text-lg font-black text-white leading-tight">{formatRupiah(parseFloat(saldoAwal))}</p>
+            </div>
+            <div className="absolute -right-3 -bottom-3 w-16 h-16 bg-white/10 rounded-full" />
+          </div>
         )}
-        <Card className="p-4 bg-green-600 text-white text-center">
-          <div className="text-xl font-bold">{formatRupiah(totalPemasukan)}</div>
-          <div className="text-green-100">Total Pemasukan</div>
-        </Card>
-        <Card className="p-4 bg-red-600 text-white text-center">
-          <div className="text-xl font-bold">{formatRupiah(totalPengeluaran)}</div>
-          <div className="text-red-100">Total Pengeluaran</div>
-        </Card>
-        <Card className="p-4 bg-orange-600 text-white text-center">
-          <div className="text-xl font-bold">{formatRupiah(totalDanaMasjid)}</div>
-          <div className="text-orange-100">Total Dana Masjid</div>
-        </Card>
-        <Card className={`p-4 text-white text-center ${saldoAkhir >= 0 ? 'bg-green-600' : 'bg-red-600'}`}>
-          <div className="text-xl font-bold">{formatRupiah(saldoAkhir)}</div>
-          <div className={`${saldoAkhir >= 0 ? 'text-green-100' : 'text-red-100'}`}>Saldo Akhir</div>
-        </Card>
+
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 to-green-700 p-4 shadow-lg shadow-green-100">
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="p-1.5 bg-white/20 rounded-lg">
+                <TrendingUp className="w-3.5 h-3.5 text-white" />
+              </div>
+              <span className="text-[10px] font-black text-green-100 uppercase tracking-widest">Pemasukan</span>
+            </div>
+            <p className="text-lg font-black text-white leading-tight">{formatRupiah(totalPemasukan)}</p>
+          </div>
+          <div className="absolute -right-3 -bottom-3 w-16 h-16 bg-white/10 rounded-full" />
+        </div>
+
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-rose-500 to-red-700 p-4 shadow-lg shadow-red-100">
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="p-1.5 bg-white/20 rounded-lg">
+                <TrendingDown className="w-3.5 h-3.5 text-white" />
+              </div>
+              <span className="text-[10px] font-black text-red-100 uppercase tracking-widest">Pengeluaran</span>
+            </div>
+            <p className="text-lg font-black text-white leading-tight">{formatRupiah(totalPengeluaran)}</p>
+          </div>
+          <div className="absolute -right-3 -bottom-3 w-16 h-16 bg-white/10 rounded-full" />
+        </div>
+
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 p-4 shadow-lg shadow-orange-100">
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="p-1.5 bg-white/20 rounded-lg">
+                <Landmark className="w-3.5 h-3.5 text-white" />
+              </div>
+              <span className="text-[10px] font-black text-orange-100 uppercase tracking-widest">Dana Masjid</span>
+            </div>
+            <p className="text-lg font-black text-white leading-tight">{formatRupiah(totalDanaMasjid)}</p>
+          </div>
+          <div className="absolute -right-3 -bottom-3 w-16 h-16 bg-white/10 rounded-full" />
+        </div>
+
+        <div className={`relative overflow-hidden rounded-2xl p-4 shadow-lg ${
+          saldoAkhir >= 0
+            ? 'bg-gradient-to-br from-teal-500 to-green-700 shadow-teal-100'
+            : 'bg-gradient-to-br from-rose-600 to-red-800 shadow-red-100'
+        }`}>
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="p-1.5 bg-white/20 rounded-lg">
+                <ArrowRightLeft className="w-3.5 h-3.5 text-white" />
+              </div>
+              <span className={`text-[10px] font-black uppercase tracking-widest ${saldoAkhir >= 0 ? 'text-teal-100' : 'text-red-100'}`}>Saldo Akhir</span>
+            </div>
+            <p className="text-lg font-black text-white leading-tight">{formatRupiah(saldoAkhir)}</p>
+          </div>
+          <div className="absolute -right-3 -bottom-3 w-16 h-16 bg-white/10 rounded-full" />
+        </div>
       </div>
     </Card>
   );
