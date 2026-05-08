@@ -16,6 +16,8 @@ const BASE_KEYS = {
 const PANITIA_KEYS = {
   list: 'klampisan_kurban_panitia_list',
   header: 'klampisan_kurban_panitia_header',
+  info: 'klampisan_kurban_panitia_info',
+  pengesah: 'klampisan_kurban_panitia_pengesah',
 };
 
 export const yearKey = (base: string, year: string) => `${base}_${year}`;
@@ -123,6 +125,14 @@ export const YearProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const oldPanitiaHeader = localStorage.getItem(`${PANITIA_KEYS.header}_${currentYear}`);
     if (oldPanitiaHeader) {
       localStorage.setItem(`${PANITIA_KEYS.header}_${newYear}`, oldPanitiaHeader);
+    }
+    const oldPanitiaInfo = localStorage.getItem(`${PANITIA_KEYS.info}_${currentYear}`);
+    if (oldPanitiaInfo) {
+      localStorage.setItem(`${PANITIA_KEYS.info}_${newYear}`, oldPanitiaInfo);
+    }
+    const oldPengesah = localStorage.getItem(`${PANITIA_KEYS.pengesah}_${currentYear}`);
+    if (oldPengesah) {
+      localStorage.setItem(`${PANITIA_KEYS.pengesah}_${newYear}`, oldPengesah);
     }
 
     const newYears = [...availableYears, newYear];
