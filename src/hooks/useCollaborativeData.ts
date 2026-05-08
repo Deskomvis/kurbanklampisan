@@ -3,13 +3,11 @@ import { useBackup } from '@/contexts/BackupContext';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
-import { useToast } from '@/hooks/use-toast';
 
 export const useCollaborativeData = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [lastLoadedBackupId, setLastLoadedBackupId] = useState<string | null>(null);
   const { getBackupsList, isLoading, refreshBackups } = useBackup();
-  const { toast } = useToast();
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   
   const { setPenerimaList } = usePenerima();
@@ -34,16 +32,8 @@ export const useCollaborativeData = () => {
 
     setLastLoadedBackupId(backup.id);
 
-    if (isInitial) {
-      toast({
-        title: "Data Kolaboratif Dimuat",
-        description: `Memuat data terbaru: "${backup.name}"`,
-      });
-    } else {
-      toast({
-        title: "Data Terbaru Dimuat",
-        description: `Data kolaboratif diperbarui: "${backup.name}"`,
-      });
+    if (!isInitial) {
+      console.log('Collaborative data updated:', backup.name);
     }
   };
 
@@ -79,20 +69,12 @@ export const useCollaborativeData = () => {
           await loadBackupData(latestBackup, true);
         } else {
           console.log('No backup data found, starting with empty data');
-          toast({
-            title: "Mode Kolaboratif",
-            description: "Memulai dengan data kosong. Save manual untuk berbagi data.",
-          });
         }
         
         setIsInitialized(true);
       } catch (error) {
         console.error('Error loading collaborative data:', error);
-        toast({
-          title: "Info",
-          description: "Memulai dengan data lokal",
-          variant: "default",
-        });
+        console.log('Starting with local data');
         setIsInitialized(true);
       }
     };
