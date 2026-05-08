@@ -38,10 +38,10 @@ const Dashboard = () => {
   );
 
   const slides = [
-    { src: "/src/assets/banner-1.png", alt: "Kegiatan Panitia 1" },
-    { src: "/src/assets/banner-2.png", alt: "Banner Utama Kurban 2026" },
-    { src: "/src/assets/banner-3.png", alt: "Kegiatan Panitia 2" },
-    { src: "/src/assets/banner-2.png", alt: "Banner Utama Kurban 2026 (Loop)" }
+    { src: "/banner-1.png", alt: "Kegiatan Panitia 1" },
+    { src: "/banner-2.png", alt: "Banner Utama Kurban 2026" },
+    { src: "/banner-3.png", alt: "Kegiatan Panitia 2" },
+    { src: "/banner-2.png", alt: "Banner Utama Kurban 2026 (Loop)" }
   ];
   
   const formatRupiah = (amount: number) => {
