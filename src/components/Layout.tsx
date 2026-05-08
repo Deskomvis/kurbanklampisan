@@ -16,6 +16,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { YearSelector } from '@/components/year/YearSelector';
+import { useYear } from '@/contexts/YearContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -23,6 +24,8 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
+  const { currentYear } = useYear();
+  const hijriahYear = parseInt(currentYear) - 579;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -53,7 +56,7 @@ const Layout = ({ children }: LayoutProps) => {
     <div className="min-h-screen bg-gray-50 selection:bg-green-100 selection:text-green-900">
       {/* Top Banner / Info Bar */}
       <div className="bg-green-700 text-white py-1.5 px-4 text-xs font-medium text-center">
-        Panitia Kurban Masjid Istiqomah Klampisan • Tahun 1447 H / 2026 M
+        Panitia Kurban Masjid Istiqomah Klampisan • Tahun {hijriahYear} H / {currentYear} M
       </div>
 
       {/* Main Header */}

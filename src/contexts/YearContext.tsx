@@ -26,6 +26,19 @@ const migrateLegacyData = (year: string) => {
   });
 };
 
+// One-time: mark all penerima for a past year as sudahMenerima=true
+const markAllPenerimaReceived = (year: string) => {
+  const flagKey = `klampisan_kurban_dist_done_${year}`;
+  if (localStorage.getItem(flagKey)) return;
+  const data = localStorage.getItem(yearKey(BASE_KEYS.penerima, year));
+  if (data) {
+    const parsed: Record<string, unknown>[] = JSON.parse(data);
+    const marked = parsed.map((p) => ({ ...p, sudahMenerima: true }));
+    localStorage.setItem(yearKey(BASE_KEYS.penerima, year), JSON.stringify(marked));
+  }
+  localStorage.setItem(flagKey, 'true');
+};
+
 const getSaldoAkhir = (year: string): number => {
   const saldo = parseFloat(localStorage.getItem(yearKey(BASE_KEYS.saldo, year)) || '0') || 0;
   const transStr = localStorage.getItem(yearKey(BASE_KEYS.transactions, year));
@@ -56,9 +69,14 @@ export const useYear = () => {
 export const YearProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [availableYears, setAvailableYears] = useState<string[]>(() => {
     const saved = localStorage.getItem(YEARS_KEY);
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      // Still run mark-received migration on every boot (idempotent via flag)
+      markAllPenerimaReceived('2025');
+      return JSON.parse(saved);
+    }
     // First run: migrate legacy data to 2025-scoped keys
     migrateLegacyData('2025');
+    markAllPenerimaReceived('2025');
     const initial = ['2025'];
     localStorage.setItem(YEARS_KEY, JSON.stringify(initial));
     return initial;

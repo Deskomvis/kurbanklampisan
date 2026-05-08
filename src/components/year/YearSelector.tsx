@@ -28,8 +28,8 @@ export const YearSelector: React.FC = () => {
 
   const handleCreateYear = () => {
     const trimmed = newYearInput.trim();
-    if (!trimmed || !/^\d{4}$/.test(trimmed)) {
-      toast({ title: 'Format Salah', description: 'Masukkan tahun dalam format 4 digit, contoh: 2026', variant: 'destructive' });
+    if (!trimmed || !/^\d{4}$/.test(trimmed) || parseInt(trimmed) < 2000 || parseInt(trimmed) > 2100) {
+      toast({ title: 'Format Salah', description: 'Masukkan tahun Masehi yang valid, contoh: 2026', variant: 'destructive' });
       return;
     }
     if (availableYears.includes(trimmed)) {
@@ -69,7 +69,7 @@ export const YearSelector: React.FC = () => {
               onClick={() => switchYear(year)}
               className="flex items-center justify-between cursor-pointer"
             >
-              <span className="font-medium">{year} H/{parseInt(year) + 1} M</span>
+              <span className="font-medium">{year} M <span className="text-gray-400 text-xs">({parseInt(year) - 579} H)</span></span>
               {year === currentYear && <Check className="w-4 h-4 text-green-600" />}
             </DropdownMenuItem>
           ))}
@@ -94,18 +94,21 @@ export const YearSelector: React.FC = () => {
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="space-y-1.5">
-              <Label htmlFor="newYear">Tahun Hijriah</Label>
+              <Label htmlFor="newYear">Tahun Masehi</Label>
               <Input
                 id="newYear"
-                placeholder="Contoh: 1448"
+                placeholder="Contoh: 2026"
                 value={newYearInput}
                 onChange={(e) => setNewYearInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleCreateYear()}
                 maxLength={4}
               />
+              {newYearInput.length === 4 && /^\d{4}$/.test(newYearInput) && (
+                <p className="text-xs text-gray-500">= {parseInt(newYearInput) - 579} H</p>
+              )}
             </div>
             <div className="rounded-lg bg-amber-50 border border-amber-200 p-3 space-y-1 text-sm text-amber-800">
-              <p className="font-semibold">Yang akan disalin dari tahun {currentYear}:</p>
+              <p className="font-semibold">Yang akan disalin dari {currentYear} M ({parseInt(currentYear) - 579} H):</p>
               <ul className="list-disc list-inside space-y-0.5 text-xs">
                 <li>Daftar penerima daging (status reset)</li>
                 <li>Saldo akhir → saldo awal baru</li>

@@ -2,7 +2,7 @@ import { Penerima } from '@/contexts/PenerimaContext';
 
 export const initialPenerimaData: Omit<Penerima, 'id' | 'sudahMenerima'>[] = [
   // RT 01 - Data dari gambar (180 orang total, nomor 1-180)
-  { nomorPengambilan: '1', nama: 'HERMAN (Mondok di Kos Islamah)', rt: '01', blok: 'Barat' },
+  { nomorPengambilan: '1', nama: 'HERMAN (Mondok di Kos Salamah)', rt: '01', blok: 'Barat' },
   { nomorPengambilan: '2', nama: 'SUYATNO', rt: '01', blok: 'Barat' },
   { nomorPengambilan: '3', nama: 'SUKIR', rt: '01', blok: 'Barat' },
   { nomorPengambilan: '4', nama: 'RAHAYU ISHARYANTO W', rt: '01', blok: 'Barat' },
@@ -110,7 +110,7 @@ export const initialPenerimaData: Omit<Penerima, 'id' | 'sudahMenerima'>[] = [
   { nomorPengambilan: '104', nama: 'ENDRIAS / SABAR', rt: '01', blok: 'Tengah' },
   { nomorPengambilan: '105', nama: 'ASRUN', rt: '01', blok: 'Tengah' },
   { nomorPengambilan: '106', nama: 'AGUS SUSANTO', rt: '01', blok: 'Tengah' },
-  { nomorPengambilan: '107', nama: 'WARIJO (BAGONG)', rt: '01', blok: 'Tengah' },
+  { nomorPengambilan: '107', nama: 'WARNO (BAGONG)', rt: '01', blok: 'Tengah' },
   { nomorPengambilan: '108', nama: 'SRI HARTONO, S.Pd', rt: '01', blok: 'Tengah' },
   { nomorPengambilan: '109', nama: 'JATMIKO (SAMIYONO)', rt: '01', blok: 'Tengah' },
   { nomorPengambilan: '110', nama: 'WARDI/DANANG', rt: '01', blok: 'Tengah' },

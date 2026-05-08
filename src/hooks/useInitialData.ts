@@ -17,16 +17,18 @@ export const useInitialData = () => {
   const { transactions, isSaldoAwalSet, setSaldoAwal, addTransaction } = useKeuangan();
   const { toast } = useToast();
 
-  // Load penerima awal hanya jika kosong (berlaku semua tahun — tahun baru data dicopy via createNewYear)
+  // Load penerima awal hanya jika kosong
+  // Untuk tahun 2025 (sudah terlaksana), semua langsung ditandai sudahMenerima=true
   useEffect(() => {
     if (penerima.length === 0) {
       let rt01Count = 0;
       let rt02Count = 0;
+      const alreadyDone = currentYear === '2025';
 
       const processedData = initialPenerimaData.map((penerimaItem) => {
         if (penerimaItem.rt === '01') rt01Count++;
         else if (penerimaItem.rt === '02') rt02Count++;
-        return { ...penerimaItem, id: generateUniqueId(), sudahMenerima: false };
+        return { ...penerimaItem, id: generateUniqueId(), sudahMenerima: alreadyDone };
       });
 
       setPenerimaList(processedData);
@@ -38,7 +40,7 @@ export const useInitialData = () => {
         });
       }
     }
-  }, [penerima.length, setPenerimaList, toast]);
+  }, [penerima.length, setPenerimaList, toast, currentYear]);
 
   // Load data kelompok & keuangan hanya untuk tahun 2025 (tahun dasar)
   useEffect(() => {
