@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 import { generateUniqueId } from '@/utils/idGenerator';
 
 export interface Penerima {
@@ -24,6 +24,8 @@ interface PenerimaContextType {
 
 const PenerimaContext = createContext<PenerimaContextType | undefined>(undefined);
 
+const LOCAL_STORAGE_KEY = 'klampisan_kurban_penerima';
+
 export const usePenerima = () => {
   const context = useContext(PenerimaContext);
   if (!context) {
@@ -37,7 +39,14 @@ interface PenerimaProviderProps {
 }
 
 export const PenerimaProvider: React.FC<PenerimaProviderProps> = ({ children }) => {
-  const [penerima, setPenerima] = useState<Penerima[]>([]);
+  const [penerima, setPenerima] = useState<Penerima[]>(() => {
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(penerima));
+  }, [penerima]);
 
   const addPenerima = useCallback((newPenerima: Omit<Penerima, 'id' | 'sudahMenerima'>) => {
     const id = generateUniqueId();

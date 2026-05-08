@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TransactionInputTab } from './TransactionInputTab';
 import { TransactionHistoryTab } from './TransactionHistoryTab';
 import { Transaction } from '@/contexts/KeuanganContext';
+import { PlusCircle, ListFilter } from 'lucide-react';
 
 interface KeuanganTabsProps {
   formData: {
@@ -49,13 +49,25 @@ export const KeuanganTabs: React.FC<KeuanganTabsProps> = ({
   saldoAkhir
 }) => {
   return (
-    <Tabs defaultValue="input" className="w-full">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="input">Input Transaksi</TabsTrigger>
-        <TabsTrigger value="history">Riwayat Transaksi</TabsTrigger>
+    <Tabs defaultValue="input" className="w-full space-y-6">
+      <TabsList className="grid w-full grid-cols-2 p-1 bg-gray-100 rounded-xl h-14">
+        <TabsTrigger 
+          value="input" 
+          className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm font-semibold text-gray-500 flex items-center gap-2 transition-all duration-200"
+        >
+          <PlusCircle className="w-4 h-4" />
+          Input Transaksi
+        </TabsTrigger>
+        <TabsTrigger 
+          value="history" 
+          className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm font-semibold text-gray-500 flex items-center gap-2 transition-all duration-200"
+        >
+          <ListFilter className="w-4 h-4" />
+          Riwayat Transaksi
+        </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="input">
+      <TabsContent value="input" className="focus-visible:outline-none">
         <TransactionInputTab
           formData={formData}
           updateForm={updateForm}
@@ -68,7 +80,7 @@ export const KeuanganTabs: React.FC<KeuanganTabsProps> = ({
         />
       </TabsContent>
 
-      <TabsContent value="history">
+      <TabsContent value="history" className="focus-visible:outline-none">
         <TransactionHistoryTab
           transactions={transactions}
           onEdit={handleEdit}

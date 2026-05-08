@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 export interface KelompokSapi {
   id: string;
@@ -29,6 +29,9 @@ interface KelompokKurbanContextType {
 
 const KelompokKurbanContext = createContext<KelompokKurbanContextType | undefined>(undefined);
 
+const LOCAL_STORAGE_KEY_SAPI = 'klampisan_kurban_sapi';
+const LOCAL_STORAGE_KEY_KAMBING = 'klampisan_kurban_kambing';
+
 export const useKelompokKurban = () => {
   const context = useContext(KelompokKurbanContext);
   if (!context) {
@@ -42,8 +45,23 @@ interface KelompokKurbanProviderProps {
 }
 
 export const KelompokKurbanProvider: React.FC<KelompokKurbanProviderProps> = ({ children }) => {
-  const [kelompokSapi, setKelompokSapi] = useState<KelompokSapi[]>([]);
-  const [kurbanKambing, setKurbanKambing] = useState<KurbanKambing[]>([]);
+  const [kelompokSapi, setKelompokSapi] = useState<KelompokSapi[]>(() => {
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY_SAPI);
+    return saved ? JSON.parse(saved) : [];
+  });
+  
+  const [kurbanKambing, setKurbanKambing] = useState<KurbanKambing[]>(() => {
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY_KAMBING);
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY_SAPI, JSON.stringify(kelompokSapi));
+  }, [kelompokSapi]);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY_KAMBING, JSON.stringify(kurbanKambing));
+  }, [kurbanKambing]);
 
   const addKelompokSapi = (newKelompok: Omit<KelompokSapi, 'id'>) => {
     const id = Date.now().toString();

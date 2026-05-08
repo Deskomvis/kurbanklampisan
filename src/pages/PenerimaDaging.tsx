@@ -9,6 +9,7 @@ import { PenerimaSummary } from '@/components/penerima/PenerimaSummary';
 import { PenerimaActions } from '@/components/penerima/PenerimaActions';
 import { useToast } from '@/hooks/use-toast';
 import { useInitialData } from '@/hooks/useInitialData';
+import { UserCheck, ClipboardList, Filter } from 'lucide-react';
 
 const PenerimaDaging = () => {
   // Load initial data from the images
@@ -76,46 +77,94 @@ const PenerimaDaging = () => {
   const groupedPenerima = groupByRt(filteredPenerima);
 
   return (
-    <div className="space-y-4 md:space-y-6">
-      <div className="space-y-1 md:space-y-2">
-        <h2 className="text-xl md:text-2xl font-bold text-green-700">Daftar Penerima Daging</h2>
-        <p className="text-sm text-gray-600">RT 01 & RT 02 / RW 10 Klampisan - Kurban 2025</p>
+    <div className="space-y-8">
+      {/* Page Header */}
+      <div className="relative pb-4 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 flex items-center gap-3">
+            <UserCheck className="w-8 h-8 text-green-600" />
+            Data Penerima Daging
+          </h2>
+          <p className="text-gray-500 text-sm max-w-2xl">
+            Manajemen daftar penerima daging kurban untuk wilayah RT 01 & RT 02 / RW 10 Klampisan.
+          </p>
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-lg border border-green-100 w-fit">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+          <span className="text-xs font-semibold text-green-700">Periode 2026</span>
+        </div>
       </div>
 
-      <PenerimaForm
-        formData={formData}
-        setFormData={setFormData}
-        onSubmit={handleSubmit}
-      />
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+        {/* Sidebar / Form Area */}
+        <div className="xl:col-span-4 space-y-6">
+          <div className="sticky top-28">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="p-6 md:p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2 bg-green-50 rounded-lg">
+                    <ClipboardList className="w-5 h-5 text-green-700" />
+                  </div>
+                  <h3 className="text-lg font-bold text-gray-800">Formulir Input</h3>
+                </div>
+                <PenerimaForm
+                  formData={formData}
+                  setFormData={setFormData}
+                  onSubmit={handleSubmit}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <PenerimaFilters
-        filters={filters}
-        setFilters={setFilters}
-        onResetFilter={handleResetFilter}
-        filteredCount={filteredPenerima.length}
-      />
-
-      {['01', '02', 'tambahan'].map(rt => {
-        const penerimaRt = groupedPenerima[rt] || [];
-        return (
-          <PenerimaTable
-            key={rt}
-            rt={rt}
-            penerima={penerimaRt}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
+        {/* Content Area */}
+        <div className="xl:col-span-8 space-y-8">
+          {/* Summary Cards Area */}
+          <PenerimaSummary
+            totalPenerima={penerima.length}
+            rt01Count={groupedPenerima['01']?.length || 0}
+            rt02Count={groupedPenerima['02']?.length || 0}
+            tambahanCount={groupedPenerima['tambahan']?.length || 0}
           />
-        );
-      })}
 
-      <PenerimaSummary
-        totalPenerima={penerima.length}
-        rt01Count={groupedPenerima['01']?.length || 0}
-        rt02Count={groupedPenerima['02']?.length || 0}
-        tambahanCount={groupedPenerima['tambahan']?.length || 0}
-      />
+          {/* Filter Bar */}
+          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-blue-50 rounded-lg">
+                <Filter className="w-5 h-5 text-blue-600" />
+              </div>
+              <h3 className="text-lg font-bold text-gray-800">Filter & Pencarian</h3>
+            </div>
+            <PenerimaFilters
+              filters={filters}
+              setFilters={setFilters}
+              onResetFilter={handleResetFilter}
+              filteredCount={filteredPenerima.length}
+            />
+          </div>
 
-      <PenerimaActions />
+          {/* Tables Area */}
+          <div className="space-y-6">
+            {['01', '02', 'tambahan'].map(rt => {
+              const penerimaRt = groupedPenerima[rt] || [];
+              return (
+                <div key={rt} className="animate-in fade-in slide-in-from-bottom-2 duration-500">
+                  <PenerimaTable
+                    rt={rt}
+                    penerima={penerimaRt}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="pt-8 border-t border-gray-100">
+            <PenerimaActions />
+          </div>
+        </div>
+      </div>
 
       <EditPenerimaDialog
         penerima={editingPenerima}

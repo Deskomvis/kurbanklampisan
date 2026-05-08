@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 export interface Transaction {
   id: number;
@@ -28,6 +28,10 @@ interface KeuanganContextType {
 
 const KeuanganContext = createContext<KeuanganContextType | undefined>(undefined);
 
+const LOCAL_STORAGE_KEY_TRANSACTIONS = 'klampisan_kurban_transactions';
+const LOCAL_STORAGE_KEY_SALDO = 'klampisan_kurban_saldo';
+const LOCAL_STORAGE_KEY_SALDO_SET = 'klampisan_kurban_saldo_set';
+
 export const useKeuangan = () => {
   const context = useContext(KeuanganContext);
   if (!context) {
@@ -41,9 +45,30 @@ interface KeuanganProviderProps {
 }
 
 export const KeuanganProvider: React.FC<KeuanganProviderProps> = ({ children }) => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [saldoAwal, setSaldoAwalState] = useState<string>('');
-  const [isSaldoAwalSet, setIsSaldoAwalSet] = useState<boolean>(false);
+  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY_TRANSACTIONS);
+    return saved ? JSON.parse(saved) : [];
+  });
+  
+  const [saldoAwal, setSaldoAwalState] = useState<string>(() => {
+    return localStorage.getItem(LOCAL_STORAGE_KEY_SALDO) || '';
+  });
+  
+  const [isSaldoAwalSet, setIsSaldoAwalSet] = useState<boolean>(() => {
+    return localStorage.getItem(LOCAL_STORAGE_KEY_SALDO_SET) === 'true';
+  });
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY_TRANSACTIONS, JSON.stringify(transactions));
+  }, [transactions]);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY_SALDO, saldoAwal);
+  }, [saldoAwal]);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY_SALDO_SET, isSaldoAwalSet.toString());
+  }, [isSaldoAwalSet]);
 
   const generateUniqueId = () => {
     return Date.now() + Math.floor(Math.random() * 1000);

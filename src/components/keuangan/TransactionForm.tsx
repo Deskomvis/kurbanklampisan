@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -63,7 +62,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            TANGGAL:
+            Tanggal
           </label>
           <Input
             type="text"
@@ -75,7 +74,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            KETERANGAN:
+            Keterangan
           </label>
           <Input
             type="text"
@@ -88,7 +87,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            JUMLAH (RP):
+            Jumlah (Rp)
           </label>
           <Input
             type="number"
@@ -101,7 +100,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
         {type === 'pengeluaran' && setBuktiNota && (
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              BUKTI NOTA:
+              Bukti Nota
             </label>
             <div className="flex items-center gap-2">
               <Input

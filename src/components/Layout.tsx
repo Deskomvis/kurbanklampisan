@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   Home, 
@@ -9,9 +9,12 @@ import {
   FileText,
   Menu,
   X,
-  Database
+  Database,
+  Calendar,
+  ChevronRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -20,16 +23,25 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navItems = [
     { path: '/', label: 'Dashboard', icon: Home },
     { path: '/panitia', label: 'Panitia', icon: Users },
-    { path: '/kelompok-kurban', label: 'Kelompok Kurban', icon: Users },
+    { path: '/kelompok-kurban', label: 'Kelompok Kurban', icon: Calendar },
     { path: '/keuangan', label: 'Keuangan', icon: DollarSign },
-    { path: '/penerima-daging', label: 'Penerima Daging', icon: UserCheck },
-    { path: '/pembagian-daging', label: 'Pembagian Daging', icon: Share2 },
+    { path: '/penerima-daging', label: 'Data Penerima', icon: UserCheck },
+    { path: '/pembagian-daging', label: 'Pembagian', icon: Share2 },
     { path: '/laporan', label: 'Laporan', icon: FileText },
-    { path: '/data-management', label: 'Data', icon: Database },
+    { path: '/data-management', label: 'Manajemen Data', icon: Database },
   ];
 
   const toggleMobileMenu = () => {
@@ -37,41 +49,94 @@ const Layout = ({ children }: LayoutProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg">
-        <div className="container mx-auto px-3 md:px-4">
-          <div className="flex items-center justify-between py-3 md:py-6">
-            <div className="flex items-center gap-2 md:gap-3">
-              <div className="bg-white p-1.5 md:p-2 rounded">
-                <FileText className="w-4 h-4 md:w-6 md:h-6 text-green-600" />
-              </div>
-              <div>
-                <h1 className="text-lg md:text-2xl font-bold">Aplikasi Laporan Kurban</h1>
-                <p className="text-xs md:text-sm text-green-100 hidden sm:block">
-                  Masjid Istiqomah Klampisan - Kaliancar, Selogiri, Wonogiri
-                </p>
-              </div>
-            </div>
-            
-            {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="md:hidden text-white hover:bg-green-700"
-              onClick={toggleMobileMenu}
-            >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gray-50 selection:bg-green-100 selection:text-green-900">
+      {/* Top Banner / Info Bar */}
+      <div className="bg-green-700 text-white py-1.5 px-4 text-xs font-medium text-center">
+        Panitia Kurban Masjid Istiqomah Klampisan • Tahun 1447 H / 2026 M
       </div>
 
-      {/* Navigation */}
-      <div className="bg-white shadow-sm border-b sticky top-0 z-40">
-        <div className="container mx-auto px-3 md:px-4">
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-1">
+      {/* Main Header */}
+      <header className={cn(
+        "sticky top-0 z-50 transition-all duration-300 w-full border-b",
+        scrolled 
+          ? "bg-white/95 backdrop-blur-md shadow-sm py-2 border-gray-200" 
+          : "bg-white border-gray-100 py-3"
+      )}>
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="bg-green-600 p-2 rounded-lg text-white group-hover:bg-green-700 transition-colors">
+                <FileText className="w-5 h-5 md:w-6 md:h-6" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-gray-900 leading-tight">
+                  Kurban<span className="text-green-600">App</span>
+                </span>
+                <span className="text-xs text-gray-500 font-medium">
+                  Istiqomah Klampisan
+                </span>
+              </div>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden xl:flex items-center gap-1">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = location.pathname === item.path;
+                
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={cn(
+                      "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-green-50 text-green-700"
+                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                    )}
+                  >
+                    <Icon className={cn("w-4 h-4", isActive ? "text-green-600" : "text-gray-500")} />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="flex items-center gap-2">
+              {/* Mobile Menu Button */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="xl:hidden rounded-lg hover:bg-gray-100"
+                onClick={toggleMobileMenu}
+                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              >
+                {isMobileMenuOpen ? <X className="w-5 h-5 text-gray-700" /> : <Menu className="w-5 h-5 text-gray-700" />}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Navigation Overlay */}
+      <div className={cn(
+        "fixed inset-0 z-[60] bg-white transition-all duration-300 xl:hidden overflow-y-auto",
+        isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+      )}>
+        <div className="container mx-auto px-4 py-6 flex flex-col h-full">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <div className="bg-green-600 p-2 rounded-lg text-white">
+                <FileText className="w-5 h-5" />
+              </div>
+              <span className="text-xl font-bold text-gray-900">Menu Navigasi</span>
+            </div>
+            <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
+              <X className="w-6 h-6 text-gray-500" />
+            </Button>
+          </div>
+
+          <nav className="flex flex-col gap-2 flex-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -80,55 +145,46 @@ const Layout = ({ children }: LayoutProps) => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center gap-2 px-3 lg:px-4 py-3 text-sm font-medium transition-colors ${
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={cn(
+                    "flex items-center justify-between px-4 py-3 rounded-xl transition-colors",
                     isActive
-                      ? 'bg-green-600 text-white'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                  }`}
+                      ? "bg-green-50 text-green-800 border border-green-100"
+                      : "bg-white text-gray-700 border border-transparent hover:bg-gray-50"
+                  )}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span className="hidden lg:inline">{item.label}</span>
+                  <div className="flex items-center gap-3">
+                    <Icon className={cn("w-5 h-5", isActive ? "text-green-600" : "text-gray-400")} />
+                    <span className="font-medium text-base">
+                      {item.label}
+                    </span>
+                  </div>
+                  <ChevronRight className={cn(
+                    "w-5 h-5",
+                    isActive ? "text-green-500" : "text-gray-300"
+                  )} />
                 </Link>
               );
             })}
           </nav>
 
-          {/* Mobile Navigation */}
-          {isMobileMenuOpen && (
-            <nav className="md:hidden py-2 border-t border-gray-200">
-              <div className="grid grid-cols-2 gap-1">
-                {navItems.map((item) => {
-                  const Icon = item.icon;
-                  const isActive = location.pathname === item.path;
-                  
-                  return (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center gap-2 px-3 py-2.5 text-sm font-medium transition-colors rounded ${
-                        isActive
-                          ? 'bg-green-600 text-white'
-                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4 flex-shrink-0" />
-                      <span className="text-xs">{item.label}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </nav>
-          )}
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <p className="text-center text-gray-500 text-sm">
+              &copy; 2026 Panitia Kurban Klampisan
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-3 md:px-4 py-4 md:py-6">
-        {children}
-      </div>
+      {/* Main Content Area */}
+      <main className="relative z-10 container mx-auto px-4 md:px-6 py-6 md:py-8">
+        <div className="max-w-7xl mx-auto">
+          {children}
+        </div>
+      </main>
     </div>
   );
 };
 
 export default Layout;
+;

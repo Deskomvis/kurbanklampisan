@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Penerima } from '@/contexts/PenerimaContext';
 import { PenerimaTableBase } from '@/components/shared/PenerimaTableBase';
+import { Beef } from 'lucide-react';
 
 interface PembagianTableProps {
   rt: string;
@@ -15,19 +15,20 @@ export const PembagianTable: React.FC<PembagianTableProps> = ({
   penerima,
   onSudahMenerima
 }) => {
-  const headers = ['NO', 'NAMA PENERIMA', 'BLOK', 'AKSI'];
-  const rtTitle = rt === 'tambahan' ? 'PENERIMA TAMBAHAN' : `RT ${rt} / 10 KLAMPISAN`;
-  const title = `${rtTitle} - BELUM MENERIMA`;
-  const emptyMessage = `🎉 Semua penerima di ${rt === 'tambahan' ? 'kategori ini' : 'RT ini'} sudah menerima daging!`;
+  const headers = ['NO', 'NAMA PENERIMA', 'BLOK', 'KONFIRMASI'];
+  const rtTitle = rt === 'tambahan' ? 'Penerima Tambahan' : `RT ${rt} / RW 10 Klampisan`;
+  const title = `${rtTitle} — Antrian`;
+  const emptyMessage = `Alhamdulillah, distribusi di ${rt === 'tambahan' ? 'kategori ini' : 'RT ini'} telah selesai!`;
 
   const renderActions = (penerimaItem: Penerima) => (
     <Button
       variant="default"
       size="sm"
-      className="bg-green-600 hover:bg-green-700 text-xs"
+      className="h-9 px-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold text-sm flex items-center gap-2 transition-all active:scale-95"
       onClick={() => onSudahMenerima(penerimaItem.id)}
     >
-      🥩 Bagikan
+      <Beef className="w-4 h-4" />
+      Konfirmasi Terima
     </Button>
   );
 
