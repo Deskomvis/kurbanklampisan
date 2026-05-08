@@ -68,18 +68,12 @@ const Layout = ({ children }: LayoutProps) => {
       )}>
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="bg-green-600 p-2 rounded-lg text-white group-hover:bg-green-700 transition-colors">
-                <FileText className="w-5 h-5 md:w-6 md:h-6" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl font-bold text-gray-900 leading-tight">
-                  Kurban<span className="text-green-600">App</span>
-                </span>
-                <span className="text-xs text-gray-500 font-medium">
-                  Istiqomah Klampisan
-                </span>
-              </div>
+            <Link to="/" className="flex items-center group">
+              <img
+                src="/logo.png"
+                alt="Masjid Al Istiqomah Klampisan"
+                className="h-10 md:h-12 w-auto object-contain group-hover:opacity-90 transition-opacity"
+              />
             </Link>
 
             {/* Desktop Navigation */}
@@ -131,10 +125,7 @@ const Layout = ({ children }: LayoutProps) => {
         <div className="container mx-auto px-4 py-6 flex flex-col h-full">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <div className="bg-green-600 p-2 rounded-lg text-white">
-                <FileText className="w-5 h-5" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">Menu Navigasi</span>
+              <img src="/logo.png" alt="Masjid Al Istiqomah Klampisan" className="h-9 w-auto object-contain" />
             </div>
             <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
               <X className="w-6 h-6 text-gray-500" />
