@@ -1,0 +1,100 @@
+import { KelompokSapi, KurbanKambing } from '@/contexts/KelompokKurbanContext';
+
+export const initialKelompokSapiData: Omit<KelompokSapi, 'id'>[] = [
+  {
+    nomor: 'Kelompok 1',
+    anggota: [
+      'IBU RUSTIYANTI BINTI PUJOWIRYANTO',
+      'ROHADI SETIYAWAN BIN MOCH SIROJ',
+      'GHANIA KANIGARA LARASATI BINTI REZHA ADI NUGROHO',
+      'IBU HJ. NUNUK SUKARNI BINTI SISWOSUNARTO',
+      'SARJIYANTO BIN KARNOREJO',
+      'SUTANTO BIN WARINO',
+      'SONI WIDI NUGROHO BIN SUTARSO',
+    ],
+  },
+  {
+    nomor: 'Kelompok 2',
+    anggota: [
+      'SUGIYONO BIN KARIYODIMEJO',
+      'DWI HARYADI BIN SANTOSO',
+      'ASTRI OKTAFIYANI PAMUNGKAS BINTI SULARDI',
+      'H. ANTOK SRIHONO BIN MARTOSENTONO',
+      'BETY ELISA OKTAFIYANI BINTI GINO',
+      'NUYZUL FITRI ASTUTI BINTI SUDARMAN',
+      'IBU SUMIYATI BINTI SLAMET KARMANTO',
+    ],
+  },
+  {
+    nomor: 'Kelompok 3',
+    anggota: [
+      'ERFAN DWI NUR SUSILA PUTRA BIN PARJAN',
+      'SUTINO BIN SUGIMAN',
+      'IKA KURNIAWATI BINTI PARTO HADI SISWOYO',
+      'TITIK SRI HARTATI BINTI WIRYO SUGIYARTO',
+      'SUDARSO BIN WIRYO SUGIYARTO',
+      'DAROJI BIN MINTO SUHADI',
+      'ARILIA TRI WIJAYANTI BINTI TRI MULYONO',
+    ],
+  },
+  {
+    nomor: 'Kelompok 4',
+    anggota: [
+      'SUWARTI BINTI SIKUN DARMO SAROYO',
+      'RACHEL ISTI OKTAVIA BINTI SUPALI',
+      'NINIK SRI RAHAYU BINTI WIRYO SUGIYARTO',
+      'SUNARDI BIN MENTO MARTO WIYONO',
+      'DANANG HARIYANTO BIN SULARTO',
+      'SURONO BIN KATIMAN',
+      'KAMELIYA MUTHIAH KRISWARDHANI BINTI SUWARDI',
+    ],
+  },
+  {
+    nomor: 'Kelompok 5',
+    anggota: [
+      'MUHAMMAD EKO NUR HIDAYAT BIN SLAMET (Sekeluarga)',
+      'YUNI RAHMAWATI BINTI SUPARDI (Sekeluarga)',
+      'SINGGIH PRIAMBODO BIN JAYAN',
+      'HJ. SUNARINI BINTI SUPARNO',
+      'SUWITO SEKELUARGA BIN SUPARDI',
+      'H. SUDARNA SEKELUARGA BIN SUHARNO',
+      'WARMI BINTI PARSODIONO',
+    ],
+  },
+  {
+    nomor: 'Kelompok 6',
+    anggota: [
+      'Ibu Hj. Istiqomah Binti H. Ahmad Jazuli',
+      'Almarhumah Nurraini Exie Kusumawardani Binti H. Gino',
+      'Bp. Bambang Suwondo Bin Suratmo',
+      'Bp. Dwi Yuliyanto Bin Hadi Suyatmo',
+      'Bp. H. Syamsuri Bin Sahari',
+      'Bp. Suparjo Bin Tarto Martono',
+      'Bu Surip Binti Kartosemito',
+    ],
+  },
+];
+
+export const initialKurbanKambingData: Omit<KurbanKambing, 'id' | 'nomor'>[] = [
+  { pemilik: 'AYYASH FATIH DEWANDARU BIN BAPAK SUYATNO' },
+  { pemilik: 'ALMARHUMAH IBU SRI WAHYUNI BINTI BAPAK TUGIMAN' },
+  { pemilik: 'PT. MADURASA UNGGULAN NUSANTARA' },
+  { pemilik: 'ALDIRA AULIYA SALSABILA BINTI BAPAK SATIMIN' },
+  { pemilik: 'YUNITA TRISNAWATI BINTI BAPAK GINO' },
+  { pemilik: 'ALMARHUM BAPAK AGUNG SUNAR WIBOWO BIN BAPAK SUNARTO' },
+  { pemilik: 'IBU PURWAS ASRUN BINTI BAPAK KARNODIHARJO' },
+  { pemilik: 'BAPAK SAKIMO BIN BAPAK TRIMAN KARTO' },
+  { pemilik: 'LISA DEWIYANTI BINTI BAPAK RUKIMAN' },
+  { pemilik: 'ALMARHUM BAPAK GUNAWAN SETIYAWARDANA BIN BAPAK SUWARNO' },
+  { pemilik: 'DEWI SUTARTININGSIH BINTI BAPAK SUTARJO' },
+  { pemilik: 'ALMARHUMAH IBU SUTINI BINTI BAPAK MARTO WIJOYO' },
+  { pemilik: 'TAUFIQ HAQIQI BIN BAPAK SUNARTO' },
+  { pemilik: 'FAISAL HILMI AL HASAN BIN BAPAK SRIYATMO' },
+  { pemilik: 'ALMARHUMAH IBU TRINAH BINTI BAPAK WAGIYO' },
+  { pemilik: 'ALMARHUMAH IBU TATIK TARYANTI BINTI BAPAK KASINO' },
+  { pemilik: 'IBU JUMIYATI BINTI BAPAK TINO ATMOWIJOYO' },
+  { pemilik: 'BAPAK WARNO BIN BAPAK PARTOGIYO' },
+  { pemilik: 'IBU MARIKEM BINTI BAPAK SARIKORMO' },
+  { pemilik: 'ALMARHUM BAPAK PARNO BIN BAPAK SAGIYO' },
+  { pemilik: 'IBU TITIK BINTI BAPAK SRIYONO' },
+];

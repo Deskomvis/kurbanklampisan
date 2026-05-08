@@ -5,19 +5,21 @@ import Card from '../components/Card';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
-import { 
-  Beef, 
-  PawPrint, 
-  Users, 
-  UserCheck, 
-  Wallet, 
-  TrendingUp, 
-  CheckCircle2, 
+import { useInitialData } from '@/hooks/useInitialData';
+import {
+  Beef,
+  PawPrint,
+  Users,
+  UserCheck,
+  Wallet,
+  TrendingUp,
+  CheckCircle2,
   Clock,
   ArrowUpRight
 } from 'lucide-react';
 
 const Dashboard = () => {
+  useInitialData();
   const { penerima } = usePenerima();
   const { getTotalSapi, getTotalKambing } = useKelompokKurban();
   const { getTotalPengeluaran } = useKeuangan();
