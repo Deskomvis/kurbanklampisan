@@ -24,8 +24,6 @@ interface PenerimaContextType {
 
 const PenerimaContext = createContext<PenerimaContextType | undefined>(undefined);
 
-const LOCAL_STORAGE_KEY = 'klampisan_kurban_penerima';
-
 export const usePenerima = () => {
   const context = useContext(PenerimaContext);
   if (!context) {
@@ -36,9 +34,12 @@ export const usePenerima = () => {
 
 interface PenerimaProviderProps {
   children: ReactNode;
+  year?: string;
 }
 
-export const PenerimaProvider: React.FC<PenerimaProviderProps> = ({ children }) => {
+export const PenerimaProvider: React.FC<PenerimaProviderProps> = ({ children, year = '2025' }) => {
+  const LOCAL_STORAGE_KEY = `klampisan_kurban_penerima_${year}`;
+
   const [penerima, setPenerima] = useState<Penerima[]>(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     return saved ? JSON.parse(saved) : [];

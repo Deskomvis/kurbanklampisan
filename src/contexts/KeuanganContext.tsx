@@ -28,9 +28,9 @@ interface KeuanganContextType {
 
 const KeuanganContext = createContext<KeuanganContextType | undefined>(undefined);
 
-const LOCAL_STORAGE_KEY_TRANSACTIONS = 'klampisan_kurban_transactions';
-const LOCAL_STORAGE_KEY_SALDO = 'klampisan_kurban_saldo';
-const LOCAL_STORAGE_KEY_SALDO_SET = 'klampisan_kurban_saldo_set';
+const BASE_KEY_TRANSACTIONS = 'klampisan_kurban_transactions';
+const BASE_KEY_SALDO = 'klampisan_kurban_saldo';
+const BASE_KEY_SALDO_SET = 'klampisan_kurban_saldo_set';
 
 export const useKeuangan = () => {
   const context = useContext(KeuanganContext);
@@ -42,33 +42,38 @@ export const useKeuangan = () => {
 
 interface KeuanganProviderProps {
   children: ReactNode;
+  year?: string;
 }
 
-export const KeuanganProvider: React.FC<KeuanganProviderProps> = ({ children }) => {
+export const KeuanganProvider: React.FC<KeuanganProviderProps> = ({ children, year = '2025' }) => {
+  const LOCAL_STORAGE_KEY_TRANSACTIONS = `${BASE_KEY_TRANSACTIONS}_${year}`;
+  const LOCAL_STORAGE_KEY_SALDO = `${BASE_KEY_SALDO}_${year}`;
+  const LOCAL_STORAGE_KEY_SALDO_SET = `${BASE_KEY_SALDO_SET}_${year}`;
+
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY_TRANSACTIONS);
     return saved ? JSON.parse(saved) : [];
   });
-  
+
   const [saldoAwal, setSaldoAwalState] = useState<string>(() => {
     return localStorage.getItem(LOCAL_STORAGE_KEY_SALDO) || '';
   });
-  
+
   const [isSaldoAwalSet, setIsSaldoAwalSet] = useState<boolean>(() => {
     return localStorage.getItem(LOCAL_STORAGE_KEY_SALDO_SET) === 'true';
   });
 
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY_TRANSACTIONS, JSON.stringify(transactions));
-  }, [transactions]);
+  }, [transactions, LOCAL_STORAGE_KEY_TRANSACTIONS]);
 
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY_SALDO, saldoAwal);
-  }, [saldoAwal]);
+  }, [saldoAwal, LOCAL_STORAGE_KEY_SALDO]);
 
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY_SALDO_SET, isSaldoAwalSet.toString());
-  }, [isSaldoAwalSet]);
+  }, [isSaldoAwalSet, LOCAL_STORAGE_KEY_SALDO_SET]);
 
   const generateUniqueId = () => {
     return Date.now() + Math.floor(Math.random() * 1000);

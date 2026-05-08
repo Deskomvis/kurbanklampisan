@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { YearSelector } from '@/components/year/YearSelector';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -103,6 +104,7 @@ const Layout = ({ children }: LayoutProps) => {
             </nav>
 
             <div className="flex items-center gap-2">
+              <YearSelector />
               {/* Mobile Menu Button */}
               <Button
                 variant="ghost"

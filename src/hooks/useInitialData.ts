@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
+import { useYear } from '@/contexts/YearContext';
 import { initialPenerimaData } from '@/utils/initialPenerimaData';
 import { initialKelompokSapiData, initialKurbanKambingData } from '@/utils/initialKelompokData';
 import { initialSaldoAwal, initialTransactions } from '@/utils/initialKeuanganData';
@@ -10,65 +11,52 @@ import { useToast } from '@/hooks/use-toast';
 import { generateUniqueId } from '@/utils/idGenerator';
 
 export const useInitialData = () => {
+  const { currentYear } = useYear();
   const { penerima, setPenerimaList } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing } = useKelompokKurban();
   const { transactions, isSaldoAwalSet, setSaldoAwal, addTransaction } = useKeuangan();
   const { toast } = useToast();
 
+  // Load penerima awal hanya jika kosong (berlaku semua tahun — tahun baru data dicopy via createNewYear)
   useEffect(() => {
     if (penerima.length === 0) {
       let rt01Count = 0;
       let rt02Count = 0;
 
       const processedData = initialPenerimaData.map((penerimaItem) => {
-        const processedItem = {
-          ...penerimaItem,
-          id: generateUniqueId(),
-          sudahMenerima: false
-        };
-
-        if (penerimaItem.rt === '01') {
-          rt01Count++;
-        } else if (penerimaItem.rt === '02') {
-          rt02Count++;
-        }
-
-        return processedItem;
+        if (penerimaItem.rt === '01') rt01Count++;
+        else if (penerimaItem.rt === '02') rt02Count++;
+        return { ...penerimaItem, id: generateUniqueId(), sudahMenerima: false };
       });
 
       setPenerimaList(processedData);
 
       if (processedData.length > 0) {
         toast({
-          title: "Data Berhasil Dimuat",
-          description: `${processedData.length} penerima berhasil ditambahkan (${rt01Count} dari RT 01 dan ${rt02Count} dari RT 02)`,
+          title: 'Data Berhasil Dimuat',
+          description: `${processedData.length} penerima ditambahkan (RT 01: ${rt01Count}, RT 02: ${rt02Count})`,
         });
       }
     }
   }, [penerima.length, setPenerimaList, toast]);
 
+  // Load data kelompok & keuangan hanya untuk tahun 2025 (tahun dasar)
   useEffect(() => {
-    if (kelompokSapi.length === 0) {
-      initialKelompokSapiData.forEach((kelompok) => {
-        addKelompokSapi(kelompok);
-      });
+    if (currentYear === '2025' && kelompokSapi.length === 0) {
+      initialKelompokSapiData.forEach((kelompok) => addKelompokSapi(kelompok));
     }
-  }, [kelompokSapi.length, addKelompokSapi]);
+  }, [currentYear, kelompokSapi.length, addKelompokSapi]);
 
   useEffect(() => {
-    if (kurbanKambing.length === 0) {
-      initialKurbanKambingData.forEach((kambing) => {
-        addKurbanKambing(kambing);
-      });
+    if (currentYear === '2025' && kurbanKambing.length === 0) {
+      initialKurbanKambingData.forEach((kambing) => addKurbanKambing(kambing));
     }
-  }, [kurbanKambing.length, addKurbanKambing]);
+  }, [currentYear, kurbanKambing.length, addKurbanKambing]);
 
   useEffect(() => {
-    if (!isSaldoAwalSet && transactions.length === 0) {
+    if (currentYear === '2025' && !isSaldoAwalSet && transactions.length === 0) {
       setSaldoAwal(initialSaldoAwal);
-      initialTransactions.forEach((trx) => {
-        addTransaction(trx);
-      });
+      initialTransactions.forEach((trx) => addTransaction(trx));
     }
-  }, [isSaldoAwalSet, transactions.length, setSaldoAwal, addTransaction]);
+  }, [currentYear, isSaldoAwalSet, transactions.length, setSaldoAwal, addTransaction]);
 };
