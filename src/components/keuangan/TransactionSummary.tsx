@@ -286,7 +286,7 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
         </Table>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-6">
         {isSaldoAwalSet && (
           <Card className="p-4 bg-blue-600 text-white text-center">
             <div className="text-xl font-bold">{formatRupiah(parseFloat(saldoAwal))}</div>

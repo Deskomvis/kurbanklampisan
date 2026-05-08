@@ -50,20 +50,20 @@ export const KeuanganTabs: React.FC<KeuanganTabsProps> = ({
 }) => {
   return (
     <Tabs defaultValue="input" className="w-full space-y-6">
-      <TabsList className="grid w-full grid-cols-2 p-1 bg-gray-100 rounded-xl h-14">
+      <TabsList className="grid w-full grid-cols-2 p-1 bg-gray-100 rounded-xl h-12 sm:h-14">
         <TabsTrigger 
           value="input" 
           className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm font-semibold text-gray-500 flex items-center gap-2 transition-all duration-200"
         >
-          <PlusCircle className="w-4 h-4" />
-          Input Transaksi
+          <PlusCircle className="w-4 h-4 shrink-0" />
+          <span>Input Transaksi</span>
         </TabsTrigger>
         <TabsTrigger 
           value="history" 
           className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-gray-900 data-[state=active]:shadow-sm font-semibold text-gray-500 flex items-center gap-2 transition-all duration-200"
         >
-          <ListFilter className="w-4 h-4" />
-          Riwayat Transaksi
+          <ListFilter className="w-4 h-4 shrink-0" />
+          <span>Riwayat Transaksi</span>
         </TabsTrigger>
       </TabsList>
 

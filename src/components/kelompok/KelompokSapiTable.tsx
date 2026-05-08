@@ -107,17 +107,17 @@ const KelompokSapiTable = () => {
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-50 border-b border-gray-200 hover:bg-gray-50">
-              <TableHead className="px-6 py-4 text-xs font-semibold text-gray-500 w-32">No. Sapi</TableHead>
-              <TableHead className="px-6 py-4 text-xs font-semibold text-gray-500">Daftar Anggota</TableHead>
-              <TableHead className="px-6 py-4 text-xs font-semibold text-gray-500 w-24">Total</TableHead>
-              <TableHead className="px-6 py-4 text-xs font-semibold text-gray-500 text-right">Aksi</TableHead>
+              <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 w-24 sm:w-32">No. Sapi</TableHead>
+              <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500">Daftar Anggota</TableHead>
+              <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 w-16 sm:w-24">Total</TableHead>
+              <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 text-right">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {sortedKelompokSapi.length > 0 ? (
               sortedKelompokSapi.map((kelompok) => (
                 <TableRow key={kelompok.id} className="group border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                  <TableCell className="px-6 py-4 align-top">
+                  <TableCell className="px-3 sm:px-6 py-3 sm:py-4 align-top">
                     {editingSapi === kelompok.id ? (
                       <Input
                         value={editNomorSapi}
@@ -130,7 +130,7 @@ const KelompokSapiTable = () => {
                       </span>
                     )}
                   </TableCell>
-                  <TableCell className="px-6 py-4">
+                  <TableCell className="px-3 sm:px-6 py-3 sm:py-4">
                     {editingSapi === kelompok.id ? (
                       <div className="space-y-2">
                         {editAnggotaSapi.map((anggota, index) => (
@@ -205,7 +205,7 @@ const KelompokSapiTable = () => {
                             onClick={() => mulaiEditSapi(kelompok)}
                             variant="outline"
                             size="icon"
-                            className="h-8 w-8 rounded-md text-gray-600 hover:text-orange-600"
+                            className="h-10 w-10 sm:h-8 sm:w-8 rounded-md text-gray-600 hover:text-orange-600"
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -213,7 +213,7 @@ const KelompokSapiTable = () => {
                             onClick={() => hapusKelompokSapi(kelompok.id)}
                             variant="outline"
                             size="icon"
-                            className="h-8 w-8 rounded-md text-gray-600 hover:text-red-600"
+                            className="h-10 w-10 sm:h-8 sm:w-8 rounded-md text-gray-600 hover:text-red-600"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -225,7 +225,7 @@ const KelompokSapiTable = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell className="px-6 py-12 text-center text-gray-400" colSpan={4}>
+                <TableCell className="px-3 sm:px-6 py-8 sm:py-12 text-center text-gray-400" colSpan={4}>
                   <div className="flex flex-col items-center gap-2">
                     <Beef className="w-10 h-10 text-gray-300" />
                     <p className="font-medium">Belum ada kelompok sapi yang tersimpan</p>

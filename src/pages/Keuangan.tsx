@@ -52,10 +52,10 @@ const Keuangan = () => {
       </div>
       
       {/* Main Content Layout */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Sidebar: Settings & Overview */}
-        <div className="xl:col-span-4 space-y-6">
-          <div className="sticky top-24 space-y-6">
+        <div className="lg:col-span-4 space-y-6">
+          <div className="sticky top-20 md:top-24 space-y-6">
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <div className="p-2 bg-green-100 rounded-lg">
@@ -75,7 +75,7 @@ const Keuangan = () => {
               />
             </div>
             
-            <div className="p-6 rounded-xl bg-gray-900 text-white shadow-sm relative overflow-hidden hidden xl:block">
+            <div className="p-6 rounded-xl bg-gray-900 text-white shadow-sm relative overflow-hidden hidden lg:block">
               <div className="relative z-10 space-y-4">
                 <div className="flex items-center gap-2">
                   <div className="p-2 bg-white/10 rounded-lg">
@@ -100,7 +100,7 @@ const Keuangan = () => {
         </div>
 
         {/* Right Content: Tabs & Lists */}
-        <div className="xl:col-span-8">
+        <div className="lg:col-span-8">
           <KeuanganTabs
             formData={formData}
             updateForm={updateForm}

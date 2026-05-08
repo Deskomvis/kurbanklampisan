@@ -64,10 +64,10 @@ const PembagianDaging = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Filters & Info Sidebar */}
-        <div className="xl:col-span-4 space-y-6">
-          <div className="sticky top-24 space-y-4">
+        <div className="lg:col-span-4 space-y-6">
+          <div className="sticky top-20 md:top-24 space-y-4">
             <Card className="p-6 rounded-xl shadow-sm border border-gray-200">
               <div className="flex items-center gap-2 mb-4">
                 <div className="p-2 bg-blue-50 rounded-lg">
@@ -100,7 +100,7 @@ const PembagianDaging = () => {
         </div>
 
         {/* Tables Area */}
-        <div className="xl:col-span-8 space-y-6">
+        <div className="lg:col-span-8 space-y-6">
           {['01', '02', 'tambahan'].map((rt) => {
             const belumMenerimaRt = groupedBelumMenerima[rt] || [];
             

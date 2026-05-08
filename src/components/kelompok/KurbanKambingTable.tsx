@@ -107,16 +107,16 @@ const KurbanKambingTable = () => {
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-50 border-b border-gray-200 hover:bg-gray-50">
-              <TableHead className="px-6 py-4 text-xs font-semibold text-gray-500 w-32">No. Urut</TableHead>
-              <TableHead className="px-6 py-4 text-xs font-semibold text-gray-500">Nama Pemilik</TableHead>
-              <TableHead className="px-6 py-4 text-xs font-semibold text-gray-500 text-right">Aksi</TableHead>
+              <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 w-24 sm:w-32">No. Urut</TableHead>
+              <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500">Nama Pemilik</TableHead>
+              <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 text-right">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {sortedKurbanKambing.length > 0 ? (
               sortedKurbanKambing.map((kambing, index) => (
                 <TableRow key={kambing.id} className="group border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                  <TableCell className="px-6 py-4">
+                  <TableCell className="px-3 sm:px-6 py-3 sm:py-4">
                     {editingKambing === kambing.id ? (
                       <Input
                         type="number"
@@ -154,7 +154,7 @@ const KurbanKambingTable = () => {
                       </div>
                     )}
                   </TableCell>
-                  <TableCell className="px-6 py-4">
+                  <TableCell className="px-3 sm:px-6 py-3 sm:py-4">
                     {editingKambing === kambing.id ? (
                       <Input
                         value={editPemilikKambing}
@@ -169,7 +169,7 @@ const KurbanKambingTable = () => {
                       </div>
                     )}
                   </TableCell>
-                  <TableCell className="px-6 py-4 text-right">
+                  <TableCell className="px-3 sm:px-6 py-3 sm:py-4 text-right">
                     <div className="flex justify-end gap-2">
                       {editingKambing === kambing.id ? (
                         <>
@@ -195,7 +195,7 @@ const KurbanKambingTable = () => {
                             onClick={() => mulaiEditKambing(kambing)}
                             variant="outline"
                             size="icon"
-                            className="h-8 w-8 rounded-md text-gray-600 hover:text-blue-600"
+                            className="h-10 w-10 sm:h-8 sm:w-8 rounded-md text-gray-600 hover:text-blue-600"
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
@@ -203,7 +203,7 @@ const KurbanKambingTable = () => {
                             onClick={() => hapusKurbanKambing(kambing.id)}
                             variant="outline"
                             size="icon"
-                            className="h-8 w-8 rounded-md text-gray-600 hover:text-red-600"
+                            className="h-10 w-10 sm:h-8 sm:w-8 rounded-md text-gray-600 hover:text-red-600"
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -215,7 +215,7 @@ const KurbanKambingTable = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell className="px-6 py-12 text-center text-gray-400" colSpan={3}>
+                <TableCell className="px-3 sm:px-6 py-8 sm:py-12 text-center text-gray-400" colSpan={3}>
                   <div className="flex flex-col items-center gap-2">
                     <PawPrint className="w-10 h-10 text-gray-300" />
                     <p className="font-medium">Belum ada kurban kambing yang tersimpan</p>

@@ -10,10 +10,12 @@ import { PenerimaActions } from '@/components/penerima/PenerimaActions';
 import { useToast } from '@/hooks/use-toast';
 import { useInitialData } from '@/hooks/useInitialData';
 import { UserCheck, ClipboardList, Filter } from 'lucide-react';
+import { useYear } from '@/contexts/YearContext';
 
 const PenerimaDaging = () => {
   // Load initial data from the images
   useInitialData();
+  const { currentYear } = useYear();
   
   const { penerima, addPenerima, updatePenerima, deletePenerima } = usePenerima();
   const { toast } = useToast();
@@ -91,14 +93,14 @@ const PenerimaDaging = () => {
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-lg border border-green-100 w-fit">
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          <span className="text-xs font-semibold text-green-700">Periode 2026</span>
+          <span className="text-xs font-semibold text-green-700">Periode {currentYear}</span>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Sidebar / Form Area */}
-        <div className="xl:col-span-4 space-y-6">
-          <div className="sticky top-28">
+        <div className="lg:col-span-4 space-y-6">
+          <div className="sticky top-20 md:top-24">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <div className="p-6 md:p-8">
                 <div className="flex items-center gap-3 mb-6">
@@ -118,7 +120,7 @@ const PenerimaDaging = () => {
         </div>
 
         {/* Content Area */}
-        <div className="xl:col-span-8 space-y-8">
+        <div className="lg:col-span-8 space-y-8">
           {/* Summary Cards Area */}
           <PenerimaSummary
             totalPenerima={penerima.length}
