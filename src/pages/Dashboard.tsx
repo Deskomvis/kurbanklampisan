@@ -6,6 +6,7 @@ import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
 import { useInitialData } from '@/hooks/useInitialData';
+import { useYear } from '@/contexts/YearContext';
 import {
   Beef,
   PawPrint,
@@ -20,6 +21,7 @@ import {
 
 const Dashboard = () => {
   useInitialData();
+  const { currentYear } = useYear();
   const { penerima } = usePenerima();
   const { getTotalSapi, getTotalKambing } = useKelompokKurban();
   const { getTotalPengeluaran } = useKeuangan();
@@ -85,7 +87,7 @@ const Dashboard = () => {
         <div className="absolute -left-4 top-0 bottom-0 w-1 bg-green-600 rounded-full hidden md:block"></div>
         <div className="space-y-1">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-            Dashboard <span className="text-green-600">Kurban 2026</span>
+            Dashboard <span className="text-green-600">Kurban {currentYear}</span>
           </h2>
           <p className="text-gray-500 text-sm flex items-center gap-2">
             <Clock className="w-4 h-4 text-green-500" />
