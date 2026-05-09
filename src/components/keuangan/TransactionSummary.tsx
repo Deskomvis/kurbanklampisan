@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Trash2, Edit, Eye, Upload, Wallet, TrendingUp, TrendingDown, Landmark, ArrowRightLeft } from 'lucide-react';
 import { Transaction } from './types';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface TransactionSummaryProps {
   transactions: Transaction[];
@@ -32,6 +33,7 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
   totalDanaMasjid,
   saldoAkhir
 }) => {
+  const { isAuthenticated } = useAuth();
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editFormData, setEditFormData] = useState<{
     tanggal: string;
@@ -137,13 +139,13 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
               <TableHead className="text-white">PENGELUARAN</TableHead>
               <TableHead className="text-white">DANA MASJID</TableHead>
               <TableHead className="text-white">BUKTI</TableHead>
-              <TableHead className="text-white">AKSI</TableHead>
+              {isAuthenticated && <TableHead className="text-white">AKSI</TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
             {transactions.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center text-gray-500">
+                <TableCell colSpan={isAuthenticated ? 7 : 6} className="text-center text-gray-500">
                   Belum ada data transaksi
                 </TableCell>
               </TableRow>
@@ -238,47 +240,49 @@ export const TransactionSummary: React.FC<TransactionSummaryProps> = ({
                       </Button>
                     ) : '-'}
                   </TableCell>
-                  <TableCell>
-                    {editingId === transaction.id ? (
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          onClick={handleSaveEdit}
-                          className="bg-green-600 hover:bg-green-700"
-                          title="Simpan perubahan"
-                        >
-                          💾
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={handleCancelEdit}
-                          title="Batal edit"
-                        >
-                          ❌
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="flex gap-2">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleEditClick(transaction)}
-                          title="Edit transaksi"
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => handleDeleteClick(transaction.id)}
-                          title="Hapus transaksi"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    )}
-                  </TableCell>
+                  {isAuthenticated && (
+                    <TableCell>
+                      {editingId === transaction.id ? (
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            onClick={handleSaveEdit}
+                            className="bg-green-600 hover:bg-green-700"
+                            title="Simpan perubahan"
+                          >
+                            💾
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={handleCancelEdit}
+                            title="Batal edit"
+                          >
+                            ❌
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleEditClick(transaction)}
+                            title="Edit transaksi"
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => handleDeleteClick(transaction.id)}
+                            title="Hapus transaksi"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      )}
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             )}

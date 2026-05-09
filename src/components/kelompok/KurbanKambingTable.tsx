@@ -6,11 +6,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useToast } from '@/hooks/use-toast';
 import { Edit, Trash2, Save, X, ChevronUp, ChevronDown, PawPrint, User } from 'lucide-react';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
 const KurbanKambingTable = () => {
   const { toast } = useToast();
   const { kurbanKambing, updateKurbanKambing, deleteKurbanKambing, reorderKurbanKambing } = useKelompokKurban();
+  const { isAuthenticated } = useAuth();
   
   const [editingKambing, setEditingKambing] = useState<string | null>(null);
   const [editPemilikKambing, setEditPemilikKambing] = useState('');
@@ -109,7 +111,7 @@ const KurbanKambingTable = () => {
             <TableRow className="bg-gray-50 border-b border-gray-200 hover:bg-gray-50">
               <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 w-24 sm:w-32">No. Urut</TableHead>
               <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500">Nama Pemilik</TableHead>
-              <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 text-right">Aksi</TableHead>
+              {isAuthenticated && <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 text-right">Aksi</TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -169,7 +171,7 @@ const KurbanKambingTable = () => {
                       </div>
                     )}
                   </TableCell>
-                  <TableCell className="px-3 sm:px-6 py-3 sm:py-4 text-right">
+                  {isAuthenticated && <TableCell className="px-3 sm:px-6 py-3 sm:py-4 text-right">
                     <div className="flex justify-end gap-2">
                       {editingKambing === kambing.id ? (
                         <>
@@ -210,12 +212,12 @@ const KurbanKambingTable = () => {
                         </>
                       )}
                     </div>
-                  </TableCell>
+                  </TableCell>}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell className="px-3 sm:px-6 py-8 sm:py-12 text-center text-gray-400" colSpan={3}>
+                <TableCell className="px-3 sm:px-6 py-8 sm:py-12 text-center text-gray-400" colSpan={isAuthenticated ? 3 : 2}>
                   <div className="flex flex-col items-center gap-2">
                     <PawPrint className="w-10 h-10 text-gray-300" />
                     <p className="font-medium">Belum ada kurban kambing yang tersimpan</p>

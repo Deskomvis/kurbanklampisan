@@ -11,11 +11,13 @@ import { useToast } from '@/hooks/use-toast';
 import { useInitialData } from '@/hooks/useInitialData';
 import { UserCheck, ClipboardList, Filter } from 'lucide-react';
 import { useYear } from '@/contexts/YearContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 const PenerimaDaging = () => {
   // Load initial data from the images
   useInitialData();
   const { currentYear } = useYear();
+  const { isAuthenticated } = useAuth();
   
   const { penerima, addPenerima, updatePenerima, deletePenerima } = usePenerima();
   const { toast } = useToast();
@@ -98,29 +100,31 @@ const PenerimaDaging = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Sidebar / Form Area */}
-        <div className="lg:col-span-4 space-y-6">
-          <div className="sticky top-20 md:top-24">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-              <div className="p-6 md:p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2 bg-green-50 rounded-lg">
-                    <ClipboardList className="w-5 h-5 text-green-700" />
+        {/* Sidebar / Form Area — admin only */}
+        {isAuthenticated && (
+          <div className="lg:col-span-4 space-y-6">
+            <div className="sticky top-20 md:top-24">
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="p-6 md:p-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-green-50 rounded-lg">
+                      <ClipboardList className="w-5 h-5 text-green-700" />
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-800">Formulir Input</h3>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-800">Formulir Input</h3>
+                  <PenerimaForm
+                    formData={formData}
+                    setFormData={setFormData}
+                    onSubmit={handleSubmit}
+                  />
                 </div>
-                <PenerimaForm
-                  formData={formData}
-                  setFormData={setFormData}
-                  onSubmit={handleSubmit}
-                />
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Content Area */}
-        <div className="lg:col-span-8 space-y-8">
+        <div className={isAuthenticated ? 'lg:col-span-8 space-y-8' : 'lg:col-span-12 space-y-8'}>
           {/* Summary Cards Area */}
           <PenerimaSummary
             totalPenerima={penerima.length}

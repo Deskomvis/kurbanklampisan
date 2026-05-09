@@ -7,9 +7,11 @@ import { PanitiaItem } from '@/data/panitiaData';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Users, Gavel, FileCheck, Pencil, Check, X, Plus } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Panitia = () => {
   const { panitiaList, headerInfo, setPanitiaList, updateHeader } = usePanitia();
+  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [editList, setEditList] = useState<PanitiaItem[]>([]);
@@ -63,22 +65,11 @@ const Panitia = () => {
         <div className="flex items-center gap-2">
           {isEditing ? (
             <>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={cancelEdit}
-                className="flex items-center gap-1.5 border-gray-200"
-              >
-                <X className="w-4 h-4" />
-                Batal
+              <Button variant="outline" size="sm" onClick={cancelEdit} className="flex items-center gap-1.5 border-gray-200">
+                <X className="w-4 h-4" /> Batal
               </Button>
-              <Button
-                size="sm"
-                onClick={saveEdit}
-                className="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white"
-              >
-                <Check className="w-4 h-4" />
-                Simpan
+              <Button size="sm" onClick={saveEdit} className="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white">
+                <Check className="w-4 h-4" /> Simpan
               </Button>
             </>
           ) : (
@@ -87,15 +78,11 @@ const Panitia = () => {
                 <Gavel className="w-4 h-4 text-green-600" />
                 <span className="text-xs font-semibold text-green-700">Keputusan Musyawarah</span>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={startEdit}
-                className="flex items-center gap-1.5 border-gray-200 text-gray-600 hover:text-gray-900"
-              >
-                <Pencil className="w-4 h-4" />
-                Edit Susunan
-              </Button>
+              {isAuthenticated && (
+                <Button variant="outline" size="sm" onClick={startEdit} className="flex items-center gap-1.5 border-gray-200 text-gray-600 hover:text-gray-900">
+                  <Pencil className="w-4 h-4" /> Edit Susunan
+                </Button>
+              )}
             </>
           )}
         </div>

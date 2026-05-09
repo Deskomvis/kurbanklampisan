@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Edit, Trash2 } from 'lucide-react';
 import { Penerima } from '@/contexts/PenerimaContext';
 import { PenerimaTableBase } from '@/components/shared/PenerimaTableBase';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface PenerimaTableProps {
   rt: string;
@@ -18,7 +19,10 @@ export const PenerimaTable: React.FC<PenerimaTableProps> = ({
   onEdit,
   onDelete
 }) => {
-  const headers = ['NOMOR', 'NAMA PENERIMA', 'BLOK', 'STATUS', 'AKSI'];
+  const { isAuthenticated } = useAuth();
+  const headers = isAuthenticated
+    ? ['NOMOR', 'NAMA PENERIMA', 'BLOK', 'STATUS', 'AKSI']
+    : ['NOMOR', 'NAMA PENERIMA', 'BLOK', 'STATUS'];
 
   const renderActions = (penerimaItem: Penerima) => (
     <div className="flex gap-2">
@@ -46,7 +50,7 @@ export const PenerimaTable: React.FC<PenerimaTableProps> = ({
       headers={headers}
       showStatus={true}
     >
-      {renderActions}
+      {isAuthenticated ? renderActions : undefined}
     </PenerimaTableBase>
   );
 };

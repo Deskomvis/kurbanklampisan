@@ -4,8 +4,11 @@ import KurbanKambingForm from '../components/kelompok/KurbanKambingForm';
 import KelompokSapiTable from '../components/kelompok/KelompokSapiTable';
 import KurbanKambingTable from '../components/kelompok/KurbanKambingTable';
 import { Calendar, Beef, PawPrint } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const KelompokKurban = () => {
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className="space-y-8">
       {/* Page Header */}
@@ -25,28 +28,30 @@ const KelompokKurban = () => {
         </div>
       </div>
       
-      {/* Forms Area */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-orange-50 rounded-lg">
-              <Beef className="w-5 h-5 text-orange-600" />
+      {/* Forms Area — only for authenticated users */}
+      {isAuthenticated && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-orange-50 rounded-lg">
+                <Beef className="w-5 h-5 text-orange-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800">Formulir Kelompok Sapi</h3>
             </div>
-            <h3 className="text-xl font-bold text-gray-800">Formulir Kelompok Sapi</h3>
+            <KelompokSapiForm />
           </div>
-          <KelompokSapiForm />
-        </div>
-        
-        <div>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-blue-50 rounded-lg">
-              <PawPrint className="w-5 h-5 text-blue-600" />
+
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-blue-50 rounded-lg">
+                <PawPrint className="w-5 h-5 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800">Pendaftaran Kambing</h3>
             </div>
-            <h3 className="text-xl font-bold text-gray-800">Pendaftaran Kambing</h3>
+            <KurbanKambingForm />
           </div>
-          <KurbanKambingForm />
         </div>
-      </div>
+      )}
 
       {/* Tables Area */}
       <div className="space-y-8 pt-4">

@@ -10,6 +10,7 @@ import { PenerimaProvider } from "./contexts/PenerimaContext";
 import { KelompokKurbanProvider } from "./contexts/KelompokKurbanContext";
 import { KeuanganProvider } from "./contexts/KeuanganContext";
 import { PanitiaProvider } from "./contexts/PanitiaContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import { BackupProvider } from "./contexts/BackupContext";
 import { CollaborativeWrapper } from "./components/collaborative/CollaborativeWrapper";
 import Layout from "./components/Layout";
@@ -46,6 +47,7 @@ const YearAwareProviders = ({ children }: { children: ReactNode }) => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <AuthProvider>
       <BackupProvider>
         <YearProvider>
           <YearAwareProviders>
@@ -70,6 +72,7 @@ const App = () => (
           </YearAwareProviders>
         </YearProvider>
       </BackupProvider>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

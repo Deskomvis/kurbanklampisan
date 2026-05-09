@@ -6,11 +6,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useToast } from '@/hooks/use-toast';
 import { Edit, Trash2, Save, X, Plus, Beef, Users } from 'lucide-react';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 
 const KelompokSapiTable = () => {
   const { toast } = useToast();
   const { kelompokSapi, updateKelompokSapi, deleteKelompokSapi } = useKelompokKurban();
+  const { isAuthenticated } = useAuth();
   
   const [editingSapi, setEditingSapi] = useState<string | null>(null);
   const [editNomorSapi, setEditNomorSapi] = useState('');
@@ -110,7 +112,7 @@ const KelompokSapiTable = () => {
               <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 w-24 sm:w-32">No. Sapi</TableHead>
               <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500">Daftar Anggota</TableHead>
               <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 w-16 sm:w-24">Total</TableHead>
-              <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 text-right">Aksi</TableHead>
+              {isAuthenticated && <TableHead className="px-3 sm:px-6 py-3 sm:py-4 text-xs font-semibold text-gray-500 text-right">Aksi</TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -179,7 +181,7 @@ const KelompokSapiTable = () => {
                       <span className="text-xs font-medium text-gray-500">Orang</span>
                     </div>
                   </TableCell>
-                  <TableCell className="px-6 py-4 align-top text-right">
+                  {isAuthenticated && <TableCell className="px-3 sm:px-6 py-3 sm:py-4 align-top text-right">
                     <div className="flex justify-end gap-2">
                       {editingSapi === kelompok.id ? (
                         <>
@@ -220,12 +222,12 @@ const KelompokSapiTable = () => {
                         </>
                       )}
                     </div>
-                  </TableCell>
+                  </TableCell>}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell className="px-3 sm:px-6 py-8 sm:py-12 text-center text-gray-400" colSpan={4}>
+                <TableCell className="px-3 sm:px-6 py-8 sm:py-12 text-center text-gray-400" colSpan={isAuthenticated ? 4 : 3}>
                   <div className="flex flex-col items-center gap-2">
                     <Beef className="w-10 h-10 text-gray-300" />
                     <p className="font-medium">Belum ada kelompok sapi yang tersimpan</p>

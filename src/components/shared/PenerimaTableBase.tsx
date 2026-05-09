@@ -10,7 +10,7 @@ interface PenerimaTableBaseProps {
   rt: string;
   penerima: Penerima[];
   title?: string;
-  children: (penerima: Penerima) => React.ReactNode;
+  children?: (penerima: Penerima) => React.ReactNode;
   headers: string[];
   emptyMessage?: string;
   showStatus?: boolean;
@@ -104,9 +104,11 @@ export const PenerimaTableBase: React.FC<PenerimaTableBaseProps> = ({
                       </div>
                     </TableCell>
                   )}
-                  <TableCell className="px-4 py-3 text-right">
-                    {children(penerimaItem)}
-                  </TableCell>
+                  {children && (
+                    <TableCell className="px-4 py-3 text-right">
+                      {children(penerimaItem)}
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             ) : (

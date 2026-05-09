@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Sparkles, Moon, UtensilsCrossed, UserCheck, Pencil, Check, X, Plus, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePanitia, InfoSection, PengesahInfo } from '@/contexts/PanitiaContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 
 const COLOR_OPTIONS = ['blue', 'orange', 'emerald', 'purple', 'rose'];
@@ -34,6 +35,7 @@ const SectionIcon: React.FC<{ color: string }> = ({ color }) => {
 
 export const InformasiTambahan: React.FC = () => {
   const { infoSections, pengesah, updateInfoSections, updatePengesah } = usePanitia();
+  const { isAuthenticated } = useAuth();
   const { toast } = useToast();
 
   const [isEditing, setIsEditing] = useState(false);
@@ -108,11 +110,11 @@ export const InformasiTambahan: React.FC = () => {
               <Check className="w-4 h-4" /> Simpan
             </Button>
           </div>
-        ) : (
+        ) : isAuthenticated ? (
           <Button variant="outline" size="sm" onClick={startEdit} className="flex items-center gap-1.5 border-gray-200 text-gray-600 hover:text-gray-900">
             <Pencil className="w-4 h-4" /> Edit Klausul
           </Button>
-        )}
+        ) : null}
       </div>
 
       {/* Sections grid */}

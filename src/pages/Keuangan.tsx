@@ -5,8 +5,10 @@ import { useKeuangan } from '@/contexts/KeuanganContext';
 import { useKeuanganHandlers } from '@/hooks/useKeuanganHandlers';
 import { formatRupiah } from '@/utils/keuanganCalculations';
 import { Wallet, Landmark, TrendingUp, History } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Keuangan = () => {
+  const { isAuthenticated } = useAuth();
   const {
     transactions,
     saldoAwal,
@@ -53,54 +55,56 @@ const Keuangan = () => {
       
       {/* Main Content Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Sidebar: Settings & Overview */}
-        <div className="lg:col-span-4 space-y-6">
-          <div className="sticky top-20 md:top-24 space-y-6">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="p-2 bg-green-100 rounded-lg">
-                  <TrendingUp className="w-4 h-4 text-green-700" />
-                </div>
-                <h3 className="text-lg font-bold text-gray-800">Saldo Utama</h3>
-              </div>
-              <SaldoAwalForm
-                saldoAwal={saldoAwal}
-                setSaldoAwal={(value) => setSaldoAwal(value)}
-                keteranganSaldoAwal=""
-                setKeteranganSaldoAwal={() => {}}
-                isSaldoAwalSet={isSaldoAwalSet}
-                onSetSaldoAwal={handleSetSaldoAwal}
-                onEditSaldoAwal={handleEditSaldoAwal}
-                formatRupiah={formatRupiah}
-              />
-            </div>
-            
-            <div className="p-6 rounded-xl bg-gray-900 text-white shadow-sm relative overflow-hidden hidden lg:block">
-              <div className="relative z-10 space-y-4">
-                <div className="flex items-center gap-2">
-                  <div className="p-2 bg-white/10 rounded-lg">
-                    <History className="w-4 h-4 text-white" />
+        {/* Left Sidebar: Settings & Overview — admin only */}
+        {isAuthenticated && (
+          <div className="lg:col-span-4 space-y-6">
+            <div className="sticky top-20 md:top-24 space-y-6">
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="p-2 bg-green-100 rounded-lg">
+                    <TrendingUp className="w-4 h-4 text-green-700" />
                   </div>
-                  <h4 className="text-base font-bold">Audit Log</h4>
+                  <h3 className="text-lg font-bold text-gray-800">Saldo Utama</h3>
                 </div>
-                <div className="space-y-3">
-                  <div className="flex gap-3">
-                    <div className="w-px bg-white/20 relative ml-2">
-                      <div className="absolute top-1.5 -left-1 w-2 h-2 bg-green-500 rounded-full" />
+                <SaldoAwalForm
+                  saldoAwal={saldoAwal}
+                  setSaldoAwal={(value) => setSaldoAwal(value)}
+                  keteranganSaldoAwal=""
+                  setKeteranganSaldoAwal={() => {}}
+                  isSaldoAwalSet={isSaldoAwalSet}
+                  onSetSaldoAwal={handleSetSaldoAwal}
+                  onEditSaldoAwal={handleEditSaldoAwal}
+                  formatRupiah={formatRupiah}
+                />
+              </div>
+
+              <div className="p-6 rounded-xl bg-gray-900 text-white shadow-sm relative overflow-hidden hidden lg:block">
+                <div className="relative z-10 space-y-4">
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 bg-white/10 rounded-lg">
+                      <History className="w-4 h-4 text-white" />
                     </div>
-                    <div>
-                      <p className="text-xs font-semibold text-gray-400">Transaksi Terakhir</p>
-                      <p className="text-sm font-medium text-gray-200 mt-0.5">Input pengeluaran konsumsi</p>
+                    <h4 className="text-base font-bold">Audit Log</h4>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex gap-3">
+                      <div className="w-px bg-white/20 relative ml-2">
+                        <div className="absolute top-1.5 -left-1 w-2 h-2 bg-green-500 rounded-full" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-gray-400">Transaksi Terakhir</p>
+                        <p className="text-sm font-medium text-gray-200 mt-0.5">Input pengeluaran konsumsi</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Right Content: Tabs & Lists */}
-        <div className="lg:col-span-8">
+        <div className={isAuthenticated ? 'lg:col-span-8' : 'lg:col-span-12'}>
           <KeuanganTabs
             formData={formData}
             updateForm={updateForm}
