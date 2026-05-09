@@ -55,29 +55,30 @@ const Keuangan = () => {
       
       {/* Main Content Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Sidebar: Settings & Overview — admin only */}
-        {isAuthenticated && (
-          <div className="lg:col-span-4 space-y-6">
-            <div className="sticky top-20 md:top-24 space-y-6">
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="p-2 bg-green-100 rounded-lg">
-                    <TrendingUp className="w-4 h-4 text-green-700" />
-                  </div>
-                  <h3 className="text-lg font-bold text-gray-800">Saldo Utama</h3>
+        {/* Left Sidebar: Saldo overview (visible to all) + Audit Log */}
+        <div className="lg:col-span-4 space-y-6">
+          <div className="sticky top-20 md:top-24 space-y-6">
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <TrendingUp className="w-4 h-4 text-green-700" />
                 </div>
-                <SaldoAwalForm
-                  saldoAwal={saldoAwal}
-                  setSaldoAwal={(value) => setSaldoAwal(value)}
-                  keteranganSaldoAwal=""
-                  setKeteranganSaldoAwal={() => {}}
-                  isSaldoAwalSet={isSaldoAwalSet}
-                  onSetSaldoAwal={handleSetSaldoAwal}
-                  onEditSaldoAwal={handleEditSaldoAwal}
-                  formatRupiah={formatRupiah}
-                />
+                <h3 className="text-lg font-bold text-gray-800">Saldo Utama</h3>
               </div>
+              <SaldoAwalForm
+                saldoAwal={saldoAwal}
+                setSaldoAwal={(value) => setSaldoAwal(value)}
+                keteranganSaldoAwal=""
+                setKeteranganSaldoAwal={() => {}}
+                isSaldoAwalSet={isSaldoAwalSet}
+                onSetSaldoAwal={handleSetSaldoAwal}
+                onEditSaldoAwal={handleEditSaldoAwal}
+                formatRupiah={formatRupiah}
+                isAuthenticated={isAuthenticated}
+              />
+            </div>
 
+            {isAuthenticated && (
               <div className="p-6 rounded-xl bg-gray-900 text-white shadow-sm relative overflow-hidden hidden lg:block">
                 <div className="relative z-10 space-y-4">
                   <div className="flex items-center gap-2">
@@ -99,12 +100,12 @@ const Keuangan = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
-        )}
+        </div>
 
         {/* Right Content: Tabs & Lists */}
-        <div className={isAuthenticated ? 'lg:col-span-8' : 'lg:col-span-12'}>
+        <div className="lg:col-span-8">
           <KeuanganTabs
             formData={formData}
             updateForm={updateForm}

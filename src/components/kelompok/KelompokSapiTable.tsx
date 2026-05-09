@@ -149,11 +149,10 @@ const KelompokSapiTable = () => {
                 /* ── View Mode ── */
                 <div className="flex gap-4 items-start">
                   {/* Number badge */}
-                  <div className="shrink-0 flex flex-col items-center gap-1">
+                  <div className="shrink-0">
                     <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-orange-50 border border-orange-100 font-bold text-orange-700 text-base">
-                      {kelompok.nomor}
+                      {kelompok.nomor.replace(/kelompok\s*/i, '').trim() || kelompok.nomor}
                     </span>
-                    <span className="text-[10px] font-medium text-gray-400">Sapi</span>
                   </div>
 
                   {/* Member list */}
