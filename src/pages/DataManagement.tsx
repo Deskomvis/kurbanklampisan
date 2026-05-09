@@ -4,8 +4,11 @@ import { BackupPanel } from '@/components/data/BackupPanel';
 import { PrintReportsPanel } from '@/components/data/PrintReportsPanel';
 import { Database, Zap, ShieldCheck, Info, Share2 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { useYear } from '@/contexts/YearContext';
 
 const DataManagement = () => {
+  const { currentYear } = useYear();
+  const hijriahYear = parseInt(currentYear) - 579;
   return (
     <div className="space-y-8">
       {/* Page Header */}
@@ -16,7 +19,7 @@ const DataManagement = () => {
             Manajemen Sistem
           </h2>
           <p className="text-gray-500 text-sm max-w-2xl">
-            Export, Import, Backup Data, dan konfigurasi cetak laporan kurban 1447 H / 2026 M.
+            Export, Import, Backup Data, dan konfigurasi cetak laporan kurban {hijriahYear} H / {currentYear} M.
           </p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-lg border border-green-100 w-fit">

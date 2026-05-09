@@ -29,19 +29,23 @@ export interface PengesahInfo {
   jabatan: string;
 }
 
-const defaultHeader: PanitiaHeaderInfo = {
-  judulEvent: 'Panitia Hari Raya Idul Adha 1447 H & Penyembelihan Hewan Kurban',
-  waktuSidang: 'Sabtu, 24 Mei 2026',
-  sekretariat: 'Masjid Istiqomah Klampisan',
-  legalitas: "Pengurus Ta'mir Masjid",
+const getDefaultHeader = (year: string): PanitiaHeaderInfo => {
+  const hijriah = parseInt(year) - 579;
+  return {
+    judulEvent: `Panitia Hari Raya Idul Adha ${hijriah} H & Penyembelihan Hewan Kurban`,
+    waktuSidang: '',
+    sekretariat: 'Masjid Istiqomah Klampisan',
+    legalitas: "Pengurus Ta'mir Masjid",
+  };
 };
 
-const defaultInfoSections: InfoSection[] = [
+const getDefaultInfoSections = (year: string): InfoSection[] => {
+  return [
   {
     title: 'Pelaksanaan Sholat Idul Adha',
     color: 'blue',
     details: [
-      { label: 'Tanggal', value: 'Senin, 15 Juni 2026' },
+      { label: 'Tanggal', value: '' },
       { label: 'Imam/Khotib', value: 'Ust. Syukur Prihantoro Al Hafid' },
       { label: 'Bilal', value: 'Sdr. Moch Al Fatih' },
       { label: 'Laporan', value: 'Ust. Andika' },
@@ -65,7 +69,8 @@ const defaultInfoSections: InfoSection[] = [
       { label: 'Area Kerja', value: 'Gedung TPQ & Dapur Masjid' },
     ],
   },
-];
+]};
+
 
 const defaultPengesah: PengesahInfo = {
   nama: 'H. Hilman Suyatman',
@@ -110,13 +115,13 @@ export const PanitiaProvider: React.FC<{ children: ReactNode; year?: string }> =
   const [headerInfo, setHeaderInfoState] = useState<PanitiaHeaderInfo>(() => {
     const saved = localStorage.getItem(headerKey);
     if (saved) return JSON.parse(saved);
-    return defaultHeader;
+    return getDefaultHeader(year);
   });
 
   const [infoSections, setInfoSectionsState] = useState<InfoSection[]>(() => {
     const saved = localStorage.getItem(infoKey);
     if (saved) return JSON.parse(saved);
-    return defaultInfoSections;
+    return getDefaultInfoSections(year);
   });
 
   const [pengesah, setPengesahState] = useState<PengesahInfo>(() => {

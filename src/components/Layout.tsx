@@ -206,7 +206,7 @@ const Layout = ({ children }: LayoutProps) => {
               </Button>
             )}
             <p className="text-center text-gray-400 text-xs">
-              &copy; 2026 Panitia Kurban Klampisan
+              &copy; {currentYear} Panitia Kurban Klampisan
             </p>
           </div>
         </div>

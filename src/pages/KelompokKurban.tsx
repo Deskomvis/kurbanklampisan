@@ -5,9 +5,12 @@ import KelompokSapiTable from '../components/kelompok/KelompokSapiTable';
 import KurbanKambingTable from '../components/kelompok/KurbanKambingTable';
 import { Calendar, Beef, PawPrint } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useYear } from '@/contexts/YearContext';
 
 const KelompokKurban = () => {
   const { isAuthenticated } = useAuth();
+  const { currentYear } = useYear();
+  const hijriahYear = parseInt(currentYear) - 579;
 
   return (
     <div className="space-y-8">
@@ -19,12 +22,12 @@ const KelompokKurban = () => {
             Kelompok Sapi & Kambing
           </h2>
           <p className="text-gray-500 text-sm max-w-2xl">
-            Manajemen kelompok kurban sapi dan pendaftaran kurban kambing periode 1447 H / 2026 M.
+            Manajemen kelompok kurban sapi dan pendaftaran kurban kambing periode {hijriahYear} H / {currentYear} M.
           </p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-lg border border-green-100 w-fit">
           <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-          <span className="text-xs font-semibold text-green-700">Tahun 2026</span>
+          <span className="text-xs font-semibold text-green-700">Tahun {currentYear}</span>
         </div>
       </div>
       

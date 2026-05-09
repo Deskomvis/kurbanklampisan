@@ -1,11 +1,18 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
+import { usePanitia } from '@/contexts/PanitiaContext';
+import { useYear } from '@/contexts/YearContext';
 import { FileText, Award, Calendar, MapPin, Printer, Download, Beef, PawPrint } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Laporan = () => {
   const { getTotalSapi, getTotalKambing } = useKelompokKurban();
+  const { infoSections, pengesah } = usePanitia();
+  const { currentYear } = useYear();
+  const hijriahYear = parseInt(currentYear) - 579;
+
+  const tanggalPelaksanaan = infoSections[0]?.details?.find(d => d.label === 'Tanggal')?.value || `${currentYear}`;
   
   return (
     <div className="space-y-8 pb-20">
@@ -18,7 +25,7 @@ const Laporan = () => {
               Laporan Resmi
             </h2>
             <p className="text-gray-500 text-sm max-w-2xl">
-              Dokumen pertanggungjawaban panitia kurban 1447 H / 2026 M Masjid Istiqomah Klampisan.
+              Dokumen pertanggungjawaban panitia kurban {hijriahYear} H / {currentYear} M Masjid Istiqomah Klampisan.
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -47,7 +54,7 @@ const Laporan = () => {
             </div>
             <div className="bg-gray-50 p-6 rounded-xl border border-gray-100 italic">
               <p className="text-gray-700 leading-relaxed text-sm">
-                "Segala puji bagi Allah yang telah memberikan kemudahan dalam pelaksanaan ibadah Idul Adha Tahun 1447 H / 2026 M, yang meliputi 
+                {`Segala puji bagi Allah yang telah memberikan kemudahan dalam pelaksanaan ibadah Idul Adha Tahun ${hijriahYear} H / ${currentYear} M, yang meliputi `}
                 pelaksanaan sholat Idul Adha kemudian dilanjutkan dengan pemotongan hewan kurban serta pendistribusian daging kurban sehingga 
                 berjalan dengan lancar sebagaimana mestinya."
               </p>
@@ -68,7 +75,7 @@ const Laporan = () => {
                 </div>
                 <div>
                   <p className="text-xs font-semibold text-gray-500">Waktu Pelaksanaan</p>
-                  <p className="text-base font-bold text-gray-800">Senin, 15 Juni 2026</p>
+                  <p className="text-base font-bold text-gray-800">{tanggalPelaksanaan}</p>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
@@ -131,12 +138,12 @@ const Laporan = () => {
             <div className="flex justify-end pt-8">
               <div className="text-center space-y-16 min-w-[250px]">
                 <div className="space-y-1">
-                  <p className="text-sm text-gray-500">Wonogiri, Juni 2026</p>
+                  <p className="text-sm text-gray-500">Wonogiri, {currentYear}</p>
                   <p className="text-base font-bold text-gray-800">Ketua Panitia Kurban</p>
                 </div>
                 <div className="space-y-2">
                   <div className="h-px bg-gray-400 w-full" />
-                  <p className="font-bold text-gray-800 text-sm">Panitia Idul Qurban 2026</p>
+                  <p className="font-bold text-gray-800 text-sm">Panitia Idul Qurban {currentYear}</p>
                 </div>
               </div>
             </div>
