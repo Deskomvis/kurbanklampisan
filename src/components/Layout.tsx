@@ -14,7 +14,8 @@ import {
   ChevronRight,
   ShieldCheck,
   LogOut,
-  KeyRound
+  KeyRound,
+  Printer
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -36,6 +37,10 @@ const Layout = ({ children }: LayoutProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
 
+  if (location.pathname === '/cetak/kartu-daging') {
+    return <>{children}</>;
+  }
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
@@ -50,6 +55,7 @@ const Layout = ({ children }: LayoutProps) => {
     { path: '/penerima-daging', label: 'Data Penerima', icon: UserCheck },
     { path: '/pembagian-daging', label: 'Pembagian', icon: Share2 },
     { path: '/laporan', label: 'Laporan', icon: FileText },
+    { path: '/cetak', label: 'Menu Cetak', icon: Printer },
     { path: '/data-management', label: 'Manajemen Data', icon: Database, adminOnly: true },
   ];
 

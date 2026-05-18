@@ -22,6 +22,8 @@ import PenerimaDaging from "./pages/PenerimaDaging";
 import PembagianDaging from "./pages/PembagianDaging";
 import Laporan from "./pages/Laporan";
 import DataManagement from "./pages/DataManagement";
+import Cetak from "./pages/Cetak";
+import CetakKartuDaging from "./pages/CetakKartuDaging";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -64,6 +66,8 @@ const App = () => (
                   <Route path="/pembagian-daging" element={<PembagianDaging />} />
                   <Route path="/laporan" element={<Laporan />} />
                   <Route path="/data-management" element={<DataManagement />} />
+                  <Route path="/cetak" element={<Cetak />} />
+                  <Route path="/cetak/kartu-daging" element={<CetakKartuDaging />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
