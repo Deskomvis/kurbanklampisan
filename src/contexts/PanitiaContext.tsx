@@ -40,15 +40,16 @@ const getDefaultHeader = (year: string): PanitiaHeaderInfo => {
 };
 
 const getDefaultInfoSections = (year: string): InfoSection[] => {
+  const is2026 = year === '2026';
   return [
   {
     title: 'Pelaksanaan Sholat Idul Adha',
     color: 'blue',
     details: [
       { label: 'Tanggal', value: '' },
-      { label: 'Imam/Khotib', value: 'Ust. Syukur Prihantoro Al Hafid' },
-      { label: 'Bilal', value: 'Sdr. Moch Al Fatih' },
-      { label: 'Laporan', value: 'Ust. Andika' },
+      { label: 'Imam/Khotib', value: is2026 ? 'Ust. Andika' : 'Ust. Syukur Prihantoro Al Hafid' },
+      { label: 'Bilal', value: is2026 ? 'Sdr. Abi' : 'Sdr. Moch Al Fatih' },
+      { label: 'Laporan', value: is2026 ? 'Sdr. Moch Al Fatih' : 'Ust. Andika' },
       { label: 'Kotak Infaq', value: 'Sdr. Nindi & Sdr. Anisa' },
       { label: 'Pelaksana', value: 'TPQ dan Remaja Masjid' },
     ],
@@ -120,8 +121,36 @@ export const PanitiaProvider: React.FC<{ children: ReactNode; year?: string }> =
 
   const [infoSections, setInfoSectionsState] = useState<InfoSection[]>(() => {
     const saved = localStorage.getItem(infoKey);
-    if (saved) return JSON.parse(saved);
-    return getDefaultInfoSections(year);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (year === '2026') {
+        const sholatSec = parsed.find((s: any) => s.title === 'Pelaksanaan Sholat Idul Adha');
+        if (sholatSec) {
+          let updated = false;
+          sholatSec.details = sholatSec.details.map((d: any) => {
+            if (d.label === 'Imam/Khotib' && d.value !== 'Ust. Andika') {
+              d.value = 'Ust. Andika';
+              updated = true;
+            }
+            if (d.label === 'Bilal' && d.value !== 'Sdr. Abi') {
+              d.value = 'Sdr. Abi';
+              updated = true;
+            }
+            if (d.label === 'Laporan' && d.value !== 'Sdr. Moch Al Fatih') {
+              d.value = 'Sdr. Moch Al Fatih';
+              updated = true;
+            }
+            return d;
+          });
+          if (updated) {
+            localStorage.setItem(infoKey, JSON.stringify(parsed));
+          }
+        }
+      }
+      return parsed;
+    }
+    const defaultSecs = getDefaultInfoSections(year);
+    return defaultSecs;
   });
 
   const [pengesah, setPengesahState] = useState<PengesahInfo>(() => {
