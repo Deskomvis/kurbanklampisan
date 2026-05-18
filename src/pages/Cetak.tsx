@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Printer, Ticket, Info, AlertTriangle, Palette, ExternalLink, FileText, BookOpen } from 'lucide-react';
+import { Printer, Ticket, Info, AlertTriangle, Palette, ExternalLink, BookOpen, FolderOpen, Image } from 'lucide-react';
 import { PrintReportsPanel } from '@/components/data/PrintReportsPanel';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -51,7 +51,7 @@ const Cetak = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        {/* Left Column: Cetak Kartu & Canva Templates */}
+        {/* Left Column: Interactive Printing Tools (Local App Tools) */}
         <div className="space-y-8">
           {/* Card 1: Cetak Kartu Pengambilan Daging */}
           <Card className="shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden bg-white">
@@ -125,7 +125,15 @@ const Cetak = () => {
             </CardContent>
           </Card>
 
-          {/* Card 2: Cetak Template Daftar Kelompok Kurban (Canva Link) */}
+          {/* Card 2: Print Reports Panel */}
+          <div className="space-y-6">
+            <PrintReportsPanel />
+          </div>
+        </div>
+
+        {/* Right Column: Graphic Design & Publication Templates (External Assets) */}
+        <div className="space-y-8">
+          {/* Card 1: Cetak Template Daftar Kelompok Kurban (Canva Link) */}
           <Card className="shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden bg-white">
             <CardHeader className="bg-gradient-to-r from-blue-50/50 to-indigo-50/20 border-b border-gray-100 pb-5">
               <div className="flex items-center justify-between">
@@ -166,7 +174,7 @@ const Cetak = () => {
             </CardContent>
           </Card>
 
-          {/* Card 3: Template Laporan Pertanggungjawaban (Canva Link) */}
+          {/* Card 2: Template Laporan Pertanggungjawaban (Canva Link) */}
           <Card className="shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden bg-white">
             <CardHeader className="bg-gradient-to-r from-amber-50/50 to-orange-50/20 border-b border-gray-100 pb-5">
               <div className="flex items-center justify-between">
@@ -206,11 +214,47 @@ const Cetak = () => {
               </Button>
             </CardContent>
           </Card>
-        </div>
 
-        {/* Right Column: Print Reports Panel */}
-        <div className="space-y-6">
-          <PrintReportsPanel />
+          {/* Card 3: Google Drive Graphic Assets Folder */}
+          <Card className="shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden bg-white">
+            <CardHeader className="bg-gradient-to-r from-cyan-50/50 to-sky-50/20 border-b border-gray-100 pb-5">
+              <div className="flex items-center justify-between">
+                <span className="px-3 py-1 bg-cyan-100 text-cyan-700 rounded-full text-xs font-semibold uppercase tracking-wider">
+                  Arsip Desain & Gambar
+                </span>
+                <FolderOpen className="w-5 h-5 text-cyan-600" />
+              </div>
+              <CardTitle className="text-xl font-bold text-gray-800 mt-3 flex items-center gap-2">
+                📁 Aset Desain & Logo Google Drive
+              </CardTitle>
+              <CardDescription className="text-gray-500 text-sm">
+                Folder penyimpanan cloud berisi logo resmi, ikon, dokumentasi kurban, dan materi grafis pendukung lainnya.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6 space-y-6">
+              <div className="bg-cyan-50 border border-cyan-200 p-4 rounded-xl space-y-2">
+                <div className="flex gap-2 items-start text-cyan-800">
+                  <Image className="w-5 h-5 text-cyan-600 shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="font-semibold text-sm">Isi Folder Aset:</h4>
+                    <ul className="text-xs space-y-1 mt-1 text-cyan-700 list-disc list-inside">
+                      <li>Logo resmi **Masjid Istiqomah Klampisan** (Format resolusi tinggi).</li>
+                      <li>Desain pamflet, spanduk, dan baliho publikasi Idul Adha.</li>
+                      <li>Kumpulan aset gambar pelengkap untuk kebutuhan cetak panitia.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                onClick={() => window.open('https://drive.google.com/drive/folders/1l41TDLs89QA4rg3CwphzPFQODyOMRrqp?usp=sharing', '_blank')}
+                className="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-6 rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all hover:translate-y-[-1px] active:translate-y-[1px]"
+              >
+                <ExternalLink className="w-5 h-5" />
+                Buka Folder Google Drive
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
