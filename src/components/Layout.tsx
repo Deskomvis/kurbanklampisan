@@ -80,7 +80,7 @@ const Layout = ({ children }: LayoutProps) => {
             <Link to="/" className="flex items-center group">
               <img
                 src="/logo.png"
-                alt="Masjid Al Istiqomah Klampisan"
+                alt="Masjid Istiqomah Klampisan"
                 className="h-10 md:h-12 w-auto object-contain group-hover:opacity-90 transition-opacity"
               />
             </Link>
@@ -159,7 +159,7 @@ const Layout = ({ children }: LayoutProps) => {
       )}>
         <div className="container mx-auto px-4 py-6 flex flex-col h-full">
           <div className="flex items-center justify-between mb-8">
-            <img src="/logo.png" alt="Masjid Al Istiqomah Klampisan" className="h-9 w-auto object-contain" />
+            <img src="/logo.png" alt="Masjid Istiqomah Klampisan" className="h-9 w-auto object-contain" />
             <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
               <X className="w-6 h-6 text-gray-500" />
             </Button>

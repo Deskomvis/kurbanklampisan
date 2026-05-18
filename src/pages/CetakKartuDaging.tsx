@@ -202,7 +202,7 @@ const CetakKartuDaging = () => {
                       className="h-10 w-auto object-contain mb-1" 
                     />
                     <h2 className="font-black text-[10px] tracking-tight leading-none text-gray-900 uppercase">
-                      Masjid Al Istiqomah
+                      Masjid Istiqomah Klampisan
                     </h2>
                     <p className="font-extrabold text-[8px] tracking-widest leading-none text-gray-600 uppercase mt-1">
                       Dusun Klampisan

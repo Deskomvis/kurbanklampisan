@@ -44,7 +44,7 @@ const Cetak = () => {
           <div>
             <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">Menu Cetak & Laporan</h1>
             <p className="text-gray-500 text-sm mt-1">
-              Pusat pencetakan dokumen, kartu operasional kurban, dan laporan resmi Masjid Al Istiqomah.
+              Pusat pencetakan dokumen, kartu operasional kurban, dan laporan resmi Masjid Istiqomah Klampisan.
             </p>
           </div>
         </div>
