@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 const SESSION_KEY = 'klampisan_admin_auth';
 // PIN disimpan sebagai hash sederhana — jangan simpan plaintext di production
-const VALID_HASH = btoa('135238');
+const VALID_HASH = btoa('123654');
 
 interface AuthContextType {
   isAuthenticated: boolean;
