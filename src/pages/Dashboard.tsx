@@ -60,23 +60,21 @@ const Dashboard = () => {
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
       {/* Banner Section - Slider */}
-      <div className="overflow-hidden cursor-grab active:cursor-grabbing px-4" ref={emblaRef}>
-        <div className="flex -ml-4">
+      <div className="overflow-hidden cursor-grab active:cursor-grabbing rounded-2xl shadow-md border border-gray-100 bg-white" ref={emblaRef}>
+        <div className="flex">
           {slides.map((slide, index) => (
-            <div key={index} className="flex-[0_0_95%] md:flex-[0_0_85%] lg:flex-[0_0_75%] pl-4 min-w-0">
-              <div className="rounded-xl overflow-hidden shadow-md border border-gray-100">
-                <img 
-                  src={slide.src} 
-                  alt={slide.alt} 
-                  className="w-full h-auto block"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = 'none';
-                    target.parentElement!.classList.add('bg-green-50', 'flex', 'items-center', 'justify-center', 'aspect-[21/9]');
-                    target.parentElement!.innerHTML = `<span class="text-green-600 font-semibold text-sm">${slide.alt}</span>`;
-                  }}
-                />
-              </div>
+            <div key={index} className="flex-[0_0_100%] min-w-0">
+              <img 
+                src={slide.src} 
+                alt={slide.alt} 
+                className="w-full h-auto block object-cover aspect-[21/9] md:aspect-[3/1]"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  target.parentElement!.classList.add('bg-green-50', 'flex', 'items-center', 'justify-center', 'aspect-[21/9]');
+                  target.parentElement!.innerHTML = `<span class="text-green-600 font-semibold text-sm">${slide.alt}</span>`;
+                }}
+              />
             </div>
           ))}
         </div>
