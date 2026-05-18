@@ -223,8 +223,17 @@ const CetakKartuDaging = () => {
                   </div>
 
                   {/* Huge bold ticket number - Maximized left/right space */}
-                  <div className="font-black text-[72px] leading-none text-gray-950 tracking-tighter my-2 w-full text-center">
+                  <div className="font-black text-[72px] leading-none text-gray-950 tracking-tighter my-1 w-full text-center">
                     {padNumber(cardNum)}
+                  </div>
+
+                  {/* Modern QR Code for instant mobile scanning */}
+                  <div className="my-1 print:my-0.5 flex justify-center items-center">
+                    <img 
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${padNumber(cardNum)}`} 
+                      alt={`QR-${padNumber(cardNum)}`} 
+                      className="h-14 w-14 border border-gray-300 rounded p-0.5 bg-white object-contain" 
+                    />
                   </div>
 
                   {/* Footer Text */}

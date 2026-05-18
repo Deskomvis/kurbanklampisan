@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { usePenerima } from '@/contexts/PenerimaContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { filterPenerima, groupByRt } from '@/utils/filterUtils';
 import { useToast } from '@/hooks/use-toast';
 import { StatusPembagian } from '@/components/pembagian/StatusPembagian';
 import { PembagianFilters } from '@/components/pembagian/PembagianFilters';
 import { PembagianTable } from '@/components/pembagian/PembagianTable';
-import { Share2, Info, CheckCircle2, ClipboardCheck } from 'lucide-react';
+import { QrScannerModal } from '@/components/pembagian/QrScannerModal';
+import { Share2, Info, CheckCircle2, ClipboardCheck, QrCode, ScanLine } from 'lucide-react';
 
 const PembagianDaging = () => {
   const { penerima, toggleSudahMenerima } = usePenerima();
   const { toast } = useToast();
+  const { isAuthenticated } = useAuth();
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
   
   const [filters, setFilters] = useState({
     rt: '',
@@ -68,6 +73,30 @@ const PembagianDaging = () => {
         {/* Filters & Info Sidebar */}
         <div className="lg:col-span-4 space-y-6">
           <div className="sticky top-20 md:top-24 space-y-4">
+            {isAuthenticated && (
+              <Card className="p-6 rounded-xl shadow-md border border-green-200 bg-gradient-to-br from-green-50/60 to-emerald-50/10 hover:shadow-lg transition-all duration-300">
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="p-2.5 bg-green-100 text-green-700 rounded-lg">
+                    <QrCode className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-gray-900 leading-none">Scan Barcode / QR</h3>
+                    <p className="text-[10px] text-gray-500 mt-1 leading-none">Opsional: Scan kartu untuk konfirmasi instan</p>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-600 leading-relaxed mb-4">
+                  Gunakan kamera ponsel Anda untuk memindai QR Code di kartu penerima kurban secara langsung. Status akan otomatis diperbarui.
+                </p>
+                <Button 
+                  onClick={() => setIsScannerOpen(true)}
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-5 rounded-lg flex items-center justify-center gap-1.5 shadow-sm"
+                >
+                  <ScanLine className="w-4 h-4 animate-pulse" />
+                  Buka Kamera Scanner
+                </Button>
+              </Card>
+            )}
+
             <Card className="p-6 rounded-xl shadow-sm border border-gray-200">
               <div className="flex items-center gap-2 mb-4">
                 <div className="p-2 bg-blue-50 rounded-lg">
@@ -126,6 +155,9 @@ const PembagianDaging = () => {
           )}
         </div>
       </div>
+      {isScannerOpen && (
+        <QrScannerModal onClose={() => setIsScannerOpen(false)} />
+      )}
     </div>
   );
 };
