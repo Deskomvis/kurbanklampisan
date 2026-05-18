@@ -54,7 +54,7 @@ export const PenerimaTableBase: React.FC<PenerimaTableBaseProps> = ({
           <TableHeader>
             <TableRow className="bg-gray-50 border-b border-gray-200 hover:bg-gray-50">
               {headers.map((header, index) => (
-                <TableHead key={index} className="px-4 py-3 text-sm font-semibold text-gray-600">
+                <TableHead key={index} className="px-2 sm:px-4 py-3 text-xs sm:text-sm font-semibold text-gray-600">
                   {header}
                 </TableHead>
               ))}
@@ -64,18 +64,18 @@ export const PenerimaTableBase: React.FC<PenerimaTableBaseProps> = ({
             {penerima.length > 0 ? (
               penerima.map((penerimaItem) => (
                 <TableRow key={getStableId(penerimaItem)} className="border-b border-gray-100 hover:bg-green-50/30 transition-colors">
-                  <TableCell className="px-4 py-3">
-                    <span className="inline-flex items-center justify-center w-8 h-8 rounded-md bg-gray-100 font-bold text-gray-700 text-sm">
+                  <TableCell className="px-2 sm:px-4 py-3">
+                    <span className="inline-flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-gray-100 font-bold text-gray-700 text-xs sm:text-sm">
                       {penerimaItem.nomorPengambilan}
                     </span>
                   </TableCell>
-                  <TableCell className="px-4 py-3">
-                    <p className="font-semibold text-gray-800 text-base">{penerimaItem.nama}</p>
-                    <p className="text-xs text-gray-500 mt-0.5">Warga Penerima Kurban</p>
+                  <TableCell className="px-2 sm:px-4 py-3">
+                    <p className="font-semibold text-gray-800 text-sm sm:text-base leading-tight">{penerimaItem.nama}</p>
+                    <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5">Warga Penerima Kurban</p>
                   </TableCell>
-                  <TableCell className="px-4 py-3">
+                  <TableCell className="px-2 sm:px-4 py-3">
                     {penerimaItem.blok ? (
-                      <span className="px-2.5 py-1 bg-gray-100 text-gray-600 rounded text-xs font-medium border border-gray-200">
+                      <span className="px-1.5 sm:px-2.5 py-0.5 sm:py-1 bg-gray-100 text-gray-600 rounded text-[10px] sm:text-xs font-medium border border-gray-200 whitespace-nowrap">
                         Blok {penerimaItem.blok}
                       </span>
                     ) : (
@@ -105,7 +105,7 @@ export const PenerimaTableBase: React.FC<PenerimaTableBaseProps> = ({
                     </TableCell>
                   )}
                   {children && (
-                    <TableCell className="px-4 py-3 text-right">
+                    <TableCell className="px-2 sm:px-4 py-3 text-right">
                       {children(penerimaItem)}
                     </TableCell>
                   )}

@@ -28,11 +28,12 @@ export const PembagianTable: React.FC<PembagianTableProps> = ({
     <Button
       variant="default"
       size="sm"
-      className="h-9 px-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold text-sm flex items-center gap-2 transition-all active:scale-95"
+      className="h-8 sm:h-9 px-2 sm:px-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-semibold text-xs sm:text-sm flex items-center gap-1 sm:gap-2 transition-all active:scale-95 whitespace-nowrap"
       onClick={() => onSudahMenerima(penerimaItem.id)}
     >
-      <Beef className="w-4 h-4" />
-      Konfirmasi Terima
+      <Beef className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+      <span className="hidden sm:inline">Konfirmasi Terima</span>
+      <span className="inline sm:hidden">Terima</span>
     </Button>
   );
 
