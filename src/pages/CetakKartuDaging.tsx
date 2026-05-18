@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Printer, X, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
 
 const CetakKartuDaging = () => {
+  const { isAuthenticated } = useAuth();
   const [searchParams] = useSearchParams();
   const fromNum = parseInt(searchParams.get('from') || '1') || 1;
   const toNum = parseInt(searchParams.get('to') || '345') || 345;
-  const kurbanYear = searchParams.get('year') || new Date().getFullYear().toString();
-  const hijriahYear = parseInt(kurbanYear) - 579;
 
   // Generate numbers array
   const numbers = [];
@@ -30,12 +30,13 @@ const CetakKartuDaging = () => {
 
   // Auto trigger browser print dialog on page load
   useEffect(() => {
-    // Small timeout to ensure all components and images render fully
-    const timer = setTimeout(() => {
-      window.print();
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    if (isAuthenticated) {
+      const timer = setTimeout(() => {
+        window.print();
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isAuthenticated]);
 
   const handlePrint = () => {
     window.print();
@@ -44,6 +45,29 @@ const CetakKartuDaging = () => {
   const handleClose = () => {
     window.close();
   };
+
+  // Security Check: Access Denied if unauthenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+        <div className="bg-white p-8 rounded-2xl shadow-md max-w-md w-full text-center space-y-4 border border-gray-200">
+          <div className="mx-auto w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center">
+            <AlertTriangle className="w-6 h-6" />
+          </div>
+          <h2 className="text-xl font-bold text-gray-900">Akses Ditolak</h2>
+          <p className="text-sm text-gray-500">
+            Anda harus masuk sebagai Pengurus untuk mencetak kartu pengambilan daging.
+          </p>
+          <button
+            onClick={handleClose}
+            className="w-full bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold py-2.5 rounded-lg"
+          >
+            Tutup Halaman
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 print:bg-white text-gray-800 antialiased">
@@ -107,9 +131,9 @@ const CetakKartuDaging = () => {
           box-sizing: border-box;
         }
         .print-card {
-          border: 2px solid #1f2937;
+          border: 2px solid #000000;
           border-radius: 8px;
-          padding: 4mm 2mm;
+          padding: 3mm 1mm;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -175,41 +199,38 @@ const CetakKartuDaging = () => {
                     <img 
                       src="/logo.png" 
                       alt="Logo" 
-                      className="h-8 w-auto object-contain mb-1" 
+                      className="h-10 w-auto object-contain mb-1" 
                     />
-                    <h2 className="font-extrabold text-[8px] tracking-tight leading-none text-gray-900 uppercase">
+                    <h2 className="font-black text-[10px] tracking-tight leading-none text-gray-900 uppercase">
                       Masjid Al Istiqomah
                     </h2>
-                    <p className="font-bold text-[6px] tracking-wider leading-none text-gray-500 uppercase mt-0.5">
-                      Klampisan, Wates
-                    </p>
-                    <p className="font-medium text-[6px] text-green-700 mt-1 leading-none">
-                      Kurban {hijriahYear} H / {kurbanYear} M
+                    <p className="font-extrabold text-[8px] tracking-widest leading-none text-gray-600 uppercase mt-1">
+                      Dusun Klampisan
                     </p>
                   </div>
 
                   {/* Divider line */}
-                  <div className="w-full border-b border-dashed border-gray-400 my-1"></div>
+                  <div className="w-full border-b border-black my-1"></div>
 
                   {/* Title Label */}
                   <div className="w-full">
-                    <span className="font-extrabold text-[7px] text-gray-700 tracking-wider leading-tight block">
+                    <span className="font-black text-[9px] text-gray-800 tracking-widest leading-none block">
                       NOMOR PENGAMBILAN
                     </span>
-                    <span className="font-extrabold text-[7px] text-gray-700 tracking-wider leading-tight block">
+                    <span className="font-black text-[9px] text-gray-800 tracking-widest leading-none block mt-0.5">
                       DAGING KURBAN
                     </span>
                   </div>
 
-                  {/* Huge bold ticket number */}
-                  <div className="font-black text-[42px] leading-none text-gray-900 tracking-tighter my-2">
+                  {/* Huge bold ticket number - Maximized left/right space */}
+                  <div className="font-black text-[72px] leading-none text-gray-950 tracking-tighter my-2 w-full text-center">
                     {padNumber(cardNum)}
                   </div>
 
                   {/* Footer Text */}
-                  <div className="w-full mt-1">
-                    <div className="w-full border-b border-dashed border-gray-300 mb-1"></div>
-                    <p className="text-[5.5px] font-semibold text-gray-500 italic leading-none">
+                  <div className="w-full">
+                    <div className="w-full border-b border-dashed border-gray-400 mb-1"></div>
+                    <p className="text-[7.5px] font-extrabold text-gray-700 italic leading-none">
                       * Harap kartu ini dibawa saat pengambilan daging
                     </p>
                   </div>

@@ -55,7 +55,7 @@ const Layout = ({ children }: LayoutProps) => {
     { path: '/penerima-daging', label: 'Data Penerima', icon: UserCheck },
     { path: '/pembagian-daging', label: 'Pembagian', icon: Share2 },
     { path: '/laporan', label: 'Laporan', icon: FileText },
-    { path: '/cetak', label: 'Menu Cetak', icon: Printer },
+    { path: '/cetak', label: 'Menu Cetak', icon: Printer, adminOnly: true },
     { path: '/data-management', label: 'Manajemen Data', icon: Database, adminOnly: true },
   ];
 

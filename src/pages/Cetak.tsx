@@ -3,18 +3,29 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Printer, Ticket, Info, FileText } from 'lucide-react';
-import { useYear } from '@/contexts/YearContext';
+import { Printer, Ticket, Info, AlertTriangle } from 'lucide-react';
 import { PrintReportsPanel } from '@/components/data/PrintReportsPanel';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Cetak = () => {
-  const { currentYear } = useYear();
+  const { isAuthenticated } = useAuth();
   const [fromNum, setFromNum] = useState<number>(1);
   const [toNum, setToNum] = useState<number>(345);
-  const [kurbanYear, setKurbanYear] = useState<string>(currentYear);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
+        <div className="p-4 bg-amber-100 rounded-full text-amber-600">
+          <AlertTriangle className="w-12 h-12 animate-bounce" />
+        </div>
+        <h2 className="text-2xl font-bold text-gray-800">Akses Ditolak</h2>
+        <p className="text-gray-500 max-w-md">Halaman Cetak ini hanya dapat diakses oleh Pengurus yang telah login.</p>
+      </div>
+    );
+  }
 
   const handleOpenPrintCards = () => {
-    const url = `/cetak/kartu-daging?from=${fromNum}&to=${toNum}&year=${kurbanYear}`;
+    const url = `/cetak/kartu-daging?from=${fromNum}&to=${toNum}`;
     window.open(url, '_blank');
   };
 
@@ -81,18 +92,6 @@ const Cetak = () => {
                   className="border-gray-200 focus:ring-green-500 focus:border-green-500 rounded-lg"
                 />
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="kurbanYear" className="text-gray-700 font-medium text-xs sm:text-sm">Tahun Kegiatan</Label>
-              <Input
-                id="kurbanYear"
-                type="text"
-                value={kurbanYear}
-                onChange={(e) => setKurbanYear(e.target.value)}
-                placeholder="Contoh: 2026"
-                className="border-gray-200 focus:ring-green-500 focus:border-green-500 rounded-lg"
-              />
             </div>
 
             {/* Print Info Alert */}
