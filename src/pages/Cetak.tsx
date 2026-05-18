@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Printer, Ticket, Info, AlertTriangle, Palette, ExternalLink } from 'lucide-react';
+import { Printer, Ticket, Info, AlertTriangle, Palette, ExternalLink, FileText, BookOpen } from 'lucide-react';
 import { PrintReportsPanel } from '@/components/data/PrintReportsPanel';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -51,7 +51,7 @@ const Cetak = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        {/* Left Column: Cetak Kartu & Cetak Template */}
+        {/* Left Column: Cetak Kartu & Canva Templates */}
         <div className="space-y-8">
           {/* Card 1: Cetak Kartu Pengambilan Daging */}
           <Card className="shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden bg-white">
@@ -162,6 +162,47 @@ const Cetak = () => {
               >
                 <ExternalLink className="w-5 h-5" />
                 Buka Template Canva
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Card 3: Template Laporan Pertanggungjawaban (Canva Link) */}
+          <Card className="shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300 rounded-2xl overflow-hidden bg-white">
+            <CardHeader className="bg-gradient-to-r from-amber-50/50 to-orange-50/20 border-b border-gray-100 pb-5">
+              <div className="flex items-center justify-between">
+                <span className="px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-semibold uppercase tracking-wider">
+                  Publikasi & LPJ
+                </span>
+                <BookOpen className="w-5 h-5 text-amber-600" />
+              </div>
+              <CardTitle className="text-xl font-bold text-gray-800 mt-3 flex items-center gap-2">
+                📄 Template Laporan Pertanggungjawaban (LPJ)
+              </CardTitle>
+              <CardDescription className="text-gray-500 text-sm">
+                Akses template desain premium di Canva untuk menyusun Laporan Pertanggungjawaban (LPJ) kurban secara lengkap dan formal.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6 space-y-6">
+              <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl space-y-2">
+                <div className="flex gap-2 items-start text-amber-800">
+                  <Info className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                  <div>
+                    <h4 className="font-semibold text-sm">Petunjuk Penggunaan:</h4>
+                    <ul className="text-xs space-y-1 mt-1 text-amber-700 list-disc list-inside">
+                      <li>Klik tombol di bawah untuk membuka template LPJ resmi di <strong>Canva</strong>.</li>
+                      <li>Format laporan telah dilengkapi bab pendahuluan, data kepanitiaan, rekapitulasi, dan dokumentasi.</li>
+                      <li>Sangat ideal untuk di-print atau dibagikan secara digital kepada jamaah & donatur.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <Button
+                onClick={() => window.open('https://canva.link/ngwyp036bg2muti', '_blank')}
+                className="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-6 rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all hover:translate-y-[-1px] active:translate-y-[1px]"
+              >
+                <ExternalLink className="w-5 h-5" />
+                Buka Template LPJ Canva
               </Button>
             </CardContent>
           </Card>
