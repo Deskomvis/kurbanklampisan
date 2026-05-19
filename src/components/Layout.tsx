@@ -15,6 +15,7 @@ import {
   ShieldCheck,
   LogOut,
   KeyRound,
+  Calculator,
   Printer
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -55,6 +56,7 @@ const Layout = ({ children }: LayoutProps) => {
     { path: '/penerima-daging', label: 'Data Penerima', icon: UserCheck },
     { path: '/pembagian-daging', label: 'Pembagian', icon: Share2 },
     { path: '/laporan', label: 'Laporan', icon: FileText },
+    { path: '/rab', label: 'RAB Estimasi', icon: Calculator },
     { path: '/cetak', label: 'Menu Cetak', icon: Printer, adminOnly: true },
     { path: '/data-management', label: 'Manajemen Data', icon: Database, adminOnly: true },
   ];

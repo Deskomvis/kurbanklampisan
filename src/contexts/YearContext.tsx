@@ -135,6 +135,12 @@ export const YearProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       localStorage.setItem(`${PANITIA_KEYS.pengesah}_${newYear}`, oldPengesah);
     }
 
+    // Copy RAB data from current year (user can update estimates for new year)
+    const oldRab = localStorage.getItem(`klampisan_kurban_rab_${currentYear}`);
+    if (oldRab) {
+      localStorage.setItem(`klampisan_kurban_rab_${newYear}`, oldRab);
+    }
+
     const newYears = [...availableYears, newYear];
     setAvailableYears(newYears);
     localStorage.setItem(YEARS_KEY, JSON.stringify(newYears));

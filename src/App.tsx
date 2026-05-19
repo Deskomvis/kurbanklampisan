@@ -10,6 +10,7 @@ import { PenerimaProvider } from "./contexts/PenerimaContext";
 import { KelompokKurbanProvider } from "./contexts/KelompokKurbanContext";
 import { KeuanganProvider } from "./contexts/KeuanganContext";
 import { PanitiaProvider } from "./contexts/PanitiaContext";
+import { RabProvider } from "./contexts/RabContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BackupProvider } from "./contexts/BackupContext";
 import { CollaborativeWrapper } from "./components/collaborative/CollaborativeWrapper";
@@ -21,6 +22,7 @@ import Keuangan from "./pages/Keuangan";
 import PenerimaDaging from "./pages/PenerimaDaging";
 import PembagianDaging from "./pages/PembagianDaging";
 import Laporan from "./pages/Laporan";
+import Rab from "./pages/Rab";
 import DataManagement from "./pages/DataManagement";
 import Cetak from "./pages/Cetak";
 import CetakKartuDaging from "./pages/CetakKartuDaging";
@@ -36,9 +38,11 @@ const YearAwareProviders = ({ children }: { children: ReactNode }) => {
       <KelompokKurbanProvider key={`kelompok-${currentYear}`} year={currentYear}>
         <PenerimaProvider key={`penerima-${currentYear}`} year={currentYear}>
           <PanitiaProvider key={`panitia-${currentYear}`} year={currentYear}>
-            <CollaborativeWrapper>
-              {children}
-            </CollaborativeWrapper>
+            <RabProvider key={`rab-${currentYear}`} year={currentYear}>
+              <CollaborativeWrapper>
+                {children}
+              </CollaborativeWrapper>
+            </RabProvider>
           </PanitiaProvider>
         </PenerimaProvider>
       </KelompokKurbanProvider>
@@ -65,6 +69,7 @@ const App = () => (
                   <Route path="/penerima-daging" element={<PenerimaDaging />} />
                   <Route path="/pembagian-daging" element={<PembagianDaging />} />
                   <Route path="/laporan" element={<Laporan />} />
+                  <Route path="/rab" element={<Rab />} />
                   <Route path="/data-management" element={<DataManagement />} />
                   <Route path="/cetak" element={<Cetak />} />
                   <Route path="/cetak/kartu-daging" element={<CetakKartuDaging />} />
