@@ -4,7 +4,8 @@ import { KeuanganTabs } from '@/components/keuangan/KeuanganTabs';
 import { useKeuangan } from '@/contexts/KeuanganContext';
 import { useKeuanganHandlers } from '@/hooks/useKeuanganHandlers';
 import { formatRupiah } from '@/utils/keuanganCalculations';
-import { Wallet, Landmark, TrendingUp, History } from 'lucide-react';
+import { Wallet, Landmark, TrendingUp, History, TrendingDown } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
 
 const Keuangan = () => {
@@ -76,6 +77,25 @@ const Keuangan = () => {
                 formatRupiah={formatRupiah}
                 isAuthenticated={isAuthenticated}
               />
+
+              {/* Saldo Akhir */}
+              <Card className="p-5 rounded-2xl bg-gradient-to-br from-white to-gray-50 border-gray-100 shadow-sm overflow-hidden relative">
+                <div className="relative z-10 flex items-center gap-3">
+                  <div className="p-3 bg-blue-100 rounded-xl shrink-0">
+                    <TrendingDown className="w-5 h-5 text-blue-700" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1.5 mb-0.5">
+                      <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Saldo Akhir</p>
+                    </div>
+                    <p className={`text-2xl font-black tracking-tight leading-none ${getSaldoAkhir() >= 0 ? 'text-gray-900' : 'text-red-600'}`}>
+                      {formatRupiah(getSaldoAkhir())}
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-blue-100/30 rounded-full blur-3xl" />
+              </Card>
             </div>
 
             {isAuthenticated && (
