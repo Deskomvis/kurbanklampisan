@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { AppData } from '@/utils/dataUtils';
 import { useToast } from '@/hooks/use-toast';
@@ -19,6 +19,7 @@ interface BackupContextType {
   deleteBackup: (id: string) => Promise<void>;
   getBackupsList: () => BackupItem[];
   refreshBackups: () => Promise<void>;
+  scheduleAutoSave: (data: AppData) => void;
 }
 
 const BackupContext = createContext<BackupContextType | undefined>(undefined);
@@ -35,9 +36,13 @@ interface BackupProviderProps {
   children: ReactNode;
 }
 
+const AUTO_SAVE_PREFIX = 'Auto - ';
+const MAX_AUTO_SAVES = 15;
+
 export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
   const [backups, setBackups] = useState<BackupItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const autoSaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { toast } = useToast();
 
   // Fetch backups from Supabase on component mount
@@ -151,6 +156,35 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
     return backups;
   };
 
+  const scheduleAutoSave = (data: AppData) => {
+    if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
+    autoSaveTimerRef.current = setTimeout(async () => {
+      try {
+        // Remove oldest auto-saves if over limit
+        const { data: existing } = await supabase
+          .from('backups')
+          .select('id')
+          .like('name', `${AUTO_SAVE_PREFIX}%`)
+          .order('created_at', { ascending: true });
+
+        if (existing && existing.length >= MAX_AUTO_SAVES) {
+          const idsToDelete = existing
+            .slice(0, existing.length - MAX_AUTO_SAVES + 1)
+            .map((r: { id: string }) => r.id);
+          await supabase.from('backups').delete().in('id', idsToDelete);
+        }
+
+        const name = `${AUTO_SAVE_PREFIX}${new Date().toLocaleString('id-ID')}`;
+        const { error } = await supabase
+          .from('backups')
+          .insert({ name, data: data as unknown as any });
+        if (!error) await refreshBackups();
+      } catch (err) {
+        console.error('Auto-save failed:', err);
+      }
+    }, 8000); // 8 second debounce
+  };
+
   return (
     <BackupContext.Provider value={{
       backups,
@@ -159,7 +193,8 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
       loadBackup,
       deleteBackup,
       getBackupsList,
-      refreshBackups
+      refreshBackups,
+      scheduleAutoSave,
     }}>
       {children}
     </BackupContext.Provider>

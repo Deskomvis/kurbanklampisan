@@ -111,6 +111,7 @@ export const BackupPanel: React.FC = () => {
 
   const backups = getBackupsList();
   const isImportBackup = (name: string) => name.includes('Import JSON');
+  const isAutoBackup = (name: string) => name.startsWith('Auto - ');
 
   return (
     <Card className="p-4 md:p-6">
@@ -190,7 +191,9 @@ export const BackupPanel: React.FC = () => {
                 {backups.map((backup) => (
                   <TableRow key={backup.id}>
                     <TableCell className="text-xs">
-                      {isImportBackup(backup.name) ? (
+                      {isAutoBackup(backup.name) ? (
+                        <span className="text-green-600 font-medium">Auto</span>
+                      ) : isImportBackup(backup.name) ? (
                         <span className="text-orange-600">Import</span>
                       ) : (
                         <span className="text-gray-600">Manual</span>

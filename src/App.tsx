@@ -14,6 +14,7 @@ import { RabProvider } from "./contexts/RabContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BackupProvider } from "./contexts/BackupContext";
 import { CollaborativeWrapper } from "./components/collaborative/CollaborativeWrapper";
+import AutoSaveWatcher from "./components/AutoSaveWatcher";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Panitia from "./pages/Panitia";
@@ -39,6 +40,7 @@ const YearAwareProviders = ({ children }: { children: ReactNode }) => {
         <PenerimaProvider key={`penerima-${currentYear}`} year={currentYear}>
           <PanitiaProvider key={`panitia-${currentYear}`} year={currentYear}>
             <RabProvider key={`rab-${currentYear}`} year={currentYear}>
+              <AutoSaveWatcher />
               <CollaborativeWrapper>
                 {children}
               </CollaborativeWrapper>
