@@ -19,7 +19,7 @@ interface BackupContextType {
   deleteBackup: (id: string) => Promise<void>;
   getBackupsList: () => BackupItem[];
   refreshBackups: () => Promise<void>;
-  scheduleAutoSave: (data: AppData) => void;
+  scheduleAutoSave: (data: AppData, year?: string) => void;
 }
 
 const BackupContext = createContext<BackupContextType | undefined>(undefined);
@@ -156,7 +156,7 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
     return backups;
   };
 
-  const scheduleAutoSave = (data: AppData) => {
+  const scheduleAutoSave = (data: AppData, year?: string) => {
     if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
     autoSaveTimerRef.current = setTimeout(async () => {
       try {
@@ -174,7 +174,8 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
           await supabase.from('backups').delete().in('id', idsToDelete);
         }
 
-        const name = `${AUTO_SAVE_PREFIX}${new Date().toLocaleString('id-ID')}`;
+        const yearTag = year ? `${year} - ` : '';
+        const name = `${AUTO_SAVE_PREFIX}${yearTag}${new Date().toLocaleString('id-ID')}`;
         const { error } = await supabase
           .from('backups')
           .insert({ name, data: data as unknown as any });
