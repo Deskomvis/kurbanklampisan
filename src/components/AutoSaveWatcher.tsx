@@ -6,13 +6,12 @@ import { useBackup } from '@/contexts/BackupContext';
 import { useYear } from '@/contexts/YearContext';
 import { useToast } from '@/hooks/use-toast';
 
-// Restores data from the latest Supabase backup when opened on a new device/browser.
-// Also switches to the correct year embedded in the backup name (e.g. "Auto - 2026 - ...").
+// Restores data from the latest Supabase backup when opened on a new device/browser
 const AutoSaveWatcher = () => {
-  const { currentYear, ensureYear, switchYear } = useYear();
+  const { currentYear } = useYear();
   const { penerima, setPenerimaList } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing } = useKelompokKurban();
-  const { transactions, saldoAwal, addTransaction, setSaldoAwal } = useKeuangan();
+  const { transactions, saldoAwal, isSaldoAwalSet, addTransaction, setSaldoAwal } = useKeuangan();
   const { backups, isLoading } = useBackup();
   const { toast } = useToast();
 
@@ -22,27 +21,11 @@ const AutoSaveWatcher = () => {
     if (restoreChecked.current || isLoading) return;
     restoreChecked.current = true;
 
-    if (backups.length === 0) return;
-
-    const latest = backups[0];
-
-    // Parse year from backup name: "Auto - 2026 - ..."
-    const yearMatch = latest.name.match(/Auto - (\d{4}) - /);
-    const backupYear = yearMatch?.[1];
-
-    // If the backup belongs to a different year, register that year and switch to it.
-    // The component will remount after the year switch, and the restore will run again
-    // under the correct year context.
-    if (backupYear && backupYear !== currentYear) {
-      ensureYear(backupYear);
-      switchYear(backupYear);
-      return;
-    }
-
-    // Guard: skip if already restored for this year in this session
     const restoreKey = `klampisan_restored_${currentYear}`;
     if (sessionStorage.getItem(restoreKey)) return;
     sessionStorage.setItem(restoreKey, 'done');
+
+    if (backups.length === 0) return;
 
     const saldoNum = parseFloat(saldoAwal) || 0;
     const isEmpty =
@@ -54,6 +37,7 @@ const AutoSaveWatcher = () => {
 
     if (!isEmpty) return;
 
+    const latest = backups[0];
     setPenerimaList(latest.data.penerima || []);
     (latest.data.kelompokSapi || []).forEach((k: any) => addKelompokSapi(k));
     (latest.data.kurbanKambing || []).forEach((k: any) => addKurbanKambing(k));
