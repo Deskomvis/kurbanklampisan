@@ -63,7 +63,6 @@ interface YearContextType {
   availableYears: string[];
   switchYear: (year: string) => void;
   createNewYear: (newYear: string) => void;
-  ensureYear: (year: string) => void;
 }
 
 const YearContext = createContext<YearContextType | undefined>(undefined);
@@ -82,10 +81,10 @@ export const YearProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       markAllPenerimaReceived('2025');
       return JSON.parse(saved);
     }
-    // First run: migrate legacy data to 2025-scoped keys
+    // First run: migrate legacy data to 2025-scoped keys, then add 2026
     migrateLegacyData('2025');
     markAllPenerimaReceived('2025');
-    const initial = ['2025'];
+    const initial = ['2025', '2026'];
     localStorage.setItem(YEARS_KEY, JSON.stringify(initial));
     return initial;
   });
@@ -98,22 +97,15 @@ export const YearProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const yearsRaw = localStorage.getItem(YEARS_KEY);
       if (yearsRaw) {
         const years: string[] = JSON.parse(yearsRaw);
-        return [...years].sort().at(-1) || '2025';
+        return [...years].sort().at(-1) || '2026';
       }
     } catch {}
-    return '2025';
+    return '2026';
   });
 
   const switchYear = (year: string) => {
     localStorage.setItem(CURRENT_YEAR_KEY, year);
     setCurrentYear(year);
-  };
-
-  const ensureYear = (year: string) => {
-    if (availableYears.includes(year)) return;
-    const newYears = [...availableYears, year].sort();
-    setAvailableYears(newYears);
-    localStorage.setItem(YEARS_KEY, JSON.stringify(newYears));
   };
 
   const createNewYear = (newYear: string) => {
@@ -166,7 +158,7 @@ export const YearProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <YearContext.Provider value={{ currentYear, availableYears, switchYear, createNewYear, ensureYear }}>
+    <YearContext.Provider value={{ currentYear, availableYears, switchYear, createNewYear }}>
       {children}
     </YearContext.Provider>
   );
