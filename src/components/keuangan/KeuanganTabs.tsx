@@ -58,11 +58,9 @@ export const KeuanganTabs: React.FC<KeuanganTabsProps> = ({
   const sumDanaMasjid = txPemasukan.filter(t => t.type === 'dana-masjid').reduce((s, t) => s + t.jumlah, 0);
   const sumPengeluaran = txPengeluaran.reduce((s, t) => s + t.jumlah, 0);
 
-  const cols = isAuthenticated ? 4 : 3;
-
   return (
     <Tabs defaultValue={isAuthenticated ? 'input' : 'history'} className="w-full space-y-6">
-      <TabsList className={`grid w-full p-1 bg-gray-100 rounded-xl h-12 sm:h-14 grid-cols-${cols}`}>
+      <TabsList className={`grid w-full p-1 bg-gray-100 rounded-xl h-12 sm:h-14 ${isAuthenticated ? 'grid-cols-4' : 'grid-cols-3'}`}>
         {isAuthenticated && (
           <TabsTrigger
             value="input"
