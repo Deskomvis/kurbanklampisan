@@ -24,7 +24,7 @@ const Dashboard = () => {
   const { currentYear } = useYear();
   const { penerima } = usePenerima();
   const { getTotalSapi, getTotalKambing } = useKelompokKurban();
-  const { getTotalPengeluaran } = useKeuangan();
+  const { getTotalPengeluaran, getSaldoAkhir } = useKeuangan();
   
   const sudahMenerima = penerima.filter(p => p.sudahMenerima).length;
   const belumMenerima = penerima.length - sudahMenerima;
@@ -112,12 +112,12 @@ const Dashboard = () => {
           className="bg-emerald-50 text-emerald-900 border border-emerald-100 shadow-sm"
           subtitle="Total ekor kambing"
         />
-        <Card 
-          title="Total Pengeluaran" 
-          value={formatRupiah(getTotalPengeluaran())} 
+        <Card
+          title="Total Saldo Akhir"
+          value={formatRupiah(getSaldoAkhir())}
           icon={<Wallet className="w-6 h-6 text-blue-700" />}
           className="bg-blue-50 text-blue-900 border border-blue-100 shadow-sm"
-          subtitle="Akumulasi biaya operasional"
+          subtitle="Saldo kas saat ini"
         />
       </div>
 
