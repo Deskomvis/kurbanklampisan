@@ -11,6 +11,7 @@ import { KelompokKurbanProvider } from "./contexts/KelompokKurbanContext";
 import { KeuanganProvider } from "./contexts/KeuanganContext";
 import { PanitiaProvider } from "./contexts/PanitiaContext";
 import { RabProvider } from "./contexts/RabContext";
+import { PasalProvider } from "./contexts/PasalContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BackupProvider } from "./contexts/BackupContext";
 import { CollaborativeWrapper } from "./components/collaborative/CollaborativeWrapper";
@@ -27,6 +28,7 @@ import Rab from "./pages/Rab";
 import DataManagement from "./pages/DataManagement";
 import Cetak from "./pages/Cetak";
 import CetakKartuDaging from "./pages/CetakKartuDaging";
+import PasalMusyawarah from "./pages/PasalMusyawarah";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -56,6 +58,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <AuthProvider>
+      <PasalProvider>
       <BackupProvider>
         <YearProvider>
           <YearAwareProviders>
@@ -75,6 +78,7 @@ const App = () => (
                   <Route path="/data-management" element={<DataManagement />} />
                   <Route path="/cetak" element={<Cetak />} />
                   <Route path="/cetak/kartu-daging" element={<CetakKartuDaging />} />
+                  <Route path="/pasal-musyawarah" element={<PasalMusyawarah />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
@@ -83,6 +87,7 @@ const App = () => (
           </YearAwareProviders>
         </YearProvider>
       </BackupProvider>
+      </PasalProvider>
       </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>

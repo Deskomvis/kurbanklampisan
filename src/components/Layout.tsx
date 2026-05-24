@@ -16,7 +16,8 @@ import {
   LogOut,
   KeyRound,
   Calculator,
-  Printer
+  Printer,
+  Scale
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -58,6 +59,7 @@ const Layout = ({ children }: LayoutProps) => {
     { path: '/pembagian-daging', label: 'Pembagian', icon: Share2 },
     { path: '/laporan', label: 'Laporan', icon: FileText },
     { path: '/rab', label: 'RAB Estimasi', icon: Calculator },
+    { path: '/pasal-musyawarah', label: 'Pasal Musyawarah', icon: Scale },
     { path: '/cetak', label: 'Menu Cetak', icon: Printer, adminOnly: true },
     { path: '/data-management', label: 'Manajemen Data', icon: Database, adminOnly: true },
   ];
