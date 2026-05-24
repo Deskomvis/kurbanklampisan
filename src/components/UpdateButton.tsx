@@ -17,7 +17,7 @@ export const UpdateButton: React.FC = () => {
   const { penerima } = usePenerima();
   const { kelompokSapi, kurbanKambing } = useKelompokKurban();
   const { transactions, saldoAwal, isSaldoAwalSet } = useKeuangan();
-  const { scheduleAutoSave, forceAutoSave } = useBackup();
+  const { saveNow } = useBackup();
   const { toast } = useToast();
 
   const handleUpdate = async () => {
@@ -27,9 +27,7 @@ export const UpdateButton: React.FC = () => {
       const data = JSON.parse(
         exportData(penerima, kelompokSapi, kurbanKambing, transactions, saldoAwal, isSaldoAwalSet)
       );
-      // Schedule then immediately flush — saves current snapshot without waiting for debounce
-      scheduleAutoSave(data, currentYear);
-      await forceAutoSave();
+      await saveNow(data, currentYear);
       setSaveState('done');
       toast({ title: 'Tersimpan', description: 'Data berhasil disimpan ke server.' });
       setTimeout(() => setSaveState('idle'), 2000);
