@@ -63,6 +63,7 @@ interface YearContextType {
   availableYears: string[];
   switchYear: (year: string) => void;
   createNewYear: (newYear: string) => void;
+  ensureYear: (year: string) => void;
 }
 
 const YearContext = createContext<YearContextType | undefined>(undefined);
@@ -90,12 +91,29 @@ export const YearProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   });
 
   const [currentYear, setCurrentYear] = useState<string>(() => {
-    return localStorage.getItem(CURRENT_YEAR_KEY) || '2025';
+    const saved = localStorage.getItem(CURRENT_YEAR_KEY);
+    if (saved) return saved;
+    // Default to latest available year on fresh device
+    try {
+      const yearsRaw = localStorage.getItem(YEARS_KEY);
+      if (yearsRaw) {
+        const years: string[] = JSON.parse(yearsRaw);
+        return [...years].sort().at(-1) || '2025';
+      }
+    } catch {}
+    return '2025';
   });
 
   const switchYear = (year: string) => {
     localStorage.setItem(CURRENT_YEAR_KEY, year);
     setCurrentYear(year);
+  };
+
+  const ensureYear = (year: string) => {
+    if (availableYears.includes(year)) return;
+    const newYears = [...availableYears, year].sort();
+    setAvailableYears(newYears);
+    localStorage.setItem(YEARS_KEY, JSON.stringify(newYears));
   };
 
   const createNewYear = (newYear: string) => {
@@ -148,7 +166,7 @@ export const YearProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <YearContext.Provider value={{ currentYear, availableYears, switchYear, createNewYear }}>
+    <YearContext.Provider value={{ currentYear, availableYears, switchYear, createNewYear, ensureYear }}>
       {children}
     </YearContext.Provider>
   );
