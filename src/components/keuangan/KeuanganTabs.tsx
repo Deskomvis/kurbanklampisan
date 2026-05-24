@@ -131,12 +131,12 @@ export const KeuanganTabs: React.FC<KeuanganTabsProps> = ({
           onEdit={handleEdit}
           onDelete={deleteTransaction}
           formatRupiah={formatRupiah}
-          saldoAwal=""
-          isSaldoAwalSet={false}
-          totalPemasukan={sumPemasukan}
-          totalPengeluaran={0}
-          totalDanaMasjid={sumDanaMasjid}
-          saldoAkhir={sumPemasukan + sumDanaMasjid}
+          saldoAwal={saldoAwal}
+          isSaldoAwalSet={isSaldoAwalSet}
+          totalPemasukan={totalPemasukan}
+          totalPengeluaran={totalPengeluaran}
+          totalDanaMasjid={totalDanaMasjid}
+          saldoAkhir={saldoAkhir}
         />
       </TabsContent>
 
@@ -147,12 +147,12 @@ export const KeuanganTabs: React.FC<KeuanganTabsProps> = ({
           onEdit={handleEdit}
           onDelete={deleteTransaction}
           formatRupiah={formatRupiah}
-          saldoAwal=""
-          isSaldoAwalSet={false}
-          totalPemasukan={0}
-          totalPengeluaran={sumPengeluaran}
-          totalDanaMasjid={0}
-          saldoAkhir={-sumPengeluaran}
+          saldoAwal={saldoAwal}
+          isSaldoAwalSet={isSaldoAwalSet}
+          totalPemasukan={totalPemasukan}
+          totalPengeluaran={totalPengeluaran}
+          totalDanaMasjid={totalDanaMasjid}
+          saldoAkhir={saldoAkhir}
         />
       </TabsContent>
     </Tabs>
