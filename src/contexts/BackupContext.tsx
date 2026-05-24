@@ -20,6 +20,7 @@ interface BackupContextType {
   getBackupsList: () => BackupItem[];
   refreshBackups: () => Promise<void>;
   scheduleAutoSave: (data: AppData, year?: string) => void;
+  forceAutoSave: () => Promise<void>;
 }
 
 const BackupContext = createContext<BackupContextType | undefined>(undefined);
@@ -43,6 +44,7 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
   const [backups, setBackups] = useState<BackupItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const autoSaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingSaveRef = useRef<{ data: AppData; year?: string } | null>(null);
   const { toast } = useToast();
 
   // Fetch backups from Supabase on component mount
@@ -156,34 +158,51 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
     return backups;
   };
 
+  const performAutoSave = async (data: AppData, year?: string) => {
+    try {
+      const { data: existing } = await supabase
+        .from('backups')
+        .select('id')
+        .like('name', `${AUTO_SAVE_PREFIX}%`)
+        .order('created_at', { ascending: true });
+
+      if (existing && existing.length >= MAX_AUTO_SAVES) {
+        const idsToDelete = existing
+          .slice(0, existing.length - MAX_AUTO_SAVES + 1)
+          .map((r: { id: string }) => r.id);
+        await supabase.from('backups').delete().in('id', idsToDelete);
+      }
+
+      const yearTag = year ? `${year} - ` : '';
+      const name = `${AUTO_SAVE_PREFIX}${yearTag}${new Date().toLocaleString('id-ID')}`;
+      const { error } = await supabase
+        .from('backups')
+        .insert({ name, data: data as unknown as any });
+      if (!error) await refreshBackups();
+    } catch (err) {
+      console.error('Auto-save failed:', err);
+    }
+  };
+
   const scheduleAutoSave = (data: AppData, year?: string) => {
+    pendingSaveRef.current = { data, year };
     if (autoSaveTimerRef.current) clearTimeout(autoSaveTimerRef.current);
     autoSaveTimerRef.current = setTimeout(async () => {
-      try {
-        // Remove oldest auto-saves if over limit
-        const { data: existing } = await supabase
-          .from('backups')
-          .select('id')
-          .like('name', `${AUTO_SAVE_PREFIX}%`)
-          .order('created_at', { ascending: true });
+      pendingSaveRef.current = null;
+      await performAutoSave(data, year);
+    }, 3000); // 3 second debounce
+  };
 
-        if (existing && existing.length >= MAX_AUTO_SAVES) {
-          const idsToDelete = existing
-            .slice(0, existing.length - MAX_AUTO_SAVES + 1)
-            .map((r: { id: string }) => r.id);
-          await supabase.from('backups').delete().in('id', idsToDelete);
-        }
-
-        const yearTag = year ? `${year} - ` : '';
-        const name = `${AUTO_SAVE_PREFIX}${yearTag}${new Date().toLocaleString('id-ID')}`;
-        const { error } = await supabase
-          .from('backups')
-          .insert({ name, data: data as unknown as any });
-        if (!error) await refreshBackups();
-      } catch (err) {
-        console.error('Auto-save failed:', err);
-      }
-    }, 8000); // 8 second debounce
+  // Save immediately if there's a pending scheduled auto-save (call on year switch / unmount)
+  const forceAutoSave = async () => {
+    if (!pendingSaveRef.current) return;
+    const { data, year } = pendingSaveRef.current;
+    pendingSaveRef.current = null;
+    if (autoSaveTimerRef.current) {
+      clearTimeout(autoSaveTimerRef.current);
+      autoSaveTimerRef.current = null;
+    }
+    await performAutoSave(data, year);
   };
 
   return (
@@ -196,6 +215,7 @@ export const BackupProvider: React.FC<BackupProviderProps> = ({ children }) => {
       getBackupsList,
       refreshBackups,
       scheduleAutoSave,
+      forceAutoSave,
     }}>
       {children}
     </BackupContext.Provider>

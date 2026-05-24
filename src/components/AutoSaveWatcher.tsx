@@ -12,13 +12,19 @@ const AutoSaveWatcher = () => {
   const { penerima, setPenerimaList } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing } = useKelompokKurban();
   const { transactions, saldoAwal, isSaldoAwalSet, addTransaction, setSaldoAwal } = useKeuangan();
-  const { scheduleAutoSave, backups, isLoading } = useBackup();
+  const { scheduleAutoSave, forceAutoSave, backups, isLoading } = useBackup();
   const { toast } = useToast();
 
   const skipAutoSave = useRef(true);
   const restoreChecked = useRef(false);
 
-  // Auto-restore: when backups finish loading, if local data is empty restore from latest backup
+  // Force-save to Supabase immediately when year is switched (component unmounts)
+  // This prevents losing data from the 3-second debounce being cancelled
+  useEffect(() => {
+    return () => { forceAutoSave(); };
+  }, []);
+
+  // Auto-restore: when backups finish loading and local data is empty, restore from latest backup
   useEffect(() => {
     if (restoreChecked.current || isLoading) return;
     restoreChecked.current = true;
@@ -29,12 +35,16 @@ const AutoSaveWatcher = () => {
 
     if (backups.length === 0) return;
 
+    // Empty = no meaningful user data exists for this year yet.
+    // isSaldoAwalSet alone is NOT enough — createNewYear always sets it to true,
+    // so we check the actual saldo value too.
+    const saldoNum = parseFloat(saldoAwal) || 0;
     const isEmpty =
       penerima.length === 0 &&
       kelompokSapi.length === 0 &&
       kurbanKambing.length === 0 &&
       transactions.length === 0 &&
-      !isSaldoAwalSet;
+      saldoNum === 0;
 
     if (!isEmpty) return;
 
