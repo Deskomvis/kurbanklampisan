@@ -21,6 +21,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { YearSelector } from '@/components/year/YearSelector';
+import { UpdateButton } from '@/components/UpdateButton';
 import { useYear } from '@/contexts/YearContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { LoginDialog } from '@/components/auth/LoginDialog';
@@ -74,44 +75,31 @@ const Layout = ({ children }: LayoutProps) => {
       <header className={cn(
         "sticky top-0 z-50 transition-all duration-300 w-full border-b",
         scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-sm py-2 border-gray-200"
-          : "bg-white border-gray-100 py-3"
+          ? "bg-white/95 backdrop-blur-md shadow-sm border-gray-200"
+          : "bg-white border-gray-100"
       )}>
         <div className="w-full px-4 md:px-8">
-          <div className="flex items-center justify-between">
+
+          {/* Row 1: Logo + Controls */}
+          <div className={cn(
+            "flex items-center justify-between transition-all",
+            scrolled ? "py-2" : "py-3"
+          )}>
             <Link to="/" className="flex items-center group">
               <img
                 src="/logo.png"
                 alt="Masjid Istiqomah Klampisan"
-                className="h-10 md:h-12 w-auto object-contain group-hover:opacity-90 transition-opacity"
+                className="h-9 md:h-11 w-auto object-contain group-hover:opacity-90 transition-opacity"
               />
             </Link>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden xl:flex items-center gap-1">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = location.pathname === item.path;
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={cn(
-                      "flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                      isActive ? "bg-green-50 text-green-700" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                    )}
-                  >
-                    <Icon className={cn("w-4 h-4", isActive ? "text-green-600" : "text-gray-500")} />
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </nav>
-
             <div className="flex items-center gap-2">
+              {/* Update button — admin only, desktop */}
+              {isAuthenticated && <UpdateButton />}
+
               <YearSelector />
 
-              {/* Auth button */}
+              {/* Auth section */}
               {isAuthenticated ? (
                 <div className="hidden sm:flex items-center gap-1.5">
                   <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-green-50 rounded-lg border border-green-200">
@@ -144,19 +132,44 @@ const Layout = ({ children }: LayoutProps) => {
               <Button
                 variant="ghost"
                 size="icon"
-                className="xl:hidden rounded-lg hover:bg-gray-100"
+                className="lg:hidden rounded-lg hover:bg-gray-100"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
-                {isMobileMenuOpen ? <X className="w-5 h-5 text-gray-700" /> : <Menu className="w-5 h-5 text-gray-700" />}
+                {isMobileMenuOpen
+                  ? <X className="w-5 h-5 text-gray-700" />
+                  : <Menu className="w-5 h-5 text-gray-700" />}
               </Button>
             </div>
           </div>
+
+          {/* Row 2: Navigation — desktop only, full width */}
+          <nav className="hidden lg:flex flex-wrap items-center gap-x-0.5 gap-y-0.5 pb-1.5 border-t border-gray-100 pt-1">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap",
+                    isActive
+                      ? "bg-green-50 text-green-700"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                  )}
+                >
+                  <Icon className={cn("w-3.5 h-3.5 shrink-0", isActive ? "text-green-600" : "text-gray-400")} />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
         </div>
       </header>
 
       {/* Mobile Navigation Overlay */}
       <div className={cn(
-        "fixed inset-0 z-[60] bg-white transition-all duration-300 xl:hidden overflow-y-auto",
+        "fixed inset-0 z-[60] bg-white transition-all duration-300 lg:hidden overflow-y-auto",
         isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
       )}>
         <div className="container mx-auto px-4 py-6 flex flex-col h-full">
@@ -200,7 +213,12 @@ const Layout = ({ children }: LayoutProps) => {
                   <ShieldCheck className="w-4 h-4 text-green-600" />
                   <span className="text-sm font-semibold text-green-700">Mode Pengurus Aktif</span>
                 </div>
-                <Button variant="ghost" size="sm" onClick={logout} className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={logout}
+                  className="text-red-500 hover:text-red-700 hover:bg-red-50 h-8"
+                >
                   <LogOut className="w-4 h-4 mr-1" /> Keluar
                 </Button>
               </div>
