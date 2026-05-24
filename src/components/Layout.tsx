@@ -85,18 +85,18 @@ const Layout = ({ children }: LayoutProps) => {
             "flex items-center justify-between transition-all",
             scrolled ? "py-2" : "py-3"
           )}>
-            <Link to="/" className="flex items-center group">
-              <img
-                src="/logo.png"
-                alt="Masjid Istiqomah Klampisan"
-                className="h-9 md:h-11 w-auto object-contain group-hover:opacity-90 transition-opacity"
-              />
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link to="/" className="flex items-center group">
+                <img
+                  src="/logo.png"
+                  alt="Masjid Istiqomah Klampisan"
+                  className="h-9 md:h-11 w-auto object-contain group-hover:opacity-90 transition-opacity"
+                />
+              </Link>
+              {isAuthenticated && <UpdateButton />}
+            </div>
 
             <div className="flex items-center gap-2">
-              {/* Update button — admin only, desktop */}
-              {isAuthenticated && <UpdateButton />}
-
               <YearSelector />
 
               {/* Auth section */}

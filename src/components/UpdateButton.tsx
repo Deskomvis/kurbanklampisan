@@ -42,7 +42,7 @@ export const UpdateButton: React.FC = () => {
       onClick={handleUpdate}
       disabled={saveState === 'saving'}
       size="sm"
-      className={`hidden sm:flex items-center gap-1.5 h-8 px-3 text-xs font-semibold transition-all ${
+      className={`flex items-center gap-1.5 h-8 px-3 text-xs font-semibold transition-all ${
         saveState === 'done'
           ? 'bg-green-100 text-green-700 border border-green-300 hover:bg-green-100'
           : 'bg-green-600 hover:bg-green-700 text-white'
