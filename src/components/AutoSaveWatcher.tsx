@@ -7,17 +7,20 @@ import { useYear } from '@/contexts/YearContext';
 import { useToast } from '@/hooks/use-toast';
 
 // Sync model (git-like):
-// - "Update" button on any device pushes the full local snapshot to Supabase.
+// - "Update" button pushes the full local snapshot to Supabase.
 // - On open/refresh, this watcher checks if the latest backup ID for the active year
 //   differs from the last one we restored. If so, it replaces local data with the
 //   backup snapshot — making all devices converge to the latest pushed state.
+// - SAFETY: if lastRestoredId is missing (first run after this feature was added)
+//   and local data already exists, we do NOT overwrite — we only "claim" the latest
+//   backup ID so future updates from other devices still sync correctly.
 const restoredKey = (year: string) => `klampisan_last_restored_backup_id_${year}`;
 
 const AutoSaveWatcher = () => {
   const { currentYear, ensureYear, switchYear } = useYear();
-  const { setPenerimaList } = usePenerima();
-  const { loadKelompokSapi, loadKurbanKambing } = useKelompokKurban();
-  const { loadTransactions, setSaldoAwal } = useKeuangan();
+  const { penerima, setPenerimaList } = usePenerima();
+  const { kelompokSapi, kurbanKambing, loadKelompokSapi, loadKurbanKambing } = useKelompokKurban();
+  const { transactions, saldoAwal, loadTransactions, setSaldoAwal } = useKeuangan();
   const { backups, isLoading } = useBackup();
   const { toast } = useToast();
 
@@ -54,6 +57,21 @@ const AutoSaveWatcher = () => {
 
     const lastRestoredId = localStorage.getItem(restoredKey(currentYear));
     if (lastRestoredId === latestForYear.id) return;
+
+    const saldoNum = parseFloat(saldoAwal) || 0;
+    const hasLocalData =
+      penerima.length > 0 ||
+      kelompokSapi.length > 0 ||
+      kurbanKambing.length > 0 ||
+      transactions.length > 0 ||
+      saldoNum > 0;
+
+    // SAFETY: first run on this device with local data — claim the latest ID
+    // and skip restore to avoid wiping the user's existing kelompok/penerima/etc.
+    if (!lastRestoredId && hasLocalData) {
+      localStorage.setItem(restoredKey(currentYear), latestForYear.id);
+      return;
+    }
 
     // Replace local data with the latest backup snapshot
     setPenerimaList(latestForYear.data.penerima || []);
