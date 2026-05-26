@@ -63,6 +63,7 @@ export const PenerimaForm: React.FC<PenerimaFormProps> = ({
               <SelectContent className="rounded-2xl shadow-2xl border-gray-100">
                 <SelectItem value="01">RT 01</SelectItem>
                 <SelectItem value="02">RT 02</SelectItem>
+                <SelectItem value="00">RT 00 (Diluar RT)</SelectItem>
                 <SelectItem value="tambahan">Tambahan</SelectItem>
               </SelectContent>
             </Select>

@@ -87,6 +87,7 @@ export const EditPenerimaDialog: React.FC<EditPenerimaDialogProps> = ({
               <SelectContent>
                 <SelectItem value="01">RT 01</SelectItem>
                 <SelectItem value="02">RT 02</SelectItem>
+                <SelectItem value="00">RT 00 (Diluar RT)</SelectItem>
                 <SelectItem value="tambahan">Penerima Tambahan</SelectItem>
               </SelectContent>
             </Select>

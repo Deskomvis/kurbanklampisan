@@ -20,9 +20,14 @@ export const PembagianTable: React.FC<PembagianTableProps> = ({
   const headers = isAuthenticated
     ? ['NO', 'NAMA PENERIMA', 'BLOK', 'KONFIRMASI']
     : ['NO', 'NAMA PENERIMA', 'BLOK'];
-  const rtTitle = rt === 'tambahan' ? 'Penerima Tambahan' : `RT ${rt} / RW 10 Klampisan`;
+  const rtTitle =
+    rt === 'tambahan' ? 'Penerima Tambahan' :
+    rt === '00' ? 'Penerima Diluar RT (RT 00)' :
+    `RT ${rt} / RW 10 Klampisan`;
   const title = `${rtTitle} — Antrian`;
-  const emptyMessage = `Alhamdulillah, distribusi di ${rt === 'tambahan' ? 'kategori ini' : 'RT ini'} telah selesai!`;
+  const emptyMessage = `Alhamdulillah, distribusi di ${
+    rt === 'tambahan' ? 'kategori ini' : rt === '00' ? 'kategori Diluar RT' : 'RT ini'
+  } telah selesai!`;
 
   const renderActions = (penerimaItem: Penerima) => (
     <Button

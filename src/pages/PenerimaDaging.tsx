@@ -130,6 +130,7 @@ const PenerimaDaging = () => {
             totalPenerima={penerima.length}
             rt01Count={groupedPenerima['01']?.length || 0}
             rt02Count={groupedPenerima['02']?.length || 0}
+            rt00Count={groupedPenerima['00']?.length || 0}
             tambahanCount={groupedPenerima['tambahan']?.length || 0}
           />
 
@@ -151,8 +152,9 @@ const PenerimaDaging = () => {
 
           {/* Tables Area */}
           <div className="space-y-6">
-            {['01', '02', 'tambahan'].map(rt => {
+            {['01', '02', 'tambahan', '00'].map(rt => {
               const penerimaRt = groupedPenerima[rt] || [];
+              if (penerimaRt.length === 0 && (rt === 'tambahan' || rt === '00')) return null;
               return (
                 <div key={rt} className="animate-in fade-in slide-in-from-bottom-2 duration-500">
                   <PenerimaTable

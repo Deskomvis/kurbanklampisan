@@ -26,18 +26,31 @@ export const PenerimaTableBase: React.FC<PenerimaTableBaseProps> = ({
   showStatus = false
 }) => {
   const { getStableId } = useStableIds();
-  
-  const rtTitle = title || (rt === 'tambahan' ? 'Penerima Tambahan' : `RT ${rt} / RW 10 Klampisan`);
-  const defaultEmptyMessage = emptyMessage || `Tidak ada data penerima untuk ${rt === 'tambahan' ? 'kategori ini' : 'wilayah ini'}`;
+
+  const isDiluar = rt === '00';
+  const rtTitle = title || (
+    rt === 'tambahan' ? 'Penerima Tambahan' :
+    isDiluar ? 'Penerima Diluar RT (RT 00)' :
+    `RT ${rt} / RW 10 Klampisan`
+  );
+  const defaultEmptyMessage = emptyMessage || `Tidak ada data penerima untuk ${
+    rt === 'tambahan' ? 'kategori ini' : isDiluar ? 'kategori diluar RT' : 'wilayah ini'
+  }`;
 
   return (
-    <Card className="rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white">
-      <div className="p-4 md:p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-gray-50/50">
+    <Card className={cn(
+      "rounded-xl overflow-hidden shadow-sm border bg-white",
+      isDiluar ? "border-amber-200 ring-1 ring-amber-100" : "border-gray-200"
+    )}>
+      <div className={cn(
+        "p-4 md:p-6 border-b flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4",
+        isDiluar ? "border-amber-100 bg-amber-50/60" : "border-gray-100 bg-gray-50/50"
+      )}>
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-green-100 rounded-lg">
-            <MapPin className="w-5 h-5 text-green-700" />
+          <div className={cn("p-2 rounded-lg", isDiluar ? "bg-amber-100" : "bg-green-100")}>
+            <MapPin className={cn("w-5 h-5", isDiluar ? "text-amber-700" : "text-green-700")} />
           </div>
-          <h3 className="text-lg font-bold text-gray-800">
+          <h3 className={cn("text-lg font-bold", isDiluar ? "text-amber-900" : "text-gray-800")}>
             {rtTitle}
           </h3>
         </div>
@@ -63,7 +76,12 @@ export const PenerimaTableBase: React.FC<PenerimaTableBaseProps> = ({
           <TableBody>
             {penerima.length > 0 ? (
               penerima.map((penerimaItem) => (
-                <TableRow key={getStableId(penerimaItem)} className="border-b border-gray-100 hover:bg-green-50/30 transition-colors">
+                <TableRow key={getStableId(penerimaItem)} className={cn(
+                  "border-b transition-colors",
+                  isDiluar
+                    ? "border-amber-50 hover:bg-amber-50/40 bg-amber-50/10"
+                    : "border-gray-100 hover:bg-green-50/30"
+                )}>
                   <TableCell className="px-2 sm:px-4 py-3">
                     <span className="inline-flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-md bg-gray-100 font-bold text-gray-700 text-xs sm:text-sm">
                       {penerimaItem.nomorPengambilan}

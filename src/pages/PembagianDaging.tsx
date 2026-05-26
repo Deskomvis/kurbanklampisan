@@ -130,9 +130,9 @@ const PembagianDaging = () => {
 
         {/* Tables Area */}
         <div className="lg:col-span-8 space-y-6">
-          {['01', '02', 'tambahan'].map((rt) => {
+          {['01', '02', 'tambahan', '00'].map((rt) => {
             const belumMenerimaRt = groupedBelumMenerima[rt] || [];
-            
+            if (belumMenerimaRt.length === 0 && (rt === 'tambahan' || rt === '00')) return null;
             return (
               <div key={rt}>
                 <PembagianTable
