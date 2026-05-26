@@ -60,9 +60,9 @@ export const PenerimaActions: React.FC = () => {
             <AlertDialogTitle>Muat data penerima 2026?</AlertDialogTitle>
             <AlertDialogDescription>
               Daftar penerima saat ini akan diganti dengan {PENERIMA_2026.length} entri data tahun
-              2026 (RT 01, RT 02, dan Tambahan/Diluar RT). Data kelompok sapi, kambing, transaksi
-              keuangan, dan saldo TIDAK akan terpengaruh. Setelah dimuat, klik tombol Update untuk
-              simpan ke server.
+              2026 (RT 01: 159 + RT 02: 148), diurutkan ascending berdasarkan nomor girik. Data
+              kelompok sapi, kambing, transaksi keuangan, dan saldo TIDAK akan terpengaruh. Setelah
+              dimuat, klik tombol Update di header untuk simpan ke server.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
