@@ -6,12 +6,14 @@ import { useBackup } from '@/contexts/BackupContext';
 import { useYear } from '@/contexts/YearContext';
 import { useToast } from '@/hooks/use-toast';
 
-// Restores data from the latest Supabase backup when opened on a new device/browser
+// Restores data from the latest Supabase backup when opened on a new device/browser.
+// Also detects the year embedded in backup names (e.g. "Auto - 2026 - ...") and
+// switches the active year so the restore lands in the correct year-scoped context.
 const AutoSaveWatcher = () => {
-  const { currentYear } = useYear();
+  const { currentYear, ensureYear, switchYear } = useYear();
   const { penerima, setPenerimaList } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing } = useKelompokKurban();
-  const { transactions, saldoAwal, isSaldoAwalSet, addTransaction, setSaldoAwal } = useKeuangan();
+  const { transactions, saldoAwal, addTransaction, setSaldoAwal } = useKeuangan();
   const { backups, isLoading } = useBackup();
   const { toast } = useToast();
 
@@ -21,11 +23,31 @@ const AutoSaveWatcher = () => {
     if (restoreChecked.current || isLoading) return;
     restoreChecked.current = true;
 
+    if (backups.length === 0) return;
+
+    const latest = backups[0];
+
+    // Parse year from backup name: "Auto - 2026 - ..."
+    const yearMatch = latest.name.match(/Auto - (\d{4}) - /);
+    const backupYear = yearMatch?.[1];
+
+    // Register any years found across all backups so the year selector shows them
+    backups.forEach(b => {
+      const m = b.name.match(/Auto - (\d{4}) - /);
+      if (m?.[1]) ensureYear(m[1]);
+    });
+
+    // If the latest backup belongs to a different year, switch to it.
+    // The component will remount under the new year, and the restore will run again.
+    if (backupYear && backupYear !== currentYear) {
+      switchYear(backupYear);
+      return;
+    }
+
+    // Guard: skip if already restored for this year in this session
     const restoreKey = `klampisan_restored_${currentYear}`;
     if (sessionStorage.getItem(restoreKey)) return;
     sessionStorage.setItem(restoreKey, 'done');
-
-    if (backups.length === 0) return;
 
     const saldoNum = parseFloat(saldoAwal) || 0;
     const isEmpty =
@@ -37,7 +59,6 @@ const AutoSaveWatcher = () => {
 
     if (!isEmpty) return;
 
-    const latest = backups[0];
     setPenerimaList(latest.data.penerima || []);
     (latest.data.kelompokSapi || []).forEach((k: any) => addKelompokSapi(k));
     (latest.data.kurbanKambing || []).forEach((k: any) => addKurbanKambing(k));

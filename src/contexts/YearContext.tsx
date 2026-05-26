@@ -63,6 +63,7 @@ interface YearContextType {
   availableYears: string[];
   switchYear: (year: string) => void;
   createNewYear: (newYear: string) => void;
+  ensureYear: (year: string) => void;
 }
 
 const YearContext = createContext<YearContextType | undefined>(undefined);
@@ -106,6 +107,13 @@ export const YearProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const switchYear = (year: string) => {
     localStorage.setItem(CURRENT_YEAR_KEY, year);
     setCurrentYear(year);
+  };
+
+  const ensureYear = (year: string) => {
+    if (availableYears.includes(year)) return;
+    const newYears = [...availableYears, year].sort();
+    setAvailableYears(newYears);
+    localStorage.setItem(YEARS_KEY, JSON.stringify(newYears));
   };
 
   const createNewYear = (newYear: string) => {
@@ -158,7 +166,7 @@ export const YearProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   return (
-    <YearContext.Provider value={{ currentYear, availableYears, switchYear, createNewYear }}>
+    <YearContext.Provider value={{ currentYear, availableYears, switchYear, createNewYear, ensureYear }}>
       {children}
     </YearContext.Provider>
   );
