@@ -1,7 +1,9 @@
 // Daftar penerima daging kurban tahun 2026 — sumber: PDF resmi panitia.
-// NO GIRIK dipakai langsung sebagai nomorPengambilan. Entri "Diluar RT" dipisah
-// ke kategori rt='00' (di luar RT) agar bisa dibedakan dari warga RT 01/02.
-// Tiap kategori di-sort ascending menurut numerik NO GIRIK.
+// nomorPengambilan = NO GIRIK (kolom kedua di PDF, di depan nama orang),
+// bukan NO URUT (kolom pertama). Urutan entri mengikuti baris fisik PDF
+// (NO URUT 1 → akhir) supaya entri tampil di posisi yang sama seperti PDF
+// — H. SUPARNO (NO GIRIK 165) muncul di posisi 15 RT 01, ABDUL AZIZ MUSLIM
+// (NO GIRIK 163) muncul di posisi 58 RT 02, dst.
 
 export interface Penerima2026Entry {
   nomorPengambilan: string;
@@ -12,7 +14,7 @@ export interface Penerima2026Entry {
 
 export const PENERIMA_2026: Penerima2026Entry[] = [
   // =============================================
-  // RT 01 — 140 entri (warga RT 01 saja)
+  // RT 01 — 140 entri, urutan PDF (NO URUT 1-140)
   // =============================================
   { nomorPengambilan: '1', nama: 'SUYATNO', rt: '01', blok: 'Barat' },
   { nomorPengambilan: '2', nama: 'SUKIR', rt: '01', blok: 'Barat' },
@@ -28,6 +30,7 @@ export const PENERIMA_2026: Penerima2026Entry[] = [
   { nomorPengambilan: '12', nama: 'NGATIMIN', rt: '01', blok: 'Barat pondokan Bp. Parjan' },
   { nomorPengambilan: '13', nama: 'PASMANTO', rt: '01', blok: 'Barat' },
   { nomorPengambilan: '14', nama: 'TRIYATNO', rt: '01', blok: 'Barat' },
+  { nomorPengambilan: '165', nama: 'H. SUPARNO', rt: '01', blok: 'Barat' },
   { nomorPengambilan: '16', nama: 'SUWARDI / TRISNO', rt: '01', blok: 'Barat' },
   { nomorPengambilan: '17', nama: 'DEDIK', rt: '01', blok: 'Barat' },
   { nomorPengambilan: '18', nama: 'AGUS SETIYONO', rt: '01', blok: 'Barat' },
@@ -110,6 +113,7 @@ export const PENERIMA_2026: Penerima2026Entry[] = [
   { nomorPengambilan: '101', nama: 'SURONO', rt: '01', blok: 'Tengah' },
   { nomorPengambilan: '102', nama: 'SUKATNO', rt: '01', blok: 'Tengah' },
   { nomorPengambilan: '103', nama: 'SUGENG MURJIANTO', rt: '01', blok: 'Tengah' },
+  { nomorPengambilan: '166', nama: 'SARMIN, S.Pd', rt: '01', blok: 'Tengah' },
   { nomorPengambilan: '105', nama: 'TARMO', rt: '01', blok: 'Tengah' },
   { nomorPengambilan: '106', nama: 'SUGIYANTO', rt: '01', blok: 'Tengah' },
   { nomorPengambilan: '107', nama: 'IBU JOKO SARTONO', rt: '01', blok: 'Tengah' },
@@ -121,6 +125,7 @@ export const PENERIMA_2026: Penerima2026Entry[] = [
   { nomorPengambilan: '118', nama: 'H. MARYANTO', rt: '01', blok: 'Timur' },
   { nomorPengambilan: '119', nama: 'TUKIRAN', rt: '01', blok: 'Timur' },
   { nomorPengambilan: '120', nama: 'H. HILMAN SUYATMAN', rt: '01', blok: 'Timur' },
+  { nomorPengambilan: '167', nama: 'UMAR SUKAMTO', rt: '01', blok: 'Timur' },
   { nomorPengambilan: '122', nama: 'SUWITO', rt: '01', blok: 'Timur' },
   { nomorPengambilan: '123', nama: 'ARIS SETIYONO', rt: '01', blok: 'Timur' },
   { nomorPengambilan: '124', nama: 'SUYANTO (NDOT)', rt: '01', blok: 'Timur' },
@@ -151,12 +156,9 @@ export const PENERIMA_2026: Penerima2026Entry[] = [
   { nomorPengambilan: '152', nama: 'Perumahan Ringin Agung 2 (Bp. ERLAN)', rt: '01', blok: 'Timur' },
   { nomorPengambilan: '153', nama: 'Perumahan Ringin Agung 3 (Koperasi)', rt: '01', blok: 'Timur' },
   { nomorPengambilan: '154', nama: 'Perumahan Ringin Agung 4 (WARNO)', rt: '01', blok: 'Timur' },
-  { nomorPengambilan: '165', nama: 'H. SUPARNO', rt: '01', blok: 'Barat' },
-  { nomorPengambilan: '166', nama: 'SARMIN, S.Pd', rt: '01', blok: 'Tengah' },
-  { nomorPengambilan: '167', nama: 'UMAR SUKAMTO', rt: '01', blok: 'Timur' },
 
   // =============================================
-  // RT 02 — 132 entri (warga RT 02 saja)
+  // RT 02 — 132 entri, urutan PDF (NO URUT 1-132)
   // =============================================
   { nomorPengambilan: '1', nama: 'AGUNG KURNIANTO', rt: '02', blok: 'Barat I' },
   { nomorPengambilan: '2', nama: 'DANANG (kontrak Pak Waskito)', rt: '02', blok: 'Barat I' },
@@ -194,6 +196,7 @@ export const PENERIMA_2026: Penerima2026Entry[] = [
   { nomorPengambilan: '34', nama: 'SUNARNO', rt: '02', blok: 'Barat I' },
   { nomorPengambilan: '35', nama: 'NIKO', rt: '02', blok: 'Barat I' },
   { nomorPengambilan: '36', nama: 'YUNI (UTARA MASJID)', rt: '02', blok: 'Barat II' },
+  { nomorPengambilan: '161', nama: 'EKO NUR H', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '38', nama: 'ANDRI SETYAWAN', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '39', nama: 'SUGINO (MADURA)', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '40', nama: 'H. SYAMSURI', rt: '02', blok: 'Barat II' },
@@ -210,15 +213,18 @@ export const PENERIMA_2026: Penerima2026Entry[] = [
   { nomorPengambilan: '51', nama: 'SAMIJAN', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '52', nama: 'APRILIA', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '53', nama: 'MUNIR', rt: '02', blok: 'Barat II' },
+  { nomorPengambilan: '162', nama: 'LUSIA', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '55', nama: 'SRIGONO', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '56', nama: 'AGUNG (KAMPOENG STEAK)', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '57', nama: 'ANDRI PERUMAHAN', rt: '02', blok: 'Barat II' },
+  { nomorPengambilan: '163', nama: 'ABDUL AZIZ MUSLIM', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '59', nama: 'SYAMSURI (TANAH)', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '60', nama: 'SUNARNO (TEMPAT)', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '61', nama: 'ANNAS ABHI H', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '65', nama: 'YUKI PERUMAHAN GROBAK', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '66', nama: 'ENDAH (Perumahan Utara)', rt: '02', blok: 'Barat II' },
   { nomorPengambilan: '67', nama: 'RAHMAT SETIAWAN (Sebelah Bp. Samijan)', rt: '02', blok: 'Barat II' },
+  { nomorPengambilan: '165', nama: 'SUYATMIN / SARMI', rt: '02', blok: 'Tengah' },
   { nomorPengambilan: '70', nama: 'SATINO', rt: '02', blok: 'Tengah' },
   { nomorPengambilan: '71', nama: 'YUHENDRIK', rt: '02', blok: 'Tengah' },
   { nomorPengambilan: '72', nama: 'SAKIMO', rt: '02', blok: 'Tengah' },
@@ -275,6 +281,7 @@ export const PENERIMA_2026: Penerima2026Entry[] = [
   { nomorPengambilan: '123', nama: 'ELING PURWANTO', rt: '02', blok: 'Timur' },
   { nomorPengambilan: '124', nama: 'SUPRIYADI (WOLO)', rt: '02', blok: 'Timur' },
   { nomorPengambilan: '125', nama: 'IBU ENDAH (Alm. MARIYONO)', rt: '02', blok: 'Timur' },
+  { nomorPengambilan: '166', nama: 'SUPRIYANTO WAGINEM', rt: '02', blok: 'Timur' },
   { nomorPengambilan: '127', nama: 'MARWANTO', rt: '02', blok: 'Timur' },
   { nomorPengambilan: '128', nama: 'ENDANG HONGGI / SUYATNO', rt: '02', blok: 'Timur' },
   { nomorPengambilan: '129', nama: 'SANTO WIYONO', rt: '02', blok: 'Timur' },
@@ -285,15 +292,10 @@ export const PENERIMA_2026: Penerima2026Entry[] = [
   { nomorPengambilan: '134', nama: 'SULARDI GLINDING', rt: '02', blok: 'Timur' },
   { nomorPengambilan: '135', nama: 'WINIH', rt: '02', blok: 'Timur' },
   { nomorPengambilan: '136', nama: 'TUKINO HB', rt: '02', blok: 'Timur' },
-  { nomorPengambilan: '161', nama: 'EKO NUR H', rt: '02', blok: 'Barat II' },
-  { nomorPengambilan: '162', nama: 'LUSIA', rt: '02', blok: 'Barat II' },
-  { nomorPengambilan: '163', nama: 'ABDUL AZIZ MUSLIM', rt: '02', blok: 'Barat II' },
-  { nomorPengambilan: '165', nama: 'SUYATMIN / SARMI', rt: '02', blok: 'Tengah' },
-  { nomorPengambilan: '166', nama: 'SUPRIYANTO WAGINEM', rt: '02', blok: 'Timur' },
 
   // =============================================
-  // RT 00 — Diluar RT (35 entri, gabungan diluar RT 01 + RT 02)
-  // Sorted ascending menurut NO GIRIK.
+  // RT 00 — Diluar RT (35 entri, urutan PDF)
+  // Pertama 19 entri Diluar RT 01, lalu 16 entri Diluar RT 02
   // =============================================
   { nomorPengambilan: '48', nama: 'USTAD SYUKUR', rt: '00', blok: 'Barat (Diluar RT 01)' },
   { nomorPengambilan: '49', nama: 'KETUA RW (RURI)', rt: '00', blok: 'Barat (Diluar RT 01)' },
@@ -301,17 +303,26 @@ export const PENERIMA_2026: Penerima2026Entry[] = [
   { nomorPengambilan: '56', nama: 'KETUA RT (PARJAN)', rt: '00', blok: 'Barat (Diluar RT 01)' },
   { nomorPengambilan: '57', nama: 'AGUNG RIADI (Mondok Bp. Kasiman)', rt: '00', blok: 'Barat (Diluar RT 01)' },
   { nomorPengambilan: '61', nama: 'GIGIH MOTOR', rt: '00', blok: 'Tengah (Diluar RT 01)' },
-  { nomorPengambilan: '62', nama: 'KARANG TARUNA', rt: '00', blok: 'Barat II (Diluar RT 02)' },
-  { nomorPengambilan: '63', nama: 'REMAJA MASJID', rt: '00', blok: 'Barat II (Diluar RT 02)' },
-  { nomorPengambilan: '64', nama: 'LURAH KALIANCAR', rt: '00', blok: 'Barat II (Diluar RT 02)' },
-  { nomorPengambilan: '69', nama: 'KETUA RT (TUKIMO)', rt: '00', blok: 'Tengah (Diluar RT 02)' },
   { nomorPengambilan: '110', nama: 'LINTAS TAMA', rt: '00', blok: 'Tengah (Diluar RT 01)' },
   { nomorPengambilan: '111', nama: 'RIWUK (Rumah Alm. Bp. Marno Nasgor)', rt: '00', blok: 'Tengah (Diluar RT 01)' },
   { nomorPengambilan: '112', nama: 'MAGENDI (Mondok Bp. Toni)', rt: '00', blok: 'Tengah (Diluar RT 01)' },
   { nomorPengambilan: '114', nama: 'MONDOK RUMAH BIBIK', rt: '00', blok: 'Tengah (Diluar RT 01)' },
   { nomorPengambilan: '115', nama: 'BARAT PAK FATKUROHMAN', rt: '00', blok: 'Tengah (Diluar RT 01)' },
+  { nomorPengambilan: '150', nama: 'PENGASUH PENGAJIAN', rt: '00', blok: 'Timur (Diluar RT 01)' },
+  { nomorPengambilan: '155', nama: 'KETUA TAKMIR MASJID (H. HILMAN SUYATMAN)', rt: '00', blok: 'Timur (Diluar RT 01)' },
+  { nomorPengambilan: '157', nama: 'PENGASUH (ISTIQOMAH)', rt: '00', blok: 'Timur (Diluar RT 01)' },
+  { nomorPengambilan: '158', nama: 'UST. GIMIN (Pengasuh)', rt: '00', blok: 'Timur (Diluar RT 01)' },
+  { nomorPengambilan: '159', nama: 'UST. MUAFIQ', rt: '00', blok: 'Timur (Diluar RT 01)' },
+  { nomorPengambilan: '160', nama: 'KHOTIB JUMAT (H. ZUBAIDI)', rt: '00', blok: 'Timur (Diluar RT 01)' },
+  { nomorPengambilan: '162', nama: 'KHOTIB JUMAT (Ust. Syukur)', rt: '00', blok: 'Timur (Diluar RT 01)' },
+  { nomorPengambilan: '163', nama: 'KHOTIB JUMAT (Topo Broto)', rt: '00', blok: 'Timur (Diluar RT 01)' },
+  { nomorPengambilan: '62', nama: 'KARANG TARUNA', rt: '00', blok: 'Barat II (Diluar RT 02)' },
+  { nomorPengambilan: '63', nama: 'REMAJA MASJID', rt: '00', blok: 'Barat II (Diluar RT 02)' },
+  { nomorPengambilan: '64', nama: 'LURAH KALIANCAR', rt: '00', blok: 'Barat II (Diluar RT 02)' },
+  { nomorPengambilan: '69', nama: 'KETUA RT (TUKIMO)', rt: '00', blok: 'Tengah (Diluar RT 02)' },
   { nomorPengambilan: '137', nama: 'SALON (RUKO)', rt: '00', blok: 'Timur (Diluar RT 02)' },
   { nomorPengambilan: '138', nama: 'EKO (CHICKEN)', rt: '00', blok: 'Timur (Diluar RT 02)' },
+  { nomorPengambilan: '167', nama: 'SUYANTO (CUKUR)', rt: '00', blok: 'Timur (Diluar RT 02)' },
   { nomorPengambilan: '140', nama: 'JUMINO (MIE GORENG)', rt: '00', blok: 'Timur (Diluar RT 02)' },
   { nomorPengambilan: '141', nama: 'COUNTER (TOMI)', rt: '00', blok: 'Tengah (Diluar RT 02)' },
   { nomorPengambilan: '142', nama: 'SATE MADURA', rt: '00', blok: 'Tengah (Diluar RT 02)' },
@@ -321,13 +332,4 @@ export const PENERIMA_2026: Penerima2026Entry[] = [
   { nomorPengambilan: '146', nama: 'EKSAN (MARBOT RINGIN AGUNG)', rt: '00', blok: 'Diluar RT 02' },
   { nomorPengambilan: '147', nama: 'CONTER HP', rt: '00', blok: 'Diluar RT 02' },
   { nomorPengambilan: '148', nama: 'ES TELLER', rt: '00', blok: 'Diluar RT 02' },
-  { nomorPengambilan: '150', nama: 'PENGASUH PENGAJIAN', rt: '00', blok: 'Timur (Diluar RT 01)' },
-  { nomorPengambilan: '155', nama: 'KETUA TAKMIR MASJID (H. HILMAN SUYATMAN)', rt: '00', blok: 'Timur (Diluar RT 01)' },
-  { nomorPengambilan: '157', nama: 'PENGASUH (ISTIQOMAH)', rt: '00', blok: 'Timur (Diluar RT 01)' },
-  { nomorPengambilan: '158', nama: 'UST. GIMIN (Pengasuh)', rt: '00', blok: 'Timur (Diluar RT 01)' },
-  { nomorPengambilan: '159', nama: 'UST. MUAFIQ', rt: '00', blok: 'Timur (Diluar RT 01)' },
-  { nomorPengambilan: '160', nama: 'KHOTIB JUMAT (H. ZUBAIDI)', rt: '00', blok: 'Timur (Diluar RT 01)' },
-  { nomorPengambilan: '162', nama: 'KHOTIB JUMAT (Ust. Syukur)', rt: '00', blok: 'Timur (Diluar RT 01)' },
-  { nomorPengambilan: '163', nama: 'KHOTIB JUMAT (Topo Broto)', rt: '00', blok: 'Timur (Diluar RT 01)' },
-  { nomorPengambilan: '167', nama: 'SUYANTO (CUKUR)', rt: '00', blok: 'Timur (Diluar RT 02)' },
 ];
