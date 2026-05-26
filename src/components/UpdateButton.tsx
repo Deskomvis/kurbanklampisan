@@ -27,7 +27,10 @@ export const UpdateButton: React.FC = () => {
       const data = JSON.parse(
         exportData(penerima, kelompokSapi, kurbanKambing, transactions, saldoAwal, isSaldoAwalSet)
       );
-      await saveNow(data, currentYear);
+      const newId = await saveNow(data, currentYear);
+      if (newId) {
+        localStorage.setItem(`klampisan_last_restored_backup_id_${currentYear}`, newId);
+      }
       setSaveState('done');
       toast({ title: 'Tersimpan', description: 'Data berhasil disimpan ke server.' });
       setTimeout(() => setSaveState('idle'), 2000);

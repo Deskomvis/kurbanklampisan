@@ -14,8 +14,8 @@ export interface BackupItem {
 interface BackupContextType {
   backups: BackupItem[];
   isLoading: boolean;
-  saveBackup: (name: string, data: AppData) => Promise<void>;
-  saveNow: (data: AppData, year?: string) => Promise<void>;
+  saveBackup: (name: string, data: AppData) => Promise<string | null>;
+  saveNow: (data: AppData, year?: string) => Promise<string | null>;
   loadBackup: (id: string) => BackupItem | undefined;
   deleteBackup: (id: string) => Promise<void>;
   getBackupsList: () => BackupItem[];
@@ -66,13 +66,18 @@ export const BackupProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
 
   // Save a named manual backup (visible in history)
-  const saveBackup = async (name: string, data: AppData): Promise<void> => {
+  const saveBackup = async (name: string, data: AppData): Promise<string | null> => {
     setIsLoading(true);
     try {
-      const { error } = await supabase.from('backups').insert({ name, data: data as unknown as any });
+      const { data: inserted, error } = await supabase
+        .from('backups')
+        .insert({ name, data: data as unknown as any })
+        .select('id')
+        .single();
       if (error) throw error;
       await refreshBackups();
       toast({ title: 'Berhasil', description: 'Backup berhasil disimpan ke server' });
+      return (inserted as { id: string } | null)?.id ?? null;
     } catch {
       toast({ title: 'Error', description: 'Gagal menyimpan backup ke server', variant: 'destructive' });
       throw new Error('save failed');
@@ -82,7 +87,7 @@ export const BackupProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
 
   // Save current snapshot immediately (called by Update button)
-  const saveNow = async (data: AppData, year?: string): Promise<void> => {
+  const saveNow = async (data: AppData, year?: string): Promise<string | null> => {
     try {
       // Trim oldest auto-saves if over limit
       const { data: existing } = await supabase
@@ -100,8 +105,14 @@ export const BackupProvider: React.FC<{ children: ReactNode }> = ({ children }) 
 
       const yearTag = year ? `${year} - ` : '';
       const name = `${AUTO_SAVE_PREFIX}${yearTag}${new Date().toLocaleString('id-ID')}`;
-      const { error } = await supabase.from('backups').insert({ name, data: data as unknown as any });
-      if (!error) await refreshBackups();
+      const { data: inserted, error } = await supabase
+        .from('backups')
+        .insert({ name, data: data as unknown as any })
+        .select('id')
+        .single();
+      if (error) throw error;
+      await refreshBackups();
+      return (inserted as { id: string } | null)?.id ?? null;
     } catch (err) {
       console.error('saveNow failed:', err);
       throw err;

@@ -6,14 +6,18 @@ import { useBackup } from '@/contexts/BackupContext';
 import { useYear } from '@/contexts/YearContext';
 import { useToast } from '@/hooks/use-toast';
 
-// Restores data from the latest Supabase backup when opened on a new device/browser.
-// Also detects the year embedded in backup names (e.g. "Auto - 2026 - ...") and
-// switches the active year so the restore lands in the correct year-scoped context.
+// Sync model (git-like):
+// - "Update" button on any device pushes the full local snapshot to Supabase.
+// - On open/refresh, this watcher checks if the latest backup ID for the active year
+//   differs from the last one we restored. If so, it replaces local data with the
+//   backup snapshot — making all devices converge to the latest pushed state.
+const restoredKey = (year: string) => `klampisan_last_restored_backup_id_${year}`;
+
 const AutoSaveWatcher = () => {
   const { currentYear, ensureYear, switchYear } = useYear();
-  const { penerima, setPenerimaList } = usePenerima();
-  const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing } = useKelompokKurban();
-  const { transactions, saldoAwal, addTransaction, setSaldoAwal } = useKeuangan();
+  const { setPenerimaList } = usePenerima();
+  const { loadKelompokSapi, loadKurbanKambing } = useKelompokKurban();
+  const { loadTransactions, setSaldoAwal } = useKeuangan();
   const { backups, isLoading } = useBackup();
   const { toast } = useToast();
 
@@ -25,49 +29,46 @@ const AutoSaveWatcher = () => {
 
     if (backups.length === 0) return;
 
-    const latest = backups[0];
-
-    // Parse year from backup name: "Auto - 2026 - ..."
-    const yearMatch = latest.name.match(/Auto - (\d{4}) - /);
-    const backupYear = yearMatch?.[1];
-
-    // Register any years found across all backups so the year selector shows them
+    // Register every year found across backups so the selector shows them
     backups.forEach(b => {
       const m = b.name.match(/Auto - (\d{4}) - /);
       if (m?.[1]) ensureYear(m[1]);
     });
 
-    // If the latest backup belongs to a different year, switch to it.
-    // The component will remount under the new year, and the restore will run again.
-    if (backupYear && backupYear !== currentYear) {
-      switchYear(backupYear);
+    // Find the latest backup for the current year (by Auto - YYYY tag).
+    // Backups are already sorted descending by created_at in BackupContext.
+    const latestForYear = backups.find(b => {
+      const m = b.name.match(/Auto - (\d{4}) - /);
+      return m?.[1] === currentYear;
+    });
+
+    // If no backup matches current year, switch to the year of the latest backup
+    if (!latestForYear) {
+      const m = backups[0].name.match(/Auto - (\d{4}) - /);
+      const fallbackYear = m?.[1];
+      if (fallbackYear && fallbackYear !== currentYear) {
+        switchYear(fallbackYear);
+      }
       return;
     }
 
-    // Guard: skip if already restored for this year in this session
-    const restoreKey = `klampisan_restored_${currentYear}`;
-    if (sessionStorage.getItem(restoreKey)) return;
-    sessionStorage.setItem(restoreKey, 'done');
+    const lastRestoredId = localStorage.getItem(restoredKey(currentYear));
+    if (lastRestoredId === latestForYear.id) return;
 
-    const saldoNum = parseFloat(saldoAwal) || 0;
-    const isEmpty =
-      penerima.length === 0 &&
-      kelompokSapi.length === 0 &&
-      kurbanKambing.length === 0 &&
-      transactions.length === 0 &&
-      saldoNum === 0;
+    // Replace local data with the latest backup snapshot
+    setPenerimaList(latestForYear.data.penerima || []);
+    loadKelompokSapi(latestForYear.data.kelompokSapi || []);
+    loadKurbanKambing(latestForYear.data.kurbanKambing || []);
+    loadTransactions(latestForYear.data.transactions || []);
+    if (latestForYear.data.saldoAwal !== undefined) {
+      setSaldoAwal(latestForYear.data.saldoAwal);
+    }
 
-    if (!isEmpty) return;
-
-    setPenerimaList(latest.data.penerima || []);
-    (latest.data.kelompokSapi || []).forEach((k: any) => addKelompokSapi(k));
-    (latest.data.kurbanKambing || []).forEach((k: any) => addKurbanKambing(k));
-    (latest.data.transactions || []).forEach((t: any) => addTransaction(t));
-    if (latest.data.saldoAwal) setSaldoAwal(latest.data.saldoAwal);
+    localStorage.setItem(restoredKey(currentYear), latestForYear.id);
 
     toast({
-      title: 'Data dipulihkan otomatis',
-      description: `Dimuat dari backup: ${latest.name}`,
+      title: 'Data tersinkronisasi',
+      description: `Dimuat dari: ${latestForYear.name}`,
     });
   }, [backups, isLoading]);
 

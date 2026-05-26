@@ -25,6 +25,8 @@ interface KelompokKurbanContextType {
   reorderKurbanKambing: (fromIndex: number, toIndex: number) => void;
   getTotalSapi: () => number;
   getTotalKambing: () => number;
+  loadKelompokSapi: (list: KelompokSapi[]) => void;
+  loadKurbanKambing: (list: KurbanKambing[]) => void;
 }
 
 const KelompokKurbanContext = createContext<KelompokKurbanContextType | undefined>(undefined);
@@ -122,6 +124,9 @@ export const KelompokKurbanProvider: React.FC<KelompokKurbanProviderProps> = ({ 
   const getTotalSapi = () => kelompokSapi.length;
   const getTotalKambing = () => kurbanKambing.length;
 
+  const loadKelompokSapi = (list: KelompokSapi[]) => setKelompokSapi(list);
+  const loadKurbanKambing = (list: KurbanKambing[]) => setKurbanKambing(reorderNumbers(list));
+
   return (
     <KelompokKurbanContext.Provider value={{
       kelompokSapi,
@@ -134,7 +139,9 @@ export const KelompokKurbanProvider: React.FC<KelompokKurbanProviderProps> = ({ 
       deleteKurbanKambing,
       reorderKurbanKambing,
       getTotalSapi,
-      getTotalKambing
+      getTotalKambing,
+      loadKelompokSapi,
+      loadKurbanKambing,
     }}>
       {children}
     </KelompokKurbanContext.Provider>
