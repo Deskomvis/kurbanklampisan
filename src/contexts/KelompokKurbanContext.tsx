@@ -1,5 +1,19 @@
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { generateUniqueId } from '@/utils/idGenerator';
+
+// Pastikan setiap item punya id unik — backup lama bisa berisi id duplikat
+// yang bikin React tidak bisa membedakan baris saat edit.
+const ensureUniqueIds = <T extends { id: string }>(list: T[]): T[] => {
+  const seen = new Set<string>();
+  return list.map(item => {
+    if (!item.id || seen.has(item.id)) {
+      return { ...item, id: generateUniqueId() };
+    }
+    seen.add(item.id);
+    return item;
+  });
+};
 
 export interface KelompokSapi {
   id: string;
@@ -53,12 +67,12 @@ export const KelompokKurbanProvider: React.FC<KelompokKurbanProviderProps> = ({ 
 
   const [kelompokSapi, setKelompokSapi] = useState<KelompokSapi[]>(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY_SAPI);
-    return saved ? JSON.parse(saved) : [];
+    return saved ? ensureUniqueIds(JSON.parse(saved) as KelompokSapi[]) : [];
   });
 
   const [kurbanKambing, setKurbanKambing] = useState<KurbanKambing[]>(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY_KAMBING);
-    return saved ? JSON.parse(saved) : [];
+    return saved ? ensureUniqueIds(JSON.parse(saved) as KurbanKambing[]) : [];
   });
 
   useEffect(() => {
@@ -124,8 +138,8 @@ export const KelompokKurbanProvider: React.FC<KelompokKurbanProviderProps> = ({ 
   const getTotalSapi = () => kelompokSapi.length;
   const getTotalKambing = () => kurbanKambing.length;
 
-  const loadKelompokSapi = (list: KelompokSapi[]) => setKelompokSapi(list);
-  const loadKurbanKambing = (list: KurbanKambing[]) => setKurbanKambing(reorderNumbers(list));
+  const loadKelompokSapi = (list: KelompokSapi[]) => setKelompokSapi(ensureUniqueIds(list));
+  const loadKurbanKambing = (list: KurbanKambing[]) => setKurbanKambing(reorderNumbers(ensureUniqueIds(list)));
 
   return (
     <KelompokKurbanContext.Provider value={{
