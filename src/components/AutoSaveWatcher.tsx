@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/use-toast';
 import { extractBackupYear, findCanonicalBackup, isPinnedYearBackup, restoredKey } from '@/utils/backupUtils';
 
 const AutoSaveWatcher = () => {
-  const { currentYear, ensureYear, switchYear } = useYear();
+  const { currentYear, ensureYear } = useYear();
   const { penerima, setPenerimaList } = usePenerima();
   const { kelompokSapi, kurbanKambing, loadKelompokSapi, loadKurbanKambing } = useKelompokKurban();
   const { transactions, saldoAwal, loadTransactions, setSaldoAwal } = useKeuangan();
@@ -35,14 +35,7 @@ const AutoSaveWatcher = () => {
 
     const canonical = findCanonicalBackup(backups, currentYear);
 
-    // If no backup matches current year, switch ke tahun backup terbaru yang ada
     if (!canonical) {
-      const latestAny = backups[0];
-      const m = latestAny.name.match(/Auto - (\d{4}) - /) || latestAny.name.match(/\b(20\d{2})\b/);
-      const fallbackYear = m?.[1];
-      if (fallbackYear && fallbackYear !== currentYear) {
-        switchYear(fallbackYear);
-      }
       return;
     }
 
@@ -92,7 +85,6 @@ const AutoSaveWatcher = () => {
     saldoAwal,
     setPenerimaList,
     setSaldoAwal,
-    switchYear,
     toast,
     transactions.length,
     loadTransactions,

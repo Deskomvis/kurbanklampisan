@@ -14,11 +14,5 @@ export const isPinnedYearBackup = (backupName: string, year: string) =>
   backupName.trim().toLowerCase() === `data baru ${year}`;
 
 export const findCanonicalBackup = (backups: BackupItem[], year: string): BackupItem | undefined => {
-  const pinned = backups.find((backup) => isPinnedYearBackup(backup.name, year));
-  if (pinned) return pinned;
-
-  return backups.find((backup) => {
-    const backupYear = extractBackupYear(backup.name);
-    return backupYear === year;
-  });
+  return backups.find((backup) => isPinnedYearBackup(backup.name, year));
 };
