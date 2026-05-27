@@ -5,7 +5,7 @@ import { useKeuangan } from '@/contexts/KeuanganContext';
 import { useBackup } from '@/contexts/BackupContext';
 import { useYear } from '@/contexts/YearContext';
 import { useToast } from '@/hooks/use-toast';
-import { extractBackupYear, findCanonicalBackup, isPinnedYearBackup, restoredKey } from '@/utils/backupUtils';
+import { extractBackupYear, findCanonicalBackup, restoredKey } from '@/utils/backupUtils';
 
 const AutoSaveWatcher = () => {
   const { currentYear, ensureYear } = useYear();
@@ -42,21 +42,6 @@ const AutoSaveWatcher = () => {
     const lastRestoredId = localStorage.getItem(restoredKey(currentYear));
     if (lastRestoredId === canonical.id) return;
 
-    const saldoNum = parseFloat(saldoAwal) || 0;
-    const hasLocalData =
-      penerima.length > 0 ||
-      kelompokSapi.length > 0 ||
-      kurbanKambing.length > 0 ||
-      transactions.length > 0 ||
-      saldoNum > 0;
-
-    // SAFETY: kalau pertama kali jalan di perangkat ini dan ada data lokal,
-    // jangan timpa — cukup tandai sudah sinkron.
-    if (!lastRestoredId && hasLocalData && !isPinnedYearBackup(canonical.name, currentYear)) {
-      localStorage.setItem(restoredKey(currentYear), canonical.id);
-      return;
-    }
-
     // Replace local data dengan snapshot kanon
     setPenerimaList(canonical.data.penerima || []);
     loadKelompokSapi(canonical.data.kelompokSapi || []);
@@ -77,16 +62,12 @@ const AutoSaveWatcher = () => {
     currentYear,
     ensureYear,
     isLoading,
-    kelompokSapi.length,
-    kurbanKambing.length,
     loadKelompokSapi,
     loadKurbanKambing,
-    penerima.length,
     saldoAwal,
     setPenerimaList,
     setSaldoAwal,
     toast,
-    transactions.length,
     loadTransactions,
   ]);
 

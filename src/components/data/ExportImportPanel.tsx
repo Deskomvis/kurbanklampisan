@@ -10,10 +10,12 @@ import { useKeuangan } from '@/contexts/KeuanganContext';
 import { useBackup } from '@/contexts/BackupContext';
 import { exportData, downloadJSON, validateImportData, AppData } from '@/utils/dataUtils';
 import { useToast } from '@/hooks/use-toast';
+import { useYear } from '@/contexts/YearContext';
 
 export const ExportImportPanel: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const { currentYear } = useYear();
   
   const { penerima, addPenerima, deletePenerima } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing, deleteKelompokSapi, deleteKurbanKambing } = useKelompokKurban();
@@ -28,7 +30,8 @@ export const ExportImportPanel: React.FC = () => {
         kurbanKambing,
         transactions,
         saldoAwal,
-        isSaldoAwalSet
+        isSaldoAwalSet,
+        currentYear
       );
       
       const filename = `kurban-data-${new Date().toISOString().split('T')[0]}.json`;
@@ -74,7 +77,7 @@ export const ExportImportPanel: React.FC = () => {
 
       // Save imported data to Supabase
       const timestamp = new Date().toLocaleString('id-ID');
-      await saveBackup(`Import JSON - ${timestamp}`, data);
+      await saveBackup(`Import JSON - ${timestamp}`, data, currentYear);
 
       toast({
         title: "Berhasil",

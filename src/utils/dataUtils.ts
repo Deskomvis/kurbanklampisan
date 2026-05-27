@@ -8,6 +8,7 @@ export interface AppData {
   kelompokSapi: KelompokSapi[];
   kurbanKambing: KurbanKambing[];
   transactions: Transaction[];
+  year?: string;
   saldoAwal: string;
   isSaldoAwalSet: boolean;
   exportDate: string;
@@ -20,13 +21,15 @@ export const exportData = (
   kurbanKambing: KurbanKambing[],
   transactions: Transaction[],
   saldoAwal: string,
-  isSaldoAwalSet: boolean
+  isSaldoAwalSet: boolean,
+  year?: string
 ): string => {
   const data: AppData = {
     penerima,
     kelompokSapi,
     kurbanKambing,
     transactions,
+    year,
     saldoAwal,
     isSaldoAwalSet,
     exportDate: new Date().toISOString(),

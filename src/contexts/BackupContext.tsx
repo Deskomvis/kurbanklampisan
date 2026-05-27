@@ -14,8 +14,7 @@ export interface BackupItem {
 interface BackupContextType {
   backups: BackupItem[];
   isLoading: boolean;
-  saveBackup: (name: string, data: AppData) => Promise<string | null>;
-  saveNow: (data: AppData, year?: string) => Promise<string | null>;
+  saveBackup: (name: string, data: AppData, year?: string) => Promise<string | null>;
   loadBackup: (id: string) => BackupItem | undefined;
   deleteBackup: (id: string) => Promise<void>;
   getBackupsList: () => BackupItem[];
@@ -29,9 +28,6 @@ export const useBackup = () => {
   if (!context) throw new Error('useBackup must be used within a BackupProvider');
   return context;
 };
-
-const AUTO_SAVE_PREFIX = 'Auto - ';
-const MAX_AUTO_SAVES = 15;
 
 export const BackupProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [backups, setBackups] = useState<BackupItem[]>([]);
@@ -66,12 +62,16 @@ export const BackupProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   };
 
   // Save a named manual backup (visible in history)
-  const saveBackup = async (name: string, data: AppData): Promise<string | null> => {
+  const saveBackup = async (name: string, data: AppData, year?: string): Promise<string | null> => {
     setIsLoading(true);
     try {
+      const payload: AppData = {
+        ...data,
+        year: year || data.year,
+      };
       const { data: inserted, error } = await supabase
         .from('backups')
-        .insert({ name, data: data as unknown as any })
+        .insert({ name, data: payload as unknown as any })
         .select('id')
         .single();
       if (error) throw error;
@@ -83,39 +83,6 @@ export const BackupProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       throw new Error('save failed');
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  // Save current snapshot immediately (called by Update button)
-  const saveNow = async (data: AppData, year?: string): Promise<string | null> => {
-    try {
-      // Trim oldest auto-saves if over limit
-      const { data: existing } = await supabase
-        .from('backups')
-        .select('id')
-        .like('name', `${AUTO_SAVE_PREFIX}%`)
-        .order('created_at', { ascending: true });
-
-      if (existing && existing.length >= MAX_AUTO_SAVES) {
-        const idsToDelete = existing
-          .slice(0, existing.length - MAX_AUTO_SAVES + 1)
-          .map((r: { id: string }) => r.id);
-        await supabase.from('backups').delete().in('id', idsToDelete);
-      }
-
-      const yearTag = year ? `${year} - ` : '';
-      const name = `${AUTO_SAVE_PREFIX}${yearTag}${new Date().toLocaleString('id-ID')}`;
-      const { data: inserted, error } = await supabase
-        .from('backups')
-        .insert({ name, data: data as unknown as any })
-        .select('id')
-        .single();
-      if (error) throw error;
-      await refreshBackups();
-      return (inserted as { id: string } | null)?.id ?? null;
-    } catch (err) {
-      console.error('saveNow failed:', err);
-      throw err;
     }
   };
 
@@ -141,7 +108,7 @@ export const BackupProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   return (
     <BackupContext.Provider value={{
       backups, isLoading,
-      saveBackup, saveNow,
+      saveBackup,
       loadBackup, deleteBackup,
       getBackupsList, refreshBackups,
     }}>

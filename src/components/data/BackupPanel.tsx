@@ -11,11 +11,13 @@ import { useKeuangan } from '@/contexts/KeuanganContext';
 import { useBackup } from '@/contexts/BackupContext';
 import { exportData } from '@/utils/dataUtils';
 import { useToast } from '@/hooks/use-toast';
+import { useYear } from '@/contexts/YearContext';
 
 export const BackupPanel: React.FC = () => {
   const [backupName, setBackupName] = useState('');
   const [loadingStates, setLoadingStates] = useState<{ [key: string]: boolean }>({});
   const { toast } = useToast();
+  const { currentYear } = useYear();
   
   const { penerima, setPenerimaList } = usePenerima();
   const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing, deleteKelompokSapi, deleteKurbanKambing } = useKelompokKurban();
@@ -39,12 +41,13 @@ export const BackupPanel: React.FC = () => {
         kurbanKambing,
         transactions,
         saldoAwal,
-        isSaldoAwalSet
+        isSaldoAwalSet,
+        currentYear
       ));
       
       console.log('Saving backup with penerima data:', data.penerima);
       
-      await saveBackup(backupName.trim(), data);
+      await saveBackup(backupName.trim(), data, currentYear);
       setBackupName('');
     } catch (error) {
       // Error handling is already done in the context
@@ -248,11 +251,10 @@ export const BackupPanel: React.FC = () => {
       <div className="mt-6 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
         <h4 className="text-sm font-semibold text-blue-700 mb-2">📋 Manual Backup & Import</h4>
         <div className="space-y-1 text-xs text-blue-700">
-          <p>• Backup manual dapat dibuat kapan saja dengan nama khusus</p>
-          <p>• Import JSON otomatis tersimpan ke server</p>
-          <p>• Klik "Load" untuk memuat backup tertentu ke semua menu</p>
-          <p>• Data tersimpan permanen di server Supabase</p>
-          <p>• <strong>Status pembagian daging otomatis tersimpan dan dimuat</strong></p>
+          <p>• Save manual terbaru untuk tahun aktif akan menjadi data publik</p>
+          <p>• Import JSON otomatis tersimpan ke server sesuai tahun aktif</p>
+          <p>• Klik "Load" untuk memuat backup tertentu ke perangkat ini</p>
+          <p>• Data publik diperbarui dari backup manual, bukan auto-save</p>
         </div>
       </div>
     </Card>
