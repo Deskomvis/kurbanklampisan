@@ -3,34 +3,33 @@ import { useBackup } from '@/contexts/BackupContext';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
+import { useYear } from '@/contexts/YearContext';
+import { extractBackupYear, findCanonicalBackup, restoredKey } from '@/utils/backupUtils';
 
 export const useCollaborativeData = () => {
   const [isInitialized, setIsInitialized] = useState(false);
   const [lastLoadedBackupId, setLastLoadedBackupId] = useState<string | null>(null);
   const { getBackupsList, isLoading, refreshBackups } = useBackup();
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const { currentYear, ensureYear } = useYear();
   
   const { setPenerimaList } = usePenerima();
-  const { kelompokSapi, kurbanKambing, addKelompokSapi, addKurbanKambing, deleteKelompokSapi, deleteKurbanKambing } = useKelompokKurban();
-  const { transactions, addTransaction, deleteTransaction, setSaldoAwal } = useKeuangan();
+  const { loadKelompokSapi, loadKurbanKambing } = useKelompokKurban();
+  const { loadTransactions, setSaldoAwal } = useKeuangan();
 
   const loadBackupData = async (backup: any, isInitial = false) => {
     console.log('Loading backup data:', backup.name);
     console.log('Penerima data in backup:', backup.data.penerima);
-    
-    // Clear existing data
-    kelompokSapi.forEach(k => deleteKelompokSapi(k.id));
-    kurbanKambing.forEach(k => deleteKurbanKambing(k.id));
-    transactions.forEach(t => deleteTransaction(t.id));
 
     // Load latest data - use setPenerimaList to preserve status
     setPenerimaList(backup.data.penerima || []);
-    backup.data.kelompokSapi.forEach((k: any) => addKelompokSapi(k));
-    backup.data.kurbanKambing.forEach((k: any) => addKurbanKambing(k));
-    backup.data.transactions.forEach((t: any) => addTransaction(t));
+    loadKelompokSapi(backup.data.kelompokSapi || []);
+    loadKurbanKambing(backup.data.kurbanKambing || []);
+    loadTransactions(backup.data.transactions || []);
     setSaldoAwal(backup.data.saldoAwal);
 
     setLastLoadedBackupId(backup.id);
+    localStorage.setItem(restoredKey(currentYear), backup.id);
 
     if (!isInitial) {
       console.log('Collaborative data updated:', backup.name);
@@ -41,14 +40,19 @@ export const useCollaborativeData = () => {
     try {
       await refreshBackups();
       const backups = getBackupsList();
+
+      backups.forEach((backup) => {
+        const backupYear = extractBackupYear(backup.name);
+        if (backupYear) ensureYear(backupYear);
+      });
       
-      if (backups.length > 0) {
-        const latestBackup = backups[0];
+      const canonicalBackup = findCanonicalBackup(backups, currentYear);
+      if (canonicalBackup) {
         
         // Jika ada backup baru yang berbeda dari yang terakhir dimuat
-        if (lastLoadedBackupId && latestBackup.id !== lastLoadedBackupId) {
-          console.log('New backup detected, loading:', latestBackup.name);
-          await loadBackupData(latestBackup, false);
+        if (lastLoadedBackupId && canonicalBackup.id !== lastLoadedBackupId) {
+          console.log('New backup detected, loading:', canonicalBackup.name);
+          await loadBackupData(canonicalBackup, false);
         }
       }
     } catch (error) {
@@ -58,15 +62,22 @@ export const useCollaborativeData = () => {
 
   useEffect(() => {
     const loadLatestData = async () => {
-      if (isLoading || isInitialized) return;
+      if (isLoading) return;
 
       try {
         const backups = getBackupsList();
-        
-        if (backups.length > 0) {
-          // Ambil backup terbaru (sudah diurutkan desc by created_at)
-          const latestBackup = backups[0];
-          await loadBackupData(latestBackup, true);
+
+        backups.forEach((backup) => {
+          const backupYear = extractBackupYear(backup.name);
+          if (backupYear) ensureYear(backupYear);
+        });
+
+        const canonicalBackup = findCanonicalBackup(backups, currentYear);
+
+        if (canonicalBackup) {
+          if (canonicalBackup.id !== lastLoadedBackupId) {
+            await loadBackupData(canonicalBackup, !isInitialized);
+          }
         } else {
           console.log('No backup data found, starting with empty data');
         }
@@ -83,7 +94,7 @@ export const useCollaborativeData = () => {
     if (!isLoading) {
       loadLatestData();
     }
-  }, [isLoading, isInitialized]);
+  }, [currentYear, ensureYear, getBackupsList, isInitialized, isLoading, lastLoadedBackupId]);
 
   // Set up periodic checking for new backups
   useEffect(() => {
@@ -97,7 +108,7 @@ export const useCollaborativeData = () => {
         }
       };
     }
-  }, [isInitialized, lastLoadedBackupId]);
+  }, [currentYear, isInitialized, lastLoadedBackupId]);
 
   // Cleanup interval on unmount
   useEffect(() => {
