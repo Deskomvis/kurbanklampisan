@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-const BASE_KEY = 'klampisan_kurban_rab';
+const BASE_KEY = 'klampisan_kurban_rab_v2';
 
 export interface RabItem {
   id: string;
@@ -27,41 +27,40 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 
 export const defaultRabData = (): RabData => ({
   pemasukanItems: [
-    { id: uid(), uraian: 'Sisa kas tahun lalu', vol: '', satuan: '', hargaSatuan: 0, jumlah: 2168000 },
-    { id: uid(), uraian: 'Biaya Opr. Sapi', vol: '7,00', satuan: 'Ekor', hargaSatuan: 700000, jumlah: 4900000 },
-    { id: uid(), uraian: 'Biaya Opr. Kambing', vol: '15,00', satuan: 'Ekor', hargaSatuan: 50000, jumlah: 750000 },
+    { id: uid(), uraian: 'Biaya Operasional Sapi', vol: '7', satuan: 'Ekor', hargaSatuan: 650000, jumlah: 4550000 },
+    { id: uid(), uraian: 'Biaya Operasional Kambing', vol: '15', satuan: 'Ekor', hargaSatuan: 75000, jumlah: 1125000 },
   ],
   pengeluaranCategories: [
     {
       id: uid(), no: '1', nama: 'Biaya rapat',
       items: [
-        { id: uid(), uraian: 'Panitia kecil', vol: '1,00', satuan: 'paket', hargaSatuan: 200000, jumlah: 200000 },
-        { id: uid(), uraian: 'Panitia besar', vol: '1,00', satuan: 'paket', hargaSatuan: 900000, jumlah: 900000 },
-        { id: uid(), uraian: 'Pembubaran panitia', vol: '1,00', satuan: 'paket', hargaSatuan: 800000, jumlah: 800000 },
+        { id: uid(), uraian: 'Panitia kecil', vol: '1', satuan: 'Paket', hargaSatuan: 200000, jumlah: 200000 },
+        { id: uid(), uraian: 'Panitia besar', vol: '1', satuan: 'Paket', hargaSatuan: 900000, jumlah: 900000 },
+        { id: uid(), uraian: 'Pembubaran panitia', vol: '1', satuan: 'Paket', hargaSatuan: 800000, jumlah: 800000 },
       ],
     },
     {
       id: uid(), no: '2', nama: 'Persiapan',
       items: [
-        { id: uid(), uraian: 'Administrasi', vol: '1,00', satuan: 'paket', hargaSatuan: 100000, jumlah: 100000 },
-        { id: uid(), uraian: 'Snack Kerja Bakti', vol: '1,00', satuan: 'Paket', hargaSatuan: 300000, jumlah: 300000 },
-        { id: uid(), uraian: 'Peralatan dan Perlengkapan', vol: '1,00', satuan: 'Paket', hargaSatuan: 500000, jumlah: 500000 },
-        { id: uid(), uraian: 'MMT', vol: '1,00', satuan: 'Paket', hargaSatuan: 250000, jumlah: 250000 },
+        { id: uid(), uraian: 'Administrasi', vol: '1', satuan: 'Paket', hargaSatuan: 100000, jumlah: 100000 },
+        { id: uid(), uraian: 'Snack kerja bakti', vol: '1', satuan: 'Paket', hargaSatuan: 300000, jumlah: 300000 },
+        { id: uid(), uraian: 'Peralatan dan perlengkapan', vol: '1', satuan: 'Paket', hargaSatuan: 500000, jumlah: 500000 },
+        { id: uid(), uraian: 'MMT', vol: '1', satuan: 'Paket', hargaSatuan: 250000, jumlah: 250000 },
       ],
     },
     {
       id: uid(), no: '3', nama: 'Pelaksanaan',
       items: [
-        { id: uid(), uraian: 'Konsumsi siang Masak', vol: '1,00', satuan: 'Paket', hargaSatuan: 1600000, jumlah: 1600000 },
-        { id: uid(), uraian: 'Plastik', vol: '1,00', satuan: 'Paket', hargaSatuan: 300000, jumlah: 300000 },
-        { id: uid(), uraian: 'Tenaga bantu', vol: '1,00', satuan: 'Paket', hargaSatuan: 300000, jumlah: 300000 },
-        { id: uid(), uraian: 'BBM operasional', vol: '1,00', satuan: 'Paket', hargaSatuan: 100000, jumlah: 400000 },
+        { id: uid(), uraian: 'Bahan masak dll', vol: '1', satuan: 'Paket', hargaSatuan: 1000000, jumlah: 1000000 },
+        { id: uid(), uraian: 'Plastik', vol: '1', satuan: 'Paket', hargaSatuan: 300000, jumlah: 300000 },
+        { id: uid(), uraian: 'Tenaga bantu', vol: '1', satuan: 'Paket', hargaSatuan: 300000, jumlah: 300000 },
+        { id: uid(), uraian: 'BBM Operasional', vol: '1', satuan: 'Paket', hargaSatuan: 400000, jumlah: 400000 },
       ],
     },
     {
       id: uid(), no: '4', nama: 'Lain-lain',
       items: [
-        { id: uid(), uraian: 'Lain-lain', vol: '1,00', satuan: 'Paket', hargaSatuan: 500000, jumlah: 500000 },
+        { id: uid(), uraian: 'Lain-lain', vol: '1', satuan: 'Paket', hargaSatuan: 500000, jumlah: 500000 },
       ],
     },
   ],
