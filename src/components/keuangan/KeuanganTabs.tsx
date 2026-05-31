@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TransactionInputTab } from './TransactionInputTab';
 import { TransactionHistoryTab } from './TransactionHistoryTab';
-import { Transaction } from '@/contexts/KeuanganContext';
+import { Transaction, useKeuangan } from '@/contexts/KeuanganContext';
 import { PlusCircle, ListFilter, TrendingUp, TrendingDown } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -50,6 +50,12 @@ export const KeuanganTabs: React.FC<KeuanganTabsProps> = ({
   saldoAkhir
 }) => {
   const { isAuthenticated } = useAuth();
+  const { updateTransaction } = useKeuangan();
+
+  const handleSaveInlineEdit = (updatedTransaction: Transaction) => {
+    const { id, ...rest } = updatedTransaction;
+    updateTransaction(id, rest);
+  };
 
   const txPemasukan = transactions.filter(t => t.type === 'pemasukan' || t.type === 'dana-masjid');
   const txPengeluaran = transactions.filter(t => t.type === 'pengeluaran');
@@ -112,7 +118,7 @@ export const KeuanganTabs: React.FC<KeuanganTabsProps> = ({
       <TabsContent value="history" className="focus-visible:outline-none">
         <TransactionHistoryTab
           transactions={transactions}
-          onEdit={handleEdit}
+          onEdit={handleSaveInlineEdit}
           onDelete={deleteTransaction}
           formatRupiah={formatRupiah}
           saldoAwal={saldoAwal}
@@ -128,7 +134,7 @@ export const KeuanganTabs: React.FC<KeuanganTabsProps> = ({
       <TabsContent value="pemasukan" className="focus-visible:outline-none">
         <TransactionHistoryTab
           transactions={txPemasukan}
-          onEdit={handleEdit}
+          onEdit={handleSaveInlineEdit}
           onDelete={deleteTransaction}
           formatRupiah={formatRupiah}
           saldoAwal={saldoAwal}
@@ -144,7 +150,7 @@ export const KeuanganTabs: React.FC<KeuanganTabsProps> = ({
       <TabsContent value="pengeluaran" className="focus-visible:outline-none">
         <TransactionHistoryTab
           transactions={txPengeluaran}
-          onEdit={handleEdit}
+          onEdit={handleSaveInlineEdit}
           onDelete={deleteTransaction}
           formatRupiah={formatRupiah}
           saldoAwal={saldoAwal}
