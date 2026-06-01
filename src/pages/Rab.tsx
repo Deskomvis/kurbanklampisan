@@ -836,13 +836,12 @@ const Rab = () => {
                 <th className={`${thClass} w-36`}>RAB (Rp)</th>
                 <th className={`${thClass} w-36`}>Realisasi (Rp)</th>
                 <th className={`${thClass} w-36`}>Selisih (Rp)</th>
-                <th className={`${thClass} w-24`}>%</th>
               </tr>
             </thead>
             <tbody>
               {(() => {
-                const pct = (real: number, plan: number) => plan > 0 ? Math.round((real / plan) * 100) : 0;
                 const col = (s: number) => s >= 0 ? 'text-green-700' : 'text-red-600';
+                const fmtSelisih = (s: number) => `${s >= 0 ? '+' : '-'}${Math.abs(s).toLocaleString('id-ID')}`;
                 const rp = realTotals.pemasukan;
                 const rpl = realTotals.pengeluaran;
                 const rs = realSaldo;
@@ -853,27 +852,24 @@ const Rab = () => {
                       <td className={`${tdClass} text-right`}>{fmtN(totals.pemasukan)}</td>
                       <td className={`${tdClass} text-right`}>{fmtN(rp)}</td>
                       <td className={`${tdClass} text-right font-medium ${col(rp - totals.pemasukan)}`}>
-                        {rp - totals.pemasukan >= 0 ? '+' : ''}{fmtN(rp - totals.pemasukan)}
+                        {fmtSelisih(rp - totals.pemasukan)}
                       </td>
-                      <td className={`${tdClass} text-center`}>{pct(rp, totals.pemasukan)}%</td>
                     </tr>
                     <tr className="border-b border-gray-200 hover:bg-gray-50/50">
                       <td className={`${tdClass} font-semibold`}>Pengeluaran</td>
                       <td className={`${tdClass} text-right`}>{fmtN(totals.pengeluaran)}</td>
                       <td className={`${tdClass} text-right`}>{fmtN(rpl)}</td>
                       <td className={`${tdClass} text-right font-medium ${col(totals.pengeluaran - rpl)}`}>
-                        {totals.pengeluaran - rpl >= 0 ? '+' : ''}{fmtN(totals.pengeluaran - rpl)}
+                        {fmtSelisih(totals.pengeluaran - rpl)}
                       </td>
-                      <td className={`${tdClass} text-center`}>{pct(rpl, totals.pengeluaran)}%</td>
                     </tr>
                     <tr className="bg-green-50 border-t-2 border-gray-400">
                       <td className={`${tdClass} font-bold text-green-800`}>Saldo / Sisa</td>
                       <td className={`${tdClass} text-right font-bold`}>{fmtN(sisa)}</td>
                       <td className={`${tdClass} text-right font-bold`}>{fmtN(rs)}</td>
                       <td className={`${tdClass} text-right font-bold ${col(rs - sisa)}`}>
-                        {rs - sisa >= 0 ? '+' : ''}{fmtN(rs - sisa)}
+                        {fmtSelisih(rs - sisa)}
                       </td>
-                      <td className={`${tdClass} text-center font-bold`}>{pct(rs, sisa)}%</td>
                     </tr>
                   </>
                 );
