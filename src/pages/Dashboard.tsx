@@ -7,6 +7,7 @@ import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
 import { useInitialData } from '@/hooks/useInitialData';
 import { useYear } from '@/contexts/YearContext';
+import { useVisitorTracking } from '@/hooks/useVisitorTracking';
 import {
   Beef,
   PawPrint,
@@ -16,7 +17,8 @@ import {
   TrendingUp,
   CheckCircle2,
   Clock,
-  ArrowUpRight
+  ArrowUpRight,
+  Eye
 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -25,6 +27,7 @@ const Dashboard = () => {
   const { penerima } = usePenerima();
   const { getTotalSapi, getTotalKambing } = useKelompokKurban();
   const { getTotalPengeluaran, getSaldoAkhir } = useKeuangan();
+  const { totalVisitors } = useVisitorTracking();
   
   const sudahMenerima = penerima.filter(p => p.sudahMenerima).length;
   const belumMenerima = penerima.length - sudahMenerima;
@@ -98,16 +101,16 @@ const Dashboard = () => {
       
       {/* Premium Statistics Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card 
-          title="Hewan Sapi" 
-          value={getTotalSapi().toString()} 
+        <Card
+          title="Hewan Sapi"
+          value={getTotalSapi().toString()}
           icon={<Beef className="w-6 h-6 text-green-700" />}
           className="bg-green-50 text-green-900 border border-green-100 shadow-sm"
           subtitle="Total ekor sapi"
         />
-        <Card 
-          title="Hewan Kambing" 
-          value={getTotalKambing().toString()} 
+        <Card
+          title="Hewan Kambing"
+          value={getTotalKambing().toString()}
           icon={<PawPrint className="w-6 h-6 text-emerald-700" />}
           className="bg-emerald-50 text-emerald-900 border border-emerald-100 shadow-sm"
           subtitle="Total ekor kambing"
@@ -118,6 +121,17 @@ const Dashboard = () => {
           icon={<Wallet className="w-6 h-6 text-blue-700" />}
           className="bg-blue-50 text-blue-900 border border-blue-100 shadow-sm"
           subtitle="Saldo kas saat ini"
+        />
+      </div>
+
+      {/* Visitor Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <Card
+          title="Pengunjung Unik"
+          value={totalVisitors === null ? '...' : totalVisitors.toLocaleString('id-ID')}
+          icon={<Eye className="w-6 h-6 text-purple-700" />}
+          className="bg-purple-50 text-purple-900 border border-purple-100 shadow-sm"
+          subtitle="Total pengunjung website"
         />
       </div>
 

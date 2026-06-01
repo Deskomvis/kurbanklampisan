@@ -33,6 +33,24 @@ export type Database = {
         }
         Relationships: []
       }
+      visitors: {
+        Row: {
+          visitor_id: string
+          created_at: string
+          last_seen: string
+        }
+        Insert: {
+          visitor_id: string
+          created_at?: string
+          last_seen?: string
+        }
+        Update: {
+          visitor_id?: string
+          created_at?: string
+          last_seen?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
