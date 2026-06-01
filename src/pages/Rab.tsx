@@ -883,16 +883,17 @@ const Rab = () => {
             const selisihPel = totals.pengeluaran - realTotals.pengeluaran;
             const pctHemat = totals.pengeluaran > 0 ? Math.round(Math.abs(selisihPel) / totals.pengeluaran * 100) : 0;
             const hemat = selisihPel >= 0;
+            const fmtRp = (n: number) => `Rp ${n.toLocaleString('id-ID')}`;
             return (
-              <p className="text-xs text-gray-500 italic">
+              <p className="text-xs text-gray-500 italic leading-relaxed">
                 * Realisasi pengeluaran tahun {currentYear}{' '}
                 {hemat ? (
-                  <>dapat <span className="font-semibold text-green-600">menghemat {pctHemat}%</span> dari RAB pengeluaran tahun ini ({(pctHemat > 0 ? `Rp ${selisihPel.toLocaleString('id-ID')}` : 'sesuai RAB')}).</>
+                  <>dapat <span className="font-semibold text-green-600">menghemat {pctHemat}%</span> dari RAB pengeluaran tahun ini dengan selisih ({fmtRp(selisihPel)}).</>
                 ) : (
-                  <>
-                    <span className="font-semibold text-red-600">melebihi RAB sebesar {pctHemat}%</span> ({`Rp ${Math.abs(selisihPel).toLocaleString('id-ID')}`} di atas anggaran).
-                  </>
+                  <><span className="font-semibold text-red-600">melebihi RAB sebesar {pctHemat}%</span> dengan selisih ({fmtRp(Math.abs(selisihPel))}).</>
                 )}
+                {' '}Dengan Saldo Realisasi sisa tahun ini (<span className="font-semibold text-gray-700">{fmtRp(realSaldo)}</span>).{' '}
+                Dengan catatan: Donasi dari para donatur tidak dimasukkan ke laporan pengeluaran.
               </p>
             );
           })()}
