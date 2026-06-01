@@ -3,10 +3,11 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useRab, RabItem, RabCategory, RabData } from '@/contexts/RabContext';
+import { useRealisasi, RealisasiItem, RealisasiData } from '@/contexts/RealisasiContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useYear } from '@/contexts/YearContext';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Check, X, Plus, Trash2, Calculator, RefreshCw, ChevronDown, FileX, BarChart3 } from 'lucide-react';
+import { Pencil, Check, X, Plus, Trash2, Calculator, RefreshCw, ChevronDown, FileX, BarChart3, RotateCcw } from 'lucide-react';
 import { useKeuangan } from '@/contexts/KeuanganContext';
 
 const uid = () => Math.random().toString(36).slice(2, 9);
@@ -235,8 +236,83 @@ const Rab = () => {
     getSaldoAkhir,
   } = useKeuangan();
 
+  const { realisasiData, updateRealisasiData, resetRealisasi } = useRealisasi();
+
   const hijriahYear = parseInt(currentYear) - 579;
   const hasRab = parseInt(currentYear) >= 2026;
+
+  /* ── Build live realisasi from keuangan (used when not customized) ── */
+  const liveRealisasi = (): RealisasiData => {
+    const pemItems: RealisasiItem[] = [];
+    if (isSaldoAwalSet && parseFloat(saldoAwal) > 0) {
+      pemItems.push({ id: 'saldo-awal', uraian: 'Saldo Awal', vol: '1', satuan: '–', hargaSatuan: parseFloat(saldoAwal), jumlah: parseFloat(saldoAwal) });
+    }
+    transactions.filter(t => t.type === 'pemasukan').forEach(t => {
+      pemItems.push({ id: t.id.toString(), uraian: t.keterangan, vol: '1', satuan: '–', hargaSatuan: t.jumlah, jumlah: t.jumlah });
+    });
+    transactions.filter(t => t.type === 'dana-masjid').forEach(t => {
+      pemItems.push({ id: t.id.toString(), uraian: `${t.keterangan} (Dana Masjid)`, vol: '1', satuan: '–', hargaSatuan: t.jumlah, jumlah: t.jumlah });
+    });
+    const pelItems: RealisasiItem[] = transactions.filter(t => t.type === 'pengeluaran').map(t => ({
+      id: t.id.toString(), uraian: t.keterangan, vol: '1', satuan: '–', hargaSatuan: t.jumlah, jumlah: t.jumlah,
+    }));
+    return { pemasukanItems: pemItems, pengeluaranItems: pelItems, isCustomized: false };
+  };
+
+  const activeRealisasi: RealisasiData = realisasiData.isCustomized ? realisasiData : liveRealisasi();
+
+  const [isEditingRealisasi, setIsEditingRealisasi] = useState(false);
+  const [editRealisasi, setEditRealisasi] = useState<RealisasiData>(activeRealisasi);
+
+  const realTotals = {
+    pemasukan: activeRealisasi.pemasukanItems.reduce((s, i) => s + i.jumlah, 0),
+    pengeluaran: activeRealisasi.pengeluaranItems.reduce((s, i) => s + i.jumlah, 0),
+  };
+  const realSaldo = realTotals.pemasukan - realTotals.pengeluaran;
+
+  const startEditRealisasi = () => {
+    setEditRealisasi({ ...activeRealisasi, isCustomized: true });
+    setIsEditingRealisasi(true);
+  };
+
+  const saveEditRealisasi = () => {
+    updateRealisasiData({ ...editRealisasi, isCustomized: true });
+    setIsEditingRealisasi(false);
+    toast({ title: 'Berhasil', description: 'Realisasi anggaran berhasil disimpan' });
+  };
+
+  const cancelEditRealisasi = () => {
+    setEditRealisasi(activeRealisasi);
+    setIsEditingRealisasi(false);
+  };
+
+  const handleResetRealisasi = () => {
+    if (!window.confirm('Reset realisasi ke data keuangan? Perubahan manual akan hilang.')) return;
+    resetRealisasi();
+    setIsEditingRealisasi(false);
+  };
+
+  /* ── Realisasi item helpers ── */
+  const uid2 = () => Math.random().toString(36).slice(2, 9);
+  const blankReal = (): RealisasiItem => ({ id: uid2(), uraian: '', vol: '1', satuan: 'Paket', hargaSatuan: 0, jumlah: 0 });
+
+  const updRealPemItem = (idx: number, item: RealisasiItem) => {
+    const next = [...editRealisasi.pemasukanItems]; next[idx] = item;
+    setEditRealisasi({ ...editRealisasi, pemasukanItems: next });
+  };
+  const delRealPemItem = (idx: number) =>
+    setEditRealisasi({ ...editRealisasi, pemasukanItems: editRealisasi.pemasukanItems.filter((_, i) => i !== idx) });
+  const addRealPemItem = () =>
+    setEditRealisasi({ ...editRealisasi, pemasukanItems: [...editRealisasi.pemasukanItems, blankReal()] });
+
+  const updRealPelItem = (idx: number, item: RealisasiItem) => {
+    const next = [...editRealisasi.pengeluaranItems]; next[idx] = item;
+    setEditRealisasi({ ...editRealisasi, pengeluaranItems: next });
+  };
+  const delRealPelItem = (idx: number) =>
+    setEditRealisasi({ ...editRealisasi, pengeluaranItems: editRealisasi.pengeluaranItems.filter((_, i) => i !== idx) });
+  const addRealPelItem = () =>
+    setEditRealisasi({ ...editRealisasi, pengeluaranItems: [...editRealisasi.pengeluaranItems, blankReal()] });
 
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<RabData>(rabData);
@@ -575,13 +651,47 @@ const Rab = () => {
 
       {/* ══ REALISASI ANGGARAN ══ */}
       <Card className="rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white">
-        <div className="py-6 px-6 text-center border-b border-gray-200 bg-gray-50">
+        {/* Header */}
+        <div className="py-6 px-6 text-center border-b border-gray-200 bg-gray-50 relative">
           <p className="text-sm font-bold text-gray-700 uppercase tracking-wide">Realisasi Anggaran dan Belanja</p>
           <p className="text-sm font-bold text-gray-700 uppercase tracking-wide">
             Pelaksanaan Hari Raya Idul Adha {hijriahYear} H / {currentYear} M
           </p>
           <p className="text-sm font-bold text-gray-700 uppercase tracking-wide">Masjid Istiqomah Klampisan</p>
+
+          {isAuthenticated && (
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              {isEditingRealisasi ? (
+                <>
+                  <Button variant="outline" size="sm" onClick={cancelEditRealisasi} className="flex items-center gap-1.5 border-gray-200">
+                    <X className="w-4 h-4" /> Batal
+                  </Button>
+                  <Button size="sm" onClick={saveEditRealisasi} className="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white">
+                    <Check className="w-4 h-4" /> Simpan
+                  </Button>
+                </>
+              ) : (
+                <>
+                  {realisasiData.isCustomized && (
+                    <Button variant="outline" size="sm" onClick={handleResetRealisasi} className="flex items-center gap-1.5 border-gray-200 text-gray-500" title="Reset ke data keuangan">
+                      <RotateCcw className="w-4 h-4" />
+                    </Button>
+                  )}
+                  <Button variant="outline" size="sm" onClick={startEditRealisasi} className="flex items-center gap-1.5 border-gray-200 text-gray-600 hover:text-gray-900">
+                    <Pencil className="w-4 h-4" /> Edit Realisasi
+                  </Button>
+                </>
+              )}
+            </div>
+          )}
         </div>
+
+        {isEditingRealisasi && (
+          <div className="px-6 py-2 bg-blue-50 border-b border-blue-100 text-xs text-blue-700 flex items-center gap-2">
+            <RefreshCw className="w-3.5 h-3.5 shrink-0" />
+            Mode edit — ubah, hapus, tambah baris. Klik <RefreshCw className="w-3 h-3 inline mx-0.5" /> di kolom Jumlah untuk hitung Vol × Harga otomatis.
+          </div>
+        )}
 
         <div className="overflow-x-auto">
           <table className="w-full min-w-[600px] border-collapse">
@@ -593,108 +703,120 @@ const Rab = () => {
                 <th className={`${thClass} w-24`}>Satuan</th>
                 <th className={`${thClass} w-32`}>Harga Satuan</th>
                 <th className={`${thClass} w-32`}>Jumlah</th>
+                {isEditingRealisasi && <th className={`${thClass} w-8`} />}
               </tr>
             </thead>
             <tbody>
               {/* ── I. PEMASUKAN ── */}
               <tr className="bg-gray-50">
                 <td className={`${tdClass} text-center font-bold`}>I</td>
-                <td className={`${tdClass} font-bold uppercase`} colSpan={4}>PEMASUKAN</td>
-                <td className="border border-gray-300" />
+                <td className={`${tdClass} font-bold uppercase`} colSpan={isEditingRealisasi ? 5 : 4}>PEMASUKAN</td>
+                {isEditingRealisasi && <td className="border border-gray-300" />}
               </tr>
 
-              {isSaldoAwalSet && parseFloat(saldoAwal) > 0 && (
-                <tr className="border-b border-gray-200 hover:bg-gray-50/50">
-                  <td className={`${tdClass} text-center text-gray-500`}>*</td>
-                  <td className={tdClass}>Saldo Awal</td>
-                  <td className={`${tdClass} text-center`}>1</td>
-                  <td className={`${tdClass} text-center`}>–</td>
-                  <td className={`${tdClass} text-right`}>{fmtN(parseFloat(saldoAwal))}</td>
-                  <td className={`${tdClass} text-right font-medium`}>{fmtN(parseFloat(saldoAwal))}</td>
+              {(isEditingRealisasi ? editRealisasi.pemasukanItems : activeRealisasi.pemasukanItems).map((item, idx) =>
+                isEditingRealisasi ? (
+                  <EditItemRow key={item.id} item={item} rowNo={String(idx + 1)}
+                    onChange={it => updRealPemItem(idx, it)} onDelete={() => delRealPemItem(idx)} />
+                ) : (
+                  <tr key={item.id} className="border-b border-gray-200 hover:bg-gray-50/50">
+                    <td className={`${tdClass} text-center text-gray-500`}>{idx + 1}</td>
+                    <td className={tdClass}>{item.uraian}</td>
+                    <td className={`${tdClass} text-center`}>{item.vol}</td>
+                    <td className={`${tdClass} text-center`}>{item.satuan}</td>
+                    <td className={`${tdClass} text-right`}>{fmtN(item.hargaSatuan)}</td>
+                    <td className={`${tdClass} text-right font-medium`}>{fmtN(item.jumlah)}</td>
+                  </tr>
+                )
+              )}
+
+              {isEditingRealisasi && (
+                <tr>
+                  <td colSpan={7} className="border border-gray-200 px-3 py-1">
+                    <button onClick={addRealPemItem} className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1">
+                      <Plus className="w-3 h-3" /> Tambah baris pemasukan
+                    </button>
+                  </td>
                 </tr>
               )}
 
-              {transactions.filter(t => t.type === 'pemasukan').map((t, idx) => (
-                <tr key={t.id} className="border-b border-gray-200 hover:bg-gray-50/50">
-                  <td className={`${tdClass} text-center text-gray-500`}>{idx + 1}</td>
-                  <td className={tdClass}>{t.keterangan}</td>
-                  <td className={`${tdClass} text-center`}>1</td>
-                  <td className={`${tdClass} text-center`}>–</td>
-                  <td className={`${tdClass} text-right`}>{fmtN(t.jumlah)}</td>
-                  <td className={`${tdClass} text-right font-medium`}>{fmtN(t.jumlah)}</td>
-                </tr>
-              ))}
-
-              {transactions.filter(t => t.type === 'dana-masjid').map((t, idx) => (
-                <tr key={t.id} className="border-b border-gray-200 hover:bg-gray-50/50">
-                  <td className={`${tdClass} text-center text-gray-500`}>{transactions.filter(x => x.type === 'pemasukan').length + idx + 1}</td>
-                  <td className={tdClass}>{t.keterangan} <span className="text-xs text-orange-600">(Dana Masjid)</span></td>
-                  <td className={`${tdClass} text-center`}>1</td>
-                  <td className={`${tdClass} text-center`}>–</td>
-                  <td className={`${tdClass} text-right`}>{fmtN(t.jumlah)}</td>
-                  <td className={`${tdClass} text-right font-medium`}>{fmtN(t.jumlah)}</td>
-                </tr>
-              ))}
-
-              {transactions.filter(t => t.type === 'pemasukan' || t.type === 'dana-masjid').length === 0 && !isSaldoAwalSet && (
-                <tr>
-                  <td className={`${tdClass} text-center text-gray-400`} colSpan={6}>Belum ada data pemasukan</td>
-                </tr>
+              {!isEditingRealisasi && activeRealisasi.pemasukanItems.length === 0 && (
+                <tr><td className={`${tdClass} text-center text-gray-400`} colSpan={5}>Belum ada data pemasukan</td></tr>
               )}
 
               <tr className="bg-gray-50 border-t-2 border-gray-400">
                 <td className="border border-gray-300" />
                 <td className={`${tdClass} font-bold text-center`} colSpan={4}>Jumlah</td>
                 <td className={`${tdClass} text-right font-bold`}>
-                  {fmtN((isSaldoAwalSet ? parseFloat(saldoAwal) || 0 : 0) + getTotalPemasukan() + getTotalDanaMasjid())}
+                  {fmtN((isEditingRealisasi ? editRealisasi : activeRealisasi).pemasukanItems.reduce((s, i) => s + i.jumlah, 0))}
                 </td>
+                {isEditingRealisasi && <td className="border border-gray-300" />}
               </tr>
 
               {/* ── II. PENGELUARAN ── */}
               <tr className="bg-gray-50">
                 <td className={`${tdClass} text-center font-bold`}>II</td>
-                <td className={`${tdClass} font-bold uppercase`} colSpan={4}>PENGELUARAN</td>
-                <td className="border border-gray-300" />
+                <td className={`${tdClass} font-bold uppercase`} colSpan={isEditingRealisasi ? 5 : 4}>PENGELUARAN</td>
+                {isEditingRealisasi && <td className="border border-gray-300" />}
               </tr>
 
-              {transactions.filter(t => t.type === 'pengeluaran').map((t, idx) => (
-                <tr key={t.id} className="border-b border-gray-200 hover:bg-gray-50/50">
-                  <td className={`${tdClass} text-center text-gray-500`}>{idx + 1}</td>
-                  <td className={tdClass}>{t.keterangan}</td>
-                  <td className={`${tdClass} text-center`}>1</td>
-                  <td className={`${tdClass} text-center`}>–</td>
-                  <td className={`${tdClass} text-right`}>{fmtN(t.jumlah)}</td>
-                  <td className={`${tdClass} text-right font-medium`}>{fmtN(t.jumlah)}</td>
-                </tr>
-              ))}
+              {(isEditingRealisasi ? editRealisasi.pengeluaranItems : activeRealisasi.pengeluaranItems).map((item, idx) =>
+                isEditingRealisasi ? (
+                  <EditItemRow key={item.id} item={item} rowNo={String(idx + 1)}
+                    onChange={it => updRealPelItem(idx, it)} onDelete={() => delRealPelItem(idx)} />
+                ) : (
+                  <tr key={item.id} className="border-b border-gray-200 hover:bg-gray-50/50">
+                    <td className={`${tdClass} text-center text-gray-500`}>{idx + 1}</td>
+                    <td className={tdClass}>{item.uraian}</td>
+                    <td className={`${tdClass} text-center`}>{item.vol}</td>
+                    <td className={`${tdClass} text-center`}>{item.satuan}</td>
+                    <td className={`${tdClass} text-right`}>{fmtN(item.hargaSatuan)}</td>
+                    <td className={`${tdClass} text-right font-medium`}>{fmtN(item.jumlah)}</td>
+                  </tr>
+                )
+              )}
 
-              {transactions.filter(t => t.type === 'pengeluaran').length === 0 && (
+              {isEditingRealisasi && (
                 <tr>
-                  <td className={`${tdClass} text-center text-gray-400`} colSpan={6}>Belum ada data pengeluaran</td>
+                  <td colSpan={7} className="border border-gray-200 px-3 py-1">
+                    <button onClick={addRealPelItem} className="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1">
+                      <Plus className="w-3 h-3" /> Tambah baris pengeluaran
+                    </button>
+                  </td>
                 </tr>
+              )}
+
+              {!isEditingRealisasi && activeRealisasi.pengeluaranItems.length === 0 && (
+                <tr><td className={`${tdClass} text-center text-gray-400`} colSpan={5}>Belum ada data pengeluaran</td></tr>
               )}
 
               <tr className="bg-gray-50 border-t-2 border-gray-400">
                 <td className="border border-gray-300" />
                 <td className={`${tdClass} font-bold text-center`} colSpan={4}>Jumlah</td>
-                <td className={`${tdClass} text-right font-bold`}>{fmtN(getTotalPengeluaran())}</td>
+                <td className={`${tdClass} text-right font-bold`}>
+                  {fmtN((isEditingRealisasi ? editRealisasi : activeRealisasi).pengeluaranItems.reduce((s, i) => s + i.jumlah, 0))}
+                </td>
+                {isEditingRealisasi && <td className="border border-gray-300" />}
               </tr>
 
               {/* ── III. SALDO ── */}
               <tr className="bg-green-50 border-t-2 border-gray-500">
                 <td className={`${tdClass} text-center font-bold text-green-800`}>III</td>
-                <td className={`${tdClass} font-bold text-green-800 uppercase`} colSpan={4}>SALDO</td>
-                <td className={`${tdClass} text-right font-black text-lg ${getSaldoAkhir() >= 0 ? 'text-green-700' : 'text-red-600'}`}>
-                  {getSaldoAkhir() < 0 ? `(${fmtN(Math.abs(getSaldoAkhir()))})` : fmtN(getSaldoAkhir())}
+                <td className={`${tdClass} font-bold text-green-800 uppercase`} colSpan={isEditingRealisasi ? 5 : 4}>SALDO</td>
+                <td className={`${tdClass} text-right font-black text-lg ${realSaldo >= 0 ? 'text-green-700' : 'text-red-600'}`}>
+                  {realSaldo < 0 ? `(${fmtN(Math.abs(realSaldo))})` : fmtN(realSaldo)}
                 </td>
+                {isEditingRealisasi && <td className="border border-gray-300" />}
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
+        <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50 flex items-center justify-between gap-4">
           <p className="text-xs text-gray-400 italic">
-            * Realisasi berdasarkan data transaksi yang telah diinput di laporan keuangan.
+            {realisasiData.isCustomized
+              ? '* Data realisasi telah diedit secara manual.'
+              : '* Realisasi otomatis dari data transaksi keuangan.'}
           </p>
         </div>
       </Card>
@@ -710,7 +832,7 @@ const Rab = () => {
           <table className="w-full min-w-[500px] border-collapse">
             <thead>
               <tr>
-                <th className={`${thClass}`}>Uraian</th>
+                <th className={thClass}>Uraian</th>
                 <th className={`${thClass} w-36`}>RAB (Rp)</th>
                 <th className={`${thClass} w-36`}>Realisasi (Rp)</th>
                 <th className={`${thClass} w-36`}>Selisih (Rp)</th>
@@ -719,43 +841,39 @@ const Rab = () => {
             </thead>
             <tbody>
               {(() => {
-                const rabPem = totals.pemasukan;
-                const rabPel = totals.pengeluaran;
-                const rabSisa = sisa;
-                const realPem = getTotalPemasukan() + getTotalDanaMasjid() + (isSaldoAwalSet ? parseFloat(saldoAwal) || 0 : 0);
-                const realPel = getTotalPengeluaran();
-                const realSisa = getSaldoAkhir();
-                const pct = (real: number, plan: number) =>
-                  plan > 0 ? Math.round((real / plan) * 100) : 0;
-                const selisihColor = (s: number) => s >= 0 ? 'text-green-700' : 'text-red-600';
+                const pct = (real: number, plan: number) => plan > 0 ? Math.round((real / plan) * 100) : 0;
+                const col = (s: number) => s >= 0 ? 'text-green-700' : 'text-red-600';
+                const rp = realTotals.pemasukan;
+                const rpl = realTotals.pengeluaran;
+                const rs = realSaldo;
                 return (
                   <>
                     <tr className="border-b border-gray-200 hover:bg-gray-50/50">
                       <td className={`${tdClass} font-semibold`}>Pemasukan</td>
-                      <td className={`${tdClass} text-right`}>{fmtN(rabPem)}</td>
-                      <td className={`${tdClass} text-right`}>{fmtN(realPem)}</td>
-                      <td className={`${tdClass} text-right font-medium ${selisihColor(realPem - rabPem)}`}>
-                        {realPem - rabPem >= 0 ? '+' : ''}{fmtN(realPem - rabPem)}
+                      <td className={`${tdClass} text-right`}>{fmtN(totals.pemasukan)}</td>
+                      <td className={`${tdClass} text-right`}>{fmtN(rp)}</td>
+                      <td className={`${tdClass} text-right font-medium ${col(rp - totals.pemasukan)}`}>
+                        {rp - totals.pemasukan >= 0 ? '+' : ''}{fmtN(rp - totals.pemasukan)}
                       </td>
-                      <td className={`${tdClass} text-center`}>{pct(realPem, rabPem)}%</td>
+                      <td className={`${tdClass} text-center`}>{pct(rp, totals.pemasukan)}%</td>
                     </tr>
                     <tr className="border-b border-gray-200 hover:bg-gray-50/50">
                       <td className={`${tdClass} font-semibold`}>Pengeluaran</td>
-                      <td className={`${tdClass} text-right`}>{fmtN(rabPel)}</td>
-                      <td className={`${tdClass} text-right`}>{fmtN(realPel)}</td>
-                      <td className={`${tdClass} text-right font-medium ${selisihColor(rabPel - realPel)}`}>
-                        {rabPel - realPel >= 0 ? '+' : ''}{fmtN(rabPel - realPel)}
+                      <td className={`${tdClass} text-right`}>{fmtN(totals.pengeluaran)}</td>
+                      <td className={`${tdClass} text-right`}>{fmtN(rpl)}</td>
+                      <td className={`${tdClass} text-right font-medium ${col(totals.pengeluaran - rpl)}`}>
+                        {totals.pengeluaran - rpl >= 0 ? '+' : ''}{fmtN(totals.pengeluaran - rpl)}
                       </td>
-                      <td className={`${tdClass} text-center`}>{pct(realPel, rabPel)}%</td>
+                      <td className={`${tdClass} text-center`}>{pct(rpl, totals.pengeluaran)}%</td>
                     </tr>
                     <tr className="bg-green-50 border-t-2 border-gray-400">
                       <td className={`${tdClass} font-bold text-green-800`}>Saldo / Sisa</td>
-                      <td className={`${tdClass} text-right font-bold`}>{fmtN(rabSisa)}</td>
-                      <td className={`${tdClass} text-right font-bold`}>{fmtN(realSisa)}</td>
-                      <td className={`${tdClass} text-right font-bold ${selisihColor(realSisa - rabSisa)}`}>
-                        {realSisa - rabSisa >= 0 ? '+' : ''}{fmtN(realSisa - rabSisa)}
+                      <td className={`${tdClass} text-right font-bold`}>{fmtN(sisa)}</td>
+                      <td className={`${tdClass} text-right font-bold`}>{fmtN(rs)}</td>
+                      <td className={`${tdClass} text-right font-bold ${col(rs - sisa)}`}>
+                        {rs - sisa >= 0 ? '+' : ''}{fmtN(rs - sisa)}
                       </td>
-                      <td className={`${tdClass} text-center font-bold`}>{pct(realSisa, rabSisa)}%</td>
+                      <td className={`${tdClass} text-center font-bold`}>{pct(rs, sisa)}%</td>
                     </tr>
                   </>
                 );

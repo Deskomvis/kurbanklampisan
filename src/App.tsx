@@ -11,6 +11,7 @@ import { KelompokKurbanProvider } from "./contexts/KelompokKurbanContext";
 import { KeuanganProvider } from "./contexts/KeuanganContext";
 import { PanitiaProvider } from "./contexts/PanitiaContext";
 import { RabProvider } from "./contexts/RabContext";
+import { RealisasiProvider } from "./contexts/RealisasiContext";
 import { PasalProvider } from "./contexts/PasalContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { BackupProvider } from "./contexts/BackupContext";
@@ -42,10 +43,12 @@ const YearAwareProviders = ({ children }: { children: ReactNode }) => {
         <PenerimaProvider key={`penerima-${currentYear}`} year={currentYear}>
           <PanitiaProvider key={`panitia-${currentYear}`} year={currentYear}>
             <RabProvider key={`rab-${currentYear}`} year={currentYear}>
-              <AutoSaveWatcher />
-              <CollaborativeWrapper>
-                {children}
-              </CollaborativeWrapper>
+              <RealisasiProvider key={`realisasi-${currentYear}`} year={currentYear}>
+                <AutoSaveWatcher />
+                <CollaborativeWrapper>
+                  {children}
+                </CollaborativeWrapper>
+              </RealisasiProvider>
             </RabProvider>
           </PanitiaProvider>
         </PenerimaProvider>
