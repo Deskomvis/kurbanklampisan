@@ -79,19 +79,27 @@ export const useRab = () => {
   return ctx;
 };
 
+const emptyRabData = (): RabData => ({
+  pemasukanItems: [],
+  pengeluaranCategories: [],
+});
+
 export const RabProvider: React.FC<{ children: ReactNode; year?: string }> = ({
   children,
   year = '2025',
 }) => {
+  const hasRab = parseInt(year) >= 2026;
   const storageKey = `${BASE_KEY}_${year}`;
 
   const [rabData, setRabData] = useState<RabData>(() => {
+    if (!hasRab) return emptyRabData();
     const saved = localStorage.getItem(storageKey);
     if (saved) return JSON.parse(saved);
     return defaultRabData();
   });
 
   const updateRabData = (data: RabData) => {
+    if (!hasRab) return;
     setRabData(data);
     localStorage.setItem(storageKey, JSON.stringify(data));
   };

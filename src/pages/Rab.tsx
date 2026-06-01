@@ -6,7 +6,7 @@ import { useRab, RabItem, RabCategory, RabData } from '@/contexts/RabContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useYear } from '@/contexts/YearContext';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Check, X, Plus, Trash2, Calculator, RefreshCw, ChevronDown } from 'lucide-react';
+import { Pencil, Check, X, Plus, Trash2, Calculator, RefreshCw, ChevronDown, FileX } from 'lucide-react';
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 const fmtN = (n: number) => n > 0 ? n.toLocaleString('id-ID') : '';
@@ -226,6 +226,7 @@ const Rab = () => {
   const { toast } = useToast();
 
   const hijriahYear = parseInt(currentYear) - 579;
+  const hasRab = parseInt(currentYear) >= 2026;
 
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState<RabData>(rabData);
@@ -319,6 +320,27 @@ const Rab = () => {
   const colSpan = isEditing ? 7 : 6;
   const thClass = 'border border-gray-400 px-2 py-2 text-center text-xs font-bold text-gray-800 bg-gray-100';
   const tdClass = 'border border-gray-300 px-3 py-1.5 text-sm text-gray-800';
+
+  if (!hasRab) {
+    return (
+      <div className="space-y-6 pb-12">
+        <div className="pb-4 border-b border-gray-100">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 flex items-center gap-3">
+            <Calculator className="w-8 h-8 text-green-600" />
+            RAB Estimasi
+          </h2>
+          <p className="text-gray-500 text-sm mt-1">
+            Rencana Anggaran dan Biaya kurban {hijriahYear} H / {currentYear} M Masjid Istiqomah Klampisan.
+          </p>
+        </div>
+        <Card className="p-12 rounded-xl border border-gray-200 bg-white text-center">
+          <FileX className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+          <p className="text-gray-500 font-medium">RAB tidak tersedia untuk tahun {currentYear}</p>
+          <p className="text-gray-400 text-sm mt-1">Rencana Anggaran dan Biaya hanya tersedia mulai tahun 2026.</p>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 pb-12">
