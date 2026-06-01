@@ -6,7 +6,8 @@ import { useRab, RabItem, RabCategory, RabData } from '@/contexts/RabContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useYear } from '@/contexts/YearContext';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Check, X, Plus, Trash2, Calculator, RefreshCw, ChevronDown, FileX } from 'lucide-react';
+import { Pencil, Check, X, Plus, Trash2, Calculator, RefreshCw, ChevronDown, FileX, BarChart3 } from 'lucide-react';
+import { useKeuangan } from '@/contexts/KeuanganContext';
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 const fmtN = (n: number) => n > 0 ? n.toLocaleString('id-ID') : '';
@@ -224,6 +225,15 @@ const Rab = () => {
   const { isAuthenticated } = useAuth();
   const { currentYear } = useYear();
   const { toast } = useToast();
+  const {
+    transactions,
+    saldoAwal,
+    isSaldoAwalSet,
+    getTotalPemasukan,
+    getTotalPengeluaran,
+    getTotalDanaMasjid,
+    getSaldoAkhir,
+  } = useKeuangan();
 
   const hijriahYear = parseInt(currentYear) - 579;
   const hasRab = parseInt(currentYear) >= 2026;
@@ -559,6 +569,204 @@ const Rab = () => {
         <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
           <p className="text-xs text-gray-400 italic">
             * Angka merupakan estimasi rencana anggaran. Realisasi dapat berbeda sesuai kondisi di lapangan.
+          </p>
+        </div>
+      </Card>
+
+      {/* ══ REALISASI ANGGARAN ══ */}
+      <Card className="rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white">
+        <div className="py-6 px-6 text-center border-b border-gray-200 bg-gray-50">
+          <p className="text-sm font-bold text-gray-700 uppercase tracking-wide">Realisasi Anggaran dan Belanja</p>
+          <p className="text-sm font-bold text-gray-700 uppercase tracking-wide">
+            Pelaksanaan Hari Raya Idul Adha {hijriahYear} H / {currentYear} M
+          </p>
+          <p className="text-sm font-bold text-gray-700 uppercase tracking-wide">Masjid Istiqomah Klampisan</p>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[600px] border-collapse">
+            <thead>
+              <tr>
+                <th className={`${thClass} w-12`}>No.</th>
+                <th className={thClass}>Uraian</th>
+                <th className={`${thClass} w-20`}>Vol</th>
+                <th className={`${thClass} w-24`}>Satuan</th>
+                <th className={`${thClass} w-32`}>Harga Satuan</th>
+                <th className={`${thClass} w-32`}>Jumlah</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* ── I. PEMASUKAN ── */}
+              <tr className="bg-gray-50">
+                <td className={`${tdClass} text-center font-bold`}>I</td>
+                <td className={`${tdClass} font-bold uppercase`} colSpan={4}>PEMASUKAN</td>
+                <td className="border border-gray-300" />
+              </tr>
+
+              {isSaldoAwalSet && parseFloat(saldoAwal) > 0 && (
+                <tr className="border-b border-gray-200 hover:bg-gray-50/50">
+                  <td className={`${tdClass} text-center text-gray-500`}>*</td>
+                  <td className={tdClass}>Saldo Awal</td>
+                  <td className={`${tdClass} text-center`}>1</td>
+                  <td className={`${tdClass} text-center`}>–</td>
+                  <td className={`${tdClass} text-right`}>{fmtN(parseFloat(saldoAwal))}</td>
+                  <td className={`${tdClass} text-right font-medium`}>{fmtN(parseFloat(saldoAwal))}</td>
+                </tr>
+              )}
+
+              {transactions.filter(t => t.type === 'pemasukan').map((t, idx) => (
+                <tr key={t.id} className="border-b border-gray-200 hover:bg-gray-50/50">
+                  <td className={`${tdClass} text-center text-gray-500`}>{idx + 1}</td>
+                  <td className={tdClass}>{t.keterangan}</td>
+                  <td className={`${tdClass} text-center`}>1</td>
+                  <td className={`${tdClass} text-center`}>–</td>
+                  <td className={`${tdClass} text-right`}>{fmtN(t.jumlah)}</td>
+                  <td className={`${tdClass} text-right font-medium`}>{fmtN(t.jumlah)}</td>
+                </tr>
+              ))}
+
+              {transactions.filter(t => t.type === 'dana-masjid').map((t, idx) => (
+                <tr key={t.id} className="border-b border-gray-200 hover:bg-gray-50/50">
+                  <td className={`${tdClass} text-center text-gray-500`}>{transactions.filter(x => x.type === 'pemasukan').length + idx + 1}</td>
+                  <td className={tdClass}>{t.keterangan} <span className="text-xs text-orange-600">(Dana Masjid)</span></td>
+                  <td className={`${tdClass} text-center`}>1</td>
+                  <td className={`${tdClass} text-center`}>–</td>
+                  <td className={`${tdClass} text-right`}>{fmtN(t.jumlah)}</td>
+                  <td className={`${tdClass} text-right font-medium`}>{fmtN(t.jumlah)}</td>
+                </tr>
+              ))}
+
+              {transactions.filter(t => t.type === 'pemasukan' || t.type === 'dana-masjid').length === 0 && !isSaldoAwalSet && (
+                <tr>
+                  <td className={`${tdClass} text-center text-gray-400`} colSpan={6}>Belum ada data pemasukan</td>
+                </tr>
+              )}
+
+              <tr className="bg-gray-50 border-t-2 border-gray-400">
+                <td className="border border-gray-300" />
+                <td className={`${tdClass} font-bold text-center`} colSpan={4}>Jumlah</td>
+                <td className={`${tdClass} text-right font-bold`}>
+                  {fmtN((isSaldoAwalSet ? parseFloat(saldoAwal) || 0 : 0) + getTotalPemasukan() + getTotalDanaMasjid())}
+                </td>
+              </tr>
+
+              {/* ── II. PENGELUARAN ── */}
+              <tr className="bg-gray-50">
+                <td className={`${tdClass} text-center font-bold`}>II</td>
+                <td className={`${tdClass} font-bold uppercase`} colSpan={4}>PENGELUARAN</td>
+                <td className="border border-gray-300" />
+              </tr>
+
+              {transactions.filter(t => t.type === 'pengeluaran').map((t, idx) => (
+                <tr key={t.id} className="border-b border-gray-200 hover:bg-gray-50/50">
+                  <td className={`${tdClass} text-center text-gray-500`}>{idx + 1}</td>
+                  <td className={tdClass}>{t.keterangan}</td>
+                  <td className={`${tdClass} text-center`}>1</td>
+                  <td className={`${tdClass} text-center`}>–</td>
+                  <td className={`${tdClass} text-right`}>{fmtN(t.jumlah)}</td>
+                  <td className={`${tdClass} text-right font-medium`}>{fmtN(t.jumlah)}</td>
+                </tr>
+              ))}
+
+              {transactions.filter(t => t.type === 'pengeluaran').length === 0 && (
+                <tr>
+                  <td className={`${tdClass} text-center text-gray-400`} colSpan={6}>Belum ada data pengeluaran</td>
+                </tr>
+              )}
+
+              <tr className="bg-gray-50 border-t-2 border-gray-400">
+                <td className="border border-gray-300" />
+                <td className={`${tdClass} font-bold text-center`} colSpan={4}>Jumlah</td>
+                <td className={`${tdClass} text-right font-bold`}>{fmtN(getTotalPengeluaran())}</td>
+              </tr>
+
+              {/* ── III. SALDO ── */}
+              <tr className="bg-green-50 border-t-2 border-gray-500">
+                <td className={`${tdClass} text-center font-bold text-green-800`}>III</td>
+                <td className={`${tdClass} font-bold text-green-800 uppercase`} colSpan={4}>SALDO</td>
+                <td className={`${tdClass} text-right font-black text-lg ${getSaldoAkhir() >= 0 ? 'text-green-700' : 'text-red-600'}`}>
+                  {getSaldoAkhir() < 0 ? `(${fmtN(Math.abs(getSaldoAkhir()))})` : fmtN(getSaldoAkhir())}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
+          <p className="text-xs text-gray-400 italic">
+            * Realisasi berdasarkan data transaksi yang telah diinput di laporan keuangan.
+          </p>
+        </div>
+      </Card>
+
+      {/* ══ PERBANDINGAN RAB vs REALISASI ══ */}
+      <Card className="rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white">
+        <div className="py-5 px-6 border-b border-gray-200 bg-gray-50 flex items-center gap-3">
+          <BarChart3 className="w-5 h-5 text-green-600" />
+          <p className="text-sm font-bold text-gray-700 uppercase tracking-wide">Perbandingan RAB vs Realisasi {currentYear}</p>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[500px] border-collapse">
+            <thead>
+              <tr>
+                <th className={`${thClass}`}>Uraian</th>
+                <th className={`${thClass} w-36`}>RAB (Rp)</th>
+                <th className={`${thClass} w-36`}>Realisasi (Rp)</th>
+                <th className={`${thClass} w-36`}>Selisih (Rp)</th>
+                <th className={`${thClass} w-24`}>%</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(() => {
+                const rabPem = totals.pemasukan;
+                const rabPel = totals.pengeluaran;
+                const rabSisa = sisa;
+                const realPem = getTotalPemasukan() + getTotalDanaMasjid() + (isSaldoAwalSet ? parseFloat(saldoAwal) || 0 : 0);
+                const realPel = getTotalPengeluaran();
+                const realSisa = getSaldoAkhir();
+                const pct = (real: number, plan: number) =>
+                  plan > 0 ? Math.round((real / plan) * 100) : 0;
+                const selisihColor = (s: number) => s >= 0 ? 'text-green-700' : 'text-red-600';
+                return (
+                  <>
+                    <tr className="border-b border-gray-200 hover:bg-gray-50/50">
+                      <td className={`${tdClass} font-semibold`}>Pemasukan</td>
+                      <td className={`${tdClass} text-right`}>{fmtN(rabPem)}</td>
+                      <td className={`${tdClass} text-right`}>{fmtN(realPem)}</td>
+                      <td className={`${tdClass} text-right font-medium ${selisihColor(realPem - rabPem)}`}>
+                        {realPem - rabPem >= 0 ? '+' : ''}{fmtN(realPem - rabPem)}
+                      </td>
+                      <td className={`${tdClass} text-center`}>{pct(realPem, rabPem)}%</td>
+                    </tr>
+                    <tr className="border-b border-gray-200 hover:bg-gray-50/50">
+                      <td className={`${tdClass} font-semibold`}>Pengeluaran</td>
+                      <td className={`${tdClass} text-right`}>{fmtN(rabPel)}</td>
+                      <td className={`${tdClass} text-right`}>{fmtN(realPel)}</td>
+                      <td className={`${tdClass} text-right font-medium ${selisihColor(rabPel - realPel)}`}>
+                        {rabPel - realPel >= 0 ? '+' : ''}{fmtN(rabPel - realPel)}
+                      </td>
+                      <td className={`${tdClass} text-center`}>{pct(realPel, rabPel)}%</td>
+                    </tr>
+                    <tr className="bg-green-50 border-t-2 border-gray-400">
+                      <td className={`${tdClass} font-bold text-green-800`}>Saldo / Sisa</td>
+                      <td className={`${tdClass} text-right font-bold`}>{fmtN(rabSisa)}</td>
+                      <td className={`${tdClass} text-right font-bold`}>{fmtN(realSisa)}</td>
+                      <td className={`${tdClass} text-right font-bold ${selisihColor(realSisa - rabSisa)}`}>
+                        {realSisa - rabSisa >= 0 ? '+' : ''}{fmtN(realSisa - rabSisa)}
+                      </td>
+                      <td className={`${tdClass} text-center font-bold`}>{pct(realSisa, rabSisa)}%</td>
+                    </tr>
+                  </>
+                );
+              })()}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
+          <p className="text-xs text-gray-400 italic">
+            * Kolom % menunjukkan persentase realisasi terhadap RAB. Selisih pengeluaran positif berarti hemat.
           </p>
         </div>
       </Card>
