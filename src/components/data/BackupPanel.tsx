@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Save, RotateCcw, Trash2, RefreshCw, Loader2 } from 'lucide-react';
+import { Save, RotateCcw, Trash2, RefreshCw, Loader2, Globe } from 'lucide-react';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
@@ -89,6 +89,27 @@ export const BackupPanel: React.FC = () => {
       });
     } finally {
       setLoadingStates(prev => ({ ...prev, [id]: false }));
+    }
+  };
+
+  const handleSetPublic = async (id: string) => {
+    setLoadingStates(prev => ({ ...prev, [`pub_${id}`]: true }));
+    try {
+      const backup = loadBackup(id);
+      if (!backup) throw new Error('Backup tidak ditemukan');
+
+      const publicName = `${backup.name} (Publik ${currentYear})`;
+      const payload = { ...backup.data, year: currentYear };
+      await saveBackup(publicName, payload, currentYear);
+
+      toast({
+        title: 'Berhasil',
+        description: `"${backup.name}" sekarang menjadi tampilan publik ${currentYear}`,
+      });
+    } catch {
+      toast({ title: 'Error', description: 'Gagal menjadikan publik', variant: 'destructive' });
+    } finally {
+      setLoadingStates(prev => ({ ...prev, [`pub_${id}`]: false }));
     }
   };
 
@@ -210,6 +231,20 @@ export const BackupPanel: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-1">
+                        <Button
+                          onClick={() => handleSetPublic(backup.id)}
+                          variant="outline"
+                          size="sm"
+                          className="text-xs border-green-300 text-green-700 hover:bg-green-50"
+                          disabled={loadingStates[`pub_${backup.id}`] || isLoading}
+                          title="Jadikan tampilan publik"
+                        >
+                          {loadingStates[`pub_${backup.id}`] ? (
+                            <Loader2 className="w-3 h-3 animate-spin" />
+                          ) : (
+                            <Globe className="w-3 h-3" />
+                          )}
+                        </Button>
                         <Button
                           onClick={() => handleLoadBackup(backup.id)}
                           variant="outline"
