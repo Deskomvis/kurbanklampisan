@@ -4,7 +4,7 @@ import { KeuanganTabs } from '@/components/keuangan/KeuanganTabs';
 import { useKeuangan } from '@/contexts/KeuanganContext';
 import { useKeuanganHandlers } from '@/hooks/useKeuanganHandlers';
 import { formatRupiah } from '@/utils/keuanganCalculations';
-import { Wallet, Landmark, TrendingUp, History, TrendingDown } from 'lucide-react';
+import { Wallet, Landmark, TrendingUp, History, TrendingDown, ArrowRightLeft } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -78,11 +78,49 @@ const Keuangan = () => {
                 isAuthenticated={isAuthenticated}
               />
 
+              {/* Pemasukan */}
+              <Card className="p-5 rounded-2xl bg-gradient-to-br from-white to-gray-50 border-gray-100 shadow-sm overflow-hidden relative">
+                <div className="relative z-10 flex items-center gap-3">
+                  <div className="p-3 bg-emerald-100 rounded-xl shrink-0">
+                    <TrendingUp className="w-5 h-5 text-emerald-700" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1.5 mb-0.5">
+                      <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Pemasukan</p>
+                    </div>
+                    <p className="text-2xl font-black text-gray-900 tracking-tight leading-none">
+                      {formatRupiah(getTotalPemasukan())}
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-emerald-100/30 rounded-full blur-3xl" />
+              </Card>
+
+              {/* Pengeluaran */}
+              <Card className="p-5 rounded-2xl bg-gradient-to-br from-white to-gray-50 border-gray-100 shadow-sm overflow-hidden relative">
+                <div className="relative z-10 flex items-center gap-3">
+                  <div className="p-3 bg-rose-100 rounded-xl shrink-0">
+                    <TrendingDown className="w-5 h-5 text-rose-700" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1.5 mb-0.5">
+                      <div className="w-1.5 h-1.5 bg-rose-500 rounded-full" />
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Pengeluaran</p>
+                    </div>
+                    <p className="text-2xl font-black text-gray-900 tracking-tight leading-none">
+                      {formatRupiah(getTotalPengeluaran())}
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-rose-100/30 rounded-full blur-3xl" />
+              </Card>
+
               {/* Saldo Akhir */}
               <Card className="p-5 rounded-2xl bg-gradient-to-br from-white to-gray-50 border-gray-100 shadow-sm overflow-hidden relative">
                 <div className="relative z-10 flex items-center gap-3">
                   <div className="p-3 bg-blue-100 rounded-xl shrink-0">
-                    <TrendingDown className="w-5 h-5 text-blue-700" />
+                    <ArrowRightLeft className="w-5 h-5 text-blue-700" />
                   </div>
                   <div>
                     <div className="flex items-center gap-1.5 mb-0.5">
