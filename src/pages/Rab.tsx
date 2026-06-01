@@ -879,9 +879,23 @@ const Rab = () => {
         </div>
 
         <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
-          <p className="text-xs text-gray-400 italic">
-            * Kolom % menunjukkan persentase realisasi terhadap RAB. Selisih pengeluaran positif berarti hemat.
-          </p>
+          {(() => {
+            const selisihPel = totals.pengeluaran - realTotals.pengeluaran;
+            const pctHemat = totals.pengeluaran > 0 ? Math.round(Math.abs(selisihPel) / totals.pengeluaran * 100) : 0;
+            const hemat = selisihPel >= 0;
+            return (
+              <p className="text-xs text-gray-500 italic">
+                * Realisasi pengeluaran tahun {currentYear}{' '}
+                {hemat ? (
+                  <>dapat <span className="font-semibold text-green-600">menghemat {pctHemat}%</span> dari RAB pengeluaran tahun ini ({(pctHemat > 0 ? `Rp ${selisihPel.toLocaleString('id-ID')}` : 'sesuai RAB')}).</>
+                ) : (
+                  <>
+                    <span className="font-semibold text-red-600">melebihi RAB sebesar {pctHemat}%</span> ({`Rp ${Math.abs(selisihPel).toLocaleString('id-ID')}`} di atas anggaran).
+                  </>
+                )}
+              </p>
+            );
+          })()}
         </div>
       </Card>
     </div>
