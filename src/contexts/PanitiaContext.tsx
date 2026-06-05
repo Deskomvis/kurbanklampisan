@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { panitiaData, PanitiaItem } from '@/data/panitiaData';
+import { panitiaData2026, PANITIA_2026_VERSION } from '@/data/panitiaData2026';
 
 const BASE_KEY_LIST = 'klampisan_kurban_panitia_list';
 const BASE_KEY_HEADER = 'klampisan_kurban_panitia_header';
@@ -106,11 +107,23 @@ export const PanitiaProvider: React.FC<{ children: ReactNode; year?: string }> =
   const infoKey = `${BASE_KEY_INFO}_${year}`;
   const pengesahKey = `${BASE_KEY_PENGESAH}_${year}`;
 
+  const defaultPanitiaList = year === '2026' ? panitiaData2026 : panitiaData;
+  const versionKey = year === '2026' ? `${listKey}_ver` : null;
+
   const [panitiaList, setPanitiaListState] = useState<PanitiaItem[]>(() => {
+    // For 2026: force refresh if version doesn't match
+    if (versionKey) {
+      const savedVer = localStorage.getItem(versionKey);
+      if (savedVer !== PANITIA_2026_VERSION) {
+        localStorage.setItem(listKey, JSON.stringify(defaultPanitiaList));
+        localStorage.setItem(versionKey, PANITIA_2026_VERSION);
+        return defaultPanitiaList;
+      }
+    }
     const saved = localStorage.getItem(listKey);
     if (saved) return JSON.parse(saved);
-    localStorage.setItem(listKey, JSON.stringify(panitiaData));
-    return panitiaData;
+    localStorage.setItem(listKey, JSON.stringify(defaultPanitiaList));
+    return defaultPanitiaList;
   });
 
   const [headerInfo, setHeaderInfoState] = useState<PanitiaHeaderInfo>(() => {
