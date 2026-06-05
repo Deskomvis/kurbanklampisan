@@ -4,10 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useRab, RabItem, RabCategory, RabData } from '@/contexts/RabContext';
 import { useRealisasi, RealisasiItem, RealisasiData } from '@/contexts/RealisasiContext';
+import { printRab } from '@/utils/printRab';
 import { useAuth } from '@/contexts/AuthContext';
 import { useYear } from '@/contexts/YearContext';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Check, X, Plus, Trash2, Calculator, RefreshCw, ChevronDown, FileX, BarChart3, RotateCcw } from 'lucide-react';
+import { Pencil, Check, X, Plus, Trash2, Calculator, RefreshCw, ChevronDown, FileX, BarChart3, RotateCcw, Printer } from 'lucide-react';
 import { useKeuangan } from '@/contexts/KeuanganContext';
 
 const uid = () => Math.random().toString(36).slice(2, 9);
@@ -442,34 +443,39 @@ const Rab = () => {
           </p>
         </div>
 
-        {isAuthenticated && (
-          <div className="flex items-center gap-2 flex-wrap">
-            {isEditing ? (
-              <>
-                <Button variant="outline" size="sm" onClick={cancelEdit} className="flex items-center gap-1.5 border-gray-200">
-                  <X className="w-4 h-4" /> Batal Edit
-                </Button>
-                <Button size="sm" onClick={saveEdit} className="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white">
-                  <Check className="w-4 h-4" /> Simpan Edit
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  size="sm"
-                  onClick={() => setShowAddForm(v => !v)}
-                  className={`flex items-center gap-1.5 ${showAddForm ? 'bg-gray-200 text-gray-700 hover:bg-gray-300' : 'bg-green-600 hover:bg-green-700 text-white'}`}
-                >
-                  {showAddForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                  {showAddForm ? 'Tutup' : 'Tambah Item'}
-                </Button>
-                <Button variant="outline" size="sm" onClick={startEdit} className="flex items-center gap-1.5 border-gray-200 text-gray-600 hover:text-gray-900">
-                  <Pencil className="w-4 h-4" /> Edit RAB
-                </Button>
-              </>
-            )}
-          </div>
-        )}
+        <div className="flex items-center gap-2 flex-wrap">
+          <Button variant="outline" size="sm" onClick={() => printRab(rabData, activeRealisasi, currentYear)} className="flex items-center gap-1.5 border-gray-200 text-gray-600 hover:text-gray-900">
+            <Printer className="w-4 h-4" /> Cetak
+          </Button>
+          {isAuthenticated && (
+            <>
+              {isEditing ? (
+                <>
+                  <Button variant="outline" size="sm" onClick={cancelEdit} className="flex items-center gap-1.5 border-gray-200">
+                    <X className="w-4 h-4" /> Batal Edit
+                  </Button>
+                  <Button size="sm" onClick={saveEdit} className="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white">
+                    <Check className="w-4 h-4" /> Simpan Edit
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    size="sm"
+                    onClick={() => setShowAddForm(v => !v)}
+                    className={`flex items-center gap-1.5 ${showAddForm ? 'bg-gray-200 text-gray-700 hover:bg-gray-300' : 'bg-green-600 hover:bg-green-700 text-white'}`}
+                  >
+                    {showAddForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                    {showAddForm ? 'Tutup' : 'Tambah Item'}
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={startEdit} className="flex items-center gap-1.5 border-gray-200 text-gray-600 hover:text-gray-900">
+                    <Pencil className="w-4 h-4" /> Edit RAB
+                  </Button>
+                </>
+              )}
+            </>
+          )}
+        </div>
       </div>
 
       {/* Quick-add form */}

@@ -4,12 +4,16 @@ import { KeuanganTabs } from '@/components/keuangan/KeuanganTabs';
 import { useKeuangan } from '@/contexts/KeuanganContext';
 import { useKeuanganHandlers } from '@/hooks/useKeuanganHandlers';
 import { formatRupiah } from '@/utils/keuanganCalculations';
-import { Wallet, Landmark, TrendingUp, History, TrendingDown, ArrowRightLeft } from 'lucide-react';
+import { Wallet, Landmark, TrendingUp, History, TrendingDown, ArrowRightLeft, Printer } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
+import { useYear } from '@/contexts/YearContext';
+import { printKeuangan } from '@/utils/printKeuangan';
 
 const Keuangan = () => {
   const { isAuthenticated } = useAuth();
+  const { currentYear } = useYear();
   const {
     transactions,
     saldoAwal,
@@ -48,9 +52,14 @@ const Keuangan = () => {
             Manajemen transparansi dana kurban, donasi masjid, dan operasional panitia.
           </p>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-lg border border-green-100 w-fit">
-          <Wallet className="w-4 h-4 text-green-600" />
-          <span className="text-xs font-semibold text-green-700">Audit Internal</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 rounded-lg border border-green-100">
+            <Wallet className="w-4 h-4 text-green-600" />
+            <span className="text-xs font-semibold text-green-700">Audit Internal</span>
+          </div>
+          <Button variant="outline" size="sm" onClick={() => printKeuangan(transactions, saldoAwal, isSaldoAwalSet, currentYear)} className="flex items-center gap-1.5 border-gray-200 text-gray-600 hover:text-gray-900">
+            <Printer className="w-4 h-4" /> Cetak
+          </Button>
         </div>
       </div>
       
