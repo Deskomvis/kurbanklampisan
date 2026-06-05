@@ -12,11 +12,11 @@ export const panitiaData2026: PanitiaItem[] = [
   },
   {
     jabatan: "Ketua",
-    nama: ["Bp. Dian Tri Widianto", "Ust. Andhika Bagas"]
+    nama: ["Bp. Sukimo", "Ust. Andhika", "Sdr. Dian Pratama"]
   },
   {
     jabatan: "Sekretaris",
-    nama: ["Bp. Reza Adi Nugroho", "Sdr. Al Fatih"]
+    nama: ["Bp. Reza Adi Nugroho", "Bp. Dian Tri Widianto"]
   },
   {
     jabatan: "Bendahara",
@@ -144,4 +144,4 @@ export const panitiaData2026: PanitiaItem[] = [
   }
 ];
 
-export const PANITIA_2026_VERSION = 'v2';
+export const PANITIA_2026_VERSION = 'v3';
