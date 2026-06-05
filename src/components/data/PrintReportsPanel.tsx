@@ -10,6 +10,7 @@ import { Printer } from 'lucide-react';
 import { generatePDF } from '@/utils/pdfGenerator';
 import { generateReportContent } from '@/utils/reportContentGenerator';
 import { ReportOptions, ReportOption, defaultReportOptions } from './ReportOptions';
+import { printPenerima } from '@/utils/printPenerima';
 
 export const PrintReportsPanel = () => {
   const { toast } = useToast();
@@ -103,7 +104,16 @@ export const PrintReportsPanel = () => {
             onCheckboxChange={handleCheckboxChange}
           />
 
-          <div className="pt-4 border-t">
+          <div className="pt-4 border-t space-y-3">
+            <Button
+              onClick={() => printPenerima(penerima)}
+              variant="outline"
+              className="w-full border-green-600 text-green-700 hover:bg-green-50"
+            >
+              <Printer className="w-4 h-4 mr-2" />
+              🖨️ Cetak Daftar Penerima (A4)
+            </Button>
+
             <Button
               onClick={handlePrintReports}
               disabled={isGenerating || reportOptions.every(option => !option.checked)}
