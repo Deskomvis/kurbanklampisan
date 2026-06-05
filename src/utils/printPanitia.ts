@@ -71,11 +71,11 @@ const renderRow = (no: number, item: PanitiaItem): string => {
 export const printPanitia = (panitiaList: PanitiaItem[], headerInfo: PanitiaHeaderInfo, year: string) => {
   const hijriah = parseInt(year) - 579;
 
-  // Group: first items are header items (Penanggung Jawab, Penasehat, Ketua, Sekretaris, Bendahara)
-  // rest is numbered list
-  const headerJabatan = ['Penanggung Jawab', 'Penasehat/Pelindung', 'Ketua', 'Sekretaris', 'Bendahara'];
-  const headerItems = panitiaList.filter(p => headerJabatan.includes(p.jabatan));
-  const bodyItems = panitiaList.filter(p => !headerJabatan.includes(p.jabatan));
+  // Penanggung Jawab & Penasehat → compact header rows (not numbered)
+  // Ketua, Sekretaris, Bendahara, and the rest → numbered body table
+  const compactJabatan = ['Penanggung Jawab', 'Penasehat/Pelindung'];
+  const headerItems = panitiaList.filter(p => compactJabatan.includes(p.jabatan));
+  const bodyItems = panitiaList.filter(p => !compactJabatan.includes(p.jabatan));
 
   const headerRows = headerItems.map(item => `
     <tr class="header-row">
