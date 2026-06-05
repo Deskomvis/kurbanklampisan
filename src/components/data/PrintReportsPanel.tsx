@@ -6,17 +6,22 @@ import { useToast } from '@/hooks/use-toast';
 import { usePenerima } from '@/contexts/PenerimaContext';
 import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
+import { usePanitia } from '@/contexts/PanitiaContext';
+import { useYear } from '@/contexts/YearContext';
 import { Printer } from 'lucide-react';
 import { generatePDF } from '@/utils/pdfGenerator';
 import { generateReportContent } from '@/utils/reportContentGenerator';
 import { ReportOptions, ReportOption, defaultReportOptions } from './ReportOptions';
 import { printPenerima } from '@/utils/printPenerima';
+import { printPanitia } from '@/utils/printPanitia';
 
 export const PrintReportsPanel = () => {
   const { toast } = useToast();
   const { penerima } = usePenerima();
   const { getTotalSapi, getTotalKambing, kelompokSapi, kurbanKambing } = useKelompokKurban();
   const { transactions, saldoAwal, getTotalPemasukan, getTotalPengeluaran } = useKeuangan();
+  const { panitiaList, headerInfo } = usePanitia();
+  const { currentYear } = useYear();
 
   const [reportOptions, setReportOptions] = useState<ReportOption[]>(defaultReportOptions);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -112,6 +117,14 @@ export const PrintReportsPanel = () => {
             >
               <Printer className="w-4 h-4 mr-2" />
               🖨️ Cetak Daftar Penerima (A4)
+            </Button>
+            <Button
+              onClick={() => printPanitia(panitiaList, headerInfo, currentYear)}
+              variant="outline"
+              className="w-full border-green-600 text-green-700 hover:bg-green-50"
+            >
+              <Printer className="w-4 h-4 mr-2" />
+              🖨️ Cetak Susunan Panitia (A4)
             </Button>
 
             <Button
