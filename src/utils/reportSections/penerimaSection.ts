@@ -1,68 +1,97 @@
 
 import { Penerima } from '@/contexts/PenerimaContext';
 
+const twoColumnTable = (items: Penerima[]): string => {
+  const half = Math.ceil(items.length / 2);
+  const left = items.slice(0, half);
+  const right = items.slice(half);
+
+  const cellStyle = 'border: 1px solid #333; padding: 4px 6px; font-size: 9pt;';
+  const thStyle = 'border: 1px solid #333; padding: 5px 6px; font-size: 9pt; font-weight: bold; background: #fff; text-align: center;';
+  const numStyle = `${cellStyle} text-align: center; width: 30px;`;
+  const blokStyle = `${cellStyle} text-align: center; width: 55px;`;
+
+  const rows = Array.from({ length: half }, (_, i) => {
+    const l = left[i];
+    const r = right[i];
+
+    const leftCells = l
+      ? `<td style="${numStyle}">${l.nomorPengambilan}</td>
+         <td style="${cellStyle}">${l.nama}</td>
+         <td style="${blokStyle}">${l.blok || '-'}</td>`
+      : `<td style="${numStyle}"></td><td style="${cellStyle}"></td><td style="${blokStyle}"></td>`;
+
+    const rightCells = r
+      ? `<td style="${numStyle}">${r.nomorPengambilan}</td>
+         <td style="${cellStyle}">${r.nama}</td>
+         <td style="${blokStyle}">${r.blok || '-'}</td>`
+      : `<td style="${numStyle}"></td><td style="${cellStyle}"></td><td style="${blokStyle}"></td>`;
+
+    const bg = i % 2 === 0 ? '#f9f9f9' : '#ffffff';
+    return `<tr style="background:${bg};">
+      ${leftCells}
+      <td style="width:12px; border:none;"></td>
+      ${rightCells}
+    </tr>`;
+  });
+
+  return `
+    <table style="width:100%; border-collapse: collapse; table-layout: fixed;">
+      <thead>
+        <tr>
+          <th style="${thStyle} width:30px;">No</th>
+          <th style="${thStyle}">Nama</th>
+          <th style="${thStyle} width:55px;">Blok</th>
+          <td style="width:12px; border:none;"></td>
+          <th style="${thStyle} width:30px;">No</th>
+          <th style="${thStyle}">Nama</th>
+          <th style="${thStyle} width:55px;">Blok</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows.join('')}
+      </tbody>
+    </table>
+  `;
+};
+
 export const generatePenerimaSection = (penerima: Penerima[]): string => {
   const rt01 = penerima.filter(p => p.rt === '01');
   const rt02 = penerima.filter(p => p.rt === '02');
   const rt00 = penerima.filter(p => p.rt === '00');
   const tambahan = penerima.filter(p => p.rt === 'tambahan');
 
-  const sections: Array<{ label: string; data: Penerima[]; headerColor: string }> = [
-    { label: 'RT 01', data: rt01, headerColor: '#16a34a' },
-    { label: 'RT 02', data: rt02, headerColor: '#16a34a' },
+  const sections: Array<{ label: string; rtLabel: string; data: Penerima[] }> = [
+    { label: 'RT 01 / 10 KLAMPISAN', rtLabel: 'RT 01', data: rt01 },
+    { label: 'RT 02 / 10 KLAMPISAN', rtLabel: 'RT 02', data: rt02 },
   ];
-  if (tambahan.length > 0) sections.push({ label: 'PENERIMA TAMBAHAN', data: tambahan, headerColor: '#16a34a' });
-  if (rt00.length > 0) sections.push({ label: 'DILUAR RT (RT 00)', data: rt00, headerColor: '#d97706' });
-
-  const summaryCards = [
-    { label: 'Total Penerima', value: penerima.length, color: '#16a34a' },
-    { label: 'RT 01', value: rt01.length, color: '#16a34a' },
-    { label: 'RT 02', value: rt02.length, color: '#16a34a' },
-    { label: 'Diluar RT', value: rt00.length, color: '#d97706' },
-  ];
+  if (tambahan.length > 0) sections.push({ label: 'PENERIMA TAMBAHAN', rtLabel: 'Tambahan', data: tambahan });
+  if (rt00.length > 0) sections.push({ label: 'DILUAR RT (RT 00)', rtLabel: 'Luar RT', data: rt00 });
 
   return `
     <div style="margin-bottom: 25px;">
-      <h2 style="color: #16a34a; border-left: 4px solid #16a34a; padding-left: 8px; margin-bottom: 15px; font-size: 14px;">📋 Daftar Penerima Daging</h2>
 
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 15px;">
-        ${summaryCards.map(c => `
-          <div style="background: ${c.color}; color: white; padding: 8px; border-radius: 6px; text-align: center;">
-            <div style="font-size: 14px; font-weight: bold;">${c.value}</div>
-            <div style="font-size: 9px;">${c.label}</div>
+      ${sections.filter(s => s.data.length > 0).map(section => `
+        <div style="page-break-before: auto; margin-bottom: 30px;">
+          <!-- Header dokumen -->
+          <div style="text-align: center; margin-bottom: 12px;">
+            <div style="font-size: 12pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">
+              DAFTAR PENERIMA DAGING KURBAN
+            </div>
+            <div style="font-size: 11pt; font-weight: bold; text-transform: uppercase;">
+              ${section.label}
+            </div>
           </div>
-        `).join('')}
-      </div>
 
-      ${sections.map(section => `
-        <div style="page-break-inside: avoid; margin-bottom: 15px;">
-          <h3 style="color: ${section.headerColor}; margin-bottom: 8px; font-size: 12px;">${section.label}</h3>
-          <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 9px;">
-            <thead>
-              <tr style="background: ${section.headerColor}; color: white;">
-                <th style="border: 1px solid #ddd; padding: 6px; text-align: left; width: 12%;">No Pengambilan</th>
-                <th style="border: 1px solid #ddd; padding: 6px; text-align: left;">Nama</th>
-                <th style="border: 1px solid #ddd; padding: 6px; text-align: left; width: 15%;">Blok</th>
-                <th style="border: 1px solid #ddd; padding: 6px; text-align: left; width: 15%;">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${section.data.map((p, index) => `
-                <tr style="background: ${index % 2 === 0 ? '#f9fafb' : 'white'};">
-                  <td style="border: 1px solid #ddd; padding: 6px;">${p.nomorPengambilan}</td>
-                  <td style="border: 1px solid #ddd; padding: 6px;">${p.nama}</td>
-                  <td style="border: 1px solid #ddd; padding: 6px;">${p.blok || '-'}</td>
-                  <td style="border: 1px solid #ddd; padding: 6px;">
-                    <span style="background: ${p.sudahMenerima ? '#16a34a' : '#f59e0b'}; color: white; padding: 2px 4px; border-radius: 3px; font-size: 8px;">
-                      ${p.sudahMenerima ? '✅ Sudah' : '⏳ Belum'}
-                    </span>
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
+          ${twoColumnTable(section.data)}
+
+          <!-- Jumlah -->
+          <div style="margin-top: 6px; text-align: right; font-size: 9pt; font-weight: bold;">
+            Jumlah: ${section.data.length} orang
+          </div>
         </div>
       `).join('')}
+
     </div>
   `;
 };
