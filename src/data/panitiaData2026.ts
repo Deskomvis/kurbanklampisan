@@ -8,7 +8,7 @@ export const panitiaData2026: PanitiaItem[] = [
   },
   {
     jabatan: "Penasehat/Pelindung",
-    nama: ["Bp. Moch Ruri", "Bp. Parjan", "Bp. Tukimo", "Bp. Sukiyatno"]
+    nama: ["Bp. Moch Ruri", "Bp. Parjan", "Bp. Sakimo", "Bp. Sukiyatno", "Bp. Gino"]
   },
   {
     jabatan: "Ketua",
@@ -36,19 +36,7 @@ export const panitiaData2026: PanitiaItem[] = [
   },
   {
     jabatan: "Koordinator Shalat Idul Adha",
-    nama: ["Ust. Andika Bagas"]
-  },
-  {
-    jabatan: "Imam / Khotib",
-    nama: ["Ust. Andika"]
-  },
-  {
-    jabatan: "Bilal",
-    nama: ["Sdr. Abi"]
-  },
-  {
-    jabatan: "Laporan",
-    nama: ["Sdr. Moch Al Fatih"]
+    nama: ["Ust. Andhika"]
   },
   {
     jabatan: "Koordinator Pelaksanaan Kurban",
@@ -156,4 +144,4 @@ export const panitiaData2026: PanitiaItem[] = [
   }
 ];
 
-export const PANITIA_2026_VERSION = 'v1';
+export const PANITIA_2026_VERSION = 'v2';

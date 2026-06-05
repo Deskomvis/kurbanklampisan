@@ -34,7 +34,7 @@ const getDefaultHeader = (year: string): PanitiaHeaderInfo => {
   const hijriah = parseInt(year) - 579;
   return {
     judulEvent: `Panitia Hari Raya Idul Adha ${hijriah} H & Penyembelihan Hewan Kurban`,
-    waktuSidang: '',
+    waktuSidang: year === '2026' ? 'Sabtu, 8 Mei 2026' : '',
     sekretariat: 'Masjid Istiqomah Klampisan',
     legalitas: "Pengurus Ta'mir Masjid",
   };
@@ -127,6 +127,15 @@ export const PanitiaProvider: React.FC<{ children: ReactNode; year?: string }> =
   });
 
   const [headerInfo, setHeaderInfoState] = useState<PanitiaHeaderInfo>(() => {
+    // For 2026: force reset header if version doesn't match (to pick up waktuSidang)
+    if (year === '2026' && versionKey) {
+      const savedVer = localStorage.getItem(versionKey);
+      if (savedVer !== PANITIA_2026_VERSION) {
+        const def = getDefaultHeader(year);
+        localStorage.setItem(headerKey, JSON.stringify(def));
+        return def;
+      }
+    }
     const saved = localStorage.getItem(headerKey);
     if (saved) return JSON.parse(saved);
     return getDefaultHeader(year);
