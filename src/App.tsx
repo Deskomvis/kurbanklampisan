@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { YearProvider, useYear } from "./contexts/YearContext";
 import { PenerimaProvider } from "./contexts/PenerimaContext";
 import { KelompokKurbanProvider } from "./contexts/KelompokKurbanContext";
@@ -18,6 +18,9 @@ import { BackupProvider } from "./contexts/BackupContext";
 import { CollaborativeWrapper } from "./components/collaborative/CollaborativeWrapper";
 import AutoSaveWatcher from "./components/AutoSaveWatcher";
 import Layout from "./components/Layout";
+import VillageLayout from "./components/VillageLayout";
+import Home from "./pages/desa/Home";
+import Agustusan from "./pages/desa/Agustusan";
 import Dashboard from "./pages/Dashboard";
 import Panitia from "./pages/Panitia";
 import KelompokKurban from "./pages/KelompokKurban";
@@ -68,9 +71,15 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter>
-              <Layout>
-                <Routes>
-                  <Route path="/" element={<Navigate to="/kurban" replace />} />
+              <Routes>
+                {/* Portal Desa Klampisan */}
+                <Route element={<VillageLayout />}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/agustusan" element={<Agustusan />} />
+                </Route>
+
+                {/* Aplikasi Kurban */}
+                <Route element={<Layout />}>
                   <Route path="/kurban" element={<Dashboard />} />
                   <Route path="/kurban/panitia" element={<Panitia />} />
                   <Route path="/kurban/kelompok-kurban" element={<KelompokKurban />} />
@@ -83,10 +92,11 @@ const App = () => (
                   <Route path="/kurban/cetak" element={<Cetak />} />
                   <Route path="/kurban/cetak/kartu-daging" element={<CetakKartuDaging />} />
                   <Route path="/kurban/pasal-musyawarah" element={<PasalMusyawarah />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Layout>
+                </Route>
+
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
             </BrowserRouter>
           </YearAwareProviders>
         </YearProvider>

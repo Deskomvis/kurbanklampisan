@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Outlet } from 'react-router-dom';
 import {
   Home,
   Users,
@@ -26,11 +26,7 @@ import { useYear } from '@/contexts/YearContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { LoginDialog } from '@/components/auth/LoginDialog';
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-const Layout = ({ children }: LayoutProps) => {
+const Layout = () => {
   const location = useLocation();
   const { currentYear } = useYear();
   const { isAuthenticated, logout } = useAuth();
@@ -40,7 +36,7 @@ const Layout = ({ children }: LayoutProps) => {
   const [loginOpen, setLoginOpen] = useState(false);
 
   if (location.pathname === '/kurban/cetak/kartu-daging') {
-    return <>{children}</>;
+    return <Outlet />;
   }
 
   useEffect(() => {
@@ -239,7 +235,7 @@ const Layout = ({ children }: LayoutProps) => {
       {/* Main Content Area */}
       <main className="relative z-10 container mx-auto px-4 md:px-6 py-6 md:py-8">
         <div className="max-w-7xl mx-auto">
-          {children}
+          <Outlet />
         </div>
       </main>
 
