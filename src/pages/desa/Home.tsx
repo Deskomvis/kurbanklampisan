@@ -16,6 +16,7 @@ import {
   Building2,
   TreePine,
   Navigation,
+  Landmark,
 } from 'lucide-react';
 
 /* ─── Data ─────────────────────────────────────────────── */
@@ -29,27 +30,43 @@ const identitas = [
   { label: 'Wilayah', value: 'RW 10 · RT 01 & RT 02' },
 ];
 
-const fasilitas = [
+const fasilitasData = [
   {
+    kategori: 'Kesehatan',
     ikon: Hospital,
-    judul: 'Fasilitas Kesehatan',
     bg: 'bg-rose-50 text-rose-700',
-    konten:
-      'RS/RSU Fitri Candra berada di kawasan Jl. Brigjend Katamso, mendukung kebutuhan layanan kesehatan warga Klampisan dan sekitarnya.',
+    items: [
+      { nama: 'RS Fitri Candra', rt: 'RT 01' },
+      { nama: 'RS Astrini', rt: 'RT 01' },
+    ],
   },
   {
+    kategori: 'Pendidikan',
     ikon: GraduationCap,
-    judul: 'Fasilitas Pendidikan',
     bg: 'bg-blue-50 text-blue-700',
-    konten:
-      'Junior Modern School / PAUD tersedia di lingkungan untuk mendukung pendidikan anak usia dini bagi keluarga sekitar.',
+    items: [
+      { nama: 'Junior Modern School / PAUD', rt: 'RT 02' },
+      { nama: 'TK/KB Anis', rt: 'RT 01' },
+      { nama: 'SMK PGRI 2 Wonogiri', rt: 'RT 01' },
+    ],
   },
   {
+    kategori: 'Transportasi',
     ikon: Car,
-    judul: 'Akses Transportasi',
     bg: 'bg-amber-50 text-amber-700',
-    konten:
-      'Dilalui jalur utama Wonogiri–Sukoharjo/Solo. Mudah dijangkau kendaraan pribadi dan angkutan umum dari berbagai arah.',
+    items: [
+      { nama: 'Garasi & Pool Bus AGRAMAS', rt: 'RT 02' },
+      { nama: 'Terminal Lama Wonogiri', rt: 'RT 01' },
+    ],
+  },
+  {
+    kategori: 'Rumah Ibadah',
+    ikon: Landmark,
+    bg: 'bg-green-50 text-green-700',
+    items: [
+      { nama: 'Masjid Istiqomah', rt: 'RT 01' },
+      { nama: 'Masjid Ringin Agung', rt: 'RT 02' },
+    ],
   },
 ];
 
@@ -297,16 +314,27 @@ const Home = () => (
             Fasilitas Umum
           </h2>
         </div>
-        <div className="grid md:grid-cols-3 gap-5">
-          {fasilitas.map((f) => {
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {fasilitasData.map((f) => {
             const Icon = f.ikon;
             return (
-              <article key={f.judul} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-                <span className={`inline-flex p-2.5 rounded-xl ${f.bg} mb-4`} aria-hidden="true">
-                  <Icon className="w-5 h-5" />
-                </span>
-                <h3 className="font-bold text-gray-900 mb-2">{f.judul}</h3>
-                <p className="text-sm text-gray-700 leading-relaxed">{f.konten}</p>
+              <article key={f.kategori} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <div className="flex items-center gap-2.5 mb-4">
+                  <span className={`p-2.5 rounded-xl ${f.bg} shrink-0`} aria-hidden="true">
+                    <Icon className="w-4 h-4" />
+                  </span>
+                  <h3 className="font-bold text-gray-900 text-sm">{f.kategori}</h3>
+                </div>
+                <ul className="space-y-2.5">
+                  {f.items.map((item) => (
+                    <li key={item.nama} className="flex items-start justify-between gap-2">
+                      <span className="text-sm text-gray-700 leading-snug">{item.nama}</span>
+                      <span className="shrink-0 text-[11px] font-semibold text-green-700 bg-green-50 border border-green-100 px-2 py-0.5 rounded-full">
+                        {item.rt}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </article>
             );
           })}
