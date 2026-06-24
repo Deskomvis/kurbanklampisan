@@ -25,7 +25,7 @@ const Cetak = () => {
   }
 
   const handleOpenPrintCards = () => {
-    const url = `/cetak/kartu-daging?from=${fromNum}&to=${toNum}`;
+    const url = `/kurban/cetak/kartu-daging?from=${fromNum}&to=${toNum}`;
     window.open(url, '_blank');
   };
 

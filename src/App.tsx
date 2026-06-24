@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { YearProvider, useYear } from "./contexts/YearContext";
 import { PenerimaProvider } from "./contexts/PenerimaContext";
 import { KelompokKurbanProvider } from "./contexts/KelompokKurbanContext";
@@ -70,18 +70,19 @@ const App = () => (
             <BrowserRouter>
               <Layout>
                 <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/panitia" element={<Panitia />} />
-                  <Route path="/kelompok-kurban" element={<KelompokKurban />} />
-                  <Route path="/keuangan" element={<Keuangan />} />
-                  <Route path="/penerima-daging" element={<PenerimaDaging />} />
-                  <Route path="/pembagian-daging" element={<PembagianDaging />} />
-                  <Route path="/laporan" element={<Laporan />} />
-                  <Route path="/rab" element={<Rab />} />
-                  <Route path="/data-management" element={<DataManagement />} />
-                  <Route path="/cetak" element={<Cetak />} />
-                  <Route path="/cetak/kartu-daging" element={<CetakKartuDaging />} />
-                  <Route path="/pasal-musyawarah" element={<PasalMusyawarah />} />
+                  <Route path="/" element={<Navigate to="/kurban" replace />} />
+                  <Route path="/kurban" element={<Dashboard />} />
+                  <Route path="/kurban/panitia" element={<Panitia />} />
+                  <Route path="/kurban/kelompok-kurban" element={<KelompokKurban />} />
+                  <Route path="/kurban/keuangan" element={<Keuangan />} />
+                  <Route path="/kurban/penerima-daging" element={<PenerimaDaging />} />
+                  <Route path="/kurban/pembagian-daging" element={<PembagianDaging />} />
+                  <Route path="/kurban/laporan" element={<Laporan />} />
+                  <Route path="/kurban/rab" element={<Rab />} />
+                  <Route path="/kurban/data-management" element={<DataManagement />} />
+                  <Route path="/kurban/cetak" element={<Cetak />} />
+                  <Route path="/kurban/cetak/kartu-daging" element={<CetakKartuDaging />} />
+                  <Route path="/kurban/pasal-musyawarah" element={<PasalMusyawarah />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

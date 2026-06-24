@@ -39,7 +39,7 @@ const Layout = ({ children }: LayoutProps) => {
   const [scrolled, setScrolled] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
 
-  if (location.pathname === '/cetak/kartu-daging') {
+  if (location.pathname === '/kurban/cetak/kartu-daging') {
     return <>{children}</>;
   }
 
@@ -50,17 +50,17 @@ const Layout = ({ children }: LayoutProps) => {
   }, []);
 
   const allNavItems = [
-    { path: '/', label: 'Dashboard', icon: Home },
-    { path: '/panitia', label: 'Panitia', icon: Users },
-    { path: '/kelompok-kurban', label: 'Kelompok Kurban', icon: Calendar },
-    { path: '/keuangan', label: 'Keuangan', icon: DollarSign },
-    { path: '/penerima-daging', label: 'Data Penerima', icon: UserCheck },
-    { path: '/pembagian-daging', label: 'Pembagian', icon: Share2 },
-    { path: '/laporan', label: 'Laporan', icon: FileText },
-    { path: '/rab', label: 'RAB Estimasi', icon: Calculator },
-    { path: '/pasal-musyawarah', label: 'Pasal Musyawarah', icon: Scale },
-    { path: '/cetak', label: 'Menu Cetak', icon: Printer, adminOnly: true },
-    { path: '/data-management', label: 'Manajemen Data', icon: Database, adminOnly: true },
+    { path: '/kurban', label: 'Dashboard', icon: Home },
+    { path: '/kurban/panitia', label: 'Panitia', icon: Users },
+    { path: '/kurban/kelompok-kurban', label: 'Kelompok Kurban', icon: Calendar },
+    { path: '/kurban/keuangan', label: 'Keuangan', icon: DollarSign },
+    { path: '/kurban/penerima-daging', label: 'Data Penerima', icon: UserCheck },
+    { path: '/kurban/pembagian-daging', label: 'Pembagian', icon: Share2 },
+    { path: '/kurban/laporan', label: 'Laporan', icon: FileText },
+    { path: '/kurban/rab', label: 'RAB Estimasi', icon: Calculator },
+    { path: '/kurban/pasal-musyawarah', label: 'Pasal Musyawarah', icon: Scale },
+    { path: '/kurban/cetak', label: 'Menu Cetak', icon: Printer, adminOnly: true },
+    { path: '/kurban/data-management', label: 'Manajemen Data', icon: Database, adminOnly: true },
   ];
 
   const navItems = allNavItems.filter(item => !item.adminOnly || isAuthenticated);
@@ -86,7 +86,7 @@ const Layout = ({ children }: LayoutProps) => {
             "flex items-center justify-between transition-all",
             scrolled ? "py-2" : "py-3"
           )}>
-            <Link to="/" className="flex items-center group">
+            <Link to="/kurban" className="flex items-center group">
               <img
                 src="/logo.png"
                 alt="Masjid Istiqomah Klampisan"
