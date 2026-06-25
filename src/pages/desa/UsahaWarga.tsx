@@ -163,27 +163,30 @@ const UsahaWarga = () => {
         {/* Search, Category Filters, and RT Filters */}
         <div className="bg-white border border-stone-200 rounded-2xl p-4 md:p-6 shadow-sm mb-8 space-y-4">
           <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" aria-hidden="true" />
+            <label htmlFor="usaha-search" className="sr-only">Cari usaha, produk unggulan, atau jasa</label>
             <input
+              id="usaha-search"
               type="text"
               placeholder="Cari usaha, produk unggulan, atau jasa..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all text-stone-850"
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-stone-200 bg-stone-50 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all text-stone-800"
             />
           </div>
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-2">
             {/* Category Filter */}
             <div className="flex flex-wrap items-center gap-1.5">
-              <span className="text-xs font-bold text-stone-500 flex items-center gap-1 mr-1">
-                <Tag className="w-3.5 h-3.5" /> Kategori:
+              <span className="text-sm font-bold text-stone-600 flex items-center gap-1 mr-1">
+                <Tag className="w-3.5 h-3.5" aria-hidden="true" /> Kategori:
               </span>
               {['Semua', 'Kuliner', 'Toko Kelontong', 'Bengkel', 'Jasa & Servis'].map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setCategoryFilter(cat)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                  aria-pressed={categoryFilter === cat}
+                  className={`px-3.5 py-2 rounded-lg text-sm font-semibold border transition-all min-h-[44px] ${
                     categoryFilter === cat
                       ? 'bg-emerald-800 text-white border-emerald-800 shadow-sm'
                       : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-700'
@@ -195,15 +198,16 @@ const UsahaWarga = () => {
             </div>
 
             {/* RT Filter */}
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className="text-xs font-bold text-stone-500 flex items-center gap-1 mr-1">
-                <MapPin className="w-3.5 h-3.5" /> Wilayah:
+            <div className="flex items-center gap-1.5 shrink-0 flex-wrap">
+              <span className="text-sm font-bold text-stone-600 flex items-center gap-1 mr-1">
+                <MapPin className="w-3.5 h-3.5" aria-hidden="true" /> Wilayah:
               </span>
               {['Semua', 'RT 01', 'RT 02'].map((rt) => (
                 <button
                   key={rt}
                   onClick={() => setRtFilter(rt)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                  aria-pressed={rtFilter === rt}
+                  className={`px-3.5 py-2 rounded-lg text-sm font-semibold border transition-all min-h-[44px] ${
                     rtFilter === rt
                       ? 'bg-emerald-800 text-white border-emerald-800 shadow-sm'
                       : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-700'
@@ -255,21 +259,21 @@ const UsahaWarga = () => {
                       {b.name}
                     </h2>
 
-                    <p className="text-sm text-stone-600 leading-relaxed mb-4">
+                    <p className="text-base text-stone-600 leading-relaxed mb-4">
                       {b.description}
                     </p>
 
                     {b.featuredProduct && (
                       <div className="bg-stone-50 border border-stone-100 rounded-xl p-3 mb-4">
-                        <h4 className="text-[10px] font-bold uppercase tracking-wider text-stone-500">Menu/Produk Unggulan:</h4>
-                        <p className="text-xs font-semibold text-stone-850 mt-0.5">{b.featuredProduct}</p>
+                        <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500">Menu/Produk Unggulan:</h4>
+                        <p className="text-sm font-semibold text-stone-800 mt-0.5">{b.featuredProduct}</p>
                       </div>
                     )}
                   </div>
 
                   <div className="pt-4 border-t border-stone-100 space-y-3">
-                    <div className="flex items-center gap-2 text-xs text-stone-500">
-                      <Clock className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                    <div className="flex items-center gap-2 text-sm text-stone-600">
+                      <Clock className="w-3.5 h-3.5 text-stone-400 shrink-0" aria-hidden="true" />
                       <span>{b.hours}</span>
                     </div>
 
@@ -277,9 +281,10 @@ const UsahaWarga = () => {
                       href={`https://wa.me/${b.whatsapp}?text=Halo%20${encodeURIComponent(b.name)}%2C%20saya%20tertarik%20dengan%20produk%2Fjasa%20Anda...`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center gap-2 py-2.5 bg-emerald-800 text-white text-xs font-bold rounded-xl hover:bg-emerald-900 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-700"
+                      aria-label={`Hubungi ${b.name} via WhatsApp`}
+                      className="w-full inline-flex items-center justify-center gap-2 py-3 bg-emerald-800 text-white text-base font-bold rounded-xl hover:bg-emerald-900 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-700 min-h-[44px]"
                     >
-                      <MessageCircle className="w-4 h-4 fill-current" /> Hubungi via WhatsApp
+                      <MessageCircle className="w-4 h-4 fill-current" aria-hidden="true" /> Hubungi via WhatsApp
                     </a>
                   </div>
                 </div>
@@ -290,7 +295,7 @@ const UsahaWarga = () => {
           <div className="bg-white border border-stone-200 rounded-2xl p-12 text-center">
             <Store className="w-12 h-12 text-stone-350 mx-auto mb-4" />
             <h3 className="font-bold text-stone-800 text-lg mb-1">Usaha tidak ditemukan</h3>
-            <p className="text-sm text-stone-500">
+            <p className="text-base text-stone-500">
               Tidak ada pelaku UMKM dengan kriteria pencarian dan kategori tersebut.
             </p>
           </div>
@@ -302,13 +307,13 @@ const UsahaWarga = () => {
             <h3 className="text-xl md:text-2xl font-extrabold mb-2">
               Punya Usaha di Lingkungan Klampisan?
             </h3>
-            <p className="text-sm text-emerald-100 leading-relaxed">
+            <p className="text-base text-emerald-100 leading-relaxed">
               Daftarkan usaha kuliner, toko kelontong, jasa, bengkel, atau perdagangan Anda secara gratis di portal web resmi warga ini agar lebih dikenal dan mudah dihubungi oleh tetangga sekitar.
             </p>
           </div>
           <button
             onClick={() => alert('Formulir pendaftaran usaha dikirim ke Admin RT/RW. Siapkan data berupa Foto Usaha, Alamat RT, WhatsApp, dan Keterangan Ringkas.')}
-            className="relative z-10 shrink-0 inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-emerald-950 font-bold px-6 py-3.5 rounded-xl transition-colors shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-emerald-900"
+            className="relative z-10 shrink-0 inline-flex items-center gap-2 bg-lime-400 hover:bg-lime-300 text-emerald-950 font-bold px-6 py-3.5 rounded-xl transition-colors shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-lime-400 focus:ring-offset-2 focus:ring-offset-emerald-900 min-h-[44px]"
           >
             <Plus className="w-4 h-4" /> Daftarkan Usaha Sekarang
           </button>

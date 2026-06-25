@@ -288,10 +288,10 @@ const Home = () => {
               key={item.label}
               className="bg-stone-50 border border-stone-100 rounded-xl px-4 py-3"
             >
-              <dt className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide mb-1">
+              <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
                 {item.label}
               </dt>
-              <dd className="text-sm font-bold text-gray-900">{item.value}</dd>
+              <dd className="text-base font-bold text-gray-900">{item.value}</dd>
             </div>
           ))}
         </dl>
@@ -334,8 +334,8 @@ const Home = () => {
                       <Icon className="w-4 h-4" />
                     </span>
                     <div>
-                      <p className="font-bold text-white text-sm mb-0.5">{item.judul}</p>
-                      <p className="text-emerald-200 text-sm leading-relaxed">{item.desc}</p>
+                      <p className="font-bold text-white text-base mb-0.5">{item.judul}</p>
+                      <p className="text-emerald-200 text-base leading-relaxed">{item.desc}</p>
                     </div>
                   </li>
                 );
@@ -399,13 +399,13 @@ const Home = () => {
                   <span className={`p-2.5 rounded-xl ${f.bg} shrink-0`} aria-hidden="true">
                     <Icon className="w-4 h-4" />
                   </span>
-                  <h3 className="font-bold text-gray-900 text-sm">{f.kategori}</h3>
+                  <h3 className="font-bold text-gray-900 text-base">{f.kategori}</h3>
                 </div>
                 <ul className="space-y-2.5">
                   {f.items.map((item) => (
                     <li key={item.nama} className="flex items-start justify-between gap-2">
-                      <span className="text-sm text-gray-700 leading-snug">{item.nama}</span>
-                      <span className="shrink-0 text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
+                      <span className="text-base text-gray-700 leading-snug">{item.nama}</span>
+                      <span className="shrink-0 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
                         {item.rt}
                       </span>
                     </li>
@@ -442,8 +442,8 @@ const Home = () => {
               <li key={u.nama} className="flex items-center gap-3 bg-stone-50 border border-stone-100 rounded-xl px-4 py-3">
                 <span className="text-xl" role="img" aria-label={u.kategori}>{u.emoji}</span>
                 <div>
-                  <span className="font-semibold text-gray-900 text-sm">{u.nama}</span>
-                  <span className="block text-xs text-gray-500">{u.kategori}</span>
+                  <span className="font-semibold text-gray-900 text-base">{u.nama}</span>
+                  <span className="block text-sm text-gray-600">{u.kategori}</span>
                 </div>
               </li>
             ))}
@@ -452,7 +452,7 @@ const Home = () => {
           <h3 className="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">Jenis Usaha Lainnya</h3>
           <div className="grid grid-cols-2 gap-2">
             {jenisUsaha.map((j) => (
-              <div key={j.label} className="flex items-center gap-2 text-sm text-gray-700 bg-stone-50 border border-stone-100 rounded-lg px-3 py-2">
+              <div key={j.label} className="flex items-center gap-2 text-base text-gray-700 bg-stone-50 border border-stone-100 rounded-lg px-3 py-2.5">
                 <span role="img" aria-label={j.label} className="text-base">{j.emoji}</span>
                 {j.label}
               </div>
@@ -472,7 +472,7 @@ const Home = () => {
           </p>
           <ul className="space-y-2">
             {kegiatanSosial.map((k) => (
-              <li key={k} className="flex items-center gap-3 text-sm text-gray-700">
+              <li key={k} className="flex items-center gap-3 text-base text-gray-700">
                 <span
                   className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0"
                   aria-hidden="true"
@@ -485,7 +485,7 @@ const Home = () => {
           </ul>
 
           <div className="mt-6 p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
-            <p className="text-sm text-emerald-800 leading-relaxed">
+            <p className="text-base text-emerald-800 leading-relaxed">
               <strong>Dokumentasi kegiatan</strong> warga penting untuk memperkuat identitas
               Klampisan sebagai lingkungan yang rukun, aktif, dan peduli kemajuan bersama.
             </p>
@@ -509,7 +509,7 @@ const Home = () => {
               Kegiatan Warga
             </h2>
           </div>
-          <p className="text-gray-600 text-sm max-w-xs hidden sm:block text-right">
+          <p className="text-gray-600 text-base max-w-xs hidden sm:block text-right">
             Dua kegiatan tahunan yang melibatkan seluruh warga Klampisan
           </p>
         </div>
@@ -544,8 +544,8 @@ const Home = () => {
                       </span>
                       <h3 className="text-xl font-extrabold text-gray-900">{k.title}</h3>
                     </div>
-                    <p className="text-gray-700 text-sm leading-relaxed flex-1">{k.desc}</p>
-                    <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 group-hover:gap-3 transition-all">
+                    <p className="text-gray-700 text-base leading-relaxed flex-1">{k.desc}</p>
+                    <span className="mt-5 inline-flex items-center gap-1.5 text-base font-bold text-emerald-700 group-hover:gap-3 transition-all">
                       Selengkapnya <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </span>
                   </div>
@@ -583,7 +583,7 @@ const Home = () => {
 
           <div className="mt-6 flex items-start gap-3 p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
             <Navigation className="w-5 h-5 text-emerald-700 mt-0.5 shrink-0" aria-hidden="true" />
-            <p className="text-sm text-emerald-800">
+            <p className="text-base text-emerald-800">
               <strong>Akses strategis:</strong> Dilalui jalur utama Wonogiri–Sukoharjo/Solo,
               menjadikan Klampisan sebagai salah satu titik lintasan penting di Kecamatan Selogiri.
             </p>
@@ -606,8 +606,8 @@ const Home = () => {
                 <Building2 className="w-4 h-4" />
               </span>
               <div>
-                <h3 className="font-bold text-gray-900 text-sm mb-1">Terminal Klampisan</h3>
-                <p className="text-sm text-gray-700 leading-relaxed">
+                <h3 className="font-bold text-gray-900 text-base mb-1">Terminal Klampisan</h3>
+                <p className="text-base text-gray-700 leading-relaxed">
                   Klampisan dikenal sebagai kawasan lama di jalur masuk utara Wonogiri. Dahulu terdapat
                   Terminal Giri Adipura yang dikenal masyarakat sebagai <em>Terminal Klampisan</em>,
                   menjadikannya kawasan transit aktif. Setelah terminal dipindah ke Krisak, Klampisan
@@ -630,8 +630,8 @@ const Home = () => {
                 <TreePine className="w-4 h-4" />
               </span>
               <div>
-                <h3 className="font-bold text-gray-900 text-sm mb-1">Asal Nama Klampisan</h3>
-                <p className="text-sm text-gray-700 leading-relaxed">
+                <h3 className="font-bold text-gray-900 text-base mb-1">Asal Nama Klampisan</h3>
+                <p className="text-base text-gray-700 leading-relaxed">
                   Secara kultural, nama Klampisan dikaitkan dengan riwayat lokal mengenai pohon
                   <em> Klampis</em> yang dahulu banyak tumbuh di kawasan ini. Cerita ini menjadi
                   bagian dari ingatan warga dan narasi sejarah lingkungan.
@@ -680,7 +680,7 @@ const Home = () => {
             ].map((item) => (
               <li
                 key={item.label}
-                className="flex items-center gap-3 text-sm bg-stone-50 border border-stone-100 rounded-xl px-4 py-3"
+                className="flex items-center gap-3 text-base bg-stone-50 border border-stone-100 rounded-xl px-4 py-3"
               >
                 <span role="img" aria-label={item.label} className="text-lg shrink-0">{item.ikon}</span>
                 <span>
@@ -757,12 +757,12 @@ const Home = () => {
                     </time>
                   </div>
                   <h3 className="font-bold text-gray-900 leading-snug mb-2">{b.title}</h3>
-                  <p className="text-sm text-gray-700 leading-relaxed flex-1">{b.excerpt}</p>
+                  <p className="text-base text-gray-700 leading-relaxed flex-1">{b.excerpt}</p>
                   <button
                     type="button"
-                    className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:gap-2.5 transition-all focus-visible:outline-none focus-visible:underline underline-offset-4 w-fit"
+                    className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-emerald-700 hover:gap-2.5 transition-all focus-visible:outline-none focus-visible:underline underline-offset-4 w-fit min-h-[44px] py-2"
                   >
-                    Baca selengkapnya <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
+                    Baca selengkapnya <ChevronRight className="w-4 h-4" aria-hidden="true" />
                   </button>
                 </div>
               </article>
@@ -808,7 +808,7 @@ const Home = () => {
               <Grid className="w-5 h-5 text-emerald-800" />
               Layanan Warga Klampisan
             </DialogTitle>
-            <DialogDescription className="text-sm text-stone-600 mt-1">
+            <DialogDescription className="text-base text-stone-600 mt-1">
               Pilih salah satu layanan informasi dan administrasi dusun di bawah ini untuk melanjutkan.
             </DialogDescription>
           </DialogHeader>
@@ -827,11 +827,11 @@ const Home = () => {
                     <Icon className="w-5 h-5" />
                   </span>
                   <div className="space-y-1">
-                    <h4 className="font-bold text-stone-900 text-sm group-hover:text-emerald-950 transition-colors flex items-center gap-1">
+                    <h4 className="font-bold text-stone-900 text-base group-hover:text-emerald-950 transition-colors flex items-center gap-1">
                       {svc.title}
                       <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all shrink-0" />
                     </h4>
-                    <p className="text-xs text-stone-500 leading-relaxed font-medium">
+                    <p className="text-sm text-stone-600 leading-relaxed font-medium">
                       {svc.desc}
                     </p>
                   </div>

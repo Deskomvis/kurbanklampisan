@@ -172,7 +172,7 @@ const RencanaWarga = () => {
                 <h2 className="text-2xl font-extrabold text-stone-900">
                   Roadmap Pembangunan Tahun 2026
                 </h2>
-                <p className="text-sm text-stone-600 mt-1">
+                <p className="text-base text-stone-600 mt-1">
                   Realisasi rencana fisik dan program pemberdayaan warga Klampisan RW 10.
                 </p>
               </div>
@@ -203,7 +203,7 @@ const RencanaWarga = () => {
                       <h3 className="font-extrabold text-stone-900 text-lg mb-2">
                         {item.title}
                       </h3>
-                      <p className="text-sm text-stone-700 leading-relaxed">
+                      <p className="text-base text-stone-700 leading-relaxed">
                         {item.description}
                       </p>
                     </div>
@@ -218,7 +218,7 @@ const RencanaWarga = () => {
                 <h2 className="text-2xl font-extrabold text-stone-900">
                   Agenda & Kegiatan Warga Terdekat
                 </h2>
-                <p className="text-sm text-stone-600 mt-1">
+                <p className="text-base text-stone-600 mt-1">
                   Jadwal rapat warga, posyandu, kerja bakti, dan keagamaan di Klampisan.
                 </p>
               </div>
@@ -238,17 +238,17 @@ const RencanaWarga = () => {
                       </h3>
                     </div>
 
-                    <div className="space-y-2 text-xs text-stone-600 pt-3 border-t border-stone-50">
+                    <div className="space-y-2 text-sm text-stone-600 pt-3 border-t border-stone-100">
                       <div className="flex items-center gap-2">
-                        <Calendar className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                        <Calendar className="w-3.5 h-3.5 text-stone-400 shrink-0" aria-hidden="true" />
                         <span className="font-semibold text-stone-700">{ev.date}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Clock className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                        <Clock className="w-3.5 h-3.5 text-stone-400 shrink-0" aria-hidden="true" />
                         <span>{ev.time}</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <MapPin className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+                        <MapPin className="w-3.5 h-3.5 text-stone-400 shrink-0" aria-hidden="true" />
                         <span className="line-clamp-1">{ev.location}</span>
                       </div>
                     </div>
@@ -270,7 +270,7 @@ const RencanaWarga = () => {
               <h3 className="font-extrabold text-stone-900 text-base mb-2">
                 Saluran Ide & Usulan
               </h3>
-              <p className="text-sm text-stone-600 leading-relaxed">
+              <p className="text-base text-stone-600 leading-relaxed">
                 Tiap masukan, kritik konstruktif, atau usulan perbaikan fasilitas lingkungan Anda sangat berarti. Pengurus RW 10 secara teratur meninjau ide dari portal ini untuk dijadikan prioritas agenda rapat bulanan.
               </p>
             </div>
@@ -282,7 +282,7 @@ const RencanaWarga = () => {
               </h3>
               <form onSubmit={handleSubmitUsulan} className="space-y-4">
                 <div>
-                  <label htmlFor="usul-nama" className="block text-xs font-bold text-stone-600 uppercase mb-1">Nama Lengkap</label>
+                  <label htmlFor="usul-nama" className="block text-sm font-bold text-stone-600 uppercase mb-1">Nama Lengkap</label>
                   <input
                     type="text"
                     id="usul-nama"
@@ -290,17 +290,17 @@ const RencanaWarga = () => {
                     onChange={(e) => setNamaUsul(e.target.value)}
                     required
                     placeholder="Contoh: Budi Santoso"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-stone-50 text-stone-850"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-stone-50 text-stone-800"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="usul-rt" className="block text-xs font-bold text-stone-600 uppercase mb-1">Asal Wilayah</label>
+                  <label htmlFor="usul-rt" className="block text-sm font-bold text-stone-600 uppercase mb-1">Asal Wilayah</label>
                   <select
                     id="usul-rt"
                     value={rtUsul}
                     onChange={(e) => setRtUsul(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-stone-50 text-stone-850 font-semibold"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-stone-50 text-stone-800 font-semibold"
                   >
                     <option value="RT 01">RT 01 Klampisan</option>
                     <option value="RT 02">RT 02 Klampisan</option>
@@ -309,7 +309,7 @@ const RencanaWarga = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="usul-detail" className="block text-xs font-bold text-stone-600 uppercase mb-1">Rincian Usulan</label>
+                  <label htmlFor="usul-detail" className="block text-sm font-bold text-stone-600 uppercase mb-1">Rincian Usulan</label>
                   <textarea
                     id="usul-detail"
                     required
@@ -317,13 +317,13 @@ const RencanaWarga = () => {
                     value={usulan}
                     onChange={(e) => setUsulan(e.target.value)}
                     placeholder="Tuliskan detail usulan program pembangunan, perbaikan fasilitas, atau kegiatan sosial..."
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-stone-50 text-stone-850"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-stone-50 text-stone-800"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 bg-emerald-800 text-white text-xs font-bold rounded-xl hover:bg-emerald-900 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-700"
+                  className="w-full py-3 bg-emerald-800 text-white text-base font-bold rounded-xl hover:bg-emerald-900 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-700 min-h-[44px]"
                 >
                   Kirim Usulan Rencana
                 </button>

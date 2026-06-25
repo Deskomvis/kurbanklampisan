@@ -164,25 +164,28 @@ const KabarWarga = () => {
             {/* Search and Filters */}
             <div className="bg-white border border-stone-200 rounded-2xl p-4 md:p-6 shadow-sm flex flex-col md:flex-row md:items-center gap-4">
               <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" aria-hidden="true" />
+                <label htmlFor="kabar-search" className="sr-only">Cari kabar atau kegiatan</label>
                 <input
+                  id="kabar-search"
                   type="text"
                   placeholder="Cari kabar atau kegiatan..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 bg-stone-50 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all text-stone-800"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-stone-200 bg-stone-50 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition-all text-stone-800"
                 />
               </div>
 
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs font-bold text-stone-500 flex items-center gap-1.5 mr-1">
-                  <Filter className="w-3.5 h-3.5" /> Filter:
+                <span className="text-sm font-bold text-stone-600 flex items-center gap-1.5 mr-1">
+                  <Filter className="w-3.5 h-3.5" aria-hidden="true" /> Filter:
                 </span>
                 {['Semua', 'Kegiatan', 'Sosial', 'Pembangunan', 'Agenda'].map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setCategoryFilter(cat)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                    aria-pressed={categoryFilter === cat}
+                    className={`px-3.5 py-2 rounded-lg text-sm font-semibold border transition-all min-h-[44px] ${
                       categoryFilter === cat
                         ? 'bg-emerald-800 text-white border-emerald-800 shadow-sm'
                         : 'bg-white hover:bg-stone-50 border-stone-200 text-stone-700'
@@ -228,7 +231,7 @@ const KabarWarga = () => {
                             art.title
                           )}
                         </h2>
-                        <p className="text-sm text-stone-600 leading-relaxed line-clamp-3">
+                        <p className="text-base text-stone-600 leading-relaxed line-clamp-3">
                           {art.summary}
                         </p>
                       </div>
@@ -244,24 +247,25 @@ const KabarWarga = () => {
                         <div className="flex items-center gap-3">
                           <button
                             onClick={() => handleLike(art.id)}
-                            className="flex items-center gap-1.5 text-xs text-stone-500 hover:text-emerald-700 transition-colors font-semibold py-1 px-2 rounded-lg hover:bg-stone-50"
+                            aria-label={`Suka artikel: ${art.title}`}
+                            className="flex items-center gap-1.5 text-sm text-stone-600 hover:text-emerald-700 transition-colors font-semibold py-2 px-3 rounded-lg hover:bg-stone-50 min-h-[44px]"
                           >
-                            <Heart className="w-3.5 h-3.5 fill-current text-rose-500" />
+                            <Heart className="w-4 h-4 fill-current text-rose-500" aria-hidden="true" />
                             <span>{art.likes}</span>
                           </button>
                           {art.link ? (
                             <Link
                               to={art.link}
-                              className="inline-flex items-center gap-1 text-xs font-bold text-emerald-800 hover:gap-2 transition-all"
+                              className="inline-flex items-center gap-1 text-sm font-bold text-emerald-800 hover:gap-2 transition-all min-h-[44px] py-2 px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 rounded"
                             >
-                              Selengkapnya <ArrowRight className="w-3 h-3" />
+                              Selengkapnya <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                             </Link>
                           ) : (
                             <button
                               type="button"
-                              className="inline-flex items-center gap-1 text-xs font-bold text-emerald-850 hover:text-emerald-950 transition-colors"
+                              className="inline-flex items-center gap-1 text-sm font-bold text-emerald-800 hover:text-emerald-950 transition-colors min-h-[44px] py-2 px-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 rounded"
                             >
-                              Baca <ArrowRight className="w-3 h-3" />
+                              Baca <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
                             </button>
                           )}
                         </div>
@@ -274,7 +278,7 @@ const KabarWarga = () => {
               <div className="bg-white border border-stone-200 rounded-2xl p-12 text-center">
                 <Newspaper className="w-12 h-12 text-stone-350 mx-auto mb-4" />
                 <h3 className="font-bold text-stone-800 text-lg mb-1">Kabar tidak ditemukan</h3>
-                <p className="text-sm text-stone-500">
+                <p className="text-base text-stone-500">
                   Tidak ada kabar atau kegiatan dengan kata kunci dan kategori tersebut.
                 </p>
               </div>
@@ -323,33 +327,33 @@ const KabarWarga = () => {
               <h3 className="font-extrabold text-stone-900 text-base mb-3">
                 Kirim Kabar/Cerita
               </h3>
-              <p className="text-sm text-stone-600 leading-relaxed mb-4">
+              <p className="text-base text-stone-600 leading-relaxed mb-4">
                 Punya dokumentasi kegiatan atau kabar lingkungan yang ingin ditampilkan di portal ini? Kirimkan kepada kami.
               </p>
               <form onSubmit={(e) => { e.preventDefault(); alert('Kabar Anda telah dikirim dan menunggu verifikasi pengurus RT/RW.'); }} className="space-y-3">
                 <div>
-                  <label htmlFor="news-title" className="block text-xs font-bold text-stone-600 uppercase mb-1">Judul Kabar</label>
+                  <label htmlFor="news-title" className="block text-sm font-bold text-stone-600 uppercase mb-1">Judul Kabar</label>
                   <input
                     type="text"
                     id="news-title"
                     required
                     placeholder="Contoh: Kerja bakti RT 01..."
-                    className="w-full px-3.5 py-2 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-stone-50 text-stone-850"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-stone-50 text-stone-800"
                   />
                 </div>
                 <div>
-                  <label htmlFor="news-desc" className="block text-xs font-bold text-stone-600 uppercase mb-1">Keterangan Singkat</label>
+                  <label htmlFor="news-desc" className="block text-sm font-bold text-stone-600 uppercase mb-1">Keterangan Singkat</label>
                   <textarea
                     id="news-desc"
                     required
                     rows={3}
                     placeholder="Jelaskan isi kegiatan dan tanggal pelaksanaannya..."
-                    className="w-full px-3.5 py-2 rounded-xl border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-stone-50 text-stone-850"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-stone-200 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600 bg-stone-50 text-stone-800"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-2.5 bg-emerald-800 text-white text-xs font-bold rounded-xl hover:bg-emerald-900 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-700"
+                  className="w-full py-3 bg-emerald-800 text-white text-base font-bold rounded-xl hover:bg-emerald-900 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-700 min-h-[44px]"
                 >
                   Kirim ke Admin
                 </button>

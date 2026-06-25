@@ -155,7 +155,7 @@ const Pengumuman = () => {
             <h3 className="font-extrabold text-stone-900 text-lg mt-2 leading-snug">
               Waspada Keamanan Lingkungan & Jadwal Ronda Malam Baru
             </h3>
-            <p className="text-sm text-stone-750 leading-relaxed mt-2">
+            <p className="text-base text-stone-700 leading-relaxed mt-2">
               Diharapkan seluruh warga RW 10 Klampisan menaruh perhatian ekstra pada keamanan rumah masing-masing, mengunci pintu gerbang/pagar saat malam hari, dan aktif dalam giliran ronda pos ronda masing-masing RT sesuai jadwal terbaru. Lapor cepat ke pengurus atau babinkamtibmas apabila menjumpai orang asing mencurigakan.
             </p>
           </div>
@@ -169,7 +169,7 @@ const Pengumuman = () => {
               <h2 className="text-2xl font-extrabold text-stone-900">
                 Surat Edaran Terbaru
               </h2>
-              <p className="text-sm text-stone-600 mt-1">
+              <p className="text-base text-stone-600 mt-1">
                 Kumpulan rilis surat edaran dan himbauan pengurus RW 10 Klampisan.
               </p>
             </div>
@@ -200,7 +200,7 @@ const Pengumuman = () => {
                       {letter.title}
                     </h3>
                     
-                    <p className="text-sm text-stone-700 leading-relaxed">
+                    <p className="text-base text-stone-700 leading-relaxed">
                       {letter.excerpt}
                     </p>
                   </div>
@@ -212,9 +212,9 @@ const Pengumuman = () => {
                     </span>
                     <button
                       onClick={() => alert(`Mengunduh file PDF lengkap untuk surat ${letter.number}...`)}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 hover:gap-2.5 transition-all"
+                      className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-800 hover:gap-2.5 transition-all min-h-[44px] py-2 px-1 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700"
                     >
-                      Unduh Surat Lengkap (PDF) <Download className="w-3.5 h-3.5" />
+                      Unduh Surat Lengkap (PDF) <Download className="w-3.5 h-3.5" aria-hidden="true" />
                     </button>
                   </div>
                 </article>
@@ -227,7 +227,7 @@ const Pengumuman = () => {
                 <h3 className="font-extrabold text-stone-900 text-lg">
                   Berkas Template Administrasi
                 </h3>
-                <p className="text-xs text-stone-500">
+                <p className="text-sm text-stone-500">
                   Unduh formulir format Word atau PDF untuk memudahkan pengurusan berkas administrasi.
                 </p>
               </div>
@@ -240,16 +240,16 @@ const Pengumuman = () => {
                         <FileText className="w-4 h-4" />
                       </span>
                       <div>
-                        <h4 className="font-semibold text-stone-850 text-sm leading-snug">{file.title}</h4>
-                        <p className="text-xs text-stone-500 mt-0.5">Format: {file.format} &middot; Ukuran: {file.size}</p>
+                        <h4 className="font-semibold text-stone-800 text-base leading-snug">{file.title}</h4>
+                        <p className="text-sm text-stone-500 mt-0.5">Format: {file.format} &middot; Ukuran: {file.size}</p>
                       </div>
                     </div>
                     <button
                       onClick={() => handleDownload(file.title)}
-                      className="p-2 text-stone-600 hover:bg-stone-50 border border-stone-200 hover:border-emerald-600 hover:text-emerald-800 rounded-xl transition-all flex items-center justify-center shrink-0"
+                      className="p-2.5 text-stone-600 hover:bg-stone-50 border border-stone-200 hover:border-emerald-600 hover:text-emerald-800 rounded-xl transition-all flex items-center justify-center shrink-0 min-w-[44px] min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700"
                       aria-label={`Unduh ${file.title}`}
                     >
-                      <Download className="w-4 h-4" />
+                      <Download className="w-4 h-4" aria-hidden="true" />
                     </button>
                   </div>
                 ))}
@@ -271,20 +271,20 @@ const Pengumuman = () => {
                     <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wide">
                       {contact.role}
                     </span>
-                    <h4 className="font-bold text-stone-900 text-sm">{contact.name}</h4>
+                    <h4 className="font-bold text-stone-900 text-base">{contact.name}</h4>
                     <a
                       href={contact.number.startsWith('+62') ? `https://wa.me/${contact.number.replace('+', '')}` : `tel:${contact.number}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-emerald-850 hover:text-emerald-950 font-semibold flex items-center gap-1 mt-0.5 hover:underline w-fit"
+                      className="text-sm text-emerald-800 hover:text-emerald-950 font-semibold flex items-center gap-1 mt-0.5 hover:underline w-fit py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 rounded"
                     >
-                      {contact.number} <ExternalLink className="w-3 h-3 text-stone-400" />
+                      {contact.number} <ExternalLink className="w-3 h-3 text-stone-400" aria-hidden="true" />
                     </a>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-5 p-3.5 bg-stone-50 border border-stone-150 rounded-xl text-stone-600 text-xs leading-relaxed">
+              <div className="mt-5 p-3.5 bg-stone-50 border border-stone-200 rounded-xl text-stone-600 text-sm leading-relaxed">
                 <strong>Catatan:</strong> Gunakan nomor darurat di atas untuk keperluan mendesak (kesehatan, kebakaran, keamanan, bencana alam, dll).
               </div>
             </div>

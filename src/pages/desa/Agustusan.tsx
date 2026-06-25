@@ -89,11 +89,11 @@ const ChainCard = ({ jabatan, anggota, tier, ikon: Icon }: { jabatan: string; an
       <div className="w-7 h-7 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
         <Icon className="w-3.5 h-3.5" aria-hidden="true" />
       </div>
-      <p className="font-extrabold text-sm leading-tight">{jabatan}</p>
+      <p className="font-extrabold text-base leading-tight">{jabatan}</p>
     </div>
     <ul className="space-y-1">
       {anggota.map((n, i) => (
-        <li key={i} className="flex items-start gap-1.5 text-xs opacity-90">
+        <li key={i} className="flex items-start gap-1.5 text-sm opacity-90">
           <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[9px] font-bold shrink-0 mt-px">{i + 1}</span>
           <span>{n}</span>
         </li>
@@ -119,13 +119,13 @@ const DivisiCard = ({ jabatan, anggota, ikon: Icon }: { jabatan: string; anggota
       <div className="w-6 h-6 rounded-md bg-red-50 text-red-600 flex items-center justify-center shrink-0">
         <Icon className="w-3.5 h-3.5" aria-hidden="true" />
       </div>
-      <p className="font-bold text-gray-900 text-xs leading-tight">{jabatan}</p>
+      <p className="font-bold text-gray-900 text-sm leading-tight">{jabatan}</p>
     </div>
-    <p className="text-[10px] text-red-400 font-semibold mb-1.5">{anggota.length} anggota</p>
+    <p className="text-xs text-red-500 font-semibold mb-1.5">{anggota.length} anggota</p>
     <ul className="space-y-0.5">
       {anggota.map((n, i) => (
-        <li key={i} className="flex items-start gap-1 text-[10px] text-gray-600">
-          <span className="text-red-300 font-bold shrink-0">{i + 1}.</span>
+        <li key={i} className="flex items-start gap-1 text-xs text-gray-700">
+          <span className="text-red-400 font-bold shrink-0">{i + 1}.</span>
           <span>{n}</span>
         </li>
       ))}
@@ -140,14 +140,14 @@ const SieCard = ({ jabatan, anggota, ikon: Icon }: { jabatan: string; anggota: s
         <Icon className="w-3.5 h-3.5" aria-hidden="true" />
       </div>
       <div>
-        <p className="font-bold text-amber-900 text-sm leading-tight">{jabatan}</p>
-        <p className="text-[10px] text-amber-500 font-semibold">{anggota.length} anggota</p>
+        <p className="font-bold text-amber-900 text-base leading-tight">{jabatan}</p>
+        <p className="text-xs text-amber-600 font-semibold">{anggota.length} anggota</p>
       </div>
     </div>
     <ul className="space-y-0.5">
       {anggota.map((n, i) => (
-        <li key={i} className="flex items-start gap-1 text-xs text-gray-700">
-          <span className="text-amber-400 font-bold shrink-0">{i + 1}.</span>
+        <li key={i} className="flex items-start gap-1 text-sm text-gray-700">
+          <span className="text-amber-500 font-bold shrink-0">{i + 1}.</span>
           <span>{n}</span>
         </li>
       ))}
@@ -160,9 +160,9 @@ const SieCard = ({ jabatan, anggota, ikon: Icon }: { jabatan: string; anggota: s
 const BulletList = ({ items }: { items: string[] }) => (
   <ul className="space-y-2">
     {items.map((item, i) => (
-      <li key={i} className="flex items-start gap-2.5 text-sm text-gray-700">
+      <li key={i} className="flex items-start gap-2.5 text-base text-gray-700">
         <ChevronRight
-          className="w-4 h-4 text-red-500 mt-0.5 shrink-0"
+          className="w-4 h-4 text-red-500 mt-1 shrink-0"
           aria-hidden="true"
         />
         {item}
@@ -233,7 +233,7 @@ const Agustusan = () => (
                 href="https://wa.me/6282220737323?text=Halo%20Bp.%20Fatkurohman%2C%20saya%20ingin%20tanya%20info%20kegiatan%20HUT%20RI%20ke-81%20Klampisan%202026"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 bg-white text-red-800 hover:bg-red-50 font-bold text-sm px-5 py-3 rounded-xl transition-colors shadow-md"
+                className="inline-flex items-center gap-2.5 bg-white text-red-800 hover:bg-red-50 font-bold text-base px-5 py-3.5 rounded-xl transition-colors shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-red-800 min-h-[44px]"
               >
                 <WaIcon className="w-4 h-4 shrink-0" />
                 Hubungi Ketua Panitia — Bp. Fatkurohman
@@ -269,7 +269,7 @@ const Agustusan = () => (
         >
           Notulen Hasil Rapat
         </h2>
-        <p className="text-gray-600 text-sm mt-1">Kesepakatan sementara — masih dapat diperbarui pada rapat berikutnya.</p>
+        <p className="text-gray-600 text-base mt-1">Kesepakatan sementara — masih dapat diperbarui pada rapat berikutnya.</p>
       </div>
 
       {/* Banner Warga */}
@@ -289,7 +289,7 @@ const Agustusan = () => (
             <span className="p-2 rounded-lg bg-green-50 text-green-700" aria-hidden="true">
               <Wallet className="w-4 h-4" />
             </span>
-            <h3 className="font-bold text-gray-900">Keuangan</h3>
+            <h3 className="font-bold text-gray-900 text-base">Keuangan</h3>
           </div>
           <BulletList items={notulenKeuangan} />
         </div>
@@ -300,7 +300,7 @@ const Agustusan = () => (
             <span className="p-2 rounded-lg bg-red-50 text-red-700" aria-hidden="true">
               <Trophy className="w-4 h-4" />
             </span>
-            <h3 className="font-bold text-gray-900">Kegiatan Lomba</h3>
+            <h3 className="font-bold text-gray-900 text-base">Kegiatan Lomba</h3>
           </div>
           <BulletList items={notulenLomba} />
         </div>
@@ -311,7 +311,7 @@ const Agustusan = () => (
             <span className="p-2 rounded-lg bg-amber-50 text-amber-700" aria-hidden="true">
               <Lightbulb className="w-4 h-4" />
             </span>
-            <h3 className="font-bold text-gray-900">Usulan Lomba</h3>
+            <h3 className="font-bold text-gray-900 text-base">Usulan Lomba</h3>
           </div>
           <BulletList items={notulenUsulan} />
           <p className="mt-4 text-xs text-gray-500 border-t border-gray-100 pt-3">
@@ -346,7 +346,7 @@ const Agustusan = () => (
               >
                 Turnamen Antar RW
               </h2>
-              <p className="text-gray-300 text-base leading-relaxed">
+              <p className="text-gray-200 text-base leading-relaxed">
                 Dukung dan saksikan perjuangan kontingen <span className="text-red-400 font-bold">Klampisan RW 10</span> di ajang bergengsi tingkat kelurahan Kaliancar!
               </p>
             </div>
@@ -365,7 +365,7 @@ const Agustusan = () => (
                   <span className="text-3xl filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]" role="img" aria-label={c.name}>{c.emoji}</span>
                   <div>
                     <p className="text-white font-bold text-base">{c.name}</p>
-                    <p className="text-gray-400 text-xs mt-0.5">{c.desc}</p>
+                    <p className="text-gray-300 text-sm mt-0.5">{c.desc}</p>
                   </div>
                 </div>
               ))}
@@ -379,7 +379,7 @@ const Agustusan = () => (
                   href="https://wa.me/6281215000200?text=Halo%20Soni%2C%20saya%20ingin%20tanya%20info%20kegiatan%20Agustusan%20Klampisan%202026"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between gap-3 px-4 py-3 bg-white/5 border border-white/10 hover:border-red-500/30 rounded-xl hover:bg-white/[0.08] transition-all duration-300 text-gray-200 hover:text-white"
+                  className="flex items-center justify-between gap-3 px-4 py-3.5 bg-white/5 border border-white/10 hover:border-red-500/30 rounded-xl hover:bg-white/[0.08] transition-all duration-300 text-gray-200 hover:text-white min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
                 >
                   <span className="flex items-center gap-2 text-sm">
                     <WaIcon className="w-4 h-4 text-red-400" />
@@ -392,7 +392,7 @@ const Agustusan = () => (
                   href="https://wa.me/6287898213912?text=Halo%20Sakimo%2C%20saya%20ingin%20tanya%20info%20kegiatan%20Agustusan%20Klampisan%202026"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between gap-3 px-4 py-3 bg-white/5 border border-white/10 hover:border-red-500/30 rounded-xl hover:bg-white/[0.08] transition-all duration-300 text-gray-200 hover:text-white"
+                  className="flex items-center justify-between gap-3 px-4 py-3.5 bg-white/5 border border-white/10 hover:border-red-500/30 rounded-xl hover:bg-white/[0.08] transition-all duration-300 text-gray-200 hover:text-white min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
                 >
                   <span className="flex items-center gap-2 text-sm">
                     <WaIcon className="w-4 h-4 text-red-400" />
@@ -446,7 +446,7 @@ const Agustusan = () => (
         <h2 id="panitia-heading" className="text-2xl md:text-4xl font-extrabold text-gray-900 mb-1">
           Susunan Panitia
         </h2>
-        <p className="text-gray-500 text-sm">
+        <p className="text-gray-500 text-base">
           HUT Kemerdekaan RI ke-81 Tahun 2026 — Ketua KT: <strong className="text-gray-700">Pratama Dian Sholiqhin</strong>
         </p>
       </div>
@@ -525,7 +525,7 @@ const Agustusan = () => (
           <a
             href="/SK-Panitia-HUT-RI-81-2026.pdf"
             download="SK-Panitia-HUT-RI-81-2026.pdf"
-            className="flex items-center gap-2 shrink-0 bg-red-700 hover:bg-red-800 active:bg-red-900 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-colors shadow-sm"
+            className="flex items-center gap-2 shrink-0 bg-red-700 hover:bg-red-800 active:bg-red-900 text-white text-base font-bold px-5 py-3 rounded-xl transition-colors shadow-sm min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2"
           >
             <Download className="w-4 h-4" aria-hidden="true" />
             Download .PDF

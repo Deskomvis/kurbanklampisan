@@ -77,32 +77,32 @@ const ChatWidget = () => {
             <WaIcon className="w-5 h-5 text-white" />
           </div>
           <div>
-            <p className="text-white font-bold text-sm leading-tight">Kirim Pesan / Pengaduan</p>
-            <p className="text-emerald-300 text-xs">Portal Dusun Klampisan</p>
+            <p className="text-white font-bold text-base leading-tight">Kirim Pesan / Pengaduan</p>
+            <p className="text-emerald-300 text-sm">Portal Dusun Klampisan</p>
           </div>
         </div>
 
         {/* Form */}
         <div className="p-5 space-y-3">
           <div>
-            <label htmlFor="chat-nama" className="block text-xs font-semibold text-gray-600 mb-1">Nama</label>
+            <label htmlFor="chat-nama" className="block text-sm font-semibold text-gray-700 mb-1">Nama</label>
             <input
               id="chat-nama"
               type="text"
               placeholder="Nama Anda"
               value={form.nama}
               onChange={(e) => setForm((f) => ({ ...f, nama: e.target.value }))}
-              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent placeholder:text-gray-400"
+              className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent placeholder:text-gray-400"
             />
           </div>
 
           <div>
-            <label htmlFor="chat-kategori" className="block text-xs font-semibold text-gray-600 mb-1">Kategori</label>
+            <label htmlFor="chat-kategori" className="block text-sm font-semibold text-gray-700 mb-1">Kategori</label>
             <select
               id="chat-kategori"
               value={form.kategori}
               onChange={(e) => setForm((f) => ({ ...f, kategori: e.target.value }))}
-              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white"
+              className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white"
             >
               {['Pengaduan', 'Kirim Info', 'Tanya-tanya', 'UMKM & Usaha', 'Lainnya'].map((k) => (
                 <option key={k} value={k}>{k}</option>
@@ -111,26 +111,26 @@ const ChatWidget = () => {
           </div>
 
           <div>
-            <label htmlFor="chat-pesan" className="block text-xs font-semibold text-gray-600 mb-1">Pesan / Keterangan</label>
+            <label htmlFor="chat-pesan" className="block text-sm font-semibold text-gray-700 mb-1">Pesan / Keterangan</label>
             <textarea
               id="chat-pesan"
               rows={3}
               placeholder="Tulis pesan Anda di sini..."
               value={form.pesan}
               onChange={(e) => setForm((f) => ({ ...f, pesan: e.target.value }))}
-              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent placeholder:text-gray-400 resize-none"
+              className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent placeholder:text-gray-400 resize-none"
             />
           </div>
 
           <div>
-            <label htmlFor="chat-hp" className="block text-xs font-semibold text-gray-600 mb-1">No. HP <span className="text-gray-400 font-normal">(opsional)</span></label>
+            <label htmlFor="chat-hp" className="block text-sm font-semibold text-gray-700 mb-1">No. HP <span className="text-gray-500 font-normal">(opsional)</span></label>
             <input
               id="chat-hp"
               type="tel"
               placeholder="08xxxxxxxxxx"
               value={form.hp}
               onChange={(e) => setForm((f) => ({ ...f, hp: e.target.value }))}
-              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent placeholder:text-gray-400"
+              className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-base focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent placeholder:text-gray-400"
             />
           </div>
 
@@ -138,12 +138,12 @@ const ChatWidget = () => {
             href={buildWaUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#1eb554] text-white font-bold py-3 rounded-xl transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 mt-1"
+            className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#1eb554] text-white font-bold py-3.5 rounded-xl transition-colors text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 mt-1 min-h-[44px]"
           >
             <WaIcon className="w-4 h-4" />
             Kirim via WhatsApp
           </a>
-          <p className="text-center text-[11px] text-gray-400">Pesan akan dikirim langsung ke admin Klampisan</p>
+          <p className="text-center text-xs text-gray-500">Pesan akan dikirim langsung ke admin Klampisan</p>
         </div>
       </div>
     </>
@@ -184,7 +184,7 @@ const VillageLayout = () => {
     : 'bg-white/50 backdrop-blur-sm border-gray-200/60';
 
   const getLinkCls = (isActive: boolean) => cn(
-    'flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold transition-all',
+    'flex items-center gap-1 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all min-h-[44px]',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-emerald-400',
     isActive
       ? scrolled
@@ -206,7 +206,7 @@ const VillageLayout = () => {
       </a>
 
       {/* Announcement bar */}
-      <div className={cn('text-white py-2 px-4 text-xs font-medium text-center', announcementBg)}>
+      <div className={cn('text-white py-2 px-4 text-sm font-medium text-center', announcementBg)}>
         🌳 Portal Resmi Dusun Klampisan &mdash; Gemah Ripah Loh Jinawi
       </div>
 
@@ -267,7 +267,7 @@ const VillageLayout = () => {
               aria-controls={mobileMenuId}
               aria-label={mobileOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
               className={cn(
-                'md:hidden p-2 rounded-lg transition-colors',
+                'md:hidden p-2.5 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400',
                 scrolled ? 'hover:bg-white/15' : 'hover:bg-gray-100',
               )}
@@ -303,7 +303,7 @@ const VillageLayout = () => {
             <button
               aria-label="Tutup menu"
               onClick={() => setMobileOpen(false)}
-              className="p-2 rounded-lg hover:bg-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700"
+              className="p-2.5 rounded-lg hover:bg-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               <X className="w-5 h-5 text-gray-700" aria-hidden="true" />
             </button>
@@ -322,7 +322,7 @@ const VillageLayout = () => {
                       to={item.path}
                       aria-current={isActive ? 'page' : undefined}
                       className={cn(
-                        'flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-semibold transition-colors',
+                        'flex items-center gap-3 px-4 py-3 rounded-xl text-base font-semibold transition-colors min-h-[44px]',
                         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700',
                         isActive
                           ? 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-100/50'
@@ -355,7 +355,7 @@ const VillageLayout = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 grid gap-10 md:grid-cols-3">
           <div>
             <img src={klampisanLogoWhite} alt="Logo Klampisan" className="h-14 w-auto object-contain mb-4" />
-            <p className="text-sm text-stone-400 leading-relaxed">
+            <p className="text-base text-stone-400 leading-relaxed">
               Portal informasi dan kegiatan warga yang dikelola secara mandiri oleh pengurus dusun.
               Klampisan, Kelurahan Kaliancar, Kecamatan Selogiri, Kabupaten Wonogiri, Jawa Tengah.
             </p>
@@ -363,12 +363,12 @@ const VillageLayout = () => {
 
           <nav aria-label="Footer navigasi">
             <h2 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">Navigasi</h2>
-            <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm max-w-[280px]">
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-base max-w-[280px]">
               {navigationItems.map((item) => (
                 <li key={item.path}>
                   <Link
                     to={item.path}
-                    className="text-stone-400 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:text-emerald-400 underline-offset-2 hover:underline block py-0.5"
+                    className="text-stone-400 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:text-emerald-400 underline-offset-2 hover:underline block py-1.5 min-h-[44px] flex items-center"
                   >
                     {item.label}
                   </Link>
@@ -379,13 +379,13 @@ const VillageLayout = () => {
 
           <div>
             <h2 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">Kontak</h2>
-            <address className="not-italic space-y-3 text-sm text-stone-400">
+            <address className="not-italic space-y-3 text-base text-stone-400">
               <p className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" aria-hidden="true" />
                 Dusun Klampisan, Kelurahan Kaliancar, Kecamatan Selogiri, Kabupaten Wonogiri, Jawa Tengah
               </p>
               <p className="flex items-center gap-2.5">
-                <WaIcon className="w-4 h-4 text-emerald-500 shrink-0" />
+                <WaIcon className="w-4 h-4 text-emerald-500 shrink-0" aria-hidden="true" />
                 <a
                   href="https://wa.me/6285741813147?text=Halo%20Bp.%20Rezha%2C%20saya%20ingin%20tanya%20info%20Portal%20Desa%20Klampisan"
                   target="_blank"
@@ -412,7 +412,7 @@ const VillageLayout = () => {
         </div>
 
         <div className="border-t border-stone-800 py-5 text-center">
-          <p className="text-xs text-stone-500">
+          <p className="text-sm text-stone-500">
             &copy; {new Date().getFullYear()} Dusun Klampisan. Gemah ripah loh jinawi.
           </p>
         </div>
