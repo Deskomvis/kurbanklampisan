@@ -69,7 +69,7 @@ const VillageLayout = () => {
               <img
                 src={klampisanLogo}
                 alt="Logo Klampisan"
-                className={cn('w-auto object-contain transition-all group-hover:opacity-90', scrolled ? 'h-8 md:h-9' : 'h-9 md:h-11')}
+                className={cn('w-auto object-contain transition-all group-hover:opacity-90', scrolled ? 'h-10 md:h-12' : 'h-12 md:h-14')}
               />
             </Link>
 
@@ -167,7 +167,7 @@ const VillageLayout = () => {
               to="/"
               className="flex items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 p-1"
             >
-              <img src={klampisanLogo} alt="Logo Klampisan" className="h-9 w-auto object-contain" />
+              <img src={klampisanLogo} alt="Logo Klampisan" className="h-12 w-auto object-contain" />
             </Link>
             <button
               aria-label="Tutup menu"
@@ -234,7 +234,7 @@ const VillageLayout = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 grid gap-10 md:grid-cols-3">
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <img src={klampisanLogo} alt="Logo Klampisan" className="h-10 w-auto object-contain brightness-0 invert opacity-80" />
+              <img src={klampisanLogo} alt="Logo Klampisan" className="h-14 w-auto object-contain brightness-0 invert opacity-80" />
             </div>
             <p className="text-sm text-stone-400 leading-relaxed">
               Portal informasi dan kegiatan warga yang dikelola secara mandiri
