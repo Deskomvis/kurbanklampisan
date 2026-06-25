@@ -23,6 +23,7 @@ import {
 /* ─── Data ─────────────────────────────────────────────── */
 
 const identitas = [
+  { label: 'Nama Dusun', value: 'Klampisan' },
   { label: 'Kelurahan', value: 'Kaliancar' },
   { label: 'Kecamatan', value: 'Selogiri' },
   { label: 'Kabupaten', value: 'Wonogiri' },
@@ -217,7 +218,7 @@ const Home = () => (
         >
           Identitas Wilayah
         </h2>
-        <dl className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <dl className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
           {identitas.map((item) => (
             <div
               key={item.label}
