@@ -350,12 +350,24 @@ const Home = () => {
 
           {/* Image */}
           <div className="flex items-center justify-center">
-            <img
-              src={goDigitalImg}
-              alt="Maskot Klampisan Go Digital di depan gerbang dusun Klampisan"
-              className="w-full rounded-2xl shadow-2xl shadow-emerald-950/50"
-              loading="lazy"
-            />
+            <div className="relative w-full">
+              {/* Gradient glow border */}
+              <div className="p-[2px] rounded-2xl bg-gradient-to-br from-lime-400 via-emerald-400 to-cyan-400 shadow-[0_0_40px_-4px_rgba(52,211,153,0.5)]">
+                <div className="rounded-[14px] overflow-hidden">
+                  <img
+                    src={goDigitalImg}
+                    alt="Maskot Klampisan Go Digital di depan gerbang dusun Klampisan"
+                    className="w-full block"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+              {/* Corner accent marks */}
+              <span className="absolute -top-1.5 -left-1.5 w-6 h-6 border-t-2 border-l-2 border-lime-400 rounded-tl" aria-hidden="true" />
+              <span className="absolute -top-1.5 -right-1.5 w-6 h-6 border-t-2 border-r-2 border-lime-400 rounded-tr" aria-hidden="true" />
+              <span className="absolute -bottom-1.5 -left-1.5 w-6 h-6 border-b-2 border-l-2 border-lime-400 rounded-bl" aria-hidden="true" />
+              <span className="absolute -bottom-1.5 -right-1.5 w-6 h-6 border-b-2 border-r-2 border-lime-400 rounded-br" aria-hidden="true" />
+            </div>
           </div>
 
         </div>
