@@ -1,13 +1,7 @@
 import { useState, useEffect, useId } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { CalendarDays, ChevronDown, Menu, X, Flag, Beef, MapPin, Phone, Mail } from 'lucide-react';
+import { Menu, X, Flag, Beef, MapPin, Phone, Mail } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import klampisanLogo from '@/assets/Logo-klampisan-warna.png';
 import klampisanLogoWhite from '@/assets/Logo-klampisan-putih.png';
 
@@ -89,50 +83,33 @@ const VillageLayout = () => {
                 Home
               </Link>
 
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button
-                    aria-expanded={undefined}
-                    aria-haspopup="menu"
-                    className={cn(
-                      'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2',
-                      isKegiatan
-                        ? 'bg-emerald-50 text-emerald-800'
-                        : 'text-stone-700 hover:text-stone-900 hover:bg-stone-100'
-                    )}
-                  >
-                    <CalendarDays className="w-4 h-4" aria-hidden="true" />
-                    Kegiatan
-                    <ChevronDown className="w-3.5 h-3.5 opacity-60" aria-hidden="true" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-64 p-1">
-                  {kegiatanItems.map((item) => {
-                    const Icon = item.icon;
-                    const active = location.pathname.startsWith(item.path);
-                    return (
-                      <DropdownMenuItem key={item.path} asChild className="cursor-pointer rounded-lg focus:bg-emerald-50">
-                        <Link
-                          to={item.path}
-                          aria-current={active ? 'page' : undefined}
-                          className="flex items-start gap-3 py-2.5 px-2"
-                        >
-                          <span
-                            className="mt-0.5 p-1.5 rounded-md bg-emerald-50 text-emerald-700"
-                            aria-hidden="true"
-                          >
-                            <Icon className="w-4 h-4" />
-                          </span>
-                          <span className="flex flex-col">
-                            <span className="text-sm font-semibold text-gray-900">{item.label}</span>
-                            <span className="text-xs text-gray-600">{item.desc}</span>
-                          </span>
-                        </Link>
-                      </DropdownMenuItem>
-                    );
-                  })}
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <Link
+                to="/agustusan"
+                aria-current={location.pathname.startsWith('/agustusan') ? 'page' : undefined}
+                className={cn(
+                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2',
+                  location.pathname.startsWith('/agustusan')
+                    ? 'bg-emerald-50 text-emerald-800'
+                    : 'text-stone-700 hover:text-stone-900 hover:bg-stone-100'
+                )}
+              >
+                <Flag className="w-4 h-4" aria-hidden="true" />
+                Agustusan
+              </Link>
+
+              <Link
+                to="/kurban"
+                aria-current={location.pathname.startsWith('/kurban') ? 'page' : undefined}
+                className={cn(
+                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2',
+                  location.pathname.startsWith('/kurban')
+                    ? 'bg-emerald-50 text-emerald-800'
+                    : 'text-stone-700 hover:text-stone-900 hover:bg-stone-100'
+                )}
+              >
+                <Beef className="w-4 h-4" aria-hidden="true" />
+                Kurban
+              </Link>
             </nav>
 
             {/* Mobile menu toggle */}
@@ -180,7 +157,7 @@ const VillageLayout = () => {
           </div>
 
           <nav aria-label="Navigasi mobile">
-            <ul className="flex flex-col gap-1">
+            <ul className="flex flex-col gap-1.5">
               <li>
                 <Link
                   to="/"
@@ -194,31 +171,30 @@ const VillageLayout = () => {
                 </Link>
               </li>
               <li>
-                <p className="px-4 pt-5 pb-2 text-xs font-bold uppercase tracking-wider text-gray-500">
-                  Kegiatan
-                </p>
-                <ul className="flex flex-col gap-1">
-                  {kegiatanItems.map((item) => {
-                    const Icon = item.icon;
-                    const active = location.pathname.startsWith(item.path);
-                    return (
-                      <li key={item.path}>
-                        <Link
-                          to={item.path}
-                          aria-current={active ? 'page' : undefined}
-                          className={cn(
-                            'flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700',
-                            active ? 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-100' : 'text-stone-700 hover:bg-stone-50'
-                          )}
-                        >
-                          <Icon className="w-5 h-5 text-emerald-600" aria-hidden="true" />
-                          {item.label}
-                          <span className="ml-auto text-xs text-gray-500 font-normal">{item.desc}</span>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <Link
+                  to="/agustusan"
+                  aria-current={location.pathname.startsWith('/agustusan') ? 'page' : undefined}
+                  className={cn(
+                    'flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700',
+                    location.pathname.startsWith('/agustusan') ? 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-100' : 'text-stone-700 hover:bg-stone-50'
+                  )}
+                >
+                  <Flag className="w-5 h-5 text-emerald-600" aria-hidden="true" />
+                  Agustusan
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/kurban"
+                  aria-current={location.pathname.startsWith('/kurban') ? 'page' : undefined}
+                  className={cn(
+                    'flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700',
+                    location.pathname.startsWith('/kurban') ? 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-100' : 'text-stone-700 hover:bg-stone-50'
+                  )}
+                >
+                  <Beef className="w-5 h-5 text-emerald-600" aria-hidden="true" />
+                  Kurban
+                </Link>
               </li>
             </ul>
           </nav>

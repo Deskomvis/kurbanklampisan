@@ -163,7 +163,7 @@ const Home = () => (
       />
       <div className="relative max-w-7xl mx-auto px-4 md:px-8 pt-16 pb-16 md:pt-24 md:pb-24">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white text-xs font-semibold mb-6">
               <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
               Selogiri, Wonogiri, Jawa Tengah
@@ -196,11 +196,11 @@ const Home = () => (
               </Link>
             </div>
           </div>
-          <div className="lg:col-span-5 relative mt-8 lg:mt-0 flex justify-center">
+          <div className="lg:col-span-6 relative mt-8 lg:mt-0 flex justify-center">
             <img
               src={heroKlampisan}
               alt="Lingkungan Dusun Klampisan"
-              className="w-full max-w-md lg:max-w-full rounded-2xl shadow-xl object-contain transform transition duration-500 hover:scale-[1.02]"
+              className="w-full max-w-lg lg:max-w-full object-contain transform transition duration-500 hover:scale-[1.02]"
               loading="eager"
             />
           </div>
