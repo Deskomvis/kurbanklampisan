@@ -280,7 +280,7 @@ const VillageLayout = () => {
                   >
                     Bp. Fatkurohman: +62 822-2073-7323
                   </a>
-                  <span className="text-xs text-stone-500">Kepala Digitalisasi Desa Klampisan</span>
+                  <span className="text-xs text-stone-500">Kepala Dusun Klampisan</span>
                 </span>
               </p>
             </address>
