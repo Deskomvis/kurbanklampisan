@@ -239,7 +239,7 @@ const VillageLayout = () => {
             </div>
             <p className="text-sm text-stone-400 leading-relaxed">
               Portal informasi dan kegiatan warga yang dikelola secara mandiri
-              oleh pengurus dusun. Gemah ripah loh jinawi.
+              oleh pengurus dusun. Klampisan adalah lingkungan dusun yang dinamis, ramah, dan aktif di Kelurahan Kaliancar, Kecamatan Selogiri, Kabupaten Wonogiri, Jawa Tengah.
             </p>
           </div>
 
@@ -268,12 +268,12 @@ const VillageLayout = () => {
             <address className="not-italic space-y-3 text-sm text-stone-400">
               <p className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" aria-hidden="true" />
-                Klampisan, Jawa Tengah, Indonesia
+                Dusun Klampisan, Kelurahan Kaliancar, Kecamatan Selogiri, Kabupaten Wonogiri, Jawa Tengah
               </p>
               <p className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-emerald-500 shrink-0" aria-hidden="true" />
-                <a href="tel:+6281234567890" className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:text-emerald-400">
-                  0812-3456-7890
+                <a href="https://wa.me/6285741813147?text=Halo%20Mas%20Rezha%20Klampisan%2C%20%20.." target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:text-emerald-400">
+                  Admin Web : +6285741813147
                 </a>
               </p>
               <p className="flex items-center gap-2.5">
