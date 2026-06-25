@@ -216,7 +216,6 @@ const Agustusan = () => (
             <p className="text-red-100 text-base md:text-xl leading-relaxed max-w-2xl mb-2">
               "Sehat, Semangat dan Bahagia Bersama.. Merdeka!!"
             </p>
-            <p className="text-red-200 text-sm">Ditetapkan di Wonogiri, 17 Juni 2026</p>
 
             <div className="mt-8 flex flex-wrap gap-4 text-sm">
               <div className="flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-xl text-white">
