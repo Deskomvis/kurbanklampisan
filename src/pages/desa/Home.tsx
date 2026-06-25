@@ -342,31 +342,36 @@ const Home = () => {
                 );
               })}
             </ul>
-            <div className="mt-8 flex items-center gap-2 text-emerald-400 text-xs font-medium">
-              <MapPin className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-              Dusun Klampisan · RW 10 · Kec. Selogiri · Wonogiri, Jawa Tengah
-            </div>
           </div>
 
           {/* Image */}
           <div className="flex items-center justify-center">
             <div className="relative w-full">
-              {/* Gradient glow border */}
-              <div className="p-[2px] rounded-2xl bg-gradient-to-br from-lime-400 via-emerald-400 to-cyan-400 shadow-[0_0_40px_-4px_rgba(52,211,153,0.5)]">
-                <div className="rounded-[14px] overflow-hidden">
-                  <img
-                    src={goDigitalImg}
-                    alt="Maskot Klampisan Go Digital di depan gerbang dusun Klampisan"
-                    className="w-full block"
-                    loading="lazy"
-                  />
-                </div>
+              {/* HUD-style frame: inner glow border + scan overlay */}
+              <div className="relative rounded-2xl overflow-hidden border border-cyan-400/40 shadow-[0_0_0_1px_rgba(34,211,238,0.15),0_0_50px_-8px_rgba(34,211,238,0.5)]">
+                <img
+                  src={goDigitalImg}
+                  alt="Maskot Klampisan Go Digital di depan gerbang dusun Klampisan"
+                  className="w-full block"
+                  loading="lazy"
+                />
+                {/* Top scan line */}
+                <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent" aria-hidden="true" />
+                {/* Bottom scan line */}
+                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-400/70 to-transparent" aria-hidden="true" />
+                {/* Subtle vignette overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-cyan-950/10 via-transparent to-emerald-950/20 pointer-events-none" aria-hidden="true" />
               </div>
-              {/* Corner accent marks */}
-              <span className="absolute -top-1.5 -left-1.5 w-6 h-6 border-t-2 border-l-2 border-lime-400 rounded-tl" aria-hidden="true" />
-              <span className="absolute -top-1.5 -right-1.5 w-6 h-6 border-t-2 border-r-2 border-lime-400 rounded-tr" aria-hidden="true" />
-              <span className="absolute -bottom-1.5 -left-1.5 w-6 h-6 border-b-2 border-l-2 border-lime-400 rounded-bl" aria-hidden="true" />
-              <span className="absolute -bottom-1.5 -right-1.5 w-6 h-6 border-b-2 border-r-2 border-lime-400 rounded-br" aria-hidden="true" />
+              {/* Corner brackets — HUD style */}
+              <span className="absolute -top-2.5 -left-2.5 w-8 h-8 border-t-[3px] border-l-[3px] border-cyan-400 rounded-tl-lg" aria-hidden="true" />
+              <span className="absolute -top-2.5 -right-2.5 w-8 h-8 border-t-[3px] border-r-[3px] border-cyan-400 rounded-tr-lg" aria-hidden="true" />
+              <span className="absolute -bottom-2.5 -left-2.5 w-8 h-8 border-b-[3px] border-l-[3px] border-cyan-400 rounded-bl-lg" aria-hidden="true" />
+              <span className="absolute -bottom-2.5 -right-2.5 w-8 h-8 border-b-[3px] border-r-[3px] border-cyan-400 rounded-br-lg" aria-hidden="true" />
+              {/* Location tag below image */}
+              <div className="mt-5 flex items-center justify-center gap-2 text-emerald-300 text-xs font-medium">
+                <MapPin className="w-3.5 h-3.5 shrink-0 text-cyan-400" aria-hidden="true" />
+                Dusun Klampisan · RW 10 · Kec. Selogiri · Wonogiri, Jawa Tengah
+              </div>
             </div>
           </div>
 
