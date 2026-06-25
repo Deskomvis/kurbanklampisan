@@ -1,3 +1,4 @@
+import merdekaHero from '@/assets/Merdeka-Klampisan-hero.webp';
 import {
   Flag,
   Calendar,
@@ -214,31 +215,43 @@ const Agustusan = () => (
         <rect width="100%" height="100%" fill="url(#agus-geo)" />
       </svg>
 
-      <div className="relative max-w-7xl mx-auto px-4 md:px-8 pt-16 pb-24 md:pt-20 md:pb-32">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-semibold mb-6">
-          <Flag className="w-3.5 h-3.5" aria-hidden="true" />
-          Karang Taruna "Taruna Bhakti" Klampisan
-        </div>
-        <h1
-          id="agustusan-heading"
-          className="text-4xl md:text-6xl font-extrabold text-white leading-[1.1] tracking-tight mb-4"
-        >
-          HUT Kemerdekaan RI<br />
-          <span className="text-yellow-300">ke-81</span> Tahun 2026
-        </h1>
-        <p className="text-red-100 text-base md:text-xl leading-relaxed max-w-2xl mb-2">
-          "Sehat, Semangat dan Bahagia Bersama.. Merdeka!!"
-        </p>
-        <p className="text-red-200 text-sm">Ditetapkan di Wonogiri, 17 Juni 2026</p>
+      <div className="relative max-w-7xl mx-auto px-4 md:px-8 pt-16 pb-16 md:pt-24 md:pb-24">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="lg:col-span-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-semibold mb-6">
+              <Flag className="w-3.5 h-3.5" aria-hidden="true" />
+              Karang Taruna "Taruna Bhakti" Klampisan
+            </div>
+            <h1
+              id="agustusan-heading"
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] tracking-tight mb-4"
+            >
+              HUT Kemerdekaan RI<br />
+              <span className="text-yellow-300">ke-81</span> Tahun 2026
+            </h1>
+            <p className="text-red-100 text-base md:text-xl leading-relaxed max-w-2xl mb-2">
+              "Sehat, Semangat dan Bahagia Bersama.. Merdeka!!"
+            </p>
+            <p className="text-red-200 text-sm">Ditetapkan di Wonogiri, 17 Juni 2026</p>
 
-        <div className="mt-8 flex flex-wrap gap-4 text-sm">
-          <div className="flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-xl text-white">
-            <Calendar className="w-4 h-4" aria-hidden="true" />
-            10 – 17 Agustus 2026
+            <div className="mt-8 flex flex-wrap gap-4 text-sm">
+              <div className="flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-xl text-white">
+                <Calendar className="w-4 h-4" aria-hidden="true" />
+                10 – 17 Agustus 2026
+              </div>
+              <div className="flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-xl text-white">
+                <MapPin className="w-4 h-4" aria-hidden="true" />
+                Dusun Klampisan, RW 10
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-xl text-white">
-            <MapPin className="w-4 h-4" aria-hidden="true" />
-            Dusun Klampisan, RW 10
+          <div className="lg:col-span-6 relative mt-8 lg:mt-0 flex justify-center">
+            <img
+              src={merdekaHero}
+              alt="HUT Kemerdekaan RI ke-81 Dusun Klampisan"
+              className="w-full max-w-lg lg:max-w-full object-contain transform transition duration-500 hover:scale-[1.02]"
+              loading="eager"
+            />
           </div>
         </div>
       </div>
