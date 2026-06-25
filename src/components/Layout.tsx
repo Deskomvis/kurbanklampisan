@@ -68,94 +68,87 @@ const Layout = () => {
         Panitia Kurban Masjid Istiqomah Klampisan &bull; Tahun {hijriahYear} H / {currentYear} M
       </div>
 
-      {/* Kurban sub-header — scrolls with content, sits below global VillageLayout header */}
-      <header className={cn(
-        "w-full border-b transition-all duration-300",
-        "bg-white border-gray-100"
-      )}>
-        <div className="w-full px-4 md:px-8">
+      {/* Kurban sub-header — 1 baris di desktop */}
+      <header className="w-full border-b bg-white border-gray-100">
+        <div className="w-full px-4 md:px-6 flex items-center gap-3 h-12">
 
-          {/* Row 1: Logo + Controls */}
-          <div className={cn(
-            "flex items-center justify-between transition-all",
-            scrolled ? "py-2" : "py-3"
-          )}>
-            <Link to="/kurban" className="flex items-center group">
-              <img
-                src="/logo.png"
-                alt="Masjid Istiqomah Klampisan"
-                className="h-9 md:h-11 w-auto object-contain group-hover:opacity-90 transition-opacity"
-              />
-            </Link>
+          {/* Logo */}
+          <Link to="/kurban" className="shrink-0 flex items-center group">
+            <img
+              src="/logo.png"
+              alt="Masjid Istiqomah Klampisan"
+              className="h-7 w-auto object-contain group-hover:opacity-80 transition-opacity"
+            />
+          </Link>
 
-            <div className="flex items-center gap-2">
-              <YearSelector />
+          {/* Divider */}
+          <div className="hidden lg:block w-px h-5 bg-gray-200 shrink-0" />
 
-              {/* Auth section */}
-              {isAuthenticated ? (
-                <div className="hidden sm:flex items-center gap-1.5">
-                  <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-green-50 rounded-lg border border-green-200">
-                    <ShieldCheck className="w-3.5 h-3.5 text-green-600" />
-                    <span className="text-xs font-semibold text-green-700">Pengurus</span>
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={logout}
-                    className="h-8 w-8 rounded-lg text-gray-500 hover:text-red-600 hover:bg-red-50"
-                    title="Keluar"
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setLoginOpen(true)}
-                  className="hidden sm:flex items-center gap-1.5 border-gray-200 text-gray-600 hover:text-green-700 hover:border-green-300 h-8 px-3"
-                >
-                  <KeyRound className="w-3.5 h-3.5" />
-                  <span className="text-xs font-semibold">Masuk Pengurus</span>
-                </Button>
-              )}
-
-              {/* Mobile Menu Button */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="lg:hidden rounded-lg hover:bg-gray-100"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                {isMobileMenuOpen
-                  ? <X className="w-5 h-5 text-gray-700" />
-                  : <Menu className="w-5 h-5 text-gray-700" />}
-              </Button>
-            </div>
-          </div>
-
-          {/* Row 2: Navigation — desktop only, full width */}
-          <nav className="hidden lg:flex flex-wrap items-center gap-x-0.5 gap-y-0.5 pb-1.5 border-t border-gray-100 pt-1">
+          {/* Desktop nav — tengah, scrollable horizontal jika perlu */}
+          <nav className="hidden lg:flex items-center gap-0.5 flex-1 overflow-x-auto scrollbar-none">
             {navItems.map((item) => {
-              const Icon = item.icon;
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
                   className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap",
+                    "px-2.5 py-1 rounded-md text-xs font-medium transition-colors whitespace-nowrap",
                     isActive
                       ? "bg-green-50 text-green-700"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                      : "text-gray-500 hover:text-gray-800 hover:bg-gray-100"
                   )}
                 >
-                  <Icon className={cn("w-3.5 h-3.5 shrink-0", isActive ? "text-green-600" : "text-gray-400")} />
                   {item.label}
                 </Link>
               );
             })}
           </nav>
+
+          {/* Controls — kanan */}
+          <div className="flex items-center gap-1.5 ml-auto shrink-0">
+            <YearSelector />
+
+            {isAuthenticated ? (
+              <>
+                <div className="hidden sm:flex items-center gap-1 px-2 py-1 bg-green-50 rounded-md border border-green-200">
+                  <ShieldCheck className="w-3 h-3 text-green-600" />
+                  <span className="text-xs font-semibold text-green-700">Pengurus</span>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={logout}
+                  className="h-7 w-7 rounded-md text-gray-400 hover:text-red-600 hover:bg-red-50"
+                  title="Keluar"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </Button>
+              </>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setLoginOpen(true)}
+                className="hidden sm:flex items-center gap-1 border-gray-200 text-gray-500 hover:text-green-700 hover:border-green-300 h-7 px-2.5 text-xs"
+              >
+                <KeyRound className="w-3 h-3" />
+                Masuk Pengurus
+              </Button>
+            )}
+
+            {/* Mobile menu button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden h-7 w-7 rounded-md hover:bg-gray-100"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen
+                ? <X className="w-4 h-4 text-gray-700" />
+                : <Menu className="w-4 h-4 text-gray-700" />}
+            </Button>
+          </div>
         </div>
       </header>
 
