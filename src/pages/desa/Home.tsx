@@ -275,18 +275,18 @@ const Home = () => {
 
     {/* ── 2. Identitas Wilayah ─────────────────────────────── */}
     <section aria-labelledby="identitas-heading" className="bg-white border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 md:py-12">
+      <div className="px-4 md:px-8 py-10 md:py-12">
         <h2
           id="identitas-heading"
-          className="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-5"
+          className="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-5 max-w-7xl mx-auto"
         >
           Identitas Wilayah
         </h2>
-        <dl className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
+        <dl className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           {identitas.map((item) => (
             <div
               key={item.label}
-              className="bg-stone-50 border border-stone-100 rounded-xl px-4 py-3"
+              className="bg-stone-50 border border-stone-100 rounded-xl px-4 py-4 flex flex-col justify-center"
             >
               <dt className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
                 {item.label}
