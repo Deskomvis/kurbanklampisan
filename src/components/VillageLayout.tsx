@@ -115,7 +115,7 @@ const VillageLayout = () => {
               aria-label="Dusun Klampisan — kembali ke beranda"
             >
               <img
-                src={isDark ? klampisanLogoWhite : klampisanLogo}
+                src={klampisanLogo}
                 alt="Logo Klampisan"
                 className={cn(
                   'w-auto object-contain transition-all group-hover:opacity-90',
