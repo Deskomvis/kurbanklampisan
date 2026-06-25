@@ -175,7 +175,7 @@ const Home = () => (
             Lingkungan Klampisan
           </h1>
           <p className="mt-5 text-emerald-100 text-base md:text-lg leading-relaxed max-w-2xl">
-            Klampisan adalah lingkungan hunian yang dinamis, ramah, dan aktif di Kelurahan Kaliancar.
+            Klampisan adalah lingkungan dusun yang dinamis, ramah, dan aktif di Kelurahan Kaliancar, Kecamatan Selogiri, Kabupaten Wonogiri, Jawa Tengah.
             Berada di jalur utama Wonogiri–Sukoharjo/Solo dengan kehidupan warga yang guyub dan
             kegiatan sosial yang menjadi kekuatan utama lingkungan.
           </p>
