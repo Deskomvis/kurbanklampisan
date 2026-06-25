@@ -12,6 +12,15 @@ import {
   ClipboardList,
   Lightbulb,
   Trophy,
+  ShieldCheck,
+  Crown,
+  Award,
+  Network,
+  Camera,
+  Megaphone,
+  Settings,
+  Utensils,
+  type LucideIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -36,54 +45,60 @@ const notulenUsulan = [
   'Lomba pemilihan opsi (akan diputuskan pada rapat berikutnya)',
 ];
 
-const orgChain = [
-  { jabatan: 'Pelindung', anggota: ['Bp. Moch. Ruri'] },
-  { jabatan: 'Penanggung Jawab', anggota: ['Bp. Parjan (RT 01)', 'Bp. Tukimo (RT 02)'] },
-  { jabatan: 'Ketua Pelaksana', anggota: ['Bp. Fatkurohman Tri Hadi'] },
-  { jabatan: 'Wakil Ketua', anggota: ['Bp. Unggul Prasetiyo', 'Bp. Eko Rudhi Astanto'] },
-  { jabatan: 'Koordinator Pelaksana', anggota: ['Bp. Tarmo', 'Daffa Abid Ash Shidiqiy', 'Elsa Rahmaningrum', 'Yogi Wahid Saputra'] },
+const orgChain: { jabatan: string; anggota: string[]; ikon: LucideIcon }[] = [
+  { jabatan: 'Pelindung', anggota: ['Bp. Moch. Ruri'], ikon: ShieldCheck },
+  { jabatan: 'Penanggung Jawab', anggota: ['Bp. Parjan (RT 01)', 'Bp. Tukimo (RT 02)'], ikon: Award },
+  { jabatan: 'Ketua Pelaksana', anggota: ['Bp. Fatkurohman Tri Hadi'], ikon: Crown },
+  { jabatan: 'Wakil Ketua', anggota: ['Bp. Unggul Prasetiyo', 'Bp. Eko Rudhi Astanto'], ikon: Users },
+  { jabatan: 'Koordinator Pelaksana', anggota: ['Bp. Tarmo', 'Daffa Abid Ash Shidiqiy', 'Elsa Rahmaningrum', 'Yogi Wahid Saputra'], ikon: Network },
 ];
 
-const orgDivisi = [
-  { jabatan: 'Sekretaris', anggota: ['Cornelia Mahidara P.M', 'Latifa Salfa Fainaya'] },
-  { jabatan: 'Bendahara', anggota: ['Bp. Sakimo', 'Fajarina Nurismawati', 'Yasfi Aaidah', 'Avifahtur Nur', 'Rohma'] },
-  { jabatan: 'Humas', anggota: ['Bp. Dian Tri Widianto', 'Raihan Dzaki Akmal', 'Muhammad Al Fatih', 'Latifa Salfa Fainaya', 'Pratama Dian Sholiqhin'] },
-  { jabatan: 'Dokumentasi', anggota: ['Bp. Rezha Adi N', 'Ferliano Reza Syaputra', 'Daffa Abid Ash Shidiqiy', 'Kusnan Fahmi Afnizard'] },
-  { jabatan: 'Perlengkapan', anggota: ['Mufid Akmal Dzaki', 'Ilham Prakoso', 'Sidiq Wahyu Permadi', 'Alvin Teza Firmansyah', 'Yufen Air Langga Putra'] },
-  { jabatan: 'Konsumsi', anggota: ['Zullaykha Bunga Avrillea', 'Anindya Hawa Ainul Fanfa', 'Marfelia Cahya Kirani', 'Pandi Aji Firmansyah', 'Rizky Zulfian', 'Rifai Alif Maulana'] },
-  { jabatan: 'Keamanan / K3', anggota: ['Damar Ragil Pamungkas', 'Afrian Dede Nawang Kusuma', 'Tri Cahyo Wijanarko'] },
+const orgDivisi: { jabatan: string; anggota: string[]; ikon: LucideIcon }[] = [
+  { jabatan: 'Sekretaris', ikon: ClipboardList, anggota: ['Cornelia Mahidara P.M', 'Latifa Salfa Fainaya'] },
+  { jabatan: 'Bendahara', ikon: Wallet, anggota: ['Bp. Sakimo', 'Fajarina Nurismawati', 'Yasfi Aaidah', 'Avifahtur Nur', 'Rohma'] },
+  { jabatan: 'Humas', ikon: Megaphone, anggota: ['Bp. Dian Tri Widianto', 'Raihan Dzaki Akmal', 'Muhammad Al Fatih', 'Latifa Salfa Fainaya', 'Pratama Dian Sholiqhin'] },
+  { jabatan: 'Dokumentasi', ikon: Camera, anggota: ['Bp. Rezha Adi N', 'Ferliano Reza Syaputra', 'Daffa Abid Ash Shidiqiy', 'Kusnan Fahmi Afnizard'] },
+  { jabatan: 'Perlengkapan', ikon: Settings, anggota: ['Mufid Akmal Dzaki', 'Ilham Prakoso', 'Sidiq Wahyu Permadi', 'Alvin Teza Firmansyah', 'Yufen Air Langga Putra'] },
+  { jabatan: 'Konsumsi', ikon: Utensils, anggota: ['Zullaykha Bunga Avrillea', 'Anindya Hawa Ainul Fanfa', 'Marfelia Cahya Kirani', 'Pandi Aji Firmansyah', 'Rizky Zulfian', 'Rifai Alif Maulana'] },
+  { jabatan: 'Keamanan / K3', ikon: ShieldCheck, anggota: ['Damar Ragil Pamungkas', 'Afrian Dede Nawang Kusuma', 'Tri Cahyo Wijanarko'] },
 ];
 
 const orgSieAcara = {
   koordinator: 'Bp. Sugeng Murjianto',
   divisi: [
-    { jabatan: 'Sie Lomba', anggota: ['Bp. Joko Santoso', 'Asyam Waly Maftuh Shubhi', 'Fachri Afnan Aditama', 'Ferliano Reza Syaputra', 'Ayu Ariyani', 'Ayu Ariyana', 'Anindya Hawa Ainul Fanfa', 'Asyifa Rahmawati', 'Fathin Nuha', 'Nova Adelia Thalita', 'Meysya Rahma Nuraini'] },
-    { jabatan: 'Sie Jalan Santai', anggota: ['Reza Putra Adiguna', 'Raihan Dzaki Akmal', 'Morel Haryusta', 'Najwa Putri Agustin', 'Alma Rayya Qanitha', 'Almira Oqila Putri', 'Dapri Lamelani'] },
-    { jabatan: 'Sie Hiburan', anggota: ['Rosyita Siti Azzahra', 'Elvani Nuarita', 'Ilham Prakoso', 'Yogi Wahid Saputra', 'Pratama Dian Sholiqhin', 'Raditya Yudha Pratama'] },
+    { jabatan: 'Sie Lomba', ikon: Trophy, anggota: ['Bp. Joko Santoso', 'Asyam Waly Maftuh Shubhi', 'Fachri Afnan Aditama', 'Ferliano Reza Syaputra', 'Ayu Ariyani', 'Ayu Ariyana', 'Anindya Hawa Ainul Fanfa', 'Asyifa Rahmawati', 'Fathin Nuha', 'Nova Adelia Thalita', 'Meysya Rahma Nuraini'] },
+    { jabatan: 'Sie Jalan Santai', ikon: MapPin, anggota: ['Reza Putra Adiguna', 'Raihan Dzaki Akmal', 'Morel Haryusta', 'Najwa Putri Agustin', 'Alma Rayya Qanitha', 'Almira Oqila Putri', 'Dapri Lamelani'] },
+    { jabatan: 'Sie Hiburan', ikon: Flag, anggota: ['Rosyita Siti Azzahra', 'Elvani Nuarita', 'Ilham Prakoso', 'Yogi Wahid Saputra', 'Pratama Dian Sholiqhin', 'Raditya Yudha Pratama'] },
   ],
 };
 
 /* ─── Org chart sub-components ─────────────────────────── */
 
-const chainBg = [
-  'bg-red-900',
-  'bg-red-800',
-  'bg-red-700',
-  'bg-red-600',
-  'bg-rose-600',
-];
+const chainBg = ['bg-red-900', 'bg-red-800', 'bg-red-700', 'bg-red-600', 'bg-rose-600'];
 
-const ChainCard = ({ jabatan, anggota, tier }: { jabatan: string; anggota: string[]; tier: number }) => (
-  <div className={cn('w-full max-w-xs rounded-2xl px-5 py-4 text-white shadow-lg', chainBg[tier])}>
-    <p className="font-extrabold text-sm tracking-wide mb-2">{jabatan}</p>
+const ChainCard = ({ jabatan, anggota, tier, ikon: Icon }: { jabatan: string; anggota: string[]; tier: number; ikon: LucideIcon }) => (
+  <div className={cn('flex-1 min-w-[150px] rounded-2xl px-4 py-4 text-white shadow-md h-full', chainBg[tier])}>
+    <div className="flex items-center gap-2 mb-3">
+      <div className="w-7 h-7 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+        <Icon className="w-3.5 h-3.5" aria-hidden="true" />
+      </div>
+      <p className="font-extrabold text-sm leading-tight">{jabatan}</p>
+    </div>
     <ul className="space-y-1">
       {anggota.map((n, i) => (
-        <li key={i} className="flex items-center gap-2 text-xs opacity-90">
-          <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[9px] font-bold shrink-0">{i + 1}</span>
-          {n}
+        <li key={i} className="flex items-start gap-1.5 text-xs opacity-90">
+          <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[9px] font-bold shrink-0 mt-px">{i + 1}</span>
+          <span>{n}</span>
         </li>
       ))}
     </ul>
+  </div>
+);
+
+const HArrow = () => (
+  <div className="flex items-center shrink-0 px-1">
+    <div className="w-3 h-px bg-red-200" />
+    <ChevronRight className="w-3.5 h-3.5 text-red-300 -ml-1" aria-hidden="true" />
   </div>
 );
 
@@ -91,39 +106,47 @@ const VLine = ({ color = 'bg-red-200' }: { color?: string }) => (
   <div className={cn('w-px h-8 mx-auto', color)} />
 );
 
-const DivisiCard = ({ jabatan, anggota }: { jabatan: string; anggota: string[] }) => {
-  const preview = anggota.slice(0, 3);
-  const rest = anggota.length - 3;
-  return (
-    <div className="w-full rounded-xl border border-red-100 bg-white shadow-sm p-3 flex flex-col">
-      <p className="font-bold text-gray-900 text-xs leading-tight mb-1">{jabatan}</p>
-      <p className="text-[10px] text-red-500 font-semibold mb-2">{anggota.length} anggota</p>
-      <ul className="space-y-0.5 flex-1">
-        {preview.map((n, i) => (
-          <li key={i} className="text-[10px] text-gray-600 truncate">{n}</li>
-        ))}
-        {rest > 0 && <li className="text-[10px] text-gray-400 italic">+{rest} lainnya</li>}
-      </ul>
+const DivisiCard = ({ jabatan, anggota, ikon: Icon }: { jabatan: string; anggota: string[]; ikon: LucideIcon }) => (
+  <div className="w-full rounded-xl border border-red-100 bg-white shadow-sm p-3 flex flex-col">
+    <div className="flex items-center gap-1.5 mb-2">
+      <div className="w-6 h-6 rounded-md bg-red-50 text-red-600 flex items-center justify-center shrink-0">
+        <Icon className="w-3.5 h-3.5" aria-hidden="true" />
+      </div>
+      <p className="font-bold text-gray-900 text-xs leading-tight">{jabatan}</p>
     </div>
-  );
-};
+    <p className="text-[10px] text-red-400 font-semibold mb-1.5">{anggota.length} anggota</p>
+    <ul className="space-y-0.5">
+      {anggota.map((n, i) => (
+        <li key={i} className="flex items-start gap-1 text-[10px] text-gray-600">
+          <span className="text-red-300 font-bold shrink-0">{i + 1}.</span>
+          <span>{n}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
-const SieCard = ({ jabatan, anggota }: { jabatan: string; anggota: string[] }) => {
-  const preview = anggota.slice(0, 4);
-  const rest = anggota.length - 4;
-  return (
-    <div className="w-full rounded-xl border border-amber-200 bg-amber-50 shadow-sm p-4">
-      <p className="font-bold text-amber-900 text-sm mb-1">{jabatan}</p>
-      <p className="text-xs text-amber-600 font-semibold mb-2">{anggota.length} anggota</p>
-      <ul className="space-y-0.5">
-        {preview.map((n, i) => (
-          <li key={i} className="text-xs text-gray-700">{n}</li>
-        ))}
-        {rest > 0 && <li className="text-xs text-gray-400 italic">+{rest} lainnya</li>}
-      </ul>
+const SieCard = ({ jabatan, anggota, ikon: Icon }: { jabatan: string; anggota: string[]; ikon: LucideIcon }) => (
+  <div className="w-full rounded-xl border border-amber-200 bg-amber-50 shadow-sm p-4">
+    <div className="flex items-center gap-2 mb-2">
+      <div className="w-7 h-7 rounded-lg bg-amber-200 text-amber-700 flex items-center justify-center shrink-0">
+        <Icon className="w-3.5 h-3.5" aria-hidden="true" />
+      </div>
+      <div>
+        <p className="font-bold text-amber-900 text-sm leading-tight">{jabatan}</p>
+        <p className="text-[10px] text-amber-500 font-semibold">{anggota.length} anggota</p>
+      </div>
     </div>
-  );
-};
+    <ul className="space-y-0.5">
+      {anggota.map((n, i) => (
+        <li key={i} className="flex items-start gap-1 text-xs text-gray-700">
+          <span className="text-amber-400 font-bold shrink-0">{i + 1}.</span>
+          <span>{n}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 /* ─── Helpers ───────────────────────────────────────────── */
 
@@ -405,35 +428,37 @@ const Agustusan = () => (
         </p>
       </div>
 
-      {/* ── Leadership chain ── */}
-      <div className="flex flex-col items-center">
-        {orgChain.map((pos, i) => (
-          <div key={i} className="flex flex-col items-center w-full">
-            <ChainCard jabatan={pos.jabatan} anggota={pos.anggota} tier={i} />
-            <VLine />
-          </div>
-        ))}
+      {/* ── Leadership chain — 1 baris horizontal ── */}
+      <div className="max-w-7xl mx-auto overflow-x-auto pb-1">
+        <div className="flex items-stretch gap-0 min-w-max lg:min-w-0 w-full">
+          {orgChain.map((pos, i) => (
+            <div key={i} className="flex items-center flex-1 min-w-[150px]">
+              <ChainCard {...pos} tier={i} />
+              {i < orgChain.length - 1 && <HArrow />}
+            </div>
+          ))}
+        </div>
       </div>
+
+      {/* ── Drop ke divisi ── */}
+      <div className="flex justify-center"><VLine /></div>
 
       {/* ── Divisi branch ── */}
       <div className="max-w-7xl mx-auto">
-        {/* Desktop: grid with horizontal connector */}
         <div className="hidden lg:block relative">
           <div className="absolute top-0 left-[7%] right-[7%] h-px bg-red-200" />
           <div className="grid grid-cols-7 gap-3">
             {orgDivisi.map((dept, i) => (
               <div key={i} className="flex flex-col items-center">
                 <VLine />
-                <DivisiCard jabatan={dept.jabatan} anggota={dept.anggota} />
+                <DivisiCard {...dept} />
               </div>
             ))}
           </div>
         </div>
-
-        {/* Mobile: 2-col grid */}
         <div className="lg:hidden grid grid-cols-2 gap-3 mt-2">
           {orgDivisi.map((dept, i) => (
-            <DivisiCard key={i} jabatan={dept.jabatan} anggota={dept.anggota} />
+            <DivisiCard key={i} {...dept} />
           ))}
         </div>
       </div>
@@ -449,23 +474,20 @@ const Agustusan = () => (
       </div>
 
       <div className="max-w-4xl mx-auto">
-        {/* Desktop: 3-col with connector */}
         <div className="hidden sm:block relative">
           <div className="absolute top-0 left-[17%] right-[17%] h-px bg-amber-300" />
           <div className="grid grid-cols-3 gap-5">
             {orgSieAcara.divisi.map((sie, i) => (
               <div key={i} className="flex flex-col items-center">
                 <VLine color="bg-amber-300" />
-                <SieCard jabatan={sie.jabatan} anggota={sie.anggota} />
+                <SieCard {...sie} />
               </div>
             ))}
           </div>
         </div>
-
-        {/* Mobile: stack */}
         <div className="sm:hidden flex flex-col gap-3">
           {orgSieAcara.divisi.map((sie, i) => (
-            <SieCard key={i} jabatan={sie.jabatan} anggota={sie.anggota} />
+            <SieCard key={i} {...sie} />
           ))}
         </div>
       </div>
