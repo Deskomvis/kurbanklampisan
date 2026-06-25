@@ -153,12 +153,12 @@ const Home = () => (
     {/* ── 1. Hero ──────────────────────────────────────────── */}
     <section
       aria-labelledby="hero-heading"
-      className="relative overflow-hidden bg-gradient-to-br from-green-900 via-green-800 to-emerald-800"
+      className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-green-800"
     >
       <GeoPattern id="hero-geo" />
       <div
         aria-hidden="true"
-        className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-emerald-500/15 blur-3xl pointer-events-none"
+        className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"
       />
       <div className="relative max-w-7xl mx-auto px-4 md:px-8 pt-20 pb-16 md:pt-28 md:pb-20">
         <div className="max-w-3xl">
@@ -171,10 +171,10 @@ const Home = () => (
             className="text-4xl md:text-5xl font-extrabold text-white leading-[1.1] tracking-tight"
           >
             Selamat Datang di<br />
-            <span className="text-emerald-300">Portal Informasi</span><br />
+            <span className="text-lime-300">Portal Informasi</span><br />
             Lingkungan Klampisan
           </h1>
-          <p className="mt-5 text-green-100 text-base md:text-lg leading-relaxed max-w-2xl">
+          <p className="mt-5 text-emerald-100 text-base md:text-lg leading-relaxed max-w-2xl">
             Klampisan adalah lingkungan hunian yang dinamis, ramah, dan aktif di Kelurahan Kaliancar.
             Berada di jalur utama Wonogiri–Sukoharjo/Solo dengan kehidupan warga yang guyub dan
             kegiatan sosial yang menjadi kekuatan utama lingkungan.
@@ -182,13 +182,13 @@ const Home = () => (
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
               to="/agustusan"
-              className="inline-flex items-center gap-2 bg-white text-green-800 font-bold px-5 py-3 rounded-xl hover:bg-green-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-green-800 text-sm shadow-md"
+              className="inline-flex items-center gap-2 bg-white text-emerald-800 font-bold px-5 py-3 rounded-xl hover:bg-emerald-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 text-sm shadow-md"
             >
               <Flag className="w-4 h-4" aria-hidden="true" /> Agustusan 2026
             </Link>
             <Link
               to="/kurban"
-              className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-bold px-5 py-3 rounded-xl hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-green-800 text-sm"
+              className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-bold px-5 py-3 rounded-xl hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 text-sm"
             >
               <Beef className="w-4 h-4" aria-hidden="true" /> Data Kurban 2026
             </Link>
@@ -202,7 +202,7 @@ const Home = () => (
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 md:py-12">
         <h2
           id="identitas-heading"
-          className="text-xs font-bold uppercase tracking-wider text-green-700 mb-5"
+          className="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-5"
         >
           Identitas Wilayah
         </h2>
@@ -210,7 +210,7 @@ const Home = () => (
           {identitas.map((item) => (
             <div
               key={item.label}
-              className="bg-gray-50 border border-gray-100 rounded-xl px-4 py-3"
+              className="bg-stone-50 border border-stone-100 rounded-xl px-4 py-3"
             >
               <dt className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide mb-1">
                 {item.label}
@@ -231,7 +231,7 @@ const Home = () => (
 
         {/* Tentang */}
         <div>
-          <p className="text-green-700 font-bold text-sm uppercase tracking-wider mb-3">Tentang Klampisan</p>
+          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-3">Tentang Klampisan</p>
           <h2 id="tentang-heading" className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
             Lingkungan Semi-Perkotaan yang Guyub dan Aktif
           </h2>
@@ -246,9 +246,9 @@ const Home = () => (
             kegiatan sosial kemasyarakatan yang kuat.
           </p>
 
-          <div className="mt-6 flex items-start gap-3 p-4 bg-green-50 border border-green-100 rounded-xl">
-            <Navigation className="w-5 h-5 text-green-700 mt-0.5 shrink-0" aria-hidden="true" />
-            <p className="text-sm text-green-800">
+          <div className="mt-6 flex items-start gap-3 p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
+            <Navigation className="w-5 h-5 text-emerald-700 mt-0.5 shrink-0" aria-hidden="true" />
+            <p className="text-sm text-emerald-800">
               <strong>Akses strategis:</strong> Dilalui jalur utama Wonogiri–Sukoharjo/Solo,
               menjadikan Klampisan sebagai salah satu titik lintasan penting di Kecamatan Selogiri.
             </p>
@@ -257,7 +257,7 @@ const Home = () => (
 
         {/* Sejarah Singkat */}
         <div>
-          <p className="text-green-700 font-bold text-sm uppercase tracking-wider mb-3">Sejarah Singkat</p>
+          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-3">Sejarah Singkat</p>
           <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
             Asal-Usul dan Catatan Historis
           </h2>
@@ -283,7 +283,7 @@ const Home = () => (
 
             <div className="flex items-start gap-4">
               <span
-                className="w-9 h-9 rounded-xl bg-green-50 text-green-700 flex items-center justify-center shrink-0 mt-0.5"
+                className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5"
                 aria-hidden="true"
               >
                 <TreePine className="w-4 h-4" />
@@ -305,11 +305,11 @@ const Home = () => (
     {/* ── 4. Fasilitas Umum ────────────────────────────────── */}
     <section
       aria-labelledby="fasilitas-heading"
-      className="bg-gray-50 border-y border-gray-100 py-14 md:py-20"
+      className="bg-stone-50 border-y border-stone-100 py-14 md:py-20"
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="mb-10">
-          <p className="text-green-700 font-bold text-sm uppercase tracking-wider mb-2">Infrastruktur</p>
+          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-2">Infrastruktur</p>
           <h2 id="fasilitas-heading" className="text-2xl md:text-3xl font-extrabold text-gray-900">
             Fasilitas Umum
           </h2>
@@ -318,7 +318,7 @@ const Home = () => (
           {fasilitasData.map((f) => {
             const Icon = f.ikon;
             return (
-              <article key={f.kategori} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+              <article key={f.kategori} className="bg-white rounded-2xl border border-stone-100 shadow-sm p-6">
                 <div className="flex items-center gap-2.5 mb-4">
                   <span className={`p-2.5 rounded-xl ${f.bg} shrink-0`} aria-hidden="true">
                     <Icon className="w-4 h-4" />
@@ -329,7 +329,7 @@ const Home = () => (
                   {f.items.map((item) => (
                     <li key={item.nama} className="flex items-start justify-between gap-2">
                       <span className="text-sm text-gray-700 leading-snug">{item.nama}</span>
-                      <span className="shrink-0 text-[11px] font-semibold text-green-700 bg-green-50 border border-green-100 px-2 py-0.5 rounded-full">
+                      <span className="shrink-0 text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
                         {item.rt}
                       </span>
                     </li>
@@ -351,7 +351,7 @@ const Home = () => (
 
         {/* UMKM */}
         <div>
-          <p className="text-green-700 font-bold text-sm uppercase tracking-wider mb-3">Potensi Ekonomi</p>
+          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-3">Potensi Ekonomi</p>
           <h2 id="umkm-heading" className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
             UMKM Lokal Klampisan
           </h2>
@@ -363,7 +363,7 @@ const Home = () => (
           <h3 className="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">Kuliner Terkenal</h3>
           <ul className="space-y-2 mb-6">
             {umkm.map((u) => (
-              <li key={u.nama} className="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3">
+              <li key={u.nama} className="flex items-center gap-3 bg-stone-50 border border-stone-100 rounded-xl px-4 py-3">
                 <span className="text-xl" role="img" aria-label={u.kategori}>{u.emoji}</span>
                 <div>
                   <span className="font-semibold text-gray-900 text-sm">{u.nama}</span>
@@ -376,7 +376,7 @@ const Home = () => (
           <h3 className="text-sm font-bold text-gray-700 mb-3 uppercase tracking-wide">Jenis Usaha Lainnya</h3>
           <div className="grid grid-cols-2 gap-2">
             {jenisUsaha.map((j) => (
-              <div key={j.label} className="flex items-center gap-2 text-sm text-gray-700 bg-gray-50 border border-gray-100 rounded-lg px-3 py-2">
+              <div key={j.label} className="flex items-center gap-2 text-sm text-gray-700 bg-stone-50 border border-stone-100 rounded-lg px-3 py-2">
                 <span role="img" aria-label={j.label} className="text-base">{j.emoji}</span>
                 {j.label}
               </div>
@@ -386,7 +386,7 @@ const Home = () => (
 
         {/* Kegiatan Sosial */}
         <div>
-          <p className="text-green-700 font-bold text-sm uppercase tracking-wider mb-3">Kehidupan Warga</p>
+          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-3">Kehidupan Warga</p>
           <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
             Kegiatan Sosial Kemasyarakatan
           </h2>
@@ -398,7 +398,7 @@ const Home = () => (
             {kegiatanSosial.map((k) => (
               <li key={k} className="flex items-center gap-3 text-sm text-gray-700">
                 <span
-                  className="w-6 h-6 rounded-full bg-green-100 text-green-700 flex items-center justify-center shrink-0"
+                  className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0"
                   aria-hidden="true"
                 >
                   <Heart className="w-3 h-3" />
@@ -408,8 +408,8 @@ const Home = () => (
             ))}
           </ul>
 
-          <div className="mt-6 p-4 bg-green-50 border border-green-100 rounded-xl">
-            <p className="text-sm text-green-800 leading-relaxed">
+          <div className="mt-6 p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
+            <p className="text-sm text-emerald-800 leading-relaxed">
               <strong>Dokumentasi kegiatan</strong> warga penting untuk memperkuat identitas
               Klampisan sebagai lingkungan yang rukun, aktif, dan peduli kemajuan bersama.
             </p>
@@ -421,12 +421,12 @@ const Home = () => (
     {/* ── 6. Kegiatan Warga ────────────────────────────────── */}
     <section
       aria-labelledby="kegiatan-heading"
-      className="bg-gray-50 border-y border-gray-100 py-14 md:py-20"
+      className="bg-stone-50 border-y border-stone-100 py-14 md:py-20"
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
-            <p className="text-green-700 font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
+            <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
               <Calendar className="w-4 h-4" aria-hidden="true" /> Agenda
             </p>
             <h2 id="kegiatan-heading" className="text-2xl md:text-3xl font-extrabold text-gray-900">
@@ -445,7 +445,7 @@ const Home = () => (
               <li key={k.path}>
                 <Link
                   to={k.path}
-                  className="group flex flex-col rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2"
+                  className="group flex flex-col rounded-2xl overflow-hidden border border-stone-100 shadow-sm hover:shadow-xl transition-all duration-300 bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
                 >
                   <div className="relative h-52 overflow-hidden">
                     <img
@@ -469,7 +469,7 @@ const Home = () => (
                       <h3 className="text-xl font-extrabold text-gray-900">{k.title}</h3>
                     </div>
                     <p className="text-gray-700 text-sm leading-relaxed flex-1">{k.desc}</p>
-                    <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-green-700 group-hover:gap-3 transition-all">
+                    <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-emerald-700 group-hover:gap-3 transition-all">
                       Selengkapnya <ArrowRight className="w-4 h-4" aria-hidden="true" />
                     </span>
                   </div>
@@ -488,7 +488,7 @@ const Home = () => (
     >
       <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-start">
         <div>
-          <p className="text-green-700 font-bold text-sm uppercase tracking-wider mb-3">Ke Depan</p>
+          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-3">Ke Depan</p>
           <h2 id="pengembangan-heading" className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
             Arah Pengembangan Lingkungan
           </h2>
@@ -518,7 +518,7 @@ const Home = () => (
             ].map((item) => (
               <li
                 key={item.label}
-                className="flex items-center gap-3 text-sm bg-gray-50 border border-gray-100 rounded-xl px-4 py-3"
+                className="flex items-center gap-3 text-sm bg-stone-50 border border-stone-100 rounded-xl px-4 py-3"
               >
                 <span role="img" aria-label={item.label} className="text-lg shrink-0">{item.ikon}</span>
                 <span>
@@ -535,11 +535,11 @@ const Home = () => (
     {/* ── 8. Berita Terbaru ────────────────────────────────── */}
     <section
       aria-labelledby="berita-heading"
-      className="bg-gray-50 border-t border-gray-100 py-14 md:py-20"
+      className="bg-stone-50 border-t border-stone-100 py-14 md:py-20"
     >
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="mb-8">
-          <p className="text-green-700 font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
+          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
             <Clock className="w-4 h-4" aria-hidden="true" /> Informasi
           </p>
           <h2 id="berita-heading" className="text-2xl md:text-3xl font-extrabold text-gray-900">
@@ -575,7 +575,7 @@ const Home = () => (
             },
           ].map((b) => (
             <li key={b.title}>
-              <article className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+              <article className="bg-white rounded-2xl overflow-hidden border border-stone-100 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
                 <img
                   src={b.img}
                   alt={b.imgAlt}
@@ -598,7 +598,7 @@ const Home = () => (
                   <p className="text-sm text-gray-700 leading-relaxed flex-1">{b.excerpt}</p>
                   <button
                     type="button"
-                    className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-green-700 hover:gap-2.5 transition-all focus-visible:outline-none focus-visible:underline underline-offset-4 w-fit"
+                    className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:gap-2.5 transition-all focus-visible:outline-none focus-visible:underline underline-offset-4 w-fit"
                   >
                     Baca selengkapnya <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
                   </button>
@@ -615,26 +615,26 @@ const Home = () => (
       aria-labelledby="cta-heading"
       className="max-w-7xl mx-auto px-4 md:px-8 py-14 md:py-20"
     >
-      <div className="relative overflow-hidden bg-gradient-to-br from-green-800 to-emerald-700 rounded-3xl p-8 md:p-14 flex flex-col md:flex-row md:items-center gap-8 shadow-xl shadow-green-900/20">
+      <div className="relative overflow-hidden bg-gradient-to-br from-emerald-900 to-green-800 rounded-3xl p-8 md:p-14 flex flex-col md:flex-row md:items-center gap-8 shadow-xl shadow-emerald-900/20">
         <GeoPattern id="cta-geo" />
         <div className="relative z-10 flex-1">
           <h2 id="cta-heading" className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-3">
             Punya informasi untuk warga Klampisan?
           </h2>
-          <p className="text-green-100 text-base leading-relaxed">
+          <p className="text-emerald-100 text-base leading-relaxed">
             Hubungi pengurus untuk mengirimkan pengumuman, laporan kegiatan, atau informasi UMKM.
           </p>
         </div>
         <div className="relative z-10 flex flex-col sm:flex-row gap-3 shrink-0">
           <a
             href="mailto:info@klampisan.com"
-            className="inline-flex items-center justify-center gap-2 bg-white text-green-800 font-bold px-6 py-3 rounded-xl hover:bg-green-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-green-800 text-sm shadow-md"
+            className="inline-flex items-center justify-center gap-2 bg-white text-emerald-800 font-bold px-6 py-3 rounded-xl hover:bg-emerald-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 text-sm shadow-md"
           >
             Hubungi Kami
           </a>
           <Link
             to="/kurban"
-            className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/30 text-white font-bold px-6 py-3 rounded-xl hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-green-800 text-sm"
+            className="inline-flex items-center justify-center gap-2 bg-white/10 border border-white/30 text-white font-bold px-6 py-3 rounded-xl hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 text-sm"
           >
             Data Kurban <ArrowRight className="w-4 h-4" aria-hidden="true" />
           </Link>

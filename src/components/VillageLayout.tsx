@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import DesaLogo from './DesaLogo';
+import klampisanLogo from '@/assets/Klampisan Logo.png';
 
 const kegiatanItems = [
   { path: '/agustusan', label: 'Agustusan', icon: Flag, desc: 'Peringatan HUT Kemerdekaan RI' },
@@ -36,7 +36,7 @@ const VillageLayout = () => {
   const isKegiatan = kegiatanItems.some((i) => location.pathname.startsWith(i.path));
 
   return (
-    <div className="min-h-screen flex flex-col bg-white selection:bg-green-100 selection:text-green-900">
+    <div className="min-h-screen flex flex-col bg-stone-50 selection:bg-emerald-100 selection:text-emerald-900">
       {/* Skip to main content — WCAG 2.4.1 */}
       <a
         href="#main-content"
@@ -46,8 +46,8 @@ const VillageLayout = () => {
       </a>
 
       {/* Announcement bar */}
-      <div className="bg-green-800 text-white py-2 px-4 text-xs font-medium text-center">
-        Portal Resmi Dusun Klampisan &mdash; Warga bisa mengakses informasi kegiatan kapan saja dan di mana saja
+      <div className="bg-gradient-to-r from-emerald-900 via-emerald-800 to-green-800 text-white py-2 px-4 text-xs font-medium text-center">
+        🌳 Portal Resmi Dusun Klampisan &mdash; Gemah Ripah Loh Jinawi
       </div>
 
       {/* Header */}
@@ -55,7 +55,7 @@ const VillageLayout = () => {
         role="banner"
         className={cn(
           'sticky top-0 z-50 transition-all duration-300 w-full border-b',
-          scrolled ? 'bg-white/97 backdrop-blur-md shadow-sm border-gray-200' : 'bg-white border-gray-100'
+          scrolled ? 'bg-white/97 backdrop-blur-md shadow-sm border-stone-200' : 'bg-white border-stone-100'
         )}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -63,18 +63,14 @@ const VillageLayout = () => {
             {/* Brand */}
             <Link
               to="/"
-              className="flex items-center gap-2.5 group rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2 p-1"
+              className="flex items-center gap-2.5 group rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 p-1"
               aria-label="Dusun Klampisan — kembali ke beranda"
             >
-              <DesaLogo className="w-9 h-9 md:w-11 md:h-11 text-green-700 group-hover:text-green-800 transition-colors shrink-0" />
-              <div className="leading-tight">
-                <span className="block text-sm md:text-base font-bold text-gray-900 group-hover:text-green-800 transition-colors">
-                  Dusun Klampisan
-                </span>
-                <span className="block text-[10px] md:text-xs text-green-700 font-medium">
-                  Portal Informasi Warga
-                </span>
-              </div>
+              <img
+                src={klampisanLogo}
+                alt="Logo Klampisan"
+                className={cn('w-auto object-contain transition-all group-hover:opacity-90', scrolled ? 'h-8 md:h-9' : 'h-9 md:h-11')}
+              />
             </Link>
 
             {/* Desktop navigation */}
@@ -83,10 +79,10 @@ const VillageLayout = () => {
                 to="/"
                 aria-current={isHome ? 'page' : undefined}
                 className={cn(
-                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2',
+                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2',
                   isHome
-                    ? 'bg-green-50 text-green-800'
-                    : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+                    ? 'bg-emerald-50 text-emerald-800'
+                    : 'text-stone-700 hover:text-stone-900 hover:bg-stone-100'
                 )}
               >
                 Home
@@ -98,10 +94,10 @@ const VillageLayout = () => {
                     aria-expanded={undefined}
                     aria-haspopup="menu"
                     className={cn(
-                      'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2',
+                      'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2',
                       isKegiatan
-                        ? 'bg-green-50 text-green-800'
-                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
+                        ? 'bg-emerald-50 text-emerald-800'
+                        : 'text-stone-700 hover:text-stone-900 hover:bg-stone-100'
                     )}
                   >
                     <CalendarDays className="w-4 h-4" aria-hidden="true" />
@@ -114,14 +110,14 @@ const VillageLayout = () => {
                     const Icon = item.icon;
                     const active = location.pathname.startsWith(item.path);
                     return (
-                      <DropdownMenuItem key={item.path} asChild className="cursor-pointer rounded-lg focus:bg-green-50">
+                      <DropdownMenuItem key={item.path} asChild className="cursor-pointer rounded-lg focus:bg-emerald-50">
                         <Link
                           to={item.path}
                           aria-current={active ? 'page' : undefined}
                           className="flex items-start gap-3 py-2.5 px-2"
                         >
                           <span
-                            className="mt-0.5 p-1.5 rounded-md bg-green-50 text-green-700"
+                            className="mt-0.5 p-1.5 rounded-md bg-emerald-50 text-emerald-700"
                             aria-hidden="true"
                           >
                             <Icon className="w-4 h-4" />
@@ -143,12 +139,12 @@ const VillageLayout = () => {
               aria-expanded={mobileOpen}
               aria-controls={mobileMenuId}
               aria-label={mobileOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2"
+              className="md:hidden p-2 rounded-lg hover:bg-stone-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
               onClick={() => setMobileOpen((v) => !v)}
             >
               {mobileOpen
-                ? <X className="w-5 h-5 text-gray-700" aria-hidden="true" />
-                : <Menu className="w-5 h-5 text-gray-700" aria-hidden="true" />}
+                ? <X className="w-5 h-5 text-stone-700" aria-hidden="true" />
+                : <Menu className="w-5 h-5 text-stone-700" aria-hidden="true" />}
             </button>
           </div>
         </div>
@@ -169,15 +165,14 @@ const VillageLayout = () => {
           <div className="flex items-center justify-between mb-8">
             <Link
               to="/"
-              className="flex items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2 p-1"
+              className="flex items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 p-1"
             >
-              <DesaLogo className="w-9 h-9 text-green-700 shrink-0" />
-              <span className="font-bold text-gray-900">Dusun Klampisan</span>
+              <img src={klampisanLogo} alt="Logo Klampisan" className="h-9 w-auto object-contain" />
             </Link>
             <button
               aria-label="Tutup menu"
               onClick={() => setMobileOpen(false)}
-              className="p-2 rounded-lg hover:bg-gray-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700"
+              className="p-2 rounded-lg hover:bg-stone-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700"
             >
               <X className="w-5 h-5 text-gray-700" aria-hidden="true" />
             </button>
@@ -190,8 +185,8 @@ const VillageLayout = () => {
                   to="/"
                   aria-current={isHome ? 'page' : undefined}
                   className={cn(
-                    'flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700',
-                    isHome ? 'bg-green-50 text-green-800 ring-1 ring-green-100' : 'text-gray-700 hover:bg-gray-50'
+                    'flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700',
+                    isHome ? 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-100' : 'text-stone-700 hover:bg-stone-50'
                   )}
                 >
                   Home
@@ -211,11 +206,11 @@ const VillageLayout = () => {
                           to={item.path}
                           aria-current={active ? 'page' : undefined}
                           className={cn(
-                            'flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700',
-                            active ? 'bg-green-50 text-green-800 ring-1 ring-green-100' : 'text-gray-700 hover:bg-gray-50'
+                            'flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700',
+                            active ? 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-100' : 'text-stone-700 hover:bg-stone-50'
                           )}
                         >
-                          <Icon className="w-5 h-5 text-green-600" aria-hidden="true" />
+                          <Icon className="w-5 h-5 text-emerald-600" aria-hidden="true" />
                           {item.label}
                           <span className="ml-auto text-xs text-gray-500 font-normal">{item.desc}</span>
                         </Link>
@@ -235,19 +230,15 @@ const VillageLayout = () => {
       </main>
 
       {/* Footer */}
-      <footer role="contentinfo" className="bg-gray-900 text-gray-300 mt-0">
+      <footer role="contentinfo" className="bg-stone-900 text-stone-300 mt-0">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 grid gap-10 md:grid-cols-3">
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <DesaLogo className="w-10 h-10 text-green-400 shrink-0" />
-              <div>
-                <span className="block font-bold text-white text-sm">Dusun Klampisan</span>
-                <span className="block text-xs text-gray-400">Portal Informasi Warga</span>
-              </div>
+              <img src={klampisanLogo} alt="Logo Klampisan" className="h-10 w-auto object-contain brightness-0 invert opacity-80" />
             </div>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-stone-400 leading-relaxed">
               Portal informasi dan kegiatan warga yang dikelola secara mandiri
-              oleh pengurus dusun.
+              oleh pengurus dusun. Gemah ripah loh jinawi.
             </p>
           </div>
 
@@ -262,7 +253,7 @@ const VillageLayout = () => {
                 <li key={l.to}>
                   <Link
                     to={l.to}
-                    className="text-gray-400 hover:text-green-400 transition-colors focus-visible:outline-none focus-visible:text-green-400 underline-offset-2 hover:underline"
+                    className="text-stone-400 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:text-emerald-400 underline-offset-2 hover:underline"
                   >
                     {l.label}
                   </Link>
@@ -273,20 +264,20 @@ const VillageLayout = () => {
 
           <div>
             <h2 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">Kontak</h2>
-            <address className="not-italic space-y-3 text-sm text-gray-400">
+            <address className="not-italic space-y-3 text-sm text-stone-400">
               <p className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-green-500 mt-0.5 shrink-0" aria-hidden="true" />
-                Klampisan, Jawa Timur, Indonesia
+                <MapPin className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" aria-hidden="true" />
+                Klampisan, Jawa Tengah, Indonesia
               </p>
               <p className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-green-500 shrink-0" aria-hidden="true" />
-                <a href="tel:+6281234567890" className="hover:text-green-400 transition-colors focus-visible:outline-none focus-visible:text-green-400">
+                <Phone className="w-4 h-4 text-emerald-500 shrink-0" aria-hidden="true" />
+                <a href="tel:+6281234567890" className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:text-emerald-400">
                   0812-3456-7890
                 </a>
               </p>
               <p className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-green-500 shrink-0" aria-hidden="true" />
-                <a href="mailto:info@klampisan.com" className="hover:text-green-400 transition-colors focus-visible:outline-none focus-visible:text-green-400">
+                <Mail className="w-4 h-4 text-emerald-500 shrink-0" aria-hidden="true" />
+                <a href="mailto:info@klampisan.com" className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:text-emerald-400">
                   info@klampisan.com
                 </a>
               </p>
@@ -294,9 +285,9 @@ const VillageLayout = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 py-5 text-center">
-          <p className="text-xs text-gray-500">
-            &copy; {new Date().getFullYear()} Dusun Klampisan. Dibuat dengan semangat gotong royong.
+        <div className="border-t border-stone-800 py-5 text-center">
+          <p className="text-xs text-stone-500">
+            &copy; {new Date().getFullYear()} Dusun Klampisan. Gemah ripah loh jinawi.
           </p>
         </div>
       </footer>
