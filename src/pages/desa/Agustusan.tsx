@@ -220,7 +220,7 @@ const Agustusan = () => (
           <div className="lg:col-span-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 border border-white/20 text-white text-xs font-semibold mb-6">
               <Flag className="w-3.5 h-3.5" aria-hidden="true" />
-              Karang Taruna "Taruna Bhakti" Klampisan
+              Semarak Ikut Memeriahkan — Karang Taruna Bhakti & Warga Klampisan
             </div>
             <h1
               id="agustusan-heading"
