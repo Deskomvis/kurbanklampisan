@@ -50,13 +50,15 @@ const VillageLayout = () => {
     : 'bg-gradient-to-r from-emerald-900 via-emerald-800 to-green-800';
 
   // Header background
-  const headerBg = scrolled
+  const headerBg = isDarkHero
     ? isAgustusan
-      ? 'bg-red-900/92 backdrop-blur-md shadow-md border-red-900/30'
-      : 'bg-emerald-900/92 backdrop-blur-md shadow-md border-emerald-900/30'
-    : isDarkHero
-      ? 'bg-transparent border-transparent'
-      : 'bg-white border-gray-200 shadow-sm';
+      ? scrolled
+        ? 'bg-red-900/92 backdrop-blur-md shadow-md border-red-900/30'
+        : 'bg-red-900 border-red-900/30'
+      : scrolled
+        ? 'bg-emerald-900/92 backdrop-blur-md shadow-md border-emerald-900/30'
+        : 'bg-emerald-900 border-emerald-900/30'
+    : 'bg-white border-gray-200 shadow-sm';
 
   // Focus ring colour per tema
   const focusRing = isAgustusan
