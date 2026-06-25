@@ -98,9 +98,11 @@ const umkm = [
 const jenisUsaha = [
   { emoji: '🍽️', label: 'Kuliner & Warung' },
   { emoji: '🛒', label: 'Toko Kelontong' },
-  { emoji: '🔧', label: 'Bengkel' },
+  { emoji: '🔧', label: 'Bengkel Jasa Las Edi' },
   { emoji: '📱', label: 'Konter Pulsa / Kuota' },
-  { emoji: '✂️', label: 'Jasa & Servis' },
+  { emoji: '💻', label: 'Jasa Website, Aplikasi, Iklan Sosmed & Desain — Roketmedia' },
+  { emoji: '🏗️', label: 'Jasa Tukang Bangunan Warga Klampisan' },
+  { emoji: '✈️', label: 'Biro Wisata & Tour (segera didata)' },
   { emoji: '🏪', label: 'Perdagangan Kecil' },
 ];
 
