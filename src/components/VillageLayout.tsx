@@ -49,7 +49,7 @@ const VillageLayout = () => {
   // Header background: putih normal, hitam transparan 50% saat scroll
   const headerBg = scrolled
     ? 'bg-black/50 backdrop-blur-md shadow-md border-white/10'
-    : 'bg-white border-gray-200 shadow-sm';
+    : 'bg-white/50 backdrop-blur-sm border-gray-200/60';
 
   const getLinkCls = (isActive: boolean) => cn(
     'flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold transition-all',
