@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import heroKlampisan from '@/assets/hero-klampisan.webp';
+import terminalLama from '@/assets/Terminal Lama.webp';
 import {
   Flag,
   Beef,
@@ -23,6 +24,8 @@ import {
   Newspaper,
   TrendingUp,
   Megaphone,
+  Globe,
+  Smartphone,
 } from 'lucide-react';
 import {
   Dialog,
@@ -345,6 +348,12 @@ const Home = () => {
                   menjadikannya kawasan transit aktif. Setelah terminal dipindah ke Krisak, Klampisan
                   tetap berkembang sebagai kawasan hunian, perdagangan, dan jasa.
                 </p>
+                <img
+                  src={terminalLama}
+                  alt="Suasana Terminal Lama Wonogiri (Terminal Klampisan) tempo dulu"
+                  className="mt-3 w-full rounded-xl object-cover aspect-video border border-stone-200"
+                  loading="lazy"
+                />
               </div>
             </div>
 
@@ -545,6 +554,85 @@ const Home = () => {
             );
           })}
         </ul>
+      </div>
+    </section>
+
+    {/* ── 6.5. Klampisan Go Digital ────────────────────────── */}
+    <section
+      aria-labelledby="go-digital-heading"
+      className="bg-emerald-900 py-14 md:py-20"
+    >
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+
+          {/* Text */}
+          <div>
+            <p className="text-emerald-400 font-bold text-sm uppercase tracking-wider mb-3">Inisiatif Digital</p>
+            <h2
+              id="go-digital-heading"
+              className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-4"
+            >
+              Klampisan Go Digital
+            </h2>
+            <p className="text-emerald-100 leading-relaxed mb-8">
+              Program menggali dan mempromosikan potensi wilayah Dusun Klampisan, serta
+              pembinaan UMKM berbasis digital yang dimulai dari tingkat dusun dan RW
+              kelurahan.
+            </p>
+            <ul className="space-y-4">
+              {([
+                { ikon: Globe, judul: 'Promosi Potensi Dusun', desc: 'Memperkenalkan Klampisan kepada khalayak luas melalui platform digital.' },
+                { ikon: Store, judul: 'Pembinaan UMKM Digital', desc: 'Mendampingi pelaku usaha warga agar mampu berjualan dan berpemasaran secara digital.' },
+                { ikon: Smartphone, judul: 'Digital dari Akar Rumput', desc: 'Transformasi digital dimulai dari unit terkecil — dusun, RW, hingga kelurahan.' },
+                { ikon: TrendingUp, judul: 'Data & Informasi Warga', desc: 'Portal desa sebagai pusat data, pengumuman, dan direktori UMKM Klampisan.' },
+              ] as const).map((item) => {
+                const Icon = item.ikon;
+                return (
+                  <li key={item.judul} className="flex items-start gap-4">
+                    <span className="w-9 h-9 rounded-xl bg-emerald-800 text-emerald-300 flex items-center justify-center shrink-0 mt-0.5" aria-hidden="true">
+                      <Icon className="w-4 h-4" />
+                    </span>
+                    <div>
+                      <p className="font-bold text-white text-sm mb-0.5">{item.judul}</p>
+                      <p className="text-emerald-200 text-sm leading-relaxed">{item.desc}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Visual */}
+          <div className="flex items-center justify-center">
+            <div className="relative w-full max-w-sm">
+              <div className="bg-emerald-800/60 rounded-3xl p-8 border border-emerald-700/50">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center">
+                    <Globe className="w-6 h-6 text-white" aria-hidden="true" />
+                  </div>
+                  <div>
+                    <p className="text-white font-bold text-sm">klampisan.com</p>
+                    <p className="text-emerald-400 text-xs">Portal Resmi Dusun Klampisan</p>
+                  </div>
+                </div>
+                <div className="space-y-2.5">
+                  {['Kabar Warga', 'Usaha Warga', 'Pengumuman', 'Rencana Warga', 'Kurban'].map((m) => (
+                    <div key={m} className="flex items-center gap-3 bg-emerald-700/40 rounded-xl px-4 py-2.5">
+                      <div className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" aria-hidden="true" />
+                      <span className="text-emerald-100 text-sm font-medium">{m}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-6 pt-5 border-t border-emerald-700/50 text-center">
+                  <p className="text-emerald-300 text-xs">Dusun Klampisan · RW 10 · Wonogiri, Jawa Tengah</p>
+                </div>
+              </div>
+              <div className="absolute -top-4 -right-4 w-20 h-20 bg-emerald-600/20 rounded-full blur-2xl pointer-events-none" aria-hidden="true" />
+              <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" aria-hidden="true" />
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
 
