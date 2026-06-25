@@ -6,25 +6,14 @@ import {
   Calendar,
   MapPin,
   Phone,
-  Instagram,
   ChevronRight,
   Users,
   Wallet,
   ClipboardList,
   Lightbulb,
   Trophy,
-  ShieldCheck,
-  Utensils,
-  Camera,
-  Megaphone,
-  Settings,
 } from 'lucide-react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+import { cn } from '@/lib/utils';
 
 /* ─── Data ─────────────────────────────────────────────── */
 
@@ -47,131 +36,94 @@ const notulenUsulan = [
   'Lomba pemilihan opsi (akan diputuskan pada rapat berikutnya)',
 ];
 
-const susunanPanitia = [
-  { jabatan: 'Pelindung', ikon: ShieldCheck, anggota: ['Bp. Moch. Ruri'] },
-  {
-    jabatan: 'Penanggung Jawab',
-    ikon: ShieldCheck,
-    anggota: ['Bp. Parjan (RT 01)', 'Bp. Tukimo (RT 02)'],
-  },
-  { jabatan: 'Ketua Pelaksana', ikon: Users, anggota: ['Bp. Fatkurohman Tri Hadi'] },
-  {
-    jabatan: 'Wakil Ketua',
-    ikon: Users,
-    anggota: ['Bp. Unggul Prasetiyo', 'Bp. Eko Rudhi Astanto'],
-  },
-  {
-    jabatan: 'Koordinator Pelaksana',
-    ikon: Settings,
-    anggota: ['Bp. Tarmo', 'Daffa Abid Ash Shidiqiy', 'Elsa Rahmaningrum', 'Yogi Wahid Saputra'],
-  },
-  {
-    jabatan: 'Sekretaris',
-    ikon: ClipboardList,
-    anggota: ['Cornelia Mahidara P.M', 'Latifa Salfa Fainaya'],
-  },
-  {
-    jabatan: 'Bendahara',
-    ikon: Wallet,
-    anggota: ['Bp. Sakimo', 'Fajarina Nurismawati', 'Yasfi Aaidah', 'Avifahtur Nur', 'Rohma'],
-  },
-  {
-    jabatan: 'Humas',
-    ikon: Megaphone,
-    anggota: [
-      'Bp. Dian Tri Widianto',
-      'Raihan Dzaki Akmal',
-      'Muhammad Al Fatih',
-      'Latifa Salfa Fainaya',
-      'Pratama Dian Sholiqhin',
-    ],
-  },
-  {
-    jabatan: 'Dokumentasi',
-    ikon: Camera,
-    anggota: [
-      'Bp. Rezha Adi N',
-      'Ferliano Reza Syaputra',
-      'Daffa Abid Ash Shidiqiy',
-      'Kusnan Fahmi Afnizard',
-    ],
-  },
-  {
-    jabatan: 'Perlengkapan',
-    ikon: Settings,
-    anggota: [
-      'Mufid Akmal Dzaki',
-      'Ilham Prakoso',
-      'Sidiq Wahyu Permadi',
-      'Alvin Teza Firmansyah',
-      'Yufen Air Langga Putra',
-    ],
-  },
-  {
-    jabatan: 'Konsumsi',
-    ikon: Utensils,
-    anggota: [
-      'Zullaykha Bunga Avrillea',
-      'Anindya Hawa Ainul Fanfa',
-      'Marfelia Cahya Kirani',
-      'Pandi Aji Firmansyah',
-      'Rizky Zulfian',
-      'Rifai Alif Maulana',
-    ],
-  },
-  {
-    jabatan: 'Keamanan / K3',
-    ikon: ShieldCheck,
-    anggota: ['Damar Ragil Pamungkas', 'Afrian Dede Nawang Kusuma', 'Tri Cahyo Wijanarko'],
-  },
-  {
-    jabatan: 'Sie Acara — Koordinator',
-    ikon: Trophy,
-    anggota: ['Bp. Sugeng Murjianto'],
-  },
-  {
-    jabatan: 'Sie Acara — Lomba',
-    ikon: Trophy,
-    anggota: [
-      'Bp. Joko Santoso',
-      'Asyam Waly Maftuh Shubhi',
-      'Fachri Afnan Aditama',
-      'Ferliano Reza Syaputra',
-      'Ayu Ariyani',
-      'Ayu Ariyana',
-      'Anindya Hawa Ainul Fanfa',
-      'Asyifa Rahmawati',
-      'Fathin Nuha',
-      'Nova Adelia Thalita',
-      'Meysya Rahma Nuraini',
-    ],
-  },
-  {
-    jabatan: 'Sie Acara — Jalan Santai',
-    ikon: Trophy,
-    anggota: [
-      'Reza Putra Adiguna',
-      'Raihan Dzaki Akmal',
-      'Morel Haryusta',
-      'Najwa Putri Agustin',
-      'Alma Rayya Qanitha',
-      'Almira Oqila Putri',
-      'Dapri Lamelani',
-    ],
-  },
-  {
-    jabatan: 'Sie Acara — Hiburan',
-    ikon: Trophy,
-    anggota: [
-      'Rosyita Siti Azzahra',
-      'Elvani Nuarita',
-      'Ilham Prakoso',
-      'Yogi Wahid Saputra',
-      'Pratama Dian Sholiqhin',
-      'Raditya Yudha Pratama',
-    ],
-  },
+const orgChain = [
+  { jabatan: 'Pelindung', anggota: ['Bp. Moch. Ruri'] },
+  { jabatan: 'Penanggung Jawab', anggota: ['Bp. Parjan (RT 01)', 'Bp. Tukimo (RT 02)'] },
+  { jabatan: 'Ketua Pelaksana', anggota: ['Bp. Fatkurohman Tri Hadi'] },
+  { jabatan: 'Wakil Ketua', anggota: ['Bp. Unggul Prasetiyo', 'Bp. Eko Rudhi Astanto'] },
+  { jabatan: 'Koordinator Pelaksana', anggota: ['Bp. Tarmo', 'Daffa Abid Ash Shidiqiy', 'Elsa Rahmaningrum', 'Yogi Wahid Saputra'] },
 ];
+
+const orgDivisi = [
+  { jabatan: 'Sekretaris', anggota: ['Cornelia Mahidara P.M', 'Latifa Salfa Fainaya'] },
+  { jabatan: 'Bendahara', anggota: ['Bp. Sakimo', 'Fajarina Nurismawati', 'Yasfi Aaidah', 'Avifahtur Nur', 'Rohma'] },
+  { jabatan: 'Humas', anggota: ['Bp. Dian Tri Widianto', 'Raihan Dzaki Akmal', 'Muhammad Al Fatih', 'Latifa Salfa Fainaya', 'Pratama Dian Sholiqhin'] },
+  { jabatan: 'Dokumentasi', anggota: ['Bp. Rezha Adi N', 'Ferliano Reza Syaputra', 'Daffa Abid Ash Shidiqiy', 'Kusnan Fahmi Afnizard'] },
+  { jabatan: 'Perlengkapan', anggota: ['Mufid Akmal Dzaki', 'Ilham Prakoso', 'Sidiq Wahyu Permadi', 'Alvin Teza Firmansyah', 'Yufen Air Langga Putra'] },
+  { jabatan: 'Konsumsi', anggota: ['Zullaykha Bunga Avrillea', 'Anindya Hawa Ainul Fanfa', 'Marfelia Cahya Kirani', 'Pandi Aji Firmansyah', 'Rizky Zulfian', 'Rifai Alif Maulana'] },
+  { jabatan: 'Keamanan / K3', anggota: ['Damar Ragil Pamungkas', 'Afrian Dede Nawang Kusuma', 'Tri Cahyo Wijanarko'] },
+];
+
+const orgSieAcara = {
+  koordinator: 'Bp. Sugeng Murjianto',
+  divisi: [
+    { jabatan: 'Sie Lomba', anggota: ['Bp. Joko Santoso', 'Asyam Waly Maftuh Shubhi', 'Fachri Afnan Aditama', 'Ferliano Reza Syaputra', 'Ayu Ariyani', 'Ayu Ariyana', 'Anindya Hawa Ainul Fanfa', 'Asyifa Rahmawati', 'Fathin Nuha', 'Nova Adelia Thalita', 'Meysya Rahma Nuraini'] },
+    { jabatan: 'Sie Jalan Santai', anggota: ['Reza Putra Adiguna', 'Raihan Dzaki Akmal', 'Morel Haryusta', 'Najwa Putri Agustin', 'Alma Rayya Qanitha', 'Almira Oqila Putri', 'Dapri Lamelani'] },
+    { jabatan: 'Sie Hiburan', anggota: ['Rosyita Siti Azzahra', 'Elvani Nuarita', 'Ilham Prakoso', 'Yogi Wahid Saputra', 'Pratama Dian Sholiqhin', 'Raditya Yudha Pratama'] },
+  ],
+};
+
+/* ─── Org chart sub-components ─────────────────────────── */
+
+const chainBg = [
+  'bg-red-900',
+  'bg-red-800',
+  'bg-red-700',
+  'bg-red-600',
+  'bg-rose-600',
+];
+
+const ChainCard = ({ jabatan, anggota, tier }: { jabatan: string; anggota: string[]; tier: number }) => (
+  <div className={cn('w-full max-w-xs rounded-2xl px-5 py-4 text-white shadow-lg', chainBg[tier])}>
+    <p className="font-extrabold text-sm tracking-wide mb-2">{jabatan}</p>
+    <ul className="space-y-1">
+      {anggota.map((n, i) => (
+        <li key={i} className="flex items-center gap-2 text-xs opacity-90">
+          <span className="w-4 h-4 rounded-full bg-white/20 flex items-center justify-center text-[9px] font-bold shrink-0">{i + 1}</span>
+          {n}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+const VLine = ({ color = 'bg-red-200' }: { color?: string }) => (
+  <div className={cn('w-px h-8 mx-auto', color)} />
+);
+
+const DivisiCard = ({ jabatan, anggota }: { jabatan: string; anggota: string[] }) => {
+  const preview = anggota.slice(0, 3);
+  const rest = anggota.length - 3;
+  return (
+    <div className="w-full rounded-xl border border-red-100 bg-white shadow-sm p-3 flex flex-col">
+      <p className="font-bold text-gray-900 text-xs leading-tight mb-1">{jabatan}</p>
+      <p className="text-[10px] text-red-500 font-semibold mb-2">{anggota.length} anggota</p>
+      <ul className="space-y-0.5 flex-1">
+        {preview.map((n, i) => (
+          <li key={i} className="text-[10px] text-gray-600 truncate">{n}</li>
+        ))}
+        {rest > 0 && <li className="text-[10px] text-gray-400 italic">+{rest} lainnya</li>}
+      </ul>
+    </div>
+  );
+};
+
+const SieCard = ({ jabatan, anggota }: { jabatan: string; anggota: string[] }) => {
+  const preview = anggota.slice(0, 4);
+  const rest = anggota.length - 4;
+  return (
+    <div className="w-full rounded-xl border border-amber-200 bg-amber-50 shadow-sm p-4">
+      <p className="font-bold text-amber-900 text-sm mb-1">{jabatan}</p>
+      <p className="text-xs text-amber-600 font-semibold mb-2">{anggota.length} anggota</p>
+      <ul className="space-y-0.5">
+        {preview.map((n, i) => (
+          <li key={i} className="text-xs text-gray-700">{n}</li>
+        ))}
+        {rest > 0 && <li className="text-xs text-gray-400 italic">+{rest} lainnya</li>}
+      </ul>
+    </div>
+  );
+};
 
 /* ─── Helpers ───────────────────────────────────────────── */
 
@@ -410,7 +362,7 @@ const Agustusan = () => (
                   className="flex items-center justify-between gap-3 px-4 py-3 bg-white/5 border border-white/10 hover:border-red-500/30 rounded-xl hover:bg-white/[0.08] transition-all duration-300 text-gray-200 hover:text-white sm:col-span-2"
                 >
                   <span className="flex items-center gap-2 text-sm">
-                    <Instagram className="w-4 h-4 text-red-400" />
+                    <Flag className="w-4 h-4 text-red-400" />
                     <span>Instagram @kt.tarunabhaktii</span>
                   </span>
                   <ChevronRight className="w-4 h-4 text-gray-500" />
@@ -438,69 +390,85 @@ const Agustusan = () => (
     {/* ── Susunan Panitia ────────────────────────── */}
     <section
       aria-labelledby="panitia-heading"
-      className="max-w-7xl mx-auto px-4 md:px-8 py-14 md:py-20"
+      className="bg-stone-50 px-4 md:px-8 py-14 md:py-20"
     >
-      <div className="mb-8">
-        <p className="text-red-600 font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
+      <div className="max-w-7xl mx-auto mb-12 text-center">
+        <p className="text-red-600 font-bold text-sm uppercase tracking-wider mb-2 flex items-center justify-center gap-2">
           <Users className="w-4 h-4" aria-hidden="true" />
           SK Karang Taruna · 17 Juni 2026
         </p>
-        <h2
-          id="panitia-heading"
-          className="text-2xl md:text-4xl font-extrabold text-gray-900 mb-1"
-        >
+        <h2 id="panitia-heading" className="text-2xl md:text-4xl font-extrabold text-gray-900 mb-1">
           Susunan Panitia
         </h2>
-        <p className="text-gray-600 text-sm">
-          Panitia Peringatan HUT Kemerdekaan RI ke-81 Tahun 2026 —
-          Ketua Karang Taruna: <strong>Pratama Dian Sholiqhin</strong>
+        <p className="text-gray-500 text-sm">
+          HUT Kemerdekaan RI ke-81 Tahun 2026 — Ketua KT: <strong className="text-gray-700">Pratama Dian Sholiqhin</strong>
         </p>
       </div>
 
-      <Accordion type="multiple" className="space-y-2">
-        {susunanPanitia.map((pos, i) => {
-          const Icon = pos.ikon;
-          return (
-            <AccordionItem
-              key={i}
-              value={`pos-${i}`}
-              className="border border-gray-100 rounded-xl bg-white shadow-sm overflow-hidden"
-            >
-              <AccordionTrigger className="px-5 py-4 hover:bg-gray-50 hover:no-underline [&>svg]:text-gray-400 text-left">
-                <div className="flex items-center gap-3">
-                  <span
-                    className="w-8 h-8 rounded-lg bg-red-50 text-red-600 flex items-center justify-center shrink-0"
-                    aria-hidden="true"
-                  >
-                    <Icon className="w-4 h-4" />
-                  </span>
-                  <div>
-                    <span className="font-bold text-gray-900 text-sm">{pos.jabatan}</span>
-                    <span className="block text-xs text-gray-500 font-normal">
-                      {pos.anggota.length} anggota
-                    </span>
-                  </div>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent className="px-5 pb-5 pt-1">
-                <ul className="space-y-1.5">
-                  {pos.anggota.map((nama, j) => (
-                    <li key={j} className="flex items-center gap-2 text-sm text-gray-700">
-                      <span
-                        className="w-5 h-5 rounded-full bg-red-100 text-red-700 text-[10px] font-bold flex items-center justify-center shrink-0"
-                        aria-hidden="true"
-                      >
-                        {j + 1}
-                      </span>
-                      {nama}
-                    </li>
-                  ))}
-                </ul>
-              </AccordionContent>
-            </AccordionItem>
-          );
-        })}
-      </Accordion>
+      {/* ── Leadership chain ── */}
+      <div className="flex flex-col items-center">
+        {orgChain.map((pos, i) => (
+          <div key={i} className="flex flex-col items-center w-full">
+            <ChainCard jabatan={pos.jabatan} anggota={pos.anggota} tier={i} />
+            <VLine />
+          </div>
+        ))}
+      </div>
+
+      {/* ── Divisi branch ── */}
+      <div className="max-w-7xl mx-auto">
+        {/* Desktop: grid with horizontal connector */}
+        <div className="hidden lg:block relative">
+          <div className="absolute top-0 left-[7%] right-[7%] h-px bg-red-200" />
+          <div className="grid grid-cols-7 gap-3">
+            {orgDivisi.map((dept, i) => (
+              <div key={i} className="flex flex-col items-center">
+                <VLine />
+                <DivisiCard jabatan={dept.jabatan} anggota={dept.anggota} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile: 2-col grid */}
+        <div className="lg:hidden grid grid-cols-2 gap-3 mt-2">
+          {orgDivisi.map((dept, i) => (
+            <DivisiCard key={i} jabatan={dept.jabatan} anggota={dept.anggota} />
+          ))}
+        </div>
+      </div>
+
+      {/* ── Sie Acara ── */}
+      <div className="flex flex-col items-center mt-2">
+        <VLine color="bg-amber-300" />
+        <div className="w-full max-w-xs rounded-2xl px-5 py-4 bg-amber-600 text-white shadow-lg text-center">
+          <p className="text-xs font-bold uppercase tracking-wider mb-1 opacity-80">Sie Acara — Koordinator</p>
+          <p className="font-extrabold text-sm">{orgSieAcara.koordinator}</p>
+        </div>
+        <VLine color="bg-amber-300" />
+      </div>
+
+      <div className="max-w-4xl mx-auto">
+        {/* Desktop: 3-col with connector */}
+        <div className="hidden sm:block relative">
+          <div className="absolute top-0 left-[17%] right-[17%] h-px bg-amber-300" />
+          <div className="grid grid-cols-3 gap-5">
+            {orgSieAcara.divisi.map((sie, i) => (
+              <div key={i} className="flex flex-col items-center">
+                <VLine color="bg-amber-300" />
+                <SieCard jabatan={sie.jabatan} anggota={sie.anggota} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile: stack */}
+        <div className="sm:hidden flex flex-col gap-3">
+          {orgSieAcara.divisi.map((sie, i) => (
+            <SieCard key={i} jabatan={sie.jabatan} anggota={sie.anggota} />
+          ))}
+        </div>
+      </div>
     </section>
   </div>
 );
