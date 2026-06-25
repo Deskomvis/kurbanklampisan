@@ -358,7 +358,9 @@ const Agustusan = () => (
               <p className="text-sm font-semibold text-gray-400">Hubungi Panitia & Info Sosial:</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <a
-                  href="tel:081215000200"
+                  href="https://wa.me/6281215000200?text=Halo%20Soni%2C%20saya%20ingin%20tanya%20info%20kegiatan%20Agustusan%20Klampisan%202026"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center justify-between gap-3 px-4 py-3 bg-white/5 border border-white/10 hover:border-red-500/30 rounded-xl hover:bg-white/[0.08] transition-all duration-300 text-gray-200 hover:text-white"
                 >
                   <span className="flex items-center gap-2 text-sm">
@@ -369,7 +371,9 @@ const Agustusan = () => (
                 </a>
 
                 <a
-                  href="tel:087898213912"
+                  href="https://wa.me/6287898213912?text=Halo%20Sakimo%2C%20saya%20ingin%20tanya%20info%20kegiatan%20Agustusan%20Klampisan%202026"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center justify-between gap-3 px-4 py-3 bg-white/5 border border-white/10 hover:border-red-500/30 rounded-xl hover:bg-white/[0.08] transition-all duration-300 text-gray-200 hover:text-white"
                 >
                   <span className="flex items-center gap-2 text-sm">
