@@ -1,13 +1,30 @@
 import { useState, useEffect, useId } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { Menu, X, Flag, Beef, MapPin, Phone, Mail } from 'lucide-react';
+import {
+  Menu,
+  X,
+  Flag,
+  Beef,
+  MapPin,
+  Phone,
+  Mail,
+  Newspaper,
+  Store,
+  TrendingUp,
+  Megaphone,
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import klampisanLogo from '@/assets/Logo-klampisan-warna.png';
 import klampisanLogoWhite from '@/assets/Logo-klampisan-putih.png';
 
-const kegiatanItems = [
-  { path: '/agustusan', label: 'Agustusan', icon: Flag, desc: 'Peringatan HUT Kemerdekaan RI' },
-  { path: '/kurban', label: 'Kurban', icon: Beef, desc: 'Panitia Kurban Masjid Istiqomah' },
+const navigationItems = [
+  { path: '/', label: 'Home', icon: null },
+  { path: '/kabar-warga', label: 'Kabar Warga', icon: Newspaper },
+  { path: '/usaha-warga', label: 'Usaha Warga', icon: Store },
+  { path: '/rencana-warga', label: 'Rencana Warga', icon: TrendingUp },
+  { path: '/pengumuman', label: 'Pengumuman', icon: Megaphone },
+  { path: '/agustusan', label: 'Agustusan', icon: Flag },
+  { path: '/kurban', label: 'Kurban', icon: Beef },
 ];
 
 const VillageLayout = () => {
@@ -26,9 +43,7 @@ const VillageLayout = () => {
   useEffect(() => {
     setMobileOpen(false);
   }, [location.pathname]);
-
   const isHome = location.pathname === '/';
-  const isKegiatan = kegiatanItems.some((i) => location.pathname.startsWith(i.path));
 
   return (
     <div className="min-h-screen flex flex-col bg-stone-50 selection:bg-emerald-100 selection:text-emerald-900">
@@ -71,47 +86,27 @@ const VillageLayout = () => {
             </Link>
 
             {/* Desktop navigation */}
-            <nav aria-label="Navigasi utama" className="hidden md:flex items-center gap-1.5">
-              <Link
-                to="/"
-                aria-current={isHome ? 'page' : undefined}
-                className={cn(
-                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
-                  isHome
-                    ? (scrolled ? 'bg-emerald-50 text-emerald-800 border border-emerald-100/50' : 'bg-white text-emerald-800 shadow-sm')
-                    : (scrolled ? 'text-emerald-800 hover:text-emerald-950 hover:bg-emerald-50/50' : 'text-white/80 hover:text-white hover:bg-white/10')
-                )}
-              >
-                Home
-              </Link>
-
-              <Link
-                to="/agustusan"
-                aria-current={location.pathname.startsWith('/agustusan') ? 'page' : undefined}
-                className={cn(
-                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
-                  location.pathname.startsWith('/agustusan')
-                    ? (scrolled ? 'bg-emerald-50 text-emerald-800 border border-emerald-100/50' : 'bg-white text-emerald-800 shadow-sm')
-                    : (scrolled ? 'text-emerald-800 hover:text-emerald-950 hover:bg-emerald-50/50' : 'text-white/80 hover:text-white hover:bg-white/10')
-                )}
-              >
-                <Flag className="w-4 h-4" aria-hidden="true" />
-                Agustusan
-              </Link>
-
-              <Link
-                to="/kurban"
-                aria-current={location.pathname.startsWith('/kurban') ? 'page' : undefined}
-                className={cn(
-                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
-                  location.pathname.startsWith('/kurban')
-                    ? (scrolled ? 'bg-emerald-50 text-emerald-800 border border-emerald-100/50' : 'bg-white text-emerald-800 shadow-sm')
-                    : (scrolled ? 'text-emerald-800 hover:text-emerald-950 hover:bg-emerald-50/50' : 'text-white/80 hover:text-white hover:bg-white/10')
-                )}
-              >
-                <Beef className="w-4 h-4" aria-hidden="true" />
-                Kurban
-              </Link>
+            <nav aria-label="Navigasi utama" className="hidden md:flex items-center gap-1 xl:gap-1.5">
+              {navigationItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = item.path === '/' ? location.pathname === '/' : location.pathname.startsWith(item.path);
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={cn(
+                      'flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
+                      isActive
+                        ? (scrolled ? 'bg-emerald-50 text-emerald-800 border border-emerald-100/50' : 'bg-white text-emerald-800 shadow-sm')
+                        : (scrolled ? 'text-emerald-800 hover:text-emerald-950 hover:bg-emerald-50/50' : 'text-white/85 hover:text-white hover:bg-white/10')
+                    )}
+                  >
+                    {Icon && <Icon className="w-3.5 h-3.5" aria-hidden="true" />}
+                    {item.label}
+                  </Link>
+                );
+              })}
             </nav>
 
             {/* Mobile menu toggle */}
@@ -162,45 +157,32 @@ const VillageLayout = () => {
           </div>
 
           <nav aria-label="Navigasi mobile">
-            <ul className="flex flex-col gap-1.5">
-              <li>
-                <Link
-                  to="/"
-                  aria-current={isHome ? 'page' : undefined}
-                  className={cn(
-                    'flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700',
-                    isHome ? 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-100' : 'text-stone-700 hover:bg-stone-50'
-                  )}
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/agustusan"
-                  aria-current={location.pathname.startsWith('/agustusan') ? 'page' : undefined}
-                  className={cn(
-                    'flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700',
-                    location.pathname.startsWith('/agustusan') ? 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-100' : 'text-stone-700 hover:bg-stone-50'
-                  )}
-                >
-                  <Flag className="w-5 h-5 text-emerald-600" aria-hidden="true" />
-                  Agustusan
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/kurban"
-                  aria-current={location.pathname.startsWith('/kurban') ? 'page' : undefined}
-                  className={cn(
-                    'flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700',
-                    location.pathname.startsWith('/kurban') ? 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-100' : 'text-stone-700 hover:bg-stone-50'
-                  )}
-                >
-                  <Beef className="w-5 h-5 text-emerald-600" aria-hidden="true" />
-                  Kurban
-                </Link>
-              </li>
+            <ul className="flex flex-col gap-1">
+              {navigationItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = item.path === '/' ? location.pathname === '/' : location.pathname.startsWith(item.path);
+                return (
+                  <li key={item.path}>
+                    <Link
+                      to={item.path}
+                      aria-current={isActive ? 'page' : undefined}
+                      className={cn(
+                        'flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700',
+                        isActive 
+                          ? 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-100/50' 
+                          : 'text-stone-700 hover:bg-stone-50'
+                      )}
+                    >
+                      {Icon ? (
+                        <Icon className="w-5 h-5 text-emerald-600" aria-hidden="true" />
+                      ) : (
+                        <span className="w-5 h-5 flex items-center justify-center text-xs text-emerald-600 font-bold" aria-hidden="true">H</span>
+                      )}
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         </div>
@@ -226,18 +208,14 @@ const VillageLayout = () => {
 
           <nav aria-label="Footer navigasi">
             <h2 className="text-white font-bold mb-4 text-sm uppercase tracking-wider">Navigasi</h2>
-            <ul className="space-y-2 text-sm">
-              {[
-                { to: '/', label: 'Beranda' },
-                { to: '/agustusan', label: 'Agustusan' },
-                { to: '/kurban', label: 'Kurban' },
-              ].map((l) => (
-                <li key={l.to}>
+            <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm max-w-[280px]">
+              {navigationItems.map((item) => (
+                <li key={item.path}>
                   <Link
-                    to={l.to}
-                    className="text-stone-400 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:text-emerald-400 underline-offset-2 hover:underline"
+                    to={item.path}
+                    className="text-stone-400 hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:text-emerald-400 underline-offset-2 hover:underline block py-0.5"
                   >
-                    {l.label}
+                    {item.label}
                   </Link>
                 </li>
               ))}

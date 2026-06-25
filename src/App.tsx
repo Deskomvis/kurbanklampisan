@@ -21,6 +21,10 @@ import Layout from "./components/Layout";
 import VillageLayout from "./components/VillageLayout";
 import Home from "./pages/desa/Home";
 import Agustusan from "./pages/desa/Agustusan";
+import KabarWarga from "./pages/desa/KabarWarga";
+import UsahaWarga from "./pages/desa/UsahaWarga";
+import RencanaWarga from "./pages/desa/RencanaWarga";
+import Pengumuman from "./pages/desa/Pengumuman";
 import Dashboard from "./pages/Dashboard";
 import Panitia from "./pages/Panitia";
 import KelompokKurban from "./pages/KelompokKurban";
@@ -76,6 +80,10 @@ const App = () => (
                 <Route element={<VillageLayout />}>
                   <Route path="/" element={<Home />} />
                   <Route path="/agustusan" element={<Agustusan />} />
+                  <Route path="/kabar-warga" element={<KabarWarga />} />
+                  <Route path="/usaha-warga" element={<UsahaWarga />} />
+                  <Route path="/rencana-warga" element={<RencanaWarga />} />
+                  <Route path="/pengumuman" element={<Pengumuman />} />
                 </Route>
 
                 {/* Aplikasi Kurban */}

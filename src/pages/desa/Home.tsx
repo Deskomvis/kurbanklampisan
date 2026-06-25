@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import heroKlampisan from '@/assets/hero-klampisan.webp';
 import {
@@ -18,7 +19,18 @@ import {
   TreePine,
   Navigation,
   Landmark,
+  Grid,
+  Newspaper,
+  TrendingUp,
+  Megaphone,
 } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 
 /* ─── Data ─────────────────────────────────────────────── */
 
@@ -149,11 +161,59 @@ const GeoPattern = ({ id }: { id: string }) => (
 
 /* ─── Component ─────────────────────────────────────────── */
 
-const Home = () => (
-  <div>
+const Home = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-    {/* ── 1. Hero ──────────────────────────────────────────── */}
-    <section
+  const services = [
+    {
+      path: '/kabar-warga',
+      title: 'Kabar Warga',
+      desc: 'Berita, cerita inspiratif, & dokumentasi kegiatan sosial dusun.',
+      icon: Newspaper,
+      color: 'bg-sky-50 text-sky-700 border-sky-100 hover:bg-sky-100/70',
+    },
+    {
+      path: '/usaha-warga',
+      title: 'Usaha Warga',
+      desc: 'Direktori produk UMKM lokal, kuliner, toko, & jasa terpercaya.',
+      icon: Store,
+      color: 'bg-amber-50 text-amber-700 border-amber-100 hover:bg-amber-100/70',
+    },
+    {
+      path: '/rencana-warga',
+      title: 'Rencana Warga',
+      desc: 'Roadmap pembangunan fisik, agenda rapat, & saluran ide warga.',
+      icon: TrendingUp,
+      color: 'bg-teal-50 text-teal-700 border-teal-100 hover:bg-teal-100/70',
+    },
+    {
+      path: '/pengumuman',
+      title: 'Pengumuman',
+      desc: 'Surat edaran resmi, kontak darurat, & berkas administrasi.',
+      icon: Megaphone,
+      color: 'bg-rose-50 text-rose-700 border-rose-100 hover:bg-rose-100/70',
+    },
+    {
+      path: '/agustusan',
+      title: 'Agustusan 2026',
+      desc: 'Info panitia, hasil rapat, & pendaftaran perlombaan HUT RI.',
+      icon: Flag,
+      color: 'bg-red-50 text-red-700 border-red-100 hover:bg-red-100/70',
+    },
+    {
+      path: '/kurban',
+      title: 'Data Kurban 2026',
+      desc: 'Laporan kelompok, hewan kurban, transparansi kas, & panitia.',
+      icon: Beef,
+      color: 'bg-emerald-50 text-emerald-700 border-emerald-100 hover:bg-emerald-100/70',
+    },
+  ];
+
+  return (
+    <div>
+
+      {/* ── 1. Hero ──────────────────────────────────────────── */}
+      <section
       aria-labelledby="hero-heading"
       className="relative overflow-hidden bg-gradient-to-br from-emerald-950 via-emerald-900 to-green-800"
     >
@@ -182,19 +242,14 @@ const Home = () => (
               Berada di jalur utama Wonogiri–Sukoharjo/Solo dengan kehidupan warga yang guyub dan
               kegiatan sosial yang menjadi kekuatan utama lingkungan.
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link
-                to="/agustusan"
-                className="inline-flex items-center gap-2 bg-white text-emerald-800 font-bold px-5 py-3 rounded-xl hover:bg-emerald-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 text-sm shadow-md"
+             <div className="mt-7 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="inline-flex items-center gap-2.5 bg-lime-400 hover:bg-lime-300 text-emerald-950 font-bold px-6 py-3.5 rounded-xl transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 text-sm shadow-md hover:shadow-lg hover:shadow-emerald-950/20 active:scale-[0.98] transform duration-150"
               >
-                <Flag className="w-4 h-4" aria-hidden="true" /> Agustusan 2026
-              </Link>
-              <Link
-                to="/kurban"
-                className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-bold px-5 py-3 rounded-xl hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 text-sm"
-              >
-                <Beef className="w-4 h-4" aria-hidden="true" /> Data Kurban 2026
-              </Link>
+                <Grid className="w-4 h-4" aria-hidden="true" /> Pilih Layanan
+              </button>
             </div>
           </div>
           <div className="lg:col-span-6 relative mt-8 lg:mt-0 flex justify-center">
@@ -654,7 +709,50 @@ const Home = () => (
       </div>
     </section>
 
-  </div>
-);
+      {/* Services Modal Popup */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent className="max-w-2xl bg-white/95 backdrop-blur-md border border-stone-250 shadow-2xl rounded-3xl p-6 md:p-8">
+          <DialogHeader className="pb-4 border-b border-stone-150">
+            <DialogTitle className="text-xl md:text-2xl font-extrabold text-stone-900 flex items-center gap-2">
+              <Grid className="w-5 h-5 text-emerald-800" />
+              Layanan Warga Klampisan
+            </DialogTitle>
+            <DialogDescription className="text-sm text-stone-600 mt-1">
+              Pilih salah satu layanan informasi dan administrasi dusun di bawah ini untuk melanjutkan.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid sm:grid-cols-2 gap-4 mt-6">
+            {services.map((svc) => {
+              const Icon = svc.icon;
+              return (
+                <Link
+                  key={svc.path}
+                  to={svc.path}
+                  onClick={() => setIsModalOpen(false)}
+                  className={`group flex items-start gap-4 p-4 rounded-2xl border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 ${svc.color}`}
+                >
+                  <span className="p-3 rounded-xl bg-white shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-300 animate-in fade-in-50" aria-hidden="true">
+                    <Icon className="w-5 h-5" />
+                  </span>
+                  <div className="space-y-1">
+                    <h4 className="font-bold text-stone-900 text-sm group-hover:text-emerald-950 transition-colors flex items-center gap-1">
+                      {svc.title}
+                      <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all shrink-0" />
+                    </h4>
+                    <p className="text-xs text-stone-500 leading-relaxed font-medium">
+                      {svc.desc}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+    </div>
+  );
+};
 
 export default Home;
