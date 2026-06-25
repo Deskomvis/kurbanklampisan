@@ -1,4 +1,6 @@
 import merdekaHero from '@/assets/Merdeka-Klampisan-hero.webp';
+import bannerWarga from '@/assets/banner agustusan warga.webp';
+import bannerRw from '@/assets/banner-agustusan-rw.webp';
 import {
   Flag,
   Calendar,
@@ -276,6 +278,16 @@ const Agustusan = () => (
         <p className="text-gray-600 text-sm mt-1">Kesepakatan sementara — masih dapat diperbarui pada rapat berikutnya.</p>
       </div>
 
+      {/* Banner Warga */}
+      <div className="mb-10 rounded-2xl overflow-hidden border border-gray-100 shadow-md bg-white hover:shadow-xl transition-all duration-300">
+        <img
+          src={bannerWarga}
+          alt="Banner Kegiatan Warga 17 Agustus"
+          className="w-full h-auto object-cover transform hover:scale-[1.01] transition-transform duration-500"
+          loading="lazy"
+        />
+      </div>
+
       <div className="grid md:grid-cols-3 gap-5">
         {/* Keuangan */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
@@ -318,81 +330,105 @@ const Agustusan = () => (
     {/* ── Turnamen Antar RW ──────────────────────── */}
     <section
       aria-labelledby="turnamen-heading"
-      className="bg-gray-900 py-14 md:py-20"
+      className="relative overflow-hidden bg-gradient-to-b from-gray-900 to-gray-950 py-16 md:py-24 border-t border-gray-800"
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <div className="inline-block px-3 py-1 rounded-full bg-red-600 text-white text-xs font-bold mb-4 uppercase tracking-wider">
-              Juli 2026
-            </div>
-            <h2
-              id="turnamen-heading"
-              className="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-3"
-            >
-              Turnamen Antar RW 2026
-            </h2>
-            <p className="text-gray-300 text-base mb-2">
-              Se-Kelurahan Kaliancar, Kecamatan Selogiri
-            </p>
-            <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Semarakkan pertandingan, raih kemenangan, dan junjung tinggi sportivitas.<br />
-              <strong className="text-red-400">Dukung &amp; Saksikan Kontingen Klampisan RW 10!</strong>
-            </p>
+      {/* Decorative gradient glowing lights */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" />
 
-            <div className="flex flex-wrap gap-3 mb-8">
+      <div className="relative max-w-7xl mx-auto px-4 md:px-8">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column: Text Info and Details */}
+          <div className="lg:col-span-5 space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              Turnamen Kelurahan · Juli 2026
+            </div>
+
+            <div>
+              <h2
+                id="turnamen-heading"
+                className="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-4"
+              >
+                Turnamen Antar RW
+              </h2>
+              <p className="text-gray-300 text-base leading-relaxed">
+                Dukung dan saksikan perjuangan kontingen <span className="text-red-400 font-bold">Klampisan RW 10</span> di ajang bergengsi tingkat kelurahan Kaliancar!
+              </p>
+            </div>
+
+            {/* Cabang Olahraga Cards */}
+            <div className="space-y-3">
               {[
-                { emoji: '🏐', name: 'Bola Voli' },
-                { emoji: '🏸', name: 'Badminton' },
-                { emoji: '🏓', name: 'Tenis Meja' },
-              ].map((s) => (
-                <div
-                  key={s.name}
-                  className="flex items-center gap-2 bg-white/10 border border-white/15 px-4 py-2.5 rounded-xl"
+                { name: 'Bola Voli', emoji: '🏐', desc: 'Pertandingan voli seru antar RW se-Kelurahan' },
+                { name: 'Badminton', emoji: '🏸', desc: 'Kompetisi ganda putra dan ganda campuran' },
+                { name: 'Tenis Meja', emoji: '🏓', desc: 'Pertandingan tunggal dan beregu yang dinamis' },
+              ].map((c) => (
+                <div 
+                  key={c.name} 
+                  className="flex items-center gap-4 bg-white/5 border border-white/10 hover:border-red-500/20 rounded-2xl px-5 py-4 transition-all duration-300 hover:bg-white/[0.08]"
                 >
-                  <span role="img" aria-label={s.name} className="text-xl">{s.emoji}</span>
-                  <span className="text-white font-semibold text-sm">{s.name}</span>
+                  <span className="text-3xl filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]" role="img" aria-label={c.name}>{c.emoji}</span>
+                  <div>
+                    <p className="text-white font-bold text-base">{c.name}</p>
+                    <p className="text-gray-400 text-xs mt-0.5">{c.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
 
-            <address className="not-italic space-y-2 text-sm text-gray-400">
-              <p className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-red-400 shrink-0" aria-hidden="true" />
-                Soni: <a href="tel:081215000200" className="hover:text-white transition-colors">081215000200</a>
-                &nbsp;/&nbsp;
-                Sakimo: <a href="tel:087898213912" className="hover:text-white transition-colors">087898213912</a>
-              </p>
-              <p className="flex items-center gap-2">
-                <Instagram className="w-4 h-4 text-red-400 shrink-0" aria-hidden="true" />
+            {/* Address & Contacts */}
+            <div className="pt-4 border-t border-white/5 space-y-4">
+              <p className="text-sm font-semibold text-gray-400">Hubungi Panitia & Info Sosial:</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a
+                  href="tel:081215000200"
+                  className="flex items-center justify-between gap-3 px-4 py-3 bg-white/5 border border-white/10 hover:border-red-500/30 rounded-xl hover:bg-white/[0.08] transition-all duration-300 text-gray-200 hover:text-white"
+                >
+                  <span className="flex items-center gap-2 text-sm">
+                    <Phone className="w-4 h-4 text-red-400" />
+                    <span>Soni (Panitia)</span>
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-gray-500" />
+                </a>
+
+                <a
+                  href="tel:087898213912"
+                  className="flex items-center justify-between gap-3 px-4 py-3 bg-white/5 border border-white/10 hover:border-red-500/30 rounded-xl hover:bg-white/[0.08] transition-all duration-300 text-gray-200 hover:text-white"
+                >
+                  <span className="flex items-center gap-2 text-sm">
+                    <Phone className="w-4 h-4 text-red-400" />
+                    <span>Sakimo (Panitia)</span>
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-gray-500" />
+                </a>
+
                 <a
                   href="https://instagram.com/kt.tarunabhaktii"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
+                  className="flex items-center justify-between gap-3 px-4 py-3 bg-white/5 border border-white/10 hover:border-red-500/30 rounded-xl hover:bg-white/[0.08] transition-all duration-300 text-gray-200 hover:text-white sm:col-span-2"
                 >
-                  @kt.tarunabhaktii
+                  <span className="flex items-center gap-2 text-sm">
+                    <Instagram className="w-4 h-4 text-red-400" />
+                    <span>Instagram @kt.tarunabhaktii</span>
+                  </span>
+                  <ChevronRight className="w-4 h-4 text-gray-500" />
                 </a>
-              </p>
-            </address>
+              </div>
+            </div>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-2xl p-7">
-            <h3 className="text-white font-bold text-lg mb-4">Cabang Olahraga</h3>
-            <div className="space-y-3">
-              {[
-                { name: 'Bola Voli', emoji: '🏐', desc: 'Antar tim RW se-kelurahan' },
-                { name: 'Badminton', emoji: '🏸', desc: 'Ganda putra dan ganda campuran' },
-                { name: 'Tenis Meja', emoji: '🏓', desc: 'Turnamen individu dan beregu' },
-              ].map((c) => (
-                <div key={c.name} className="flex items-center gap-4 bg-white/5 rounded-xl px-4 py-3">
-                  <span className="text-2xl" role="img" aria-label={c.name}>{c.emoji}</span>
-                  <div>
-                    <p className="text-white font-semibold text-sm">{c.name}</p>
-                    <p className="text-gray-400 text-xs">{c.desc}</p>
-                  </div>
-                </div>
-              ))}
+          {/* Right Column: Premium Banner Display */}
+          <div className="lg:col-span-7 flex justify-center">
+            <div className="relative group w-full max-w-2xl rounded-2xl overflow-hidden border border-white/10 bg-gray-950 p-2 shadow-2xl hover:border-red-500/30 transition-all duration-500 shadow-red-950/20 hover:shadow-red-950/40">
+              <div className="absolute inset-0 bg-gradient-to-t from-red-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <img
+                src={bannerRw}
+                alt="Banner Turnamen Antar RW 2026"
+                className="w-full h-auto rounded-xl object-contain transform group-hover:scale-[1.01] transition-transform duration-500"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>
