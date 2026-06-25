@@ -88,9 +88,11 @@ const fasilitasData = [
 ];
 
 const umkm = [
-  { nama: 'Mie Won Yamin Klampisan', kategori: 'Kuliner', emoji: '🍜' },
   { nama: 'Kebab Araya', kategori: 'Kuliner', emoji: '🌯' },
-  { nama: 'Bakmi Kita', kategori: 'Kuliner', emoji: '🍝' },
+  { nama: 'Pecel Gerobag', kategori: 'Kuliner', emoji: '🥗' },
+  { nama: 'Pecel Mbak Mijem', kategori: 'Kuliner', emoji: '🥗' },
+  { nama: 'Sate Ayam Madura', kategori: 'Kuliner', emoji: '🍢' },
+  { nama: 'Dll. (segera diperbarui)', kategori: 'Kuliner', emoji: '🍽️' },
 ];
 
 const jenisUsaha = [
