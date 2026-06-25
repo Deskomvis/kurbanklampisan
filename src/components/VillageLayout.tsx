@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import klampisanLogo from '@/assets/Klampisan Logo.png';
+import klampisanLogo from '@/assets/Logo-klampisan-warna.png';
 
 const kegiatanItems = [
   { path: '/agustusan', label: 'Agustusan', icon: Flag, desc: 'Peringatan HUT Kemerdekaan RI' },
