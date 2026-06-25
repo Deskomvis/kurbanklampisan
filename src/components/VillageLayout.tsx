@@ -269,6 +269,20 @@ const VillageLayout = () => {
                   info@klampisan.com
                 </a>
               </p>
+              <p className="flex items-start gap-2.5 pt-3 mt-1 border-t border-stone-700">
+                <Phone className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" aria-hidden="true" />
+                <span>
+                  <a
+                    href="https://wa.me/6282220737323?text=Halo%20Bp.%20Fatkurohman%2C%20saya%20ingin%20tanya%20info%20Portal%20Desa%20Klampisan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-emerald-400 transition-colors focus-visible:outline-none focus-visible:text-emerald-400 block"
+                  >
+                    Bp. Fatkurohman: +62 822-2073-7323
+                  </a>
+                  <span className="text-xs text-stone-500">Kepala Digitalisasi Desa Klampisan</span>
+                </span>
+              </p>
             </address>
           </div>
         </div>

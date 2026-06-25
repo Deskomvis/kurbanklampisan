@@ -222,6 +222,19 @@ const Agustusan = () => (
                 Dusun Klampisan, RW 10
               </div>
             </div>
+
+            <div className="mt-6">
+              <a
+                href="https://wa.me/6282220737323?text=Halo%20Bp.%20Fatkurohman%2C%20saya%20ingin%20tanya%20info%20kegiatan%20HUT%20RI%20ke-81%20Klampisan%202026"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 bg-white text-red-800 hover:bg-red-50 font-bold text-sm px-5 py-3 rounded-xl transition-colors shadow-md"
+              >
+                <Phone className="w-4 h-4 shrink-0" aria-hidden="true" />
+                Hubungi Ketua Panitia — Bp. Fatkurohman
+              </a>
+              <p className="text-red-200 text-xs mt-2 ml-1">CP / Ketua Pelaksana 2026</p>
+            </div>
           </div>
           <div className="lg:col-span-6 relative mt-8 lg:mt-0 flex justify-center">
             <img
