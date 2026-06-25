@@ -24,6 +24,132 @@ const WaIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const ChatWidget = () => {
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({ nama: '', hp: '', kategori: 'Pengaduan', pesan: '' });
+
+  const buildWaUrl = () => {
+    const lines = [
+      `Halo Bp. Rezha, saya *${form.nama || 'pengunjung'}* dari Portal Klampisan.`,
+      '',
+      `*Kategori:* ${form.kategori}`,
+      '',
+      `*Pesan:*`,
+      form.pesan || '(tidak ada pesan)',
+    ];
+    if (form.hp) lines.push('', `*No. HP:* ${form.hp}`);
+    return `https://wa.me/6285741813147?text=${encodeURIComponent(lines.join('\n'))}`;
+  };
+
+  return (
+    <>
+      {/* Floating button */}
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-label={open ? 'Tutup chat' : 'Kirim pesan / pengaduan'}
+        className={cn(
+          'fixed bottom-6 right-6 z-[80] w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500',
+          open
+            ? 'bg-gray-700 hover:bg-gray-600 rotate-90'
+            : 'bg-[#25D366] hover:bg-[#1eb554] hover:scale-110',
+        )}
+      >
+        {open
+          ? <X className="w-5 h-5 text-white" />
+          : <WaIcon className="w-6 h-6 text-white" />}
+      </button>
+
+      {/* Panel */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Kirim Pesan / Pengaduan"
+        className={cn(
+          'fixed bottom-24 right-6 z-[80] w-[calc(100vw-3rem)] max-w-sm bg-white rounded-2xl shadow-2xl border border-gray-100 transition-all duration-300 origin-bottom-right',
+          open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none',
+        )}
+      >
+        {/* Header */}
+        <div className="bg-emerald-800 rounded-t-2xl px-5 py-4 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-[#25D366] flex items-center justify-center shrink-0">
+            <WaIcon className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <p className="text-white font-bold text-sm leading-tight">Kirim Pesan / Pengaduan</p>
+            <p className="text-emerald-300 text-xs">Portal Dusun Klampisan</p>
+          </div>
+        </div>
+
+        {/* Form */}
+        <div className="p-5 space-y-3">
+          <div>
+            <label htmlFor="chat-nama" className="block text-xs font-semibold text-gray-600 mb-1">Nama</label>
+            <input
+              id="chat-nama"
+              type="text"
+              placeholder="Nama Anda"
+              value={form.nama}
+              onChange={(e) => setForm((f) => ({ ...f, nama: e.target.value }))}
+              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent placeholder:text-gray-400"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="chat-kategori" className="block text-xs font-semibold text-gray-600 mb-1">Kategori</label>
+            <select
+              id="chat-kategori"
+              value={form.kategori}
+              onChange={(e) => setForm((f) => ({ ...f, kategori: e.target.value }))}
+              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent bg-white"
+            >
+              {['Pengaduan', 'Kirim Info', 'Tanya-tanya', 'UMKM & Usaha', 'Lainnya'].map((k) => (
+                <option key={k} value={k}>{k}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="chat-pesan" className="block text-xs font-semibold text-gray-600 mb-1">Pesan / Keterangan</label>
+            <textarea
+              id="chat-pesan"
+              rows={3}
+              placeholder="Tulis pesan Anda di sini..."
+              value={form.pesan}
+              onChange={(e) => setForm((f) => ({ ...f, pesan: e.target.value }))}
+              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent placeholder:text-gray-400 resize-none"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="chat-hp" className="block text-xs font-semibold text-gray-600 mb-1">No. HP <span className="text-gray-400 font-normal">(opsional)</span></label>
+            <input
+              id="chat-hp"
+              type="tel"
+              placeholder="08xxxxxxxxxx"
+              value={form.hp}
+              onChange={(e) => setForm((f) => ({ ...f, hp: e.target.value }))}
+              className="w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent placeholder:text-gray-400"
+            />
+          </div>
+
+          <a
+            href={buildWaUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#1eb554] text-white font-bold py-3 rounded-xl transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 mt-1"
+          >
+            <WaIcon className="w-4 h-4" />
+            Kirim via WhatsApp
+          </a>
+          <p className="text-center text-[11px] text-gray-400">Pesan akan dikirim langsung ke admin Klampisan</p>
+        </div>
+      </div>
+    </>
+  );
+};
+
 const VillageLayout = () => {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
@@ -220,6 +346,9 @@ const VillageLayout = () => {
       <main id="main-content" className="flex-1" tabIndex={-1}>
         <Outlet />
       </main>
+
+      {/* Floating chat widget */}
+      <ChatWidget />
 
       {/* Footer */}
       <footer role="contentinfo" className="bg-stone-900 text-stone-300">

@@ -45,7 +45,6 @@ const identitas = [
   { label: 'Kabupaten', value: 'Wonogiri' },
   { label: 'Provinsi', value: 'Jawa Tengah' },
   { label: 'Kode Pos', value: '57652' },
-  { label: 'Wilayah', value: 'RW 10 · RT 01 & RT 02' },
 ];
 
 const fasilitasData = [
