@@ -50,7 +50,9 @@ const VillageLayout = () => {
         role="banner"
         className={cn(
           'sticky top-0 z-50 transition-all duration-300 w-full border-b',
-          scrolled ? 'bg-white/97 backdrop-blur-md shadow-sm border-stone-200' : 'bg-white border-stone-100'
+          scrolled
+            ? 'bg-emerald-950/90 backdrop-blur-md shadow-lg border-emerald-900/40'
+            : 'bg-transparent border-white/10'
         )}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -58,26 +60,26 @@ const VillageLayout = () => {
             {/* Brand */}
             <Link
               to="/"
-              className="flex items-center gap-2.5 group rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2 p-1"
+              className="flex items-center gap-2.5 group rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 p-1"
               aria-label="Dusun Klampisan — kembali ke beranda"
             >
               <img
-                src={klampisanLogo}
+                src={scrolled ? klampisanLogoWhite : klampisanLogo}
                 alt="Logo Klampisan"
                 className={cn('w-auto object-contain transition-all group-hover:opacity-90', scrolled ? 'h-10 md:h-12' : 'h-12 md:h-14')}
               />
             </Link>
 
             {/* Desktop navigation */}
-            <nav aria-label="Navigasi utama" className="hidden md:flex items-center gap-1">
+            <nav aria-label="Navigasi utama" className="hidden md:flex items-center gap-1.5">
               <Link
                 to="/"
                 aria-current={isHome ? 'page' : undefined}
                 className={cn(
-                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2',
+                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
                   isHome
-                    ? 'bg-emerald-50 text-emerald-800'
-                    : 'text-stone-700 hover:text-stone-900 hover:bg-stone-100'
+                    ? (scrolled ? 'bg-white/10 text-white border border-white/20' : 'bg-white text-emerald-800 shadow-sm')
+                    : 'text-white/80 hover:text-white hover:bg-white/10'
                 )}
               >
                 Home
@@ -87,10 +89,10 @@ const VillageLayout = () => {
                 to="/agustusan"
                 aria-current={location.pathname.startsWith('/agustusan') ? 'page' : undefined}
                 className={cn(
-                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2',
+                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
                   location.pathname.startsWith('/agustusan')
-                    ? 'bg-emerald-50 text-emerald-800'
-                    : 'text-stone-700 hover:text-stone-900 hover:bg-stone-100'
+                    ? (scrolled ? 'bg-white/10 text-white border border-white/20' : 'bg-white text-emerald-800 shadow-sm')
+                    : 'text-white/80 hover:text-white hover:bg-white/10'
                 )}
               >
                 <Flag className="w-4 h-4" aria-hidden="true" />
@@ -101,10 +103,10 @@ const VillageLayout = () => {
                 to="/kurban"
                 aria-current={location.pathname.startsWith('/kurban') ? 'page' : undefined}
                 className={cn(
-                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2',
+                  'flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
                   location.pathname.startsWith('/kurban')
-                    ? 'bg-emerald-50 text-emerald-800'
-                    : 'text-stone-700 hover:text-stone-900 hover:bg-stone-100'
+                    ? (scrolled ? 'bg-white/10 text-white border border-white/20' : 'bg-white text-emerald-800 shadow-sm')
+                    : 'text-white/80 hover:text-white hover:bg-white/10'
                 )}
               >
                 <Beef className="w-4 h-4" aria-hidden="true" />
@@ -117,12 +119,15 @@ const VillageLayout = () => {
               aria-expanded={mobileOpen}
               aria-controls={mobileMenuId}
               aria-label={mobileOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
-              className="md:hidden p-2 rounded-lg hover:bg-stone-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:ring-offset-2"
+              className={cn(
+                'md:hidden p-2 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2',
+                scrolled ? 'hover:bg-white/10 text-white' : 'hover:bg-white/15 text-white'
+              )}
               onClick={() => setMobileOpen((v) => !v)}
             >
               {mobileOpen
-                ? <X className="w-5 h-5 text-stone-700" aria-hidden="true" />
-                : <Menu className="w-5 h-5 text-stone-700" aria-hidden="true" />}
+                ? <X className="w-5 h-5 text-white" aria-hidden="true" />
+                : <Menu className="w-5 h-5 text-white" aria-hidden="true" />}
             </button>
           </div>
         </div>
