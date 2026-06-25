@@ -62,18 +62,16 @@ const Layout = () => {
   const navItems = allNavItems.filter(item => !item.adminOnly || isAuthenticated);
 
   return (
-    <div className="min-h-screen bg-gray-50 selection:bg-green-100 selection:text-green-900">
-      {/* Top Banner */}
+    <>
+      {/* Kurban sub-banner */}
       <div className="bg-green-700 text-white py-1.5 px-4 text-xs font-medium text-center">
-        Panitia Kurban Masjid Istiqomah Klampisan • Tahun {hijriahYear} H / {currentYear} M
+        Panitia Kurban Masjid Istiqomah Klampisan &bull; Tahun {hijriahYear} H / {currentYear} M
       </div>
 
-      {/* Main Header */}
+      {/* Kurban sub-header — scrolls with content, sits below global VillageLayout header */}
       <header className={cn(
-        "sticky top-0 z-50 transition-all duration-300 w-full border-b",
-        scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-sm border-gray-200"
-          : "bg-white border-gray-100"
+        "w-full border-b transition-all duration-300",
+        "bg-white border-gray-100"
       )}>
         <div className="w-full px-4 md:px-8">
 
@@ -232,15 +230,15 @@ const Layout = () => {
         </div>
       </div>
 
-      {/* Main Content Area */}
-      <main className="relative z-10 container mx-auto px-4 md:px-6 py-6 md:py-8">
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-4 md:px-6 py-6 md:py-8 bg-gray-50 min-h-[60vh]">
         <div className="max-w-7xl mx-auto">
           <Outlet />
         </div>
-      </main>
+      </div>
 
       <LoginDialog open={loginOpen} onClose={() => setLoginOpen(false)} />
-    </div>
+    </>
   );
 };
 

@@ -76,30 +76,31 @@ const App = () => (
             <Sonner />
             <BrowserRouter>
               <Routes>
-                {/* Portal Desa Klampisan */}
+                {/* Portal Desa Klampisan — semua halaman di bawah VillageLayout */}
                 <Route element={<VillageLayout />}>
+                  {/* Halaman desa */}
                   <Route path="/" element={<Home />} />
                   <Route path="/agustusan" element={<Agustusan />} />
                   <Route path="/kabar-warga" element={<KabarWarga />} />
                   <Route path="/usaha-warga" element={<UsahaWarga />} />
                   <Route path="/rencana-warga" element={<RencanaWarga />} />
                   <Route path="/pengumuman" element={<Pengumuman />} />
-                </Route>
 
-                {/* Aplikasi Kurban */}
-                <Route element={<Layout />}>
-                  <Route path="/kurban" element={<Dashboard />} />
-                  <Route path="/kurban/panitia" element={<Panitia />} />
-                  <Route path="/kurban/kelompok-kurban" element={<KelompokKurban />} />
-                  <Route path="/kurban/keuangan" element={<Keuangan />} />
-                  <Route path="/kurban/penerima-daging" element={<PenerimaDaging />} />
-                  <Route path="/kurban/pembagian-daging" element={<PembagianDaging />} />
-                  <Route path="/kurban/laporan" element={<Laporan />} />
-                  <Route path="/kurban/rab" element={<Rab />} />
-                  <Route path="/kurban/data-management" element={<DataManagement />} />
-                  <Route path="/kurban/cetak" element={<Cetak />} />
-                  <Route path="/kurban/cetak/kartu-daging" element={<CetakKartuDaging />} />
-                  <Route path="/kurban/pasal-musyawarah" element={<PasalMusyawarah />} />
+                  {/* Aplikasi Kurban — sub-header kurban di bawah header global */}
+                  <Route element={<Layout />}>
+                    <Route path="/kurban" element={<Dashboard />} />
+                    <Route path="/kurban/panitia" element={<Panitia />} />
+                    <Route path="/kurban/kelompok-kurban" element={<KelompokKurban />} />
+                    <Route path="/kurban/keuangan" element={<Keuangan />} />
+                    <Route path="/kurban/penerima-daging" element={<PenerimaDaging />} />
+                    <Route path="/kurban/pembagian-daging" element={<PembagianDaging />} />
+                    <Route path="/kurban/laporan" element={<Laporan />} />
+                    <Route path="/kurban/rab" element={<Rab />} />
+                    <Route path="/kurban/data-management" element={<DataManagement />} />
+                    <Route path="/kurban/cetak" element={<Cetak />} />
+                    <Route path="/kurban/cetak/kartu-daging" element={<CetakKartuDaging />} />
+                    <Route path="/kurban/pasal-musyawarah" element={<PasalMusyawarah />} />
+                  </Route>
                 </Route>
 
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
