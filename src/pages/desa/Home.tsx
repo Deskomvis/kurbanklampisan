@@ -196,19 +196,13 @@ const Home = () => (
               </Link>
             </div>
           </div>
-          <div className="lg:col-span-5 relative mt-8 lg:mt-0">
-            <div className="relative group">
-              {/* Decorative background glow */}
-              <div className="absolute -inset-1.5 bg-gradient-to-r from-lime-400 to-emerald-500 rounded-2xl blur opacity-30 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
-              <div className="relative bg-emerald-950/40 p-2 rounded-2xl border border-white/10 backdrop-blur-sm shadow-2xl">
-                <img
-                  src={heroKlampisan}
-                  alt="Lingkungan Dusun Klampisan"
-                  className="rounded-xl w-full object-cover aspect-[4/3] shadow-inner transform transition duration-500 hover:scale-[1.01]"
-                  loading="eager"
-                />
-              </div>
-            </div>
+          <div className="lg:col-span-5 relative mt-8 lg:mt-0 flex justify-center">
+            <img
+              src={heroKlampisan}
+              alt="Lingkungan Dusun Klampisan"
+              className="w-full max-w-md lg:max-w-full rounded-2xl shadow-xl object-contain transform transition duration-500 hover:scale-[1.02]"
+              loading="eager"
+            />
           </div>
         </div>
       </div>
