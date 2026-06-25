@@ -74,7 +74,7 @@ const fasilitasData = [
     bg: 'bg-amber-50 text-amber-700',
     items: [
       { nama: 'Garasi & Pool Bus AGRAMAS', rt: 'RT 02' },
-      { nama: 'Terminal Lama Wonogiri', rt: 'RT 01' },
+      { nama: 'Terminal Truk Kontainer di Ex Terminal Induk Wonogiri', rt: 'RT 01' },
     ],
   },
   {
