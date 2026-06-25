@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import klampisanLogo from '@/assets/Logo-klampisan-warna.png';
+import klampisanLogoWhite from '@/assets/Logo-klampisan-putih.png';
 
 const kegiatanItems = [
   { path: '/agustusan', label: 'Agustusan', icon: Flag, desc: 'Peringatan HUT Kemerdekaan RI' },
@@ -234,7 +235,7 @@ const VillageLayout = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 grid gap-10 md:grid-cols-3">
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <img src={klampisanLogo} alt="Logo Klampisan" className="h-14 w-auto object-contain brightness-0 invert opacity-80" />
+              <img src={klampisanLogoWhite} alt="Logo Klampisan" className="h-14 w-auto object-contain" />
             </div>
             <p className="text-sm text-stone-400 leading-relaxed">
               Portal informasi dan kegiatan warga yang dikelola secara mandiri
