@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import heroKlampisan from '@/assets/hero-klampisan.webp';
 import terminalLama from '@/assets/Terminal Lama.webp';
+import goDigitalImg from '@/assets/Klampisan-selogiri-wonogiri.webp';
 import {
   Flag,
   Beef,
@@ -292,88 +293,65 @@ const Home = () => {
       </div>
     </section>
 
-    {/* ── 3. Tentang & Sejarah ─────────────────────────────── */}
+    {/* ── 3. Klampisan Go Digital ──────────────────────────── */}
     <section
-      aria-labelledby="tentang-heading"
-      className="max-w-7xl mx-auto px-4 md:px-8 py-14 md:py-20"
+      aria-labelledby="go-digital-heading"
+      className="bg-emerald-900 py-14 md:py-20"
     >
-      <div className="grid md:grid-cols-2 gap-10 md:gap-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
 
-        {/* Tentang */}
-        <div>
-          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-3">Tentang Klampisan</p>
-          <h2 id="tentang-heading" className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
-            Lingkungan Semi-Perkotaan yang Guyub dan Aktif
-          </h2>
-          <p className="text-gray-700 leading-relaxed mb-3">
-            Klampisan merupakan lingkungan di Kelurahan Kaliancar, Kecamatan Selogiri, Kabupaten
-            Wonogiri, Provinsi Jawa Tengah. Berada di jalur utama Wonogiri–Sukoharjo/Solo, kawasan
-            ini memiliki akses yang mudah menuju pusat kabupaten maupun wilayah sekitarnya.
-          </p>
-          <p className="text-gray-700 leading-relaxed">
-            Dengan karakter semi-perkotaan, Klampisan tumbuh sebagai hunian yang dinamis dengan
-            kehidupan warga yang guyub, fasilitas publik yang mendukung, potensi ekonomi lokal, serta
-            kegiatan sosial kemasyarakatan yang kuat.
-          </p>
-
-          <div className="mt-6 flex items-start gap-3 p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
-            <Navigation className="w-5 h-5 text-emerald-700 mt-0.5 shrink-0" aria-hidden="true" />
-            <p className="text-sm text-emerald-800">
-              <strong>Akses strategis:</strong> Dilalui jalur utama Wonogiri–Sukoharjo/Solo,
-              menjadikan Klampisan sebagai salah satu titik lintasan penting di Kecamatan Selogiri.
+          {/* Text */}
+          <div>
+            <p className="text-emerald-400 font-bold text-sm uppercase tracking-wider mb-3">Inisiatif Digital</p>
+            <h2
+              id="go-digital-heading"
+              className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-4"
+            >
+              Klampisan Go Digital
+            </h2>
+            <p className="text-emerald-100 leading-relaxed mb-8">
+              Program menggali dan mempromosikan potensi wilayah Dusun Klampisan, serta
+              pembinaan UMKM berbasis digital yang dimulai dari tingkat dusun dan RW
+              kelurahan.
             </p>
-          </div>
-        </div>
-
-        {/* Sejarah Singkat */}
-        <div>
-          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-3">Sejarah Singkat</p>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
-            Asal-Usul dan Catatan Historis
-          </h2>
-
-          <div className="space-y-4">
-            <div className="flex items-start gap-4">
-              <span
-                className="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center shrink-0 mt-0.5"
-                aria-hidden="true"
-              >
-                <Building2 className="w-4 h-4" />
-              </span>
-              <div>
-                <h3 className="font-bold text-gray-900 text-sm mb-1">Terminal Klampisan</h3>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  Klampisan dikenal sebagai kawasan lama di jalur masuk utara Wonogiri. Dahulu terdapat
-                  Terminal Giri Adipura yang dikenal masyarakat sebagai <em>Terminal Klampisan</em>,
-                  menjadikannya kawasan transit aktif. Setelah terminal dipindah ke Krisak, Klampisan
-                  tetap berkembang sebagai kawasan hunian, perdagangan, dan jasa.
-                </p>
-                <img
-                  src={terminalLama}
-                  alt="Suasana Terminal Lama Wonogiri (Terminal Klampisan) tempo dulu"
-                  className="mt-3 w-full rounded-xl object-cover aspect-video border border-stone-200"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <span
-                className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5"
-                aria-hidden="true"
-              >
-                <TreePine className="w-4 h-4" />
-              </span>
-              <div>
-                <h3 className="font-bold text-gray-900 text-sm mb-1">Asal Nama Klampisan</h3>
-                <p className="text-sm text-gray-700 leading-relaxed">
-                  Secara kultural, nama Klampisan dikaitkan dengan riwayat lokal mengenai pohon
-                  <em> Klampis</em> yang dahulu banyak tumbuh di kawasan ini. Cerita ini menjadi
-                  bagian dari ingatan warga dan narasi sejarah lingkungan.
-                </p>
-              </div>
+            <ul className="space-y-4">
+              {([
+                { ikon: Globe, judul: 'Promosi Potensi Dusun', desc: 'Memperkenalkan Klampisan kepada khalayak luas melalui platform digital.' },
+                { ikon: Store, judul: 'Pembinaan UMKM Digital', desc: 'Mendampingi pelaku usaha warga agar mampu berjualan dan berpemasaran secara digital.' },
+                { ikon: Smartphone, judul: 'Digital dari Akar Rumput', desc: 'Transformasi digital dimulai dari unit terkecil — dusun, RW, hingga kelurahan.' },
+                { ikon: TrendingUp, judul: 'Data & Informasi Warga', desc: 'Portal desa sebagai pusat data, pengumuman, dan direktori UMKM Klampisan.' },
+              ] as const).map((item) => {
+                const Icon = item.ikon;
+                return (
+                  <li key={item.judul} className="flex items-start gap-4">
+                    <span className="w-9 h-9 rounded-xl bg-emerald-800 text-emerald-300 flex items-center justify-center shrink-0 mt-0.5" aria-hidden="true">
+                      <Icon className="w-4 h-4" />
+                    </span>
+                    <div>
+                      <p className="font-bold text-white text-sm mb-0.5">{item.judul}</p>
+                      <p className="text-emerald-200 text-sm leading-relaxed">{item.desc}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+            <div className="mt-8 flex items-center gap-2 text-emerald-400 text-xs font-medium">
+              <MapPin className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+              Dusun Klampisan · RW 10 · Kec. Selogiri · Wonogiri, Jawa Tengah
             </div>
           </div>
+
+          {/* Image */}
+          <div className="flex items-center justify-center">
+            <img
+              src={goDigitalImg}
+              alt="Maskot Klampisan Go Digital di depan gerbang dusun Klampisan"
+              className="w-full rounded-2xl shadow-2xl shadow-emerald-950/50"
+              loading="lazy"
+            />
+          </div>
+
         </div>
       </div>
     </section>
@@ -557,86 +535,93 @@ const Home = () => {
       </div>
     </section>
 
-    {/* ── 6.5. Klampisan Go Digital ────────────────────────── */}
+    {/* ── 7. Tentang & Sejarah ─────────────────────────────── */}
     <section
-      aria-labelledby="go-digital-heading"
-      className="bg-emerald-900 py-14 md:py-20"
+      aria-labelledby="tentang-heading"
+      className="max-w-7xl mx-auto px-4 md:px-8 py-14 md:py-20"
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-8">
-        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+      <div className="grid md:grid-cols-2 gap-10 md:gap-16">
 
-          {/* Text */}
-          <div>
-            <p className="text-emerald-400 font-bold text-sm uppercase tracking-wider mb-3">Inisiatif Digital</p>
-            <h2
-              id="go-digital-heading"
-              className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-4"
-            >
-              Klampisan Go Digital
-            </h2>
-            <p className="text-emerald-100 leading-relaxed mb-8">
-              Program menggali dan mempromosikan potensi wilayah Dusun Klampisan, serta
-              pembinaan UMKM berbasis digital yang dimulai dari tingkat dusun dan RW
-              kelurahan.
+        {/* Tentang */}
+        <div>
+          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-3">Tentang Klampisan</p>
+          <h2 id="tentang-heading" className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
+            Lingkungan Semi-Perkotaan yang Guyub dan Aktif
+          </h2>
+          <p className="text-gray-700 leading-relaxed mb-3">
+            Klampisan merupakan lingkungan di Kelurahan Kaliancar, Kecamatan Selogiri, Kabupaten
+            Wonogiri, Provinsi Jawa Tengah. Berada di jalur utama Wonogiri–Sukoharjo/Solo, kawasan
+            ini memiliki akses yang mudah menuju pusat kabupaten maupun wilayah sekitarnya.
+          </p>
+          <p className="text-gray-700 leading-relaxed">
+            Dengan karakter semi-perkotaan, Klampisan tumbuh sebagai hunian yang dinamis dengan
+            kehidupan warga yang guyub, fasilitas publik yang mendukung, potensi ekonomi lokal, serta
+            kegiatan sosial kemasyarakatan yang kuat.
+          </p>
+
+          <div className="mt-6 flex items-start gap-3 p-4 bg-emerald-50 border border-emerald-100 rounded-xl">
+            <Navigation className="w-5 h-5 text-emerald-700 mt-0.5 shrink-0" aria-hidden="true" />
+            <p className="text-sm text-emerald-800">
+              <strong>Akses strategis:</strong> Dilalui jalur utama Wonogiri–Sukoharjo/Solo,
+              menjadikan Klampisan sebagai salah satu titik lintasan penting di Kecamatan Selogiri.
             </p>
-            <ul className="space-y-4">
-              {([
-                { ikon: Globe, judul: 'Promosi Potensi Dusun', desc: 'Memperkenalkan Klampisan kepada khalayak luas melalui platform digital.' },
-                { ikon: Store, judul: 'Pembinaan UMKM Digital', desc: 'Mendampingi pelaku usaha warga agar mampu berjualan dan berpemasaran secara digital.' },
-                { ikon: Smartphone, judul: 'Digital dari Akar Rumput', desc: 'Transformasi digital dimulai dari unit terkecil — dusun, RW, hingga kelurahan.' },
-                { ikon: TrendingUp, judul: 'Data & Informasi Warga', desc: 'Portal desa sebagai pusat data, pengumuman, dan direktori UMKM Klampisan.' },
-              ] as const).map((item) => {
-                const Icon = item.ikon;
-                return (
-                  <li key={item.judul} className="flex items-start gap-4">
-                    <span className="w-9 h-9 rounded-xl bg-emerald-800 text-emerald-300 flex items-center justify-center shrink-0 mt-0.5" aria-hidden="true">
-                      <Icon className="w-4 h-4" />
-                    </span>
-                    <div>
-                      <p className="font-bold text-white text-sm mb-0.5">{item.judul}</p>
-                      <p className="text-emerald-200 text-sm leading-relaxed">{item.desc}</p>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
           </div>
+        </div>
 
-          {/* Visual */}
-          <div className="flex items-center justify-center">
-            <div className="relative w-full max-w-sm">
-              <div className="bg-emerald-800/60 rounded-3xl p-8 border border-emerald-700/50">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center">
-                    <Globe className="w-6 h-6 text-white" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <p className="text-white font-bold text-sm">klampisan.com</p>
-                    <p className="text-emerald-400 text-xs">Portal Resmi Dusun Klampisan</p>
-                  </div>
-                </div>
-                <div className="space-y-2.5">
-                  {['Kabar Warga', 'Usaha Warga', 'Pengumuman', 'Rencana Warga', 'Kurban'].map((m) => (
-                    <div key={m} className="flex items-center gap-3 bg-emerald-700/40 rounded-xl px-4 py-2.5">
-                      <div className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" aria-hidden="true" />
-                      <span className="text-emerald-100 text-sm font-medium">{m}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-6 pt-5 border-t border-emerald-700/50 text-center">
-                  <p className="text-emerald-300 text-xs">Dusun Klampisan · RW 10 · Wonogiri, Jawa Tengah</p>
-                </div>
+        {/* Sejarah Singkat */}
+        <div>
+          <p className="text-emerald-700 font-bold text-sm uppercase tracking-wider mb-3">Sejarah Singkat</p>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 leading-tight mb-4">
+            Asal-Usul dan Catatan Historis
+          </h2>
+
+          <div className="space-y-4">
+            <div className="flex items-start gap-4">
+              <span
+                className="w-9 h-9 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center shrink-0 mt-0.5"
+                aria-hidden="true"
+              >
+                <Building2 className="w-4 h-4" />
+              </span>
+              <div>
+                <h3 className="font-bold text-gray-900 text-sm mb-1">Terminal Klampisan</h3>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Klampisan dikenal sebagai kawasan lama di jalur masuk utara Wonogiri. Dahulu terdapat
+                  Terminal Giri Adipura yang dikenal masyarakat sebagai <em>Terminal Klampisan</em>,
+                  menjadikannya kawasan transit aktif. Setelah terminal dipindah ke Krisak, Klampisan
+                  tetap berkembang sebagai kawasan hunian, perdagangan, dan jasa.
+                </p>
+                <img
+                  src={terminalLama}
+                  alt="Suasana Terminal Lama Wonogiri (Terminal Klampisan) tempo dulu"
+                  className="mt-3 w-full rounded-xl object-cover aspect-video border border-stone-200"
+                  loading="lazy"
+                />
               </div>
-              <div className="absolute -top-4 -right-4 w-20 h-20 bg-emerald-600/20 rounded-full blur-2xl pointer-events-none" aria-hidden="true" />
-              <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" aria-hidden="true" />
+            </div>
+
+            <div className="flex items-start gap-4">
+              <span
+                className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5"
+                aria-hidden="true"
+              >
+                <TreePine className="w-4 h-4" />
+              </span>
+              <div>
+                <h3 className="font-bold text-gray-900 text-sm mb-1">Asal Nama Klampisan</h3>
+                <p className="text-sm text-gray-700 leading-relaxed">
+                  Secara kultural, nama Klampisan dikaitkan dengan riwayat lokal mengenai pohon
+                  <em> Klampis</em> yang dahulu banyak tumbuh di kawasan ini. Cerita ini menjadi
+                  bagian dari ingatan warga dan narasi sejarah lingkungan.
+                </p>
+              </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>
 
-    {/* ── 7. Arah Pengembangan ─────────────────────────────── */}
+    {/* ── 8. Arah Pengembangan ─────────────────────────────── */}
     <section
       aria-labelledby="pengembangan-heading"
       className="max-w-7xl mx-auto px-4 md:px-8 py-14 md:py-20"
