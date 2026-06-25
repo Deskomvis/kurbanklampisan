@@ -40,40 +40,25 @@ const VillageLayout = () => {
   // ── Theme detection ──────────────────────────────────────
   const isAgustusan = location.pathname.startsWith('/agustusan');
   // Halaman yang punya hero gelap (header transparan di atas hero)
-  const isDarkHero = location.pathname === '/' || isAgustusan;
-  // Header "gelap" = ketika di atas hero atau setelah scroll
-  const isDark = isDarkHero || scrolled;
-
-  // Announcement bar
+// Header "gelap" = ketika di atas hero atau setelah scroll
+// Announcement bar
   const announcementBg = isAgustusan
     ? 'bg-gradient-to-r from-red-950 via-red-900 to-rose-900'
     : 'bg-gradient-to-r from-emerald-900 via-emerald-800 to-green-800';
 
-  // Header background
-  const headerBg = isDarkHero
-    ? isAgustusan
-      ? scrolled
-        ? 'bg-red-900/92 backdrop-blur-md shadow-md border-red-900/30'
-        : 'bg-red-900 border-red-900/30'
-      : scrolled
-        ? 'bg-emerald-900/92 backdrop-blur-md shadow-md border-emerald-900/30'
-        : 'bg-emerald-900 border-emerald-900/30'
+  // Header background: putih normal, hitam transparan 50% saat scroll
+  const headerBg = scrolled
+    ? 'bg-black/50 backdrop-blur-md shadow-md border-white/10'
     : 'bg-white border-gray-200 shadow-sm';
-
-  // Focus ring colour per tema
-  const focusRing = isAgustusan
-    ? 'focus-visible:ring-red-300'
-    : 'focus-visible:ring-emerald-400';
 
   const getLinkCls = (isActive: boolean) => cn(
     'flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs xl:text-sm font-semibold transition-all',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1',
-    isAgustusan ? 'focus-visible:ring-red-300' : 'focus-visible:ring-emerald-400',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-emerald-400',
     isActive
-      ? isDark
+      ? scrolled
         ? 'bg-white/15 text-white ring-1 ring-white/25'
         : 'bg-emerald-50 text-emerald-800 border border-emerald-100'
-      : isDark
+      : scrolled
         ? 'text-white/90 hover:text-white hover:bg-white/10'
         : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100'
   );
@@ -109,8 +94,7 @@ const VillageLayout = () => {
               to="/"
               className={cn(
                 'flex items-center group rounded-lg p-1',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
-                focusRing,
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400',
               )}
               aria-label="Dusun Klampisan — kembali ke beranda"
             >
@@ -152,15 +136,14 @@ const VillageLayout = () => {
               aria-label={mobileOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
               className={cn(
                 'md:hidden p-2 rounded-lg transition-colors',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
-                focusRing,
-                isDark ? 'hover:bg-white/15' : 'hover:bg-gray-100',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-400',
+                scrolled ? 'hover:bg-white/15' : 'hover:bg-gray-100',
               )}
               onClick={() => setMobileOpen((v) => !v)}
             >
               {mobileOpen
-                ? <X className={cn('w-5 h-5', isDark ? 'text-white' : 'text-gray-700')} aria-hidden="true" />
-                : <Menu className={cn('w-5 h-5', isDark ? 'text-white' : 'text-gray-700')} aria-hidden="true" />}
+                ? <X className={cn('w-5 h-5', scrolled ? 'text-white' : 'text-gray-700')} aria-hidden="true" />
+                : <Menu className={cn('w-5 h-5', scrolled ? 'text-white' : 'text-gray-700')} aria-hidden="true" />}
             </button>
           </div>
         </div>
