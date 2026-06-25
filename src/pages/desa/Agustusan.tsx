@@ -464,24 +464,6 @@ const Agustusan = () => (
         </div>
       </div>
 
-      {/* ── Download SK PDF ── */}
-      <div className="max-w-7xl mx-auto mt-6 mb-2">
-        <div className="rounded-2xl border border-red-100 bg-white shadow-sm px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs font-bold text-gray-700 uppercase tracking-wide leading-relaxed text-center sm:text-left">
-            Download Susunan Pembentukan Panitia Peringatan Hari Ulang Tahun<br className="hidden sm:block" />
-            Kemerdekaan Republik Indonesia Ke-81 Tahun 2026
-          </p>
-          <a
-            href="/SK-Panitia-HUT-RI-81-2026.pdf"
-            download="SK-Panitia-HUT-RI-81-2026.pdf"
-            className="flex items-center gap-2 shrink-0 bg-red-700 hover:bg-red-800 active:bg-red-900 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-colors shadow-sm"
-          >
-            <Download className="w-4 h-4" aria-hidden="true" />
-            Download .PDF
-          </a>
-        </div>
-      </div>
-
       {/* ── Drop ke divisi ── */}
       <div className="flex justify-center"><VLine /></div>
 
@@ -531,6 +513,24 @@ const Agustusan = () => (
           {orgSieAcara.divisi.map((sie, i) => (
             <SieCard key={i} {...sie} />
           ))}
+        </div>
+      </div>
+
+      {/* ── Download SK PDF ── */}
+      <div className="max-w-7xl mx-auto mt-10">
+        <div className="rounded-2xl border border-red-100 bg-white shadow-sm px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs font-bold text-gray-700 uppercase tracking-wide leading-relaxed text-center sm:text-left">
+            Download Susunan Pembentukan Panitia Peringatan Hari Ulang Tahun<br className="hidden sm:block" />
+            Kemerdekaan Republik Indonesia Ke-81 Tahun 2026
+          </p>
+          <a
+            href="/SK-Panitia-HUT-RI-81-2026.pdf"
+            download="SK-Panitia-HUT-RI-81-2026.pdf"
+            className="flex items-center gap-2 shrink-0 bg-red-700 hover:bg-red-800 active:bg-red-900 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-colors shadow-sm"
+          >
+            <Download className="w-4 h-4" aria-hidden="true" />
+            Download .PDF
+          </a>
         </div>
       </div>
     </section>
