@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import heroKlampisan from '@/assets/hero-klampisan.webp';
 import {
   Flag,
   Beef,
@@ -160,38 +161,54 @@ const Home = () => (
         aria-hidden="true"
         className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"
       />
-      <div className="relative max-w-7xl mx-auto px-4 md:px-8 pt-20 pb-16 md:pt-28 md:pb-20">
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white text-xs font-semibold mb-6">
-            <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
-            Selogiri, Wonogiri, Jawa Tengah
+      <div className="relative max-w-7xl mx-auto px-4 md:px-8 pt-16 pb-16 md:pt-24 md:pb-24">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="lg:col-span-7">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white text-xs font-semibold mb-6">
+              <MapPin className="w-3.5 h-3.5" aria-hidden="true" />
+              Selogiri, Wonogiri, Jawa Tengah
+            </div>
+            <h1
+              id="hero-heading"
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] tracking-tight"
+            >
+              Selamat Datang di<br />
+              <span className="text-lime-300">Portal Informasi</span><br />
+              Lingkungan Klampisan
+            </h1>
+            <p className="mt-5 text-emerald-100 text-base md:text-lg leading-relaxed max-w-2xl">
+              Klampisan adalah lingkungan dusun yang dinamis, ramah, dan aktif di Kelurahan Kaliancar, Kecamatan Selogiri, Kabupaten Wonogiri, Jawa Tengah.
+              Berada di jalur utama Wonogiri–Sukoharjo/Solo dengan kehidupan warga yang guyub dan
+              kegiatan sosial yang menjadi kekuatan utama lingkungan.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link
+                to="/agustusan"
+                className="inline-flex items-center gap-2 bg-white text-emerald-800 font-bold px-5 py-3 rounded-xl hover:bg-emerald-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 text-sm shadow-md"
+              >
+                <Flag className="w-4 h-4" aria-hidden="true" /> Agustusan 2026
+              </Link>
+              <Link
+                to="/kurban"
+                className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-bold px-5 py-3 rounded-xl hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 text-sm"
+              >
+                <Beef className="w-4 h-4" aria-hidden="true" /> Data Kurban 2026
+              </Link>
+            </div>
           </div>
-          <h1
-            id="hero-heading"
-            className="text-4xl md:text-5xl font-extrabold text-white leading-[1.1] tracking-tight"
-          >
-            Selamat Datang di<br />
-            <span className="text-lime-300">Portal Informasi</span><br />
-            Lingkungan Klampisan
-          </h1>
-          <p className="mt-5 text-emerald-100 text-base md:text-lg leading-relaxed max-w-2xl">
-            Klampisan adalah lingkungan dusun yang dinamis, ramah, dan aktif di Kelurahan Kaliancar, Kecamatan Selogiri, Kabupaten Wonogiri, Jawa Tengah.
-            Berada di jalur utama Wonogiri–Sukoharjo/Solo dengan kehidupan warga yang guyub dan
-            kegiatan sosial yang menjadi kekuatan utama lingkungan.
-          </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link
-              to="/agustusan"
-              className="inline-flex items-center gap-2 bg-white text-emerald-800 font-bold px-5 py-3 rounded-xl hover:bg-emerald-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 text-sm shadow-md"
-            >
-              <Flag className="w-4 h-4" aria-hidden="true" /> Agustusan 2026
-            </Link>
-            <Link
-              to="/kurban"
-              className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white font-bold px-5 py-3 rounded-xl hover:bg-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 text-sm"
-            >
-              <Beef className="w-4 h-4" aria-hidden="true" /> Data Kurban 2026
-            </Link>
+          <div className="lg:col-span-5 relative mt-8 lg:mt-0">
+            <div className="relative group">
+              {/* Decorative background glow */}
+              <div className="absolute -inset-1.5 bg-gradient-to-r from-lime-400 to-emerald-500 rounded-2xl blur opacity-30 group-hover:opacity-40 transition duration-1000 group-hover:duration-200" />
+              <div className="relative bg-emerald-950/40 p-2 rounded-2xl border border-white/10 backdrop-blur-sm shadow-2xl">
+                <img
+                  src={heroKlampisan}
+                  alt="Lingkungan Dusun Klampisan"
+                  className="rounded-xl w-full object-cover aspect-[4/3] shadow-inner transform transition duration-500 hover:scale-[1.01]"
+                  loading="eager"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
