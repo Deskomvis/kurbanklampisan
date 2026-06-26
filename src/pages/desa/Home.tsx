@@ -359,7 +359,7 @@ const Home = () => {
                 <img
                   src={goDigitalImg}
                   alt="Maskot Klampisan Go Digital di depan gerbang dusun Klampisan"
-                  className="w-full block animate-float-slow"
+                  className="w-full block"
                   loading="lazy"
                 />
                 {/* Top scan line */}
