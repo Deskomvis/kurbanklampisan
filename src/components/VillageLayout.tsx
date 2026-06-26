@@ -7,6 +7,7 @@ import {
 import { cn } from '@/lib/utils';
 import klampisanLogo from '@/assets/Logo-klampisan-warna.png';
 import klampisanLogoWhite from '@/assets/Logo-klampisan-putih.png';
+import chatWidgetImg from '@/assets/chat-widget.webp';
 
 const navigationItems = [
   { path: '/', label: 'Home', icon: null },
@@ -49,16 +50,23 @@ const ChatWidget = () => {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Tutup chat' : 'Kirim pesan / pengaduan'}
         className={cn(
-          'fixed bottom-6 right-6 z-[80] w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300',
+          'fixed bottom-4 right-4 z-[80] transition-all duration-300',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500',
-          open
-            ? 'bg-gray-700 hover:bg-gray-600 rotate-90'
-            : 'bg-[#25D366] hover:bg-[#1eb554] hover:scale-110',
+          open ? 'scale-90 opacity-80' : 'hover:scale-105 animate-float',
         )}
       >
-        {open
-          ? <X className="w-5 h-5 text-white" />
-          : <WaIcon className="w-6 h-6 text-white" />}
+        {open ? (
+          <div className="w-14 h-14 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center shadow-lg">
+            <X className="w-5 h-5 text-white" />
+          </div>
+        ) : (
+          <img
+            src={chatWidgetImg}
+            alt="Klik WhatsApp Disini"
+            className="w-28 h-auto drop-shadow-xl"
+            draggable={false}
+          />
+        )}
       </button>
 
       {/* Panel */}
@@ -67,7 +75,7 @@ const ChatWidget = () => {
         aria-modal="true"
         aria-label="Kirim Pesan / Pengaduan"
         className={cn(
-          'fixed bottom-24 right-6 z-[80] w-[calc(100vw-3rem)] max-w-sm bg-white rounded-2xl shadow-2xl border border-gray-100 transition-all duration-300 origin-bottom-right',
+          'fixed bottom-36 right-4 z-[80] w-[calc(100vw-2rem)] max-w-sm bg-white rounded-2xl shadow-2xl border border-gray-100 transition-all duration-300 origin-bottom-right',
           open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none',
         )}
       >
