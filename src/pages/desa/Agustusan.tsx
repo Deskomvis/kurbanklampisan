@@ -199,6 +199,10 @@ const Agustusan = () => (
         <rect width="100%" height="100%" fill="url(#agus-geo)" />
       </svg>
 
+      {/* Decorative blobs */}
+      <div aria-hidden="true" className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full bg-red-500/10 blur-3xl pointer-events-none animate-pulse-slow" />
+      <div aria-hidden="true" className="absolute -bottom-24 -left-24 w-[350px] h-[350px] rounded-full bg-yellow-400/8 blur-3xl pointer-events-none animate-pulse-slow [animation-delay:2.5s]" />
+
       <div className="relative max-w-7xl mx-auto px-4 md:px-8 pt-16 pb-16 md:pt-24 md:pb-24">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           <div className="lg:col-span-6">
@@ -245,7 +249,7 @@ const Agustusan = () => (
             <img
               src={merdekaHero}
               alt="HUT Kemerdekaan RI ke-81 Dusun Klampisan"
-              className="w-full max-w-lg lg:max-w-full object-contain transform transition duration-500 hover:scale-[1.02]"
+              className="w-full max-w-lg lg:max-w-full object-contain animate-float"
               loading="eager"
             />
           </div>
