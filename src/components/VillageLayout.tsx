@@ -52,7 +52,7 @@ const ChatWidget = () => {
         className={cn(
           'fixed bottom-4 right-4 z-[80] transition-all duration-300',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-emerald-500',
-          open ? 'scale-90 opacity-80' : 'hover:scale-105 animate-float-gentle',
+          open ? 'scale-90 opacity-80' : 'hover:scale-105 animate-float-idle',
         )}
       >
         {open ? (
