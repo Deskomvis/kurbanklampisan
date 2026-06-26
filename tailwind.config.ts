@@ -130,8 +130,8 @@ export default {
 					'50%': { transform: 'translateY(-5px) scale(1.015)' },
 				},
 				'float-idle': {
-					'0%, 20%, 100%': { transform: 'translateY(0px) scale(1)' },
-					'10%': { transform: 'translateY(-7px) scale(1.02)' },
+					'0%, 25%, 100%': { transform: 'translateY(0px) scale(1)' },
+					'12.5%': { transform: 'translateY(-8px) scale(1.02)' },
 				},
 				'pulse-slow': {
 					'0%, 100%': { opacity: '0.12', transform: 'scale(1)' },
@@ -152,7 +152,7 @@ export default {
 				'float': 'float 4s ease-in-out infinite',
 				'float-slow': 'float 6s ease-in-out infinite',
 				'float-gentle': 'float-gentle 14s ease-in-out infinite',
-				'float-idle': 'float-idle 5s ease-in-out infinite',
+				'float-idle': 'float-idle 10s ease-in-out infinite',
 				'pulse-slow': 'pulse-slow 5s ease-in-out infinite',
 				'pulse-glow': 'pulse-glow 2.5s ease-in-out infinite',
 				'spin-slow': 'spin-slow 22s linear infinite',
