@@ -4,7 +4,6 @@ import { useKelompokKurban } from '@/contexts/KelompokKurbanContext';
 import { useKeuangan } from '@/contexts/KeuanganContext';
 import { useBackup } from '@/contexts/BackupContext';
 import { useYear } from '@/contexts/YearContext';
-import { useToast } from '@/hooks/use-toast';
 import { extractBackupYear, findCanonicalBackup, restoredKey } from '@/utils/backupUtils';
 
 const AutoSaveWatcher = () => {
@@ -13,7 +12,6 @@ const AutoSaveWatcher = () => {
   const { kelompokSapi, kurbanKambing, loadKelompokSapi, loadKurbanKambing } = useKelompokKurban();
   const { transactions, saldoAwal, loadTransactions, setSaldoAwal } = useKeuangan();
   const { backups, isLoading } = useBackup();
-  const { toast } = useToast();
 
   const restoreChecked = useRef(false);
 
@@ -52,11 +50,6 @@ const AutoSaveWatcher = () => {
     }
 
     localStorage.setItem(restoredKey(currentYear), canonical.id);
-
-    toast({
-      title: 'Data tersinkronisasi',
-      description: `Dimuat dari: ${canonical.name}`,
-    });
   }, [
     backups,
     currentYear,
@@ -67,7 +60,6 @@ const AutoSaveWatcher = () => {
     saldoAwal,
     setPenerimaList,
     setSaldoAwal,
-    toast,
     loadTransactions,
   ]);
 
