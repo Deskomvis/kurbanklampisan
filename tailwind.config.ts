@@ -127,7 +127,7 @@ export default {
 				},
 				'float-gentle': {
 					'0%, 100%': { transform: 'translateY(0px) scale(1)' },
-					'50%': { transform: 'translateY(-6px) scale(1.02)' },
+					'50%': { transform: 'translateY(-5px) scale(1.015)' },
 				},
 				'pulse-slow': {
 					'0%, 100%': { opacity: '0.12', transform: 'scale(1)' },
@@ -147,7 +147,7 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'float': 'float 4s ease-in-out infinite',
 				'float-slow': 'float 6s ease-in-out infinite',
-				'float-gentle': 'float-gentle 8s ease-in-out infinite',
+				'float-gentle': 'float-gentle 14s ease-in-out infinite',
 				'pulse-slow': 'pulse-slow 5s ease-in-out infinite',
 				'pulse-glow': 'pulse-glow 2.5s ease-in-out infinite',
 				'spin-slow': 'spin-slow 22s linear infinite',
