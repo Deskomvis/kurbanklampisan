@@ -233,7 +233,11 @@ const Home = () => {
       <GeoPattern id="hero-geo" />
       <div
         aria-hidden="true"
-        className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"
+        className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-emerald-500/10 blur-3xl pointer-events-none animate-pulse-slow"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full bg-lime-400/5 blur-3xl pointer-events-none animate-pulse-slow [animation-delay:2.5s]"
       />
       <div className="relative max-w-7xl mx-auto px-4 md:px-8 pt-16 pb-16 md:pt-24 md:pb-24">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center">
@@ -269,7 +273,7 @@ const Home = () => {
             <img
               src={heroKlampisan}
               alt="Lingkungan Dusun Klampisan"
-              className="w-full max-w-lg lg:max-w-full object-contain transform transition duration-500 hover:scale-[1.02]"
+              className="w-full max-w-lg lg:max-w-full object-contain animate-float"
               loading="eager"
             />
           </div>
@@ -355,7 +359,7 @@ const Home = () => {
                 <img
                   src={goDigitalImg}
                   alt="Maskot Klampisan Go Digital di depan gerbang dusun Klampisan"
-                  className="w-full block"
+                  className="w-full block animate-float-slow"
                   loading="lazy"
                 />
                 {/* Top scan line */}
@@ -365,11 +369,11 @@ const Home = () => {
                 {/* Subtle vignette overlay */}
                 <div className="absolute inset-0 bg-gradient-to-b from-cyan-950/10 via-transparent to-emerald-950/20 pointer-events-none" aria-hidden="true" />
               </div>
-              {/* Corner brackets — HUD style */}
-              <span className="absolute -top-2.5 -left-2.5 w-8 h-8 border-t-[3px] border-l-[3px] border-cyan-400 rounded-tl-lg" aria-hidden="true" />
-              <span className="absolute -top-2.5 -right-2.5 w-8 h-8 border-t-[3px] border-r-[3px] border-cyan-400 rounded-tr-lg" aria-hidden="true" />
-              <span className="absolute -bottom-2.5 -left-2.5 w-8 h-8 border-b-[3px] border-l-[3px] border-cyan-400 rounded-bl-lg" aria-hidden="true" />
-              <span className="absolute -bottom-2.5 -right-2.5 w-8 h-8 border-b-[3px] border-r-[3px] border-cyan-400 rounded-br-lg" aria-hidden="true" />
+              {/* Corner brackets — HUD style, pulsing */}
+              <span className="absolute -top-2.5 -left-2.5 w-8 h-8 border-t-[3px] border-l-[3px] border-cyan-400 rounded-tl-lg animate-pulse-glow" aria-hidden="true" />
+              <span className="absolute -top-2.5 -right-2.5 w-8 h-8 border-t-[3px] border-r-[3px] border-cyan-400 rounded-tr-lg animate-pulse-glow [animation-delay:0.6s]" aria-hidden="true" />
+              <span className="absolute -bottom-2.5 -left-2.5 w-8 h-8 border-b-[3px] border-l-[3px] border-cyan-400 rounded-bl-lg animate-pulse-glow [animation-delay:1.2s]" aria-hidden="true" />
+              <span className="absolute -bottom-2.5 -right-2.5 w-8 h-8 border-b-[3px] border-r-[3px] border-cyan-400 rounded-br-lg animate-pulse-glow [animation-delay:1.8s]" aria-hidden="true" />
               {/* Location tag below image */}
               <div className="mt-5 flex items-center justify-center gap-2 text-emerald-300 text-xs font-medium">
                 <MapPin className="w-3.5 h-3.5 shrink-0 text-cyan-400" aria-hidden="true" />
