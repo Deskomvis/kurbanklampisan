@@ -806,42 +806,52 @@ const Home = () => {
 
       {/* Services Modal Popup */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-2xl bg-white/95 backdrop-blur-md border border-stone-250 shadow-2xl rounded-3xl p-6 md:p-8">
-          <DialogHeader className="pb-4 border-b border-stone-150">
-            <DialogTitle className="text-xl md:text-2xl font-extrabold text-stone-900 flex items-center gap-2">
-              <Grid className="w-5 h-5 text-emerald-800" />
+        <DialogContent className="
+          w-[calc(100vw-2rem)] max-w-2xl
+          max-h-[90dvh] flex flex-col
+          bg-white border border-stone-200 shadow-2xl
+          rounded-2xl p-0 gap-0
+          sm:rounded-3xl
+        ">
+          {/* Sticky header */}
+          <DialogHeader className="shrink-0 px-5 pt-5 pb-4 border-b border-stone-100 sm:px-8 sm:pt-7">
+            <DialogTitle className="text-lg sm:text-2xl font-extrabold text-stone-900 flex items-center gap-2 pr-8">
+              <Grid className="w-5 h-5 text-emerald-800 shrink-0" aria-hidden="true" />
               Layanan Warga Klampisan
             </DialogTitle>
-            <DialogDescription className="text-base text-stone-600 mt-1">
+            <DialogDescription className="text-sm sm:text-base text-stone-600 mt-1">
               Pilih salah satu layanan informasi dan administrasi dusun di bawah ini untuk melanjutkan.
             </DialogDescription>
           </DialogHeader>
 
-          <div className="grid sm:grid-cols-2 gap-4 mt-6">
-            {services.map((svc) => {
-              const Icon = svc.icon;
-              return (
-                <Link
-                  key={svc.path}
-                  to={svc.path}
-                  onClick={() => setIsModalOpen(false)}
-                  className={`group flex items-start gap-4 p-4 rounded-2xl border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 ${svc.color}`}
-                >
-                  <span className="p-3 rounded-xl bg-white shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-300 animate-in fade-in-50" aria-hidden="true">
-                    <Icon className="w-5 h-5" />
-                  </span>
-                  <div className="space-y-1">
-                    <h4 className="font-bold text-stone-900 text-base group-hover:text-emerald-950 transition-colors flex items-center gap-1">
-                      {svc.title}
-                      <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all shrink-0" />
-                    </h4>
-                    <p className="text-sm text-stone-600 leading-relaxed font-medium">
-                      {svc.desc}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
+          {/* Scrollable body */}
+          <div className="overflow-y-auto flex-1 px-5 py-5 sm:px-8 sm:pb-7">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              {services.map((svc) => {
+                const Icon = svc.icon;
+                return (
+                  <Link
+                    key={svc.path}
+                    to={svc.path}
+                    onClick={() => setIsModalOpen(false)}
+                    className={`group flex items-center gap-4 p-4 rounded-2xl border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-700 min-h-[64px] ${svc.color}`}
+                  >
+                    <span className="p-2.5 rounded-xl bg-white shrink-0 shadow-sm group-hover:scale-110 transition-transform duration-200" aria-hidden="true">
+                      <Icon className="w-5 h-5" />
+                    </span>
+                    <div>
+                      <h4 className="font-bold text-stone-900 text-base leading-tight flex items-center gap-1">
+                        {svc.title}
+                        <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all shrink-0" />
+                      </h4>
+                      <p className="text-xs sm:text-sm text-stone-600 leading-snug mt-0.5">
+                        {svc.desc}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </DialogContent>
       </Dialog>
