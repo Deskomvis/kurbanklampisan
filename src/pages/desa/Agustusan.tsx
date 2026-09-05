@@ -1,4 +1,3 @@
-import merdekaHero from '@/assets/Merdeka-Klampisan-hero.webp';
 import bannerWarga from '@/assets/banner agustusan warga.webp';
 import bannerRw from '@/assets/banner-agustusan-rw.webp';
 import {
@@ -254,9 +253,9 @@ const Agustusan = () => (
           </div>
           <div className="lg:col-span-6 relative mt-8 lg:mt-0 flex justify-center">
             <img
-              src={merdekaHero}
-              alt="HUT Kemerdekaan RI ke-81 Dusun Klampisan"
-              className="w-full max-w-lg lg:max-w-full object-contain animate-float"
+              src="/banner agustusan.jpeg"
+              alt="Banner malam puncak HUT Kemerdekaan RI ke-81 Klampisan"
+              className="w-full max-w-lg lg:max-w-full object-contain rounded-2xl shadow-2xl"
               loading="eager"
             />
           </div>
