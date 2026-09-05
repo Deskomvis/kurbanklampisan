@@ -52,6 +52,13 @@ const notulenUsulan = [
   'Lomba pemilihan opsi (akan diputuskan pada rapat berikutnya)',
 ];
 
+const laporanKegiatan = [
+  'Perlombaan anak-anak, ibu-ibu, bapak-bapak, dan lansia',
+  'Lomba karaoke, jalan santai, dan acara malam puncak',
+];
+
+const formatRupiah = (value: number) => `Rp ${value.toLocaleString('id-ID')}`;
+
 const orgChain: { jabatan: string; anggota: string[]; ikon: LucideIcon }[] = [
   { jabatan: 'Pelindung', anggota: ['Bp. Moch. Ruri'], ikon: ShieldCheck },
   { jabatan: 'Penanggung Jawab', anggota: ['Bp. Parjan (RT 01)', 'Bp. Tukimo (RT 02)'], ikon: Award },
@@ -218,13 +225,13 @@ const Agustusan = () => (
               <span className="text-yellow-300">ke-81</span> Tahun 2026
             </h1>
             <p className="text-red-100 text-base md:text-xl leading-relaxed max-w-2xl mb-2">
-              "Sehat, Semangat dan Bahagia Bersama.. Merdeka!!"
+              "Sehat, Semangat, Bahagia Bersama, Merdeka!"
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4 text-sm">
               <div className="flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-xl text-white">
                 <Calendar className="w-4 h-4" aria-hidden="true" />
-                10 – 17 Agustus 2026
+                04 – 29 Agustus 2026
               </div>
               <div className="flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 rounded-xl text-white">
                 <MapPin className="w-4 h-4" aria-hidden="true" />
@@ -321,6 +328,42 @@ const Agustusan = () => (
           <p className="mt-4 text-xs text-gray-500 border-t border-gray-100 pt-3">
             * Akan dikonfirmasi pada rapat berikutnya.
           </p>
+        </div>
+      </div>
+    </section>
+
+    {/* ── LPJ dan rekapitulasi ──────────────────── */}
+    <section aria-labelledby="lpj-heading" className="bg-stone-50 border-y border-stone-100 px-4 md:px-8 py-14 md:py-20">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-8">
+          <p className="text-red-600 font-bold text-sm uppercase tracking-wider mb-2 flex items-center gap-2">
+            <ClipboardList className="w-4 h-4" aria-hidden="true" />
+            Laporan Pertanggungjawaban · 2026
+          </p>
+          <h2 id="lpj-heading" className="text-2xl md:text-4xl font-extrabold text-gray-900">Rekapitulasi Kegiatan & Keuangan</h2>
+          <p className="text-gray-600 text-base mt-1">Ringkasan LPJ HUT Kemerdekaan RI ke-81 Karang Taruna “Taruna Bhakti” Klampisan.</p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-5 mb-6">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <div className="flex items-center gap-2.5 mb-4"><span className="p-2 rounded-lg bg-red-50 text-red-700"><Flag className="w-4 h-4" /></span><h3 className="font-bold text-gray-900">Pelaksanaan</h3></div>
+            <dl className="grid sm:grid-cols-2 gap-4 text-sm">
+              <div><dt className="text-gray-500">Waktu</dt><dd className="font-bold text-gray-800">04–29 Agustus 2026</dd></div>
+              <div><dt className="text-gray-500">Tempat</dt><dd className="font-bold text-gray-800">Lapangan voli Bp. Sriyatno RT 01</dd></div>
+              <div className="sm:col-span-2"><dt className="text-gray-500">Tema</dt><dd className="font-bold text-red-700">Sehat, Semangat, Bahagia Bersama, Merdeka!</dd></div>
+            </dl>
+            <div className="mt-5 border-t border-gray-100 pt-4"><p className="text-gray-500 text-sm mb-2">Rangkaian kegiatan</p><BulletList items={laporanKegiatan} /></div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <div className="flex items-center gap-2.5 mb-5"><span className="p-2 rounded-lg bg-green-50 text-green-700"><Wallet className="w-4 h-4" /></span><h3 className="font-bold text-gray-900">Rekap Keuangan</h3></div>
+            <div className="space-y-3">
+              <div className="flex justify-between gap-4 border-b border-gray-100 pb-3"><span className="text-gray-600">Total pemasukan</span><strong className="text-green-700">{formatRupiah(47871500)}</strong></div>
+              <div className="flex justify-between gap-4 border-b border-gray-100 pb-3"><span className="text-gray-600">Total pengeluaran</span><strong className="text-red-700">{formatRupiah(47655710)}</strong></div>
+              <div className="flex justify-between gap-4 rounded-xl bg-amber-50 px-4 py-3"><span className="font-bold text-amber-900">Sisa / saldo akhir</span><strong className="text-amber-700">{formatRupiah(215790)}</strong></div>
+            </div>
+            <p className="mt-4 text-xs text-gray-500">Sumber dana: masyarakat Klampisan, instansi, dan pelaku usaha.</p>
+          </div>
         </div>
       </div>
     </section>
